@@ -1,0 +1,6 @@
+// Copyright 2017 The CCIR Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Package ccir translates cc ASTs to intermediate representation. (Work In Progress)
+package ccir
