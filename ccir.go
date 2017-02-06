@@ -41,9 +41,20 @@ func TODO(more ...interface{}) string { //TODOOK
 	panic("TODO")
 }
 
+type varInfo struct {
+	arg    bool
+	index  int
+	static bool
+	typ    ir.TypeID
+}
+
 type fdata struct {
-	f      *ir.FunctionDefinition
-	static map[*cc.Declarator]int
+	arguments []ir.TypeID
+	f         *ir.FunctionDefinition
+	result    ir.TypeID
+	static    int
+	variable  int
+	variables map[*cc.Declarator]varInfo
 }
 
 type c struct {
@@ -196,7 +207,9 @@ func (c *c) initializer(n *cc.Initializer) ir.Value {
 		case nil:
 			TODO(position(n))
 		case cc.StringLitID:
-			return &ir.StringLitValue{StringID: ir.StringID(x)}
+			return &ir.StringValue{StringID: ir.StringID(x)}
+		case int32:
+			return &ir.Int32Value{Value: x}
 		default:
 			TODO(position(n), fmt.Sprintf("%T", x))
 		}
@@ -226,18 +239,20 @@ func (c *c) declaration(n *cc.Declaration) {
 					switch {
 					case d.RawSpecifier().IsStatic():
 						var b buffer.Bytes
-						ix := len(c.f.static)
-						c.f.static[d] = ix
+						c.f.variables[d] = varInfo{index: c.f.static, static: true, typ: c.typ(d.Type).ID()}
 						// func\x00varname\x00index
 						b.Write(dict.S(int(c.f.f.NameID)))
 						b.WriteByte(0)
 						b.Write(dict.S(int(nm)))
 						b.WriteByte(0)
-						fmt.Fprint(&b, "%v", ix)
+						fmt.Fprint(&b, "%v", c.f.static)
 						c.out = append(c.out, ir.NewDeclaration(p, ir.NameID(dict.ID(b.Bytes())), tnm, typ, ir.InternalLinkage, v))
 						b.Close()
+						c.f.static++
 					default:
-						TODO(position(n))
+						c.f.variables[d] = varInfo{index: c.f.variable, typ: c.typ(d.Type).ID()}
+						c.emit(&ir.VariableDeclaration{Index: c.f.variable, NameID: nm, TypeID: typ, TypeName: tnm, Value: v, Position: position(d)})
+						c.f.variable++
 					}
 				default: // external, internal
 					c.out = append(c.out, ir.NewDeclaration(p, nm, tnm, typ, ln, v))
@@ -251,19 +266,32 @@ func (c *c) declaration(n *cc.Declaration) {
 	}
 }
 
-func (c *c) newFData(f *ir.FunctionDefinition) {
+func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
+	variables := map[*cc.Declarator]varInfo{}
+	params, _ := t.Parameters()
+	for i, v := range params {
+		variables[v.Declarator] = varInfo{index: i, arg: true, typ: c.typ(v.Type).ID()}
+	}
+	typ := c.typ(t).(*ir.FunctionType)
+	var result ir.TypeID
+	if len(typ.Results) != 0 {
+		result = typ.Results[0].ID()
+	}
+	arguments := make([]ir.TypeID, len(typ.Arguments))
+	for i, v := range typ.Arguments {
+		arguments[i] = v.ID()
+	}
 	c.f = fdata{
-		f:      f,
-		static: map[*cc.Declarator]int{},
+		arguments: arguments,
+		f:         f,
+		result:    result,
+		variables: variables,
 	}
 }
 
 func (c *c) emit(op ir.Operation) { c.f.f.Body = append(c.f.f.Body, op) }
 
 func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) {
-	if r := f.Result(); r.Kind() != cc.Void {
-		c.emit(&ir.Result{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
-	}
 	args := 0
 	if n != nil {
 		for l := n.ArgumentExpressionList; l != nil; l = l.ArgumentExpressionList {
@@ -289,72 +317,76 @@ func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) {
 	}
 }
 
-func (c *c) expression(ot cc.Type, n *cc.Expression) {
-	if v := n.Value; v != nil {
-		_ = v
+func (c *c) norm(n *cc.Expression) cc.Node {
+	for {
+		switch n.Case {
+		case 7: // '(' ExpressionList ')'
+			l := n.ExpressionList
+			if l.Len() != 1 {
+				return l
+			}
+
+			n = l.Expression
+		default:
+			return n
+		}
+	}
+}
+
+func (c *c) addr(n *cc.Expression) {
+	if n.Value != nil {
 		TODO(position(n))
 		return
 	}
 
-	t := n.Type
-	switch t.Kind() {
-	case cc.Array:
-		switch {
-		case t.Elements() < 0:
-			TODO(position(n))
-		default:
-			TODO(position(n))
-		}
-	case cc.Function:
-		TODO(position(n))
-	}
-
-	switch {
-	case ot != nil && ot.Kind() != t.Kind():
-		switch ot.Kind() {
-		case cc.Void:
-			TODO(position(n), t)
-		default:
-			TODO(position(n), t)
-		}
-	}
-
 	switch n.Case {
 	case 0: // IDENTIFIER
+		id := n.Token.Val
+		b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
+		d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
+		switch s.Scope() {
+		case cc.ScopeBlock:
+			switch vi, ok := c.f.variables[d]; {
+			case !ok:
+				panic("internal error")
+			case vi.static:
+				TODO(position(n))
+			case vi.arg:
+				TODO(position(n))
+			//	c.emit(&ir.Argument{Index: vi.index, Position: position(n)})
+			default:
+				c.emit(&ir.Variable{Address: true, Index: vi.index, TypeID: vi.typ, Position: position(n)})
+				return
+			}
+		case cc.ScopeFile:
+			TODO(position(n))
+			//switch d.Linkage {
+			//case cc.External:
+			//	c.emit(&ir.Extern{NameID: c.nm(d), TypeID: c.typ(d.Type).ID(), TypeName: c.tnm(d), Position: position(n)})
+			//default:
+			//	TODO(position(n), d.Linkage)
+			//}
+		default:
+			panic("internal error")
+		}
+	case 1: // CHARCONST                                          // Case 1
 		TODO(position(n))
-	case
-		1, // CHARCONST                                          // Case 1
-		2, // FLOATCONST                                         // Case 2
-		3, // INTCONST                                           // Case 3
-		4, // LONGCHARCONST                                      // Case 4
-		5, // LONGSTRINGLITERAL                                  // Case 5
-		6: // STRINGLITERAL                                      // Case 6
-
-		panic("internal error")
+	case 2: // FLOATCONST                                         // Case 2
+		TODO(position(n))
+	case 3: // INTCONST                                           // Case 3
+		TODO(position(n))
+	case 4: // LONGCHARCONST                                      // Case 4
+		TODO(position(n))
+	case 5: // LONGSTRINGLITERAL                                  // Case 5
+		TODO(position(n))
+	case 6: // STRINGLITERAL                                      // Case 6
+		TODO(position(n))
 	case 7: // '(' ExpressionList ')'                             // Case 7
 		TODO(position(n))
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
 		TODO(position(n))
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-		switch t := n.Expression.Type; t.Kind() {
-		case cc.Function:
-			c.call(t, n.ArgumentExpressionListOpt)
-			TODO(position(n))
-			// c.expression(t.Pointer(), n.Expression)
-			// c.f.Emit(ir.Call, c.typ(t.Pointer()), nil, position(n))
-		case cc.Ptr:
-			TODO(position(n))
-			// ft := t.Element()
-			// if ft.Kind() != cc.Function {
-			// 	panic("internal error")
-			// }
-
-			// c.call(ft, n.ArgumentExpressionListOpt)
-			// c.expression(t, n.Expression)
-			// c.f.Emit(ir.Call, c.typ(t), nil, position(n))
-		default:
-			TODO(position(n), t.Kind())
-		}
+		TODO(position(n))
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		TODO(position(n))
 	case 11: // Expression "->" IDENTIFIER                         // Case 11
@@ -449,6 +481,231 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) {
 		TODO(position(n))
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
+	}
+	panic("internal error")
+}
+
+func (c *c) const_(t cc.Type, v interface{}, n cc.Node) {
+	switch t.Kind() {
+	case cc.Int:
+		switch x := v.(type) {
+		case int32:
+			c.emit(&ir.Int32Const{Value: x, Position: position(n)})
+		default:
+			TODO(fmt.Errorf("%T", x))
+		}
+	case cc.Ptr:
+		switch x := v.(type) {
+		case cc.StringLitID:
+			c.emit(&ir.StringConst{Value: ir.StringID(x), Position: position(n)})
+		default:
+			TODO(fmt.Errorf("%s: %T", position(n), x))
+		}
+	default:
+		TODO(position(n), t.Kind())
+	}
+}
+
+func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
+	switch x := c.norm(n).(type) {
+	case *cc.ExpressionList:
+		c.expressionList(ot, x)
+	case *cc.Expression:
+		n = x
+	default:
+		panic("internal error")
+	}
+
+	if v := n.Value; v != nil {
+		c.const_(n.Type, v, n)
+		return
+	}
+
+	t := n.Type
+	switch t.Kind() {
+	case cc.Array:
+		switch {
+		case t.Elements() < 0:
+			TODO(position(n))
+		default:
+			TODO(position(n))
+		}
+	case cc.Function:
+		t = t.Pointer()
+	}
+
+	switch {
+	case ot != nil && ot.Kind() != t.Kind():
+		switch ot.Kind() {
+		case cc.Void:
+			c.expression(nil, n)
+			if n.Type.Kind() != cc.Void {
+				c.emit(&ir.Drop{TypeID: c.typ(n.Type).ID(), Position: position(n)})
+			}
+			return
+		default:
+			TODO(position(n), ot, t)
+		}
+	}
+
+	switch n.Case {
+	case 0: // IDENTIFIER
+		id := n.Token.Val
+		b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
+		d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
+		switch s.Scope() {
+		case cc.ScopeBlock:
+			switch vi, ok := c.f.variables[d]; {
+			case !ok:
+				panic("internal error")
+			case vi.static:
+				TODO(position(n))
+			case vi.arg:
+				c.emit(&ir.Argument{Index: vi.index, TypeID: c.f.arguments[vi.index], Position: position(n)})
+			default:
+				c.emit(&ir.Variable{Index: vi.index, TypeID: vi.typ, Position: position(n)})
+			}
+		case cc.ScopeFile:
+			switch d.Linkage {
+			case cc.External:
+				c.emit(&ir.Extern{NameID: c.nm(d), TypeID: c.typ(d.Type).ID(), TypeName: c.tnm(d), Position: position(n)})
+			default:
+				TODO(position(n), t, d.Linkage)
+			}
+		default:
+			panic("internal error")
+		}
+	case
+		1, // CHARCONST                                          // Case 1
+		2, // FLOATCONST                                         // Case 2
+		3, // INTCONST                                           // Case 3
+		4, // LONGCHARCONST                                      // Case 4
+		5, // LONGSTRINGLITERAL                                  // Case 5
+		6: // STRINGLITERAL                                      // Case 6
+
+		panic("internal error")
+	case 7: // '(' ExpressionList ')'                             // Case 7
+		TODO(position(n))
+	case 8: // Expression '[' ExpressionList ']'                  // Case 8
+		TODO(position(n))
+	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
+		switch t := n.Expression.Type; t.Kind() {
+		case cc.Function:
+			if r := t.Result(); r.Kind() != cc.Void {
+				c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
+			}
+			c.expression(t.Pointer(), n.Expression)
+			c.call(t, n.ArgumentExpressionListOpt)
+			c.emit(&ir.Call{TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
+		case cc.Ptr:
+			TODO(position(n))
+			// ft := t.Element()
+			// if ft.Kind() != cc.Function {
+			// 	panic("internal error")
+			// }
+
+			// c.call(ft, n.ArgumentExpressionListOpt)
+			// c.expression(t, n.Expression)
+			// c.f.Emit(ir.Call, c.typ(t), nil, position(n))
+		default:
+			TODO(position(n), t.Kind())
+		}
+	case 10: // Expression '.' IDENTIFIER                          // Case 10
+		TODO(position(n))
+	case 11: // Expression "->" IDENTIFIER                         // Case 11
+		TODO(position(n))
+	case 12: // Expression "++"                                    // Case 12
+		TODO(position(n))
+	case 13: // Expression "--"                                    // Case 13
+		TODO(position(n))
+	case 14: // '(' TypeName ')' '{' InitializerList CommaOpt '}'  // Case 14
+		TODO(position(n))
+	case 15: // "++" Expression                                    // Case 15
+		TODO(position(n))
+	case 16: // "--" Expression                                    // Case 16
+		TODO(position(n))
+	case 17: // '&' Expression                                     // Case 17
+		TODO(position(n))
+	case 18: // '*' Expression                                     // Case 18
+		TODO(position(n))
+	case 19: // '+' Expression                                     // Case 19
+		TODO(position(n))
+	case 20: // '-' Expression                                     // Case 20
+		TODO(position(n))
+	case 21: // '~' Expression                                     // Case 21
+		TODO(position(n))
+	case 22: // '!' Expression                                     // Case 22
+		TODO(position(n))
+	case 23: // "sizeof" Expression                                // Case 23
+		TODO(position(n))
+	case 24: // "sizeof" '(' TypeName ')'                          // Case 24
+		TODO(position(n))
+	case 25: // '(' TypeName ')' Expression                        // Case 25
+		TODO(position(n))
+	case 26: // Expression '*' Expression                          // Case 26
+		TODO(position(n))
+	case 27: // Expression '/' Expression                          // Case 27
+		TODO(position(n))
+	case 28: // Expression '%' Expression                          // Case 28
+		TODO(position(n))
+	case 29: // Expression '+' Expression                          // Case 29
+		TODO(position(n))
+	case 30: // Expression '-' Expression                          // Case 30
+		TODO(position(n))
+	case 31: // Expression "<<" Expression                         // Case 31
+		TODO(position(n))
+	case 32: // Expression ">>" Expression                         // Case 32
+		TODO(position(n))
+	case 33: // Expression '<' Expression                          // Case 33
+		TODO(position(n))
+	case 34: // Expression '>' Expression                          // Case 34
+		TODO(position(n))
+	case 35: // Expression "<=" Expression                         // Case 35
+		TODO(position(n))
+	case 36: // Expression ">=" Expression                         // Case 36
+		TODO(position(n))
+	case 37: // Expression "==" Expression                         // Case 37
+		TODO(position(n))
+	case 38: // Expression "!=" Expression                         // Case 38
+		TODO(position(n))
+	case 39: // Expression '&' Expression                          // Case 39
+		TODO(position(n))
+	case 40: // Expression '^' Expression                          // Case 40
+		TODO(position(n))
+	case 41: // Expression '|' Expression                          // Case 41
+		TODO(position(n))
+	case 42: // Expression "&&" Expression                         // Case 42
+		TODO(position(n))
+	case 43: // Expression "||" Expression                         // Case 43
+		TODO(position(n))
+	case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
+		TODO(position(n))
+	case 45: // Expression '=' Expression                          // Case 45
+		c.addr(n.Expression)
+		c.expression(n.Expression.Type, n.Expression2)
+		c.emit(&ir.Store{Position: position(n.Token)})
+	case 46: // Expression "*=" Expression                         // Case 46
+		TODO(position(n))
+	case 47: // Expression "/=" Expression                         // Case 47
+		TODO(position(n))
+	case 48: // Expression "%=" Expression                         // Case 48
+		TODO(position(n))
+	case 49: // Expression "+=" Expression                         // Case 49
+		TODO(position(n))
+	case 50: // Expression "-=" Expression                         // Case 50
+		TODO(position(n))
+	case 51: // Expression "<<=" Expression                        // Case 51
+		TODO(position(n))
+	case 52: // Expression ">>=" Expression                        // Case 52
+		TODO(position(n))
+	case 53: // Expression "&=" Expression                         // Case 53
+		TODO(position(n))
+	case 54: // Expression "^=" Expression                         // Case 54
+		TODO(position(n))
+	case 55: // Expression "|=" Expression                         // Case 55
+		TODO(position(n))
+	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
+		TODO(position(n))
 	default:
 		panic("internal error")
 	}
@@ -476,6 +733,27 @@ func (c *c) expressionStatement(n *cc.ExpressionStatement) {
 	c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt)
 }
 
+func (c *c) jumpStatement(n *cc.JumpStatement) {
+	switch n.Case {
+	case 0: // "goto" IDENTIFIER ';'
+		TODO(position(n))
+	case 1: // "continue" ';'                  // Case 1
+		TODO(position(n))
+	case 2: // "break" ';'                     // Case 2
+		TODO(position(n))
+	case 3: // "return" ExpressionListOpt ';'  // Case 3
+		if o := n.ExpressionListOpt; o != nil {
+			l := o.ExpressionList
+			c.expressionList(l.Type, l)
+			c.emit(&ir.Result{Address: true, TypeID: c.f.result, Position: position(n)})
+			c.emit(&ir.Store{Position: position(n)})
+		}
+		c.emit(&ir.Return{Position: position(n)})
+	default:
+		panic("internal error")
+	}
+}
+
 func (c *c) statement(n *cc.Statement) {
 	switch n.Case {
 	case 0: // LabeledStatement
@@ -489,7 +767,7 @@ func (c *c) statement(n *cc.Statement) {
 	case 4: // IterationStatement   // Case 4
 		TODO(position(n))
 	case 5: // JumpStatement        // Case 5
-		TODO(position(n))
+		c.jumpStatement(n.JumpStatement)
 	case 6: // AssemblerStatement   // Case 6
 		TODO(position(n))
 	default:
@@ -541,7 +819,7 @@ func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 				args[i] = ir.NameID(v.Name)
 			}
 		}
-		c.newFData(ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), args, nil))
+		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), args, nil))
 		c.functionBody(n.FunctionBody)
 		c.f = fdata{}
 	case 1: // Declarator DeclarationListOpt FunctionBody                        // Case 1
