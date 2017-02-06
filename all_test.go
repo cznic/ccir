@@ -16,6 +16,7 @@ import (
 	"testing"
 
 	"github.com/cznic/cc"
+	"github.com/cznic/ir"
 	"github.com/cznic/mathutil"
 	"github.com/cznic/strutil"
 )
@@ -39,7 +40,7 @@ func dbg(s string, va ...interface{}) {
 		s = strings.Repeat("%v ", len(va))
 	}
 	_, fn, fl, _ := runtime.Caller(1)
-	fmt.Fprintf(os.Stderr, "# dbg %s:%d: ", path.Base(fn), fl)
+	fmt.Fprintf(os.Stderr, "# dbg %s:%d ", path.Base(fn), fl)
 	fmt.Fprintf(os.Stderr, s, va...)
 	fmt.Fprintln(os.Stderr)
 	os.Stderr.Sync()
@@ -153,11 +154,23 @@ func TestTCC(t *testing.T) {
 			t.Fatal(errStr(err))
 		}
 
-		_, err = New(modelName, ast)
+		objs, err := New(modelName, ast)
 		if err != nil {
 			t.Fatal(err)
 		}
 
+		for _, v := range objs {
+			switch x := v.(type) {
+			case *ir.FunctionDefinition:
+				dbg("%v %v", x.ObjectBase, x.Arguments)
+				for i, v := range x.Body {
+					fmt.Printf("%#05x\t%v\n", i, v)
+				}
+			}
+			if err := v.Verify(); err != nil {
+				t.Fatal(err)
+			}
+		}
 		//TODO TODO()
 	}
 }

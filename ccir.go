@@ -269,7 +269,9 @@ func (c *c) declaration(n *cc.Declaration) {
 func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 	variables := map[*cc.Declarator]varInfo{}
 	params, _ := t.Parameters()
+	f.Arguments = make([]ir.NameID, len(params))
 	for i, v := range params {
+		f.Arguments[i] = ir.NameID(v.Name)
 		variables[v.Declarator] = varInfo{index: i, arg: true, typ: c.typ(v.Type).ID()}
 	}
 	typ := c.typ(t).(*ir.FunctionType)
@@ -291,7 +293,7 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 
 func (c *c) emit(op ir.Operation) { c.f.f.Body = append(c.f.f.Body, op) }
 
-func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) {
+func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 	args := 0
 	if n != nil {
 		for l := n.ArgumentExpressionList; l != nil; l = l.ArgumentExpressionList {
@@ -315,9 +317,10 @@ func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) {
 			i++
 		}
 	}
+	return args
 }
 
-func (c *c) norm(n *cc.Expression) cc.Node {
+func (c *c) normalize(n *cc.Expression) cc.Node {
 	for {
 		switch n.Case {
 		case 7: // '(' ExpressionList ')'
@@ -355,7 +358,8 @@ func (c *c) addr(n *cc.Expression) {
 				TODO(position(n))
 			//	c.emit(&ir.Argument{Index: vi.index, Position: position(n)})
 			default:
-				c.emit(&ir.Variable{Address: true, Index: vi.index, TypeID: vi.typ, Position: position(n)})
+				t, _ := c.types.Type(vi.typ)
+				c.emit(&ir.Variable{Address: true, Index: vi.index, TypeID: t.Pointer().ID(), Position: position(n)})
 				return
 			}
 		case cc.ScopeFile:
@@ -485,7 +489,7 @@ func (c *c) addr(n *cc.Expression) {
 	panic("internal error")
 }
 
-func (c *c) const_(t cc.Type, v interface{}, n cc.Node) {
+func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 	switch t.Kind() {
 	case cc.Int:
 		switch x := v.(type) {
@@ -507,7 +511,7 @@ func (c *c) const_(t cc.Type, v interface{}, n cc.Node) {
 }
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
-	switch x := c.norm(n).(type) {
+	switch x := c.normalize(n).(type) {
 	case *cc.ExpressionList:
 		c.expressionList(ot, x)
 	case *cc.Expression:
@@ -517,7 +521,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	}
 
 	if v := n.Value; v != nil {
-		c.const_(n.Type, v, n)
+		c.constant(n.Type, v, n)
 		return
 	}
 
@@ -568,7 +572,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		case cc.ScopeFile:
 			switch d.Linkage {
 			case cc.External:
-				c.emit(&ir.Extern{NameID: c.nm(d), TypeID: c.typ(d.Type).ID(), TypeName: c.tnm(d), Position: position(n)})
+				c.emit(&ir.Extern{Address: true, NameID: c.nm(d), TypeID: c.typ(d.Type.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
 			default:
 				TODO(position(n), t, d.Linkage)
 			}
@@ -595,8 +599,8 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 				c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
 			}
 			c.expression(t.Pointer(), n.Expression)
-			c.call(t, n.ArgumentExpressionListOpt)
-			c.emit(&ir.Call{TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
+			args := c.call(t, n.ArgumentExpressionListOpt)
+			c.emit(&ir.Call{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
 		case cc.Ptr:
 			TODO(position(n))
 			// ft := t.Element()
@@ -683,7 +687,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 45: // Expression '=' Expression                          // Case 45
 		c.addr(n.Expression)
 		c.expression(n.Expression.Type, n.Expression2)
-		c.emit(&ir.Store{Position: position(n.Token)})
+		c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token)})
 	case 46: // Expression "*=" Expression                         // Case 46
 		TODO(position(n))
 	case 47: // Expression "/=" Expression                         // Case 47
@@ -745,8 +749,10 @@ func (c *c) jumpStatement(n *cc.JumpStatement) {
 		if o := n.ExpressionListOpt; o != nil {
 			l := o.ExpressionList
 			c.expressionList(l.Type, l)
-			c.emit(&ir.Result{Address: true, TypeID: c.f.result, Position: position(n)})
-			c.emit(&ir.Store{Position: position(n)})
+			t, _ := c.types.Type(c.f.result)
+			c.emit(&ir.Result{Address: true, TypeID: t.Pointer().ID(), Position: position(n)})
+			c.emit(&ir.Store{TypeID: c.f.result, Position: position(n)})
+			c.emit(&ir.Drop{TypeID: c.f.result, Position: position(n)})
 		}
 		c.emit(&ir.Return{Position: position(n)})
 	default:
@@ -787,13 +793,13 @@ func (c *c) blockItem(n *cc.BlockItem) {
 }
 
 func (c *c) compoundStatement(n *cc.CompoundStatement) {
-	c.emit(&ir.BeginScope{})
+	c.emit(&ir.BeginScope{Position: position(n)})
 	if o := n.BlockItemListOpt; o != nil {
 		for l := o.BlockItemList; l != nil; l = l.BlockItemList {
 			c.blockItem(l.BlockItem)
 		}
 	}
-	c.emit(&ir.EndScope{})
+	c.emit(&ir.EndScope{Position: position(n.Token2)})
 }
 
 func (c *c) functionBody(n *cc.FunctionBody) {
@@ -820,6 +826,7 @@ func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 			}
 		}
 		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), args, nil))
+		c.out = append(c.out, c.f.f)
 		c.functionBody(n.FunctionBody)
 		c.f = fdata{}
 	case 1: // Declarator DeclarationListOpt FunctionBody                        // Case 1
