@@ -51,6 +51,7 @@ func use(...interface{}) {}
 func init() {
 	use(caller, dbg, TODO) //TODOOK
 	Testing = true
+	ir.Testing = true
 }
 
 // ============================================================================
@@ -159,18 +160,40 @@ func TestTCC(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		for _, v := range objs {
+		var b bytes.Buffer
+		for i, v := range objs {
 			switch x := v.(type) {
 			case *ir.FunctionDefinition:
-				dbg("%v %v", x.ObjectBase, x.Arguments)
+				fmt.Fprintf(&b, "# [%v]: %v %v\n", i, x.ObjectBase, x.Arguments)
 				for i, v := range x.Body {
-					fmt.Printf("%#05x\t%v\n", i, v)
+					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
 				}
 			}
 			if err := v.Verify(); err != nil {
 				t.Fatal(err)
 			}
 		}
-		//TODO TODO()
+		t.Logf("\n%s", b.Bytes())
+
+		if objs, err = ir.LinkMain(objs); err != nil {
+			t.Fatal(err)
+		}
+
+		b.Reset()
+		for i, v := range objs {
+			switch x := v.(type) {
+			case *ir.FunctionDefinition:
+				fmt.Fprintf(&b, "# [%v]: %v %v\n", i, x.ObjectBase, x.Arguments)
+				for i, v := range x.Body {
+					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
+				}
+			}
+			if err := v.Verify(); err != nil {
+				t.Fatal(err)
+			}
+		}
+		t.Logf("\n%s", b.Bytes())
+
+		TODO(match)
 	}
 }

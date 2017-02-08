@@ -8,6 +8,7 @@
 package ccir
 
 import (
+	"bytes"
 	"fmt"
 	"go/token"
 	"os"
@@ -49,12 +50,13 @@ type varInfo struct {
 }
 
 type fdata struct {
-	arguments []ir.TypeID
-	f         *ir.FunctionDefinition
-	result    ir.TypeID
-	static    int
-	variable  int
-	variables map[*cc.Declarator]varInfo
+	arguments  []ir.TypeID
+	blockLevel int
+	f          *ir.FunctionDefinition
+	result     ir.TypeID
+	static     int
+	variable   int
+	variables  map[*cc.Declarator]varInfo
 }
 
 type c struct {
@@ -234,6 +236,18 @@ func (c *c) declaration(n *cc.Declaration) {
 		if o := n.InitDeclaratorListOpt; o != nil {
 			for l := o.InitDeclaratorList; l != nil; l = l.InitDeclaratorList {
 				d := l.InitDeclarator.Declarator
+				id, _ := d.Identifier()
+				isFunc := d.Type.Kind() == cc.Function
+				isBuiltin := bytes.HasPrefix(dict.S(id), dict.S(idBuiltinPrefix))
+				if isFunc && isBuiltin {
+					c.out = append(c.out, ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil))
+					continue
+				}
+
+				if d.Type.Specifier().IsExtern() || isFunc {
+					continue
+				}
+
 				switch p, nm, tnm, typ, ln, v := c.initDeclarator(l.InitDeclarator); {
 				case ln < 0: // linkage none
 					switch {
@@ -245,8 +259,8 @@ func (c *c) declaration(n *cc.Declaration) {
 						b.WriteByte(0)
 						b.Write(dict.S(int(nm)))
 						b.WriteByte(0)
-						fmt.Fprint(&b, "%v", c.f.static)
-						c.out = append(c.out, ir.NewDeclaration(p, ir.NameID(dict.ID(b.Bytes())), tnm, typ, ir.InternalLinkage, v))
+						fmt.Fprintf(&b, "%v", c.f.static)
+						c.out = append(c.out, ir.NewDataDefinition(p, ir.NameID(dict.ID(b.Bytes())), tnm, typ, ir.InternalLinkage, v))
 						b.Close()
 						c.f.static++
 					default:
@@ -255,7 +269,7 @@ func (c *c) declaration(n *cc.Declaration) {
 						c.f.variable++
 					}
 				default: // external, internal
-					c.out = append(c.out, ir.NewDeclaration(p, nm, tnm, typ, ln, v))
+					c.out = append(c.out, ir.NewDataDefinition(p, nm, tnm, typ, ln, v))
 				}
 			}
 		}
@@ -572,7 +586,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		case cc.ScopeFile:
 			switch d.Linkage {
 			case cc.External:
-				c.emit(&ir.Extern{Address: true, NameID: c.nm(d), TypeID: c.typ(d.Type.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
+				c.emit(&ir.Extern{Address: true, Index: -1, NameID: c.nm(d), TypeID: c.typ(d.Type.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
 			default:
 				TODO(position(n), t, d.Linkage)
 			}
@@ -747,10 +761,10 @@ func (c *c) jumpStatement(n *cc.JumpStatement) {
 		TODO(position(n))
 	case 3: // "return" ExpressionListOpt ';'  // Case 3
 		if o := n.ExpressionListOpt; o != nil {
-			l := o.ExpressionList
-			c.expressionList(l.Type, l)
 			t, _ := c.types.Type(c.f.result)
 			c.emit(&ir.Result{Address: true, TypeID: t.Pointer().ID(), Position: position(n)})
+			l := o.ExpressionList
+			c.expressionList(l.Type, l)
 			c.emit(&ir.Store{TypeID: c.f.result, Position: position(n)})
 			c.emit(&ir.Drop{TypeID: c.f.result, Position: position(n)})
 		}
@@ -793,10 +807,18 @@ func (c *c) blockItem(n *cc.BlockItem) {
 }
 
 func (c *c) compoundStatement(n *cc.CompoundStatement) {
+	c.f.blockLevel++
 	c.emit(&ir.BeginScope{Position: position(n)})
 	if o := n.BlockItemListOpt; o != nil {
 		for l := o.BlockItemList; l != nil; l = l.BlockItemList {
 			c.blockItem(l.BlockItem)
+		}
+	}
+	c.f.blockLevel--
+	if c.f.blockLevel == 0 {
+		b := c.f.f.Body
+		if _, ok := b[len(b)-1].(*ir.Return); !ok {
+			c.emit(&ir.Return{Position: position(n.Token2)})
 		}
 	}
 	c.emit(&ir.EndScope{Position: position(n.Token2)})
@@ -813,19 +835,23 @@ func (c *c) functionBody(n *cc.FunctionBody) {
 	}
 }
 
+func (c *c) fnArgNames(d *cc.Declarator) []ir.NameID {
+	p, _ := d.Type.Parameters()
+	var args []ir.NameID
+	if len(p) != 0 && p[0].Name != 0 {
+		args = make([]ir.NameID, len(p))
+		for i, v := range p {
+			args[i] = ir.NameID(v.Name)
+		}
+	}
+	return args
+}
+
 func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 	switch n.Case {
 	case 0: // DeclarationSpecifiers Declarator DeclarationListOpt FunctionBody
 		d := n.Declarator
-		p, _ := d.Type.Parameters()
-		var args []ir.NameID
-		if len(p) != 0 && p[0].Name != 0 {
-			args = make([]ir.NameID, len(p))
-			for i, v := range p {
-				args[i] = ir.NameID(v.Name)
-			}
-		}
-		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), args, nil))
+		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil))
 		c.out = append(c.out, c.f.f)
 		c.functionBody(n.FunctionBody)
 		c.f = fdata{}
