@@ -240,7 +240,9 @@ func (c *c) declaration(n *cc.Declaration) {
 				isFunc := d.Type.Kind() == cc.Function
 				isBuiltin := bytes.HasPrefix(dict.S(id), dict.S(idBuiltinPrefix))
 				if isFunc && isBuiltin {
-					c.out = append(c.out, ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil))
+					f := ir.NewFunctionDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil)
+					f.Body = []ir.Operation{&ir.Panic{position(d)}}
+					c.out = append(c.out, f)
 					continue
 				}
 

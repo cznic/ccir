@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"go/scanner"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -19,6 +20,7 @@ import (
 	"github.com/cznic/ir"
 	"github.com/cznic/mathutil"
 	"github.com/cznic/strutil"
+	"github.com/cznic/virtual"
 )
 
 func caller(s string, va ...interface{}) {
@@ -52,6 +54,7 @@ func init() {
 	use(caller, dbg, TODO) //TODOOK
 	Testing = true
 	ir.Testing = true
+	virtual.Testing = true
 }
 
 // ============================================================================
@@ -152,12 +155,12 @@ func TestTCC(t *testing.T) {
 			cc.SysIncludePaths([]string{"testdata/include/"}),
 		)
 		if err != nil {
-			t.Fatal(errStr(err))
+			t.Fatal(match, errStr(err))
 		}
 
 		objs, err := New(modelName, ast)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatal(match, err)
 		}
 
 		var b bytes.Buffer
@@ -169,14 +172,16 @@ func TestTCC(t *testing.T) {
 					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
 				}
 			}
-			if err := v.Verify(); err != nil {
-				t.Fatal(err)
-			}
 		}
 		t.Logf("\n%s", b.Bytes())
+		for i, v := range objs {
+			if err := v.Verify(); err != nil {
+				t.Fatalf("[%v] %v: %v", i, v, err)
+			}
+		}
 
 		if objs, err = ir.LinkMain(objs); err != nil {
-			t.Fatal(err)
+			t.Fatal(match, err)
 		}
 
 		b.Reset()
@@ -188,12 +193,56 @@ func TestTCC(t *testing.T) {
 					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
 				}
 			}
-			if err := v.Verify(); err != nil {
-				t.Fatal(err)
-			}
 		}
 		t.Logf("\n%s", b.Bytes())
+		for i, v := range objs {
+			if err := v.Verify(); err != nil {
+				t.Fatalf("[%v] %v: %v", i, v, err)
+			}
+		}
 
-		TODO(match)
+		bin, err := virtual.Load(modelName, objs)
+		if err != nil {
+			t.Fatal(match, err)
+		}
+
+		s := virtual.DumpCodeStr(bin.Code, 0)
+		t.Logf("\n%s", s.Bytes())
+		s.Close()
+
+		var stdin, stdout, stderr bytes.Buffer
+		func() {
+			defer func() {
+				if err := recover(); err != nil {
+					t.Fatalf("PANIC\n%s", err)
+				}
+			}()
+
+			es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg"}, &stdin, &stdout, &stderr, 1<<16, 1<<16, 1)
+			if es != 0 || err != nil {
+				t.Fatal(es, err)
+			}
+		}()
+
+		expect := match[:len(match)-len(filepath.Ext(match))] + ".expect"
+		if _, err := os.Stat(expect); err != nil {
+			if os.IsNotExist(err) {
+				continue
+			}
+
+			t.Fatal(err)
+		}
+
+		buf, err := ioutil.ReadFile(expect)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if g, e := stdout.Bytes(), buf; !bytes.Equal(g, e) {
+			t.Fatalf("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
+			continue
+		}
+
+		t.Logf("%s: OK\n%s", match, bytes.TrimRight(stdout.Bytes(), "\n\t "))
 	}
 }
