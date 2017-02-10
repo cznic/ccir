@@ -42,6 +42,17 @@ func TODO(more ...interface{}) string { //TODOOK
 	panic("TODO")
 }
 
+type labels struct {
+	caseLabel  int
+	breakLabel int
+}
+
+func (l *labels) setBreak(n int) int {
+	r := l.breakLabel
+	l.breakLabel = n
+	return r
+}
+
 type varInfo struct {
 	arg    bool
 	index  int
@@ -53,6 +64,7 @@ type fdata struct {
 	arguments  []ir.TypeID
 	blockLevel int
 	f          *ir.FunctionDefinition
+	label      int
 	result     ir.TypeID
 	static     int
 	variable   int
@@ -241,7 +253,7 @@ func (c *c) declaration(n *cc.Declaration) {
 				isBuiltin := bytes.HasPrefix(dict.S(id), dict.S(idBuiltinPrefix))
 				if isFunc && isBuiltin {
 					f := ir.NewFunctionDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil)
-					f.Body = []ir.Operation{&ir.Panic{position(d)}}
+					f.Body = []ir.Operation{&ir.Panic{Position: position(d)}}
 					c.out = append(c.out, f)
 					continue
 				}
@@ -290,7 +302,7 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 		f.Arguments[i] = ir.NameID(v.Name)
 		variables[v.Declarator] = varInfo{index: i, arg: true, typ: c.typ(v.Type).ID()}
 	}
-	typ := c.typ(t).(*ir.FunctionType)
+	typ := c.types.MustType(f.TypeID).(*ir.FunctionType)
 	var result ir.TypeID
 	if len(typ.Results) != 0 {
 		result = typ.Results[0].ID()
@@ -352,6 +364,30 @@ func (c *c) normalize(n *cc.Expression) cc.Node {
 	}
 }
 
+func (c *c) field(n *cc.Expression, nm int) (index int, t cc.Type) {
+	ms, incomplete := n.Type.Members()
+	if incomplete {
+		TODO(position(n))
+	}
+
+	for _, v := range ms {
+		if v.Name == nm {
+			if v.Bits != 0 {
+				TODO(position(n))
+			}
+
+			return index, v.Type
+		}
+
+		if v.Bits != 0 && v.BitOffsetOf != 0 {
+			continue
+		}
+
+		index++
+	}
+	panic("internal error")
+}
+
 func (c *c) addr(n *cc.Expression) {
 	if n.Value != nil {
 		TODO(position(n))
@@ -375,20 +411,25 @@ func (c *c) addr(n *cc.Expression) {
 			//	c.emit(&ir.Argument{Index: vi.index, Position: position(n)})
 			default:
 				t, _ := c.types.Type(vi.typ)
-				c.emit(&ir.Variable{Address: true, Index: vi.index, TypeID: t.Pointer().ID(), Position: position(n)})
-				return
+				switch {
+				case t.Kind() == ir.Array:
+					t = t.(*ir.ArrayType).Item.Pointer()
+				default:
+					t = t.Pointer()
+				}
+				c.emit(&ir.Variable{Address: true, Index: vi.index, TypeID: t.ID(), Position: position(n)})
 			}
 		case cc.ScopeFile:
-			TODO(position(n))
-			//switch d.Linkage {
-			//case cc.External:
-			//	c.emit(&ir.Extern{NameID: c.nm(d), TypeID: c.typ(d.Type).ID(), TypeName: c.tnm(d), Position: position(n)})
-			//default:
-			//	TODO(position(n), d.Linkage)
-			//}
+			switch d.Linkage {
+			case cc.External:
+				c.emit(&ir.Extern{Address: true, Index: -1, NameID: c.nm(d), TypeID: c.typ(d.Type.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
+			default:
+				TODO(position(n), d.Type, d.Linkage)
+			}
 		default:
 			panic("internal error")
 		}
+		return
 	case 1: // CHARCONST                                          // Case 1
 		TODO(position(n))
 	case 2: // FLOATCONST                                         // Case 2
@@ -404,11 +445,21 @@ func (c *c) addr(n *cc.Expression) {
 	case 7: // '(' ExpressionList ')'                             // Case 7
 		TODO(position(n))
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
-		TODO(position(n))
+		c.addr(n.Expression)
+		c.expressionList(nil, n.ExpressionList)
+		t := n.Expression.Type
+		if t.Kind() == cc.Array && t.Elements() >= 0 {
+			t = t.Element().Pointer()
+		}
+		c.emit(&ir.Element{Address: true, IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
+		return
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
 		TODO(position(n))
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
-		TODO(position(n))
+		c.addr(n.Expression)
+		fi, _ := c.field(n.Expression, n.Token2.Val)
+		c.emit(&ir.Field{Address: true, Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n)})
+		return
 	case 11: // Expression "->" IDENTIFIER                         // Case 11
 		TODO(position(n))
 	case 12: // Expression "++"                                    // Case 12
@@ -502,7 +553,7 @@ func (c *c) addr(n *cc.Expression) {
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
 	}
-	panic("internal error")
+	panic(fmt.Errorf("internal error: %v", position(n)))
 }
 
 func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
@@ -524,6 +575,21 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 	default:
 		TODO(position(n), t.Kind())
 	}
+}
+
+func (c *c) binopType(n *cc.Expression) cc.Type {
+	if t := n.BinOpType; t != nil {
+		return t
+	}
+
+	return n.Expression.Type
+}
+
+func (c *c) binop(n *cc.Expression, op ir.Operation) {
+	t := c.binopType(n)
+	c.expression(t, n.Expression)
+	c.expression(t, n.Expression2)
+	c.emit(op)
 }
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
@@ -607,7 +673,13 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 7: // '(' ExpressionList ')'                             // Case 7
 		TODO(position(n))
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
-		TODO(position(n))
+		c.addr(n.Expression)
+		c.expressionList(nil, n.ExpressionList)
+		t := n.Expression.Type
+		if t.Kind() == cc.Array && t.Elements() >= 0 {
+			t = t.Element().Pointer()
+		}
+		c.emit(&ir.Element{IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
 		switch t := n.Expression.Type; t.Kind() {
 		case cc.Function:
@@ -631,11 +703,18 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 			TODO(position(n), t.Kind())
 		}
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
-		TODO(position(n))
+		c.addr(n.Expression)
+		fi, _ := c.field(n.Expression, n.Token2.Val)
+		c.emit(&ir.Field{Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n)})
 	case 11: // Expression "->" IDENTIFIER                         // Case 11
 		TODO(position(n))
 	case 12: // Expression "++"                                    // Case 12
-		TODO(position(n))
+		c.addr(n.Expression)
+		delta := 1
+		if t := n.Expression.Type; t.Kind() == cc.Ptr {
+			delta = t.Element().SizeOf()
+		}
+		c.emit(&ir.PostIncrement{Delta: delta, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 13: // Expression "--"                                    // Case 13
 		TODO(position(n))
 	case 14: // '(' TypeName ')' '{' InitializerList CommaOpt '}'  // Case 14
@@ -645,9 +724,9 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 16: // "--" Expression                                    // Case 16
 		TODO(position(n))
 	case 17: // '&' Expression                                     // Case 17
-		TODO(position(n))
+		c.addr(n.Expression)
 	case 18: // '*' Expression                                     // Case 18
-		TODO(position(n))
+		c.emit(&ir.Load{TypeID: c.typ(n.Expression.Type.Element()).ID(), Position: position(n)})
 	case 19: // '+' Expression                                     // Case 19
 		TODO(position(n))
 	case 20: // '-' Expression                                     // Case 20
@@ -663,25 +742,25 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 25: // '(' TypeName ')' Expression                        // Case 25
 		TODO(position(n))
 	case 26: // Expression '*' Expression                          // Case 26
-		TODO(position(n))
+		c.binop(n, &ir.Mul{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 27: // Expression '/' Expression                          // Case 27
 		TODO(position(n))
 	case 28: // Expression '%' Expression                          // Case 28
 		TODO(position(n))
 	case 29: // Expression '+' Expression                          // Case 29
-		TODO(position(n))
+		c.binop(n, &ir.Add{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 30: // Expression '-' Expression                          // Case 30
-		TODO(position(n))
+		c.binop(n, &ir.Sub{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 31: // Expression "<<" Expression                         // Case 31
 		TODO(position(n))
 	case 32: // Expression ">>" Expression                         // Case 32
 		TODO(position(n))
 	case 33: // Expression '<' Expression                          // Case 33
-		TODO(position(n))
+		c.binop(n, &ir.Lt{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 34: // Expression '>' Expression                          // Case 34
 		TODO(position(n))
 	case 35: // Expression "<=" Expression                         // Case 35
-		TODO(position(n))
+		c.binop(n, &ir.Leq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 36: // Expression ">=" Expression                         // Case 36
 		TODO(position(n))
 	case 37: // Expression "==" Expression                         // Case 37
@@ -753,22 +832,27 @@ func (c *c) expressionStatement(n *cc.ExpressionStatement) {
 	c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt)
 }
 
-func (c *c) jumpStatement(n *cc.JumpStatement) {
+func (c *c) jumpStatement(labels *labels, n *cc.JumpStatement) {
 	switch n.Case {
 	case 0: // "goto" IDENTIFIER ';'
 		TODO(position(n))
 	case 1: // "continue" ';'                  // Case 1
 		TODO(position(n))
 	case 2: // "break" ';'                     // Case 2
-		TODO(position(n))
+		b := labels.breakLabel
+		if b < 0 {
+			b = c.label()
+			labels.breakLabel = b
+		}
+		c.emit(&ir.Jmp{Number: b, Position: position(n)})
 	case 3: // "return" ExpressionListOpt ';'  // Case 3
 		if o := n.ExpressionListOpt; o != nil {
-			t, _ := c.types.Type(c.f.result)
-			c.emit(&ir.Result{Address: true, TypeID: t.Pointer().ID(), Position: position(n)})
+			r := c.f.result
+			c.emit(&ir.Result{Address: true, TypeID: c.types.MustType(r).Pointer().ID(), Position: position(n)})
 			l := o.ExpressionList
 			c.expressionList(l.Type, l)
-			c.emit(&ir.Store{TypeID: c.f.result, Position: position(n)})
-			c.emit(&ir.Drop{TypeID: c.f.result, Position: position(n)})
+			c.emit(&ir.Store{TypeID: r, Position: position(n)})
+			c.emit(&ir.Drop{TypeID: r, Position: position(n)})
 		}
 		c.emit(&ir.Return{Position: position(n)})
 	default:
@@ -776,20 +860,235 @@ func (c *c) jumpStatement(n *cc.JumpStatement) {
 	}
 }
 
-func (c *c) statement(n *cc.Statement) {
+func (c *c) label() int {
+	r := c.f.label
+	c.f.label++
+	return r
+}
+
+func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
+	switch n.Case {
+	case 0: // "while" '(' ExpressionList ')' Statement
+		begin := c.label()
+		end := c.label()
+		c.emit(&ir.Label{Number: begin, Position: position(n)})
+		el := n.ExpressionList
+		c.expressionList(el.Type, el)
+		if el.Type.Kind() != cc.Int {
+			c.emit(&ir.Bool{TypeID: c.typ(el.Type).ID(), Position: position(n)})
+		}
+		c.emit(&ir.Jz{Number: end, Position: position(n)})
+		breakLabel := labels.setBreak(end)
+		c.statement(labels, n.Statement)
+		labels.setBreak(breakLabel)
+		c.emit(&ir.Jmp{Number: begin, Position: position(n)})
+		c.emit(&ir.Label{Number: end, Position: position(n)})
+	case 1: // "do" Statement "while" '(' ExpressionList ')' ';'                                      // Case 1
+		begin := c.label()
+		c.emit(&ir.Label{Number: begin, Position: position(n)})
+		breakLabel := labels.setBreak(-1)
+		c.statement(labels, n.Statement)
+		labels.setBreak(breakLabel)
+		el := n.ExpressionList
+		c.expressionList(el.Type, el)
+		if el.Type.Kind() != cc.Int {
+			c.emit(&ir.Bool{TypeID: c.typ(el.Type).ID(), Position: position(n)})
+		}
+		c.emit(&ir.Jnz{Number: begin, Position: position(n.ExpressionList)})
+		if e := labels.breakLabel; e >= 0 {
+			c.emit(&ir.Label{Number: e, Position: position(n)})
+		}
+	case 2: // "for" '(' ExpressionListOpt ';' ExpressionListOpt ';' ExpressionListOpt ')' Statement  // Case 2
+		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt)
+		test := c.label()
+		c.emit(&ir.Label{Number: test, Position: position(n)})
+		end := -1
+		if o := n.ExpressionListOpt2; o != nil {
+			el := o.ExpressionList
+			c.expressionList(el.Type, el)
+			end = c.label()
+			if el.Type.Kind() != cc.Int {
+				c.emit(&ir.Bool{TypeID: c.typ(el.Type).ID(), Position: position(n)})
+			}
+			c.emit(&ir.Jz{Number: end, Position: position(n)})
+		}
+		breakLabel := labels.setBreak(end)
+		c.statement(labels, n.Statement)
+		labels.setBreak(breakLabel)
+		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt3)
+		c.emit(&ir.Jmp{Number: test, Position: position(n)})
+		if end >= 0 {
+			c.emit(&ir.Label{Number: end, Position: position(n)})
+		}
+		//TODO TODO(position(n))
+	case 3: // "for" '(' Declaration ExpressionListOpt ';' ExpressionListOpt ')' Statement            // Case 3
+		TODO(position(n))
+	default:
+		panic("internal error")
+	}
+}
+
+func (c *c) switchStatement(n *cc.SelectionStatement) {
+	// "switch" '(' ExpressionList ')' Statement               // Case 2
+	t := n.ExpressionList.Type
+	c.expressionList(t, n.ExpressionList)
+	firstCase := -1
+	defaultCase := -1
+	var cases []*cc.ConstantExpression
+	var f func(*cc.Statement)
+	f = func(n *cc.Statement) {
+		switch n.Case {
+		case 0: // LabeledStatement
+			switch n := n.LabeledStatement; n.Case {
+			case 0: // IDENTIFIER ':' Statement
+				f(n.Statement)
+			case 1: // "case" ConstantExpression ':' Statement  // Case 1
+				label := c.label()
+				if firstCase < 0 {
+					firstCase = label
+				}
+				cases = append(cases, n.ConstantExpression)
+				f(n.Statement)
+			case 2: // "default" ':' Statement                  // Case 2
+				label := c.label()
+				if defaultCase >= 0 {
+					panic("internal error")
+				}
+
+				defaultCase = label
+				if firstCase < 0 {
+					firstCase = label
+				}
+				cases = append(cases, n.ConstantExpression)
+				f(n.Statement)
+			default:
+				panic("internal error")
+			}
+		case 1: // CompoundStatement    // Case 1
+			o := n.CompoundStatement.BlockItemListOpt
+			if o == nil {
+				break
+			}
+
+			for l := o.BlockItemList; l != nil; l = l.BlockItemList {
+				switch n := l.BlockItem; n.Case {
+				case 0: // Declaration
+					// nop
+				case 1: // Statement    // Case 1
+					f(n.Statement)
+				default:
+					panic("internal error")
+				}
+			}
+		case 2: // ExpressionStatement  // Case 2
+			// nop
+		case 3: // SelectionStatement   // Case 3
+			switch n := n.SelectionStatement; n.Case {
+			case 0: // "if" '(' ExpressionList ')' Statement
+				f(n.Statement)
+			case 1: // "if" '(' ExpressionList ')' Statement "else" Statement  // Case 1
+				f(n.Statement)
+			case 2: // "switch" '(' ExpressionList ')' Statement               // Case 2
+				// nop
+			default:
+				panic("internal error")
+			}
+		case 4: // IterationStatement   // Case 4
+			switch n := n.IterationStatement; n.Case {
+			case
+				0, // "while" '(' ExpressionList ')' Statement
+				1, // "do" Statement "while" '(' ExpressionList ')' ';'                                      // Case 1
+				2, // "for" '(' ExpressionListOpt ';' ExpressionListOpt ';' ExpressionListOpt ')' Statement  // Case 2
+				3: // "for" '(' Declaration ExpressionListOpt ';' ExpressionListOpt ')' Statement            // Case 3
+				f(n.Statement)
+			default:
+				panic("internal error")
+			}
+		case 5: // JumpStatement        // Case 5
+			// nop
+		case 9: // AssemblerStatement   // Case 6
+			TODO(position(n))
+		default:
+			panic("internal error")
+		}
+	}
+	f(n.Statement)
+	if len(cases) == 0 {
+		c.emit(&ir.Drop{TypeID: c.typ(t).ID(), Position: position(n.ExpressionList)})
+		return
+	}
+
+	typ := c.typ(t)
+	for i, v := range cases {
+		if v == nil { // default:
+			continue
+		}
+
+		c.emit(&ir.Dup{TypeID: typ.ID(), Position: position(n.ExpressionList)})
+		c.constant(v.Type, v.Value, v)
+		c.emit(&ir.Eq{TypeID: typ.ID(), Position: position(n.ExpressionList)})
+		c.emit(&ir.Jnz{Number: firstCase + i, Position: position(n.ExpressionList)})
+	}
+	c.emit(&ir.Drop{TypeID: c.typ(t).ID(), Position: position(n.ExpressionList)})
+	labels := labels{
+		caseLabel:  firstCase,
+		breakLabel: -1,
+	}
+	switch {
+	case defaultCase < 0:
+		labels.breakLabel = c.label()
+	default:
+		c.emit(&ir.Jmp{Number: defaultCase, Position: position(n)})
+	}
+	c.statement(&labels, n.Statement)
+	if labels.breakLabel >= 0 {
+		c.emit(&ir.Label{Number: labels.breakLabel, Position: position(n.ExpressionList)})
+	}
+}
+
+func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
+	switch n.Case {
+	case 0: // "if" '(' ExpressionList ')' Statement
+		TODO(position(n))
+	case 1: // "if" '(' ExpressionList ')' Statement "else" Statement  // Case 1
+		TODO(position(n))
+	case 2: // "switch" '(' ExpressionList ')' Statement               // Case 2
+		c.switchStatement(n)
+	default:
+		panic("internal error")
+	}
+}
+
+func (c *c) labeledStatement(labels *labels, n *cc.LabeledStatement) {
+	switch n.Case {
+	case 0: // IDENTIFIER ':' Statement
+		// c.f.Emit(ir.Label, 0, ir.NameValue{V: ir.NameID(n.Token.Val)})
+		TODO(position(n))
+	case
+		1, // "case" ConstantExpression ':' Statement  // Case 1
+		2: // "default" ':' Statement                  // Case 2
+		c.emit(&ir.Label{Number: labels.caseLabel, Position: position(n)})
+		labels.caseLabel++
+	default:
+		panic("internal error")
+	}
+	c.statement(labels, n.Statement)
+}
+
+func (c *c) statement(labels *labels, n *cc.Statement) {
 	switch n.Case {
 	case 0: // LabeledStatement
-		TODO(position(n))
+		c.labeledStatement(labels, n.LabeledStatement)
 	case 1: // CompoundStatement    // Case 1
-		TODO(position(n))
+		c.compoundStatement(labels, n.CompoundStatement)
 	case 2: // ExpressionStatement  // Case 2
 		c.expressionStatement(n.ExpressionStatement)
 	case 3: // SelectionStatement   // Case 3
-		TODO(position(n))
+		c.selectionStatement(labels, n.SelectionStatement)
 	case 4: // IterationStatement   // Case 4
-		TODO(position(n))
+		c.iterationStatement(labels, n.IterationStatement)
 	case 5: // JumpStatement        // Case 5
-		c.jumpStatement(n.JumpStatement)
+		c.jumpStatement(labels, n.JumpStatement)
 	case 6: // AssemblerStatement   // Case 6
 		TODO(position(n))
 	default:
@@ -797,23 +1096,23 @@ func (c *c) statement(n *cc.Statement) {
 	}
 }
 
-func (c *c) blockItem(n *cc.BlockItem) {
+func (c *c) blockItem(labels *labels, n *cc.BlockItem) {
 	switch n.Case {
 	case 0: // Declaration
 		c.declaration(n.Declaration)
 	case 1: // Statement    // Case 1
-		c.statement(n.Statement)
+		c.statement(labels, n.Statement)
 	default:
 		panic("internal error")
 	}
 }
 
-func (c *c) compoundStatement(n *cc.CompoundStatement) {
+func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement) {
 	c.f.blockLevel++
 	c.emit(&ir.BeginScope{Position: position(n)})
 	if o := n.BlockItemListOpt; o != nil {
 		for l := o.BlockItemList; l != nil; l = l.BlockItemList {
-			c.blockItem(l.BlockItem)
+			c.blockItem(labels, l.BlockItem)
 		}
 	}
 	c.f.blockLevel--
@@ -829,7 +1128,7 @@ func (c *c) compoundStatement(n *cc.CompoundStatement) {
 func (c *c) functionBody(n *cc.FunctionBody) {
 	switch n.Case {
 	case 0: // CompoundStatement
-		c.compoundStatement(n.CompoundStatement)
+		c.compoundStatement(&labels{-1, -1}, n.CompoundStatement)
 	case 1: // AssemblerStatement ';'  // Case 1
 		TODO(position(n))
 	default:
@@ -853,7 +1152,13 @@ func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 	switch n.Case {
 	case 0: // DeclarationSpecifiers Declarator DeclarationListOpt FunctionBody
 		d := n.Declarator
-		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil))
+		t := c.typ(d.Type)
+		nm := c.nm(d)
+		ln := c.linkage(d.Linkage)
+		if ln == ir.ExternalLinkage && int(nm) == idMain && len(t.(*ir.FunctionType).Results) == 0 {
+			t = c.types.MustType(ir.TypeID(dict.SID(string(dict.S(int(t.ID()))) + "int32")))
+		}
+		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), nm, c.tnm(d), t.ID(), ln, c.fnArgNames(d), nil))
 		c.out = append(c.out, c.f.f)
 		c.functionBody(n.FunctionBody)
 		c.f = fdata{}

@@ -176,7 +176,16 @@ func TestTCC(t *testing.T) {
 		t.Logf("translation unit\n%s", b.Bytes())
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
-				t.Fatalf("[%v] %v: %v", i, v, err)
+				switch x := v.(type) {
+				case *ir.FunctionDefinition:
+					t.Logf("[%v]: %v %v\n", i, x.ObjectBase, x.Arguments)
+					for i, v := range x.Body {
+						t.Logf("%#05x\t%v\n", i, v)
+					}
+					t.Fatal(err)
+				default:
+					t.Fatalf("[%v] %v: %v", i, v, err)
+				}
 			}
 		}
 
@@ -211,17 +220,17 @@ func TestTCC(t *testing.T) {
 		s.Close()
 
 		var stdin, stdout, stderr bytes.Buffer
-		//TODO- func() {
-		//TODO- 	defer func() {
-		//TODO- 		if err := recover(); err != nil {
-		//TODO- 			t.Fatalf("PANIC\n%s", err)
-		//TODO- 		}
-		//TODO- 	}()
-		es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg"}, &stdin, &stdout, &stderr, 1<<16, 1<<16, 1)
-		if es != 0 || err != nil {
-			t.Fatal(es, err)
-		}
-		//TODO- }()
+		func() {
+			defer func() {
+				if err := recover(); err != nil {
+					t.Fatalf("PANIC\n%s", err)
+				}
+			}()
+			es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg", "TODO"}, &stdin, &stdout, &stderr, 1<<16, 1<<16, 1)
+			if es != 0 || err != nil {
+				t.Fatalf("exit status %v\n%s", es, err)
+			}
+		}()
 
 		expect := match[:len(match)-len(filepath.Ext(match))] + ".expect"
 		if _, err := os.Stat(expect); err != nil {

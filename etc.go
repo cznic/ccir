@@ -15,6 +15,7 @@ var (
 	dict = xc.Dict
 
 	idBuiltinPrefix = dict.SID("__builtin_")
+	idMain          = dict.SID("main")
 )
 
 func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }
