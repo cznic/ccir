@@ -509,5 +509,5 @@ all_test.go:262: ../cc/testdata/tcc-0.9.26/tests/tests2/10_pointer.c: OK
 
 ----
 
-Diclaimer: Tested on Linux/64bit only.
+Disclaimer: Tested on Linux/64bit only.
 
