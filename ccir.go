@@ -54,10 +54,11 @@ func (l *labels) setBreak(n int) int {
 }
 
 type varInfo struct {
+	index int
+	typ   ir.TypeID
+
 	arg    bool
-	index  int
 	static bool
-	typ    ir.TypeID
 }
 
 type fdata struct {
@@ -210,6 +211,23 @@ func (c *c) linkage(l cc.Linkage) ir.Linkage {
 	}
 }
 
+func (c *c) addressInitializer(n *cc.Expression) ir.Value {
+	switch n.Case {
+	case 17: // '&' Expression                                     // Case 17
+		switch n := n.Expression; n.Case {
+		case 0: // IDENTIFIER
+			id := n.Token.Val
+			b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
+			d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
+			switch s.Scope() {
+			case cc.ScopeFile:
+				return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
+			}
+		}
+	}
+	return nil
+}
+
 func (c *c) initializer(n *cc.Initializer) ir.Value {
 	if n == nil {
 		return nil
@@ -219,6 +237,10 @@ func (c *c) initializer(n *cc.Initializer) ir.Value {
 	case 0: // Expression
 		switch x := n.Expression.Value.(type) {
 		case nil:
+			if v := c.addressInitializer(n.Expression); v != nil {
+				return v
+			}
+
 			TODO(position(n))
 		case cc.StringLitID:
 			return &ir.StringValue{StringID: ir.StringID(x)}
@@ -364,8 +386,8 @@ func (c *c) normalize(n *cc.Expression) cc.Node {
 	}
 }
 
-func (c *c) field(n *cc.Expression, nm int) (index int, t cc.Type) {
-	ms, incomplete := n.Type.Members()
+func (c *c) field(n cc.Node, st cc.Type, nm int) (index int, t cc.Type) {
+	ms, incomplete := st.Members()
 	if incomplete {
 		TODO(position(n))
 	}
@@ -389,6 +411,12 @@ func (c *c) field(n *cc.Expression, nm int) (index int, t cc.Type) {
 }
 
 func (c *c) addr(n *cc.Expression) {
+	switch x := c.normalize(n).(type) {
+	case *cc.Expression:
+		n = x
+	default:
+		panic("internal error")
+	}
 	if n.Value != nil {
 		TODO(position(n))
 		return
@@ -457,7 +485,7 @@ func (c *c) addr(n *cc.Expression) {
 		TODO(position(n))
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		c.addr(n.Expression)
-		fi, _ := c.field(n.Expression, n.Token2.Val)
+		fi, _ := c.field(n, n.Expression.Type, n.Token2.Val)
 		c.emit(&ir.Field{Address: true, Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n)})
 		return
 	case 11: // Expression "->" IDENTIFIER                         // Case 11
@@ -608,6 +636,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	}
 
 	t := n.Type
+	t0 := t
 	switch t.Kind() {
 	case cc.Array:
 		switch {
@@ -652,9 +681,15 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 				c.emit(&ir.Variable{Index: vi.index, TypeID: vi.typ, Position: position(n)})
 			}
 		case cc.ScopeFile:
+
 			switch d.Linkage {
 			case cc.External:
-				c.emit(&ir.Extern{Address: true, Index: -1, NameID: c.nm(d), TypeID: c.typ(d.Type.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
+				if t0.Kind() == cc.Function {
+					c.addr(n)
+					break
+				}
+
+				TODO(position(n), t, d.Linkage)
 			default:
 				TODO(position(n), t, d.Linkage)
 			}
@@ -704,10 +739,12 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		}
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		c.addr(n.Expression)
-		fi, _ := c.field(n.Expression, n.Token2.Val)
+		fi, _ := c.field(n, n.Expression.Type, n.Token2.Val)
 		c.emit(&ir.Field{Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n)})
 	case 11: // Expression "->" IDENTIFIER                         // Case 11
-		TODO(position(n))
+		c.expression(nil, n.Expression)
+		fi, _ := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
+		c.emit(&ir.Field{Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 12: // Expression "++"                                    // Case 12
 		c.addr(n.Expression)
 		delta := 1
@@ -726,7 +763,8 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 17: // '&' Expression                                     // Case 17
 		c.addr(n.Expression)
 	case 18: // '*' Expression                                     // Case 18
-		c.emit(&ir.Load{TypeID: c.typ(n.Expression.Type.Element()).ID(), Position: position(n)})
+		c.expression(nil, n.Expression)
+		c.emit(&ir.Load{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 19: // '+' Expression                                     // Case 19
 		TODO(position(n))
 	case 20: // '-' Expression                                     // Case 20
@@ -920,7 +958,6 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		if end >= 0 {
 			c.emit(&ir.Label{Number: end, Position: position(n)})
 		}
-		//TODO TODO(position(n))
 	case 3: // "for" '(' Declaration ExpressionListOpt ';' ExpressionListOpt ')' Statement            // Case 3
 		TODO(position(n))
 	default:

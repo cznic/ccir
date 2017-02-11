@@ -118,11 +118,11 @@ func parse(src []string, opts ...cc.Opt) (string, *cc.TranslationUnit, error) {
 	}
 
 	ast, err := cc.Parse(
-		fmt.Sprintf(`
+		`
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
-`),
+`,
 		src,
 		model,
 		opts...,
@@ -166,25 +166,29 @@ func TestTCC(t *testing.T) {
 		var b bytes.Buffer
 		for i, v := range objs {
 			switch x := v.(type) {
+			case *ir.DataDefinition:
+				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
 			case *ir.FunctionDefinition:
-				fmt.Fprintf(&b, "# [%v]: %v %v\n", i, x.ObjectBase, x.Arguments)
+				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 				for i, v := range x.Body {
 					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
 				}
+			default:
+				t.Fatalf("[%v] %T %v", i, x, x)
 			}
 		}
-		t.Logf("translation unit\n%s", b.Bytes())
+		t.Logf("ccir.New: %v objects\n%s", len(objs), b.Bytes())
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
 				switch x := v.(type) {
 				case *ir.FunctionDefinition:
-					t.Logf("[%v]: %v %v\n", i, x.ObjectBase, x.Arguments)
+					t.Logf("# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 					for i, v := range x.Body {
 						t.Logf("%#05x\t%v\n", i, v)
 					}
 					t.Fatal(err)
 				default:
-					t.Fatalf("[%v] %v: %v", i, v, err)
+					t.Fatalf("[%v] %T %v: %v", i, x, x, err)
 				}
 			}
 		}
@@ -196,14 +200,18 @@ func TestTCC(t *testing.T) {
 		b.Reset()
 		for i, v := range objs {
 			switch x := v.(type) {
+			case *ir.DataDefinition:
+				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
 			case *ir.FunctionDefinition:
-				fmt.Fprintf(&b, "# [%v]: %v %v\n", i, x.ObjectBase, x.Arguments)
+				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 				for i, v := range x.Body {
 					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
 				}
+			default:
+				t.Fatalf("[%v] %T %v", i, x, x)
 			}
 		}
-		t.Logf("linked\n%s", b.Bytes())
+		t.Logf("ir.LinkMain: %v objects\n%s", len(objs), b.Bytes())
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
 				t.Fatalf("[%v] %v: %v", i, v, err)
@@ -216,17 +224,17 @@ func TestTCC(t *testing.T) {
 		}
 
 		s := virtual.DumpCodeStr(bin.Code, 0)
-		t.Logf("loaded\n%s", s.Bytes())
+		t.Logf("virtual.Load: code %#05x, text %#05x, data %05x, bss %#05x\n%s", len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, s.Bytes())
 		s.Close()
 
 		var stdin, stdout, stderr bytes.Buffer
 		func() {
 			defer func() {
 				if err := recover(); err != nil {
-					t.Fatalf("PANIC\n%s", err)
+					t.Fatalf("PANIC: %s", err)
 				}
 			}()
-			es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg", "TODO"}, &stdin, &stdout, &stderr, 1<<16, 1<<16, 1)
+			es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg", "TODO"}, &stdin, &stdout, &stderr, 1<<16, 1<<16)
 			if es != 0 || err != nil {
 				t.Fatalf("exit status %v\n%s", es, err)
 			}
