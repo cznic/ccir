@@ -117,8 +117,7 @@ func parse(src []string, opts ...cc.Opt) (string, *cc.TranslationUnit, error) {
 		return "", nil, err
 	}
 
-	ast, err := cc.Parse(
-		`
+	ast, err := cc.Parse(`
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
@@ -234,7 +233,7 @@ func TestTCC(t *testing.T) {
 					t.Fatalf("PANIC: %s", err)
 				}
 			}()
-			es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg", "TODO"}, &stdin, &stdout, &stderr, 1<<16, 1<<16)
+			es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg"}, &stdin, &stdout, &stderr, 1<<16, 1<<16)
 			if es != 0 || err != nil {
 				t.Fatalf("exit status %v\n%s", es, err)
 			}

@@ -11,7 +11,7 @@ Documentation: [godoc.org/github.com/cznic/ccir](http://godoc.org/github.com/czn
 
 # What's this all about?
 
-Not much yet. Consider this an early technology preview, it can now handle only C programs of complexity comparable to `helloworld.c`. Nonetheless, you should be hopefully able, using today's (2017-02-11) commits of [ir](https://github.com/cznic/ir), [virtual](https://github.com/cznic/virtual) and this package, reproduce the results, annotated excerpts of which follow, issuing
+Not much yet. Consider this an early technology preview, it can now handle only C programs of complexity comparable to `helloworld.c`. Nonetheless, you should be hopefully able, using today's (2017-02-11) commits of [ir](https://github.com/cznic/ir), [virtual](https://github.com/cznic/virtual) and this package, to reproduce the results, annotated excerpts of which follow, by issuing
 
 
 ```bash
@@ -31,8 +31,7 @@ func parse(src []string, opts ...cc.Opt) (string, *cc.TranslationUnit, error) {
 		return "", nil, err
 	}
 
-	ast, err := cc.Parse(
-		`
+	ast, err := cc.Parse(`
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1

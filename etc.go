@@ -15,6 +15,8 @@ var (
 	dict = xc.Dict
 
 	idBuiltinPrefix = dict.SID("__builtin_")
+	idFloat64       = dict.SID("float64")
+	idInt32         = dict.SID("int32")
 	idMain          = dict.SID("main")
 )
 
