@@ -1256,18 +1256,23 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 		return
 	}
 
-	typ := c.typ(t)
+	typ := c.typ(t).ID()
 	for i, v := range cases {
 		if v == nil { // default:
 			continue
 		}
 
-		c.emit(&ir.Dup{TypeID: typ.ID(), Position: position(n.ExpressionList)})
+		c.emit(&ir.Dup{TypeID: typ, Position: position(n.ExpressionList)})
 		c.constant(v.Type, v.Value, v)
-		c.emit(&ir.Eq{TypeID: typ.ID(), Position: position(n.ExpressionList)})
-		c.emit(&ir.Jnz{Number: firstCase + i, Position: position(n.ExpressionList)})
+		c.emit(&ir.Eq{TypeID: typ, Position: position(n.ExpressionList)})
+		drop := c.label()
+		c.emit(&ir.Jz{Number: drop, Position: position(n.ExpressionList)})
+		c.emit(&ir.Drop{TypeID: typ, Position: position(n.ExpressionList)})
+		c.emit(&ir.Jmp{Number: firstCase + i, Position: position(n.ExpressionList)})
+		c.emit(&ir.Label{Number: drop, Position: position(n.ExpressionList)})
+
 	}
-	c.emit(&ir.Drop{TypeID: c.typ(t).ID(), Position: position(n.ExpressionList)})
+	c.emit(&ir.Drop{TypeID: typ, Position: position(n.ExpressionList)})
 	labels := labels{
 		caseLabel:  firstCase,
 		breakLabel: -1,

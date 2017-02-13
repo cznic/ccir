@@ -225,7 +225,7 @@ func TestTCC(t *testing.T) {
 		s := virtual.DumpCodeStr(bin.Code, 0)
 		t.Logf(
 			"virtual.Load: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s",
-			len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
+			len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
 		)
 		s.Close()
 
