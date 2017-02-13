@@ -17,7 +17,9 @@ var (
 	idBuiltinPrefix = dict.SID("__builtin_")
 	idFloat64       = dict.SID("float64")
 	idInt32         = dict.SID("int32")
+	idInt64         = dict.SID("int64")
 	idMain          = dict.SID("main")
+	idUint64        = dict.SID("uint64")
 )
 
 func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }

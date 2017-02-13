@@ -223,7 +223,10 @@ func TestTCC(t *testing.T) {
 		}
 
 		s := virtual.DumpCodeStr(bin.Code, 0)
-		t.Logf("virtual.Load: code %#05x, text %#05x, data %05x, bss %#05x\n%s", len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, s.Bytes())
+		t.Logf(
+			"virtual.Load: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s",
+			len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
+		)
 		s.Close()
 
 		var stdin, stdout, stderr bytes.Buffer
@@ -233,7 +236,17 @@ func TestTCC(t *testing.T) {
 					t.Fatalf("PANIC: %s", err)
 				}
 			}()
-			es, err := virtual.Exec(bin, []string{"prog", "-flag", "arg"}, &stdin, &stdout, &stderr, 1<<16, 1<<16)
+
+			var args []string
+			switch filepath.Base(match) {
+			case "31_args.c":
+				args = []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
+			case "32_led.c":
+				t.Fatal("TODO")
+			default:
+				args = []string{match}
+			}
+			es, err := virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<16, 1<<16)
 			if es != 0 || err != nil {
 				t.Fatalf("exit status %v\n%s", es, err)
 			}
