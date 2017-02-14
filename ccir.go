@@ -230,6 +230,23 @@ func (c *c) addressInitializer(n *cc.Expression) ir.Value {
 	return nil
 }
 
+func (c *c) initializerList(n *cc.InitializerList) ir.Value {
+	r := &ir.CompositeValue{}
+	for ; n != nil; n = n.InitializerList {
+		v, _ := c.initializer(n.Initializer)
+		if v == nil {
+			return nil
+		}
+
+		if o := n.DesignationOpt; o != nil {
+			TODO(position(n))
+		}
+
+		r.Values = append(r.Values, v)
+	}
+	return r
+}
+
 func (c *c) initializer(n *cc.Initializer) (ir.Value, *cc.Expression) {
 	if n == nil {
 		return nil, nil
@@ -254,7 +271,11 @@ func (c *c) initializer(n *cc.Initializer) (ir.Value, *cc.Expression) {
 			TODO(position(n), fmt.Sprintf("%T", x))
 		}
 	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
-		TODO(position(n))
+		if v := c.initializerList(n.InitializerList); v != nil {
+			return v, nil
+		}
+
+		return nil, n.Expression
 	}
 	panic("internal error")
 }
@@ -383,6 +404,10 @@ func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 				t = c.ast.Model.IntType
 			case cc.Float:
 				t = c.ast.Model.DoubleType
+			case cc.Array:
+				c.addr(l.Expression)
+				i++
+				continue
 			}
 			c.expression(t, l.Expression)
 			i++
@@ -461,7 +486,7 @@ func (c *c) addr(n *cc.Expression) {
 				default:
 					t = t.Pointer()
 				}
-				c.emit(&ir.Global{Address: true, Index: vi.index, Linkage: ir.InternalLinkage, NameID: vi.staticName, TypeID: t.ID(), Position: position(n)})
+				c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.InternalLinkage, NameID: vi.staticName, TypeID: t.ID(), Position: position(n)})
 			case vi.arg:
 				at := c.f.arguments[vi.index]
 				t := c.types.MustType(at).Pointer()
@@ -626,73 +651,34 @@ func (c *c) convert(n cc.Node, from, to cc.Type) {
 }
 
 func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
-	switch t.Kind() {
-	case cc.Char, cc.Int, cc.Enum:
-		switch x := v.(type) {
-		case int32:
-			c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
-			c.convert(n, c.ast.Model.IntType, t)
-		case float64:
-			c.emit(&ir.Const64{TypeID: ir.TypeID(idFloat64), Value: int64(math.Float64bits(x)), Position: position(n)})
-			c.convert(n, c.ast.Model.DoubleType, t)
+	switch x := v.(type) {
+	case int32:
+		c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
+		c.convert(n, c.ast.Model.IntType, t)
+		return
+	case int64:
+		c.emit(&ir.Const64{TypeID: ir.TypeID(idInt64), Value: x, Position: position(n)})
+		c.convert(n, c.ast.Model.LongLongType, t)
+		return
+	case uint64:
+		c.emit(&ir.Const64{TypeID: ir.TypeID(idUint64), Value: int64(x), Position: position(n)})
+		c.convert(n, c.ast.Model.ULongLongType, t)
+		return
+	case float64:
+		c.emit(&ir.Const64{TypeID: ir.TypeID(idFloat64), Value: int64(math.Float64bits(x)), Position: position(n)})
+		c.convert(n, c.ast.Model.DoubleType, t)
+		return
+	case cc.StringLitID:
+		c.emit(&ir.StringConst{Value: ir.StringID(x), Position: position(n)})
+		return
+	case uintptr:
+		switch {
+		case x == 0:
+			c.emit(&ir.Nil{TypeID: c.typ(t).ID(), Position: position(n)})
 		default:
 			TODO(fmt.Errorf("%s: %T", position(n), x))
 		}
-	case cc.Ptr:
-		switch x := v.(type) {
-		case int32:
-			c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
-			c.convert(n, c.ast.Model.IntType, t)
-		case cc.StringLitID:
-			c.emit(&ir.StringConst{Value: ir.StringID(x), Position: position(n)})
-		case uintptr:
-			switch {
-			case x == 0:
-				c.emit(&ir.Nil{TypeID: c.typ(t).ID(), Position: position(n)})
-			default:
-				TODO(fmt.Errorf("%s: %T", position(n), x))
-			}
-		default:
-			TODO(fmt.Errorf("%s: %T -> %v", position(n), x, t))
-		}
-	case cc.Float:
-		switch x := v.(type) {
-		case int32:
-			c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
-			c.convert(n, c.ast.Model.IntType, t)
-		case float64:
-			c.emit(&ir.Const64{TypeID: ir.TypeID(idFloat64), Value: int64(math.Float64bits(x)), Position: position(n)})
-			c.convert(n, c.ast.Model.DoubleType, t)
-		default:
-			TODO(fmt.Errorf("%s: %T %v", position(n), x, t))
-		}
-	case cc.Double:
-		switch x := v.(type) {
-		case int32:
-			c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
-			c.convert(n, c.ast.Model.IntType, t)
-		case float64:
-			c.emit(&ir.Const64{TypeID: ir.TypeID(idFloat64), Value: int64(math.Float64bits(x)), Position: position(n)})
-			c.convert(n, c.ast.Model.DoubleType, t)
-		default:
-			TODO(fmt.Errorf("%s: %T %v", position(n), x, t))
-		}
-	case cc.ULong:
-		switch x := v.(type) {
-		case int32:
-			c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
-			c.convert(n, c.ast.Model.IntType, t)
-		case int64:
-			c.emit(&ir.Const64{TypeID: ir.TypeID(idInt64), Value: x, Position: position(n)})
-			c.convert(n, c.ast.Model.LongLongType, t)
-		case uint64:
-			c.emit(&ir.Const64{TypeID: ir.TypeID(idUint64), Value: int64(x), Position: position(n)})
-			c.convert(n, c.ast.Model.ULongLongType, t)
-		default:
-			TODO(fmt.Errorf("%s: %T %v", position(n), x, t))
-		}
-	default:
-		TODO(position(n), t.Kind())
+		return
 	}
 }
 
@@ -731,7 +717,12 @@ func (c *c) asop(n *cc.Expression, op ir.Operation) {
 	c.emit(&ir.Load{TypeID: pt, Position: position(n)})
 	at := c.typ(n.Expression.Type).ID()
 	c.convert(n, n.Expression.Type, evalType)
-	c.expression(evalType, n.Expression2)
+	switch {
+	case n.Expression.Type.Kind() == cc.Ptr:
+		c.expression(nil, n.Expression2)
+	default:
+		c.expression(evalType, n.Expression2)
+	}
 	c.emit(op)
 	c.convert(n, evalType, n.Expression.Type)
 	c.emit(&ir.Store{TypeID: at.ID(), Position: position(n)})
@@ -759,14 +750,15 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	t := n.Type
 	t0 := t
 	switch t.Kind() {
-	case cc.Array:
-		switch {
-		case t.Elements() < 0:
-			TODO(position(n))
-		default:
-			c.addr(n)
-			return
-		}
+	//TODO- case cc.Array:
+	//TODO- 	switch {
+	//TODO- 	case t.Elements() < 0:
+	//TODO- 		TODO(position(n))
+	//TODO- 	//TODO- default:
+	//TODO- 	//TODO- 	TODO(position(n))
+	//TODO- 	//TODO- 	c.addr(n)
+	//TODO- 	//TODO- 	return
+	//TODO- 	}
 	case cc.Function:
 		t = t.Pointer()
 	}
@@ -921,8 +913,18 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 28: // Expression '%' Expression                          // Case 28
 		c.binop(n, &ir.Rem{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 29: // Expression '+' Expression                          // Case 29
+		if n.Expression.Type.Kind() == cc.Ptr || n.Expression2.Type.Kind() == cc.Ptr {
+			TODO(position(n))
+			break
+		}
+
 		c.binop(n, &ir.Add{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 30: // Expression '-' Expression                          // Case 30
+		if n.Expression.Type.Kind() == cc.Ptr || n.Expression2.Type.Kind() == cc.Ptr {
+			TODO(position(n))
+			break
+		}
+
 		c.binop(n, &ir.Sub{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 31: // Expression "<<" Expression                         // Case 31
 		TODO(position(n))
@@ -1020,7 +1022,19 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		c.emit(&ir.Label{Number: l2, Position: position(n)})
 	case 45: // Expression '=' Expression                          // Case 45
 		c.addr(n.Expression)
-		c.expression(n.Expression.Type, n.Expression2)
+		switch t := n.Expression2.Type; t.Kind() {
+		case cc.Array:
+			switch {
+			case t.Elements() < 0:
+				TODO(position(n))
+			default:
+				c.addr(n.Expression2)
+				c.emit(&ir.Copy{TypeID: c.typ(t).ID(), Position: position(n)})
+				return
+			}
+		default:
+			c.expression(n.Expression.Type, n.Expression2)
+		}
 		c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token)})
 	case 46: // Expression "*=" Expression                         // Case 46
 		c.asop(n, &ir.Mul{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
@@ -1029,8 +1043,19 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 48: // Expression "%=" Expression                         // Case 48
 		TODO(position(n))
 	case 49: // Expression "+=" Expression                         // Case 49
+		if t := n.Expression.Type; t.Kind() == cc.Ptr {
+			c.asop(n, &ir.Element{Address: true, TypeID: c.typ(t).ID(), IndexType: c.typ(n.Expression2.Type).ID(), Position: position(n)})
+			break
+		}
+
 		c.asop(n, &ir.Add{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 50: // Expression "-=" Expression                         // Case 50
+		if n.Expression.Type.Kind() == cc.Ptr {
+			c.emit(&ir.Neg{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
+			c.asop(n, &ir.Element{Address: true, TypeID: c.typ(t).ID(), IndexType: c.typ(n.Expression2.Type).ID(), Position: position(n)})
+			break
+		}
+
 		c.asop(n, &ir.Sub{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 51: // Expression "<<=" Expression                        // Case 51
 		TODO(position(n))

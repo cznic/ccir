@@ -20,7 +20,7 @@
 #define stdout (&__stdstreams[1])
 
 typedef struct {
-	int handle;
+	void *f;
 } FILE;
 
 FILE __stdstreams[3];

@@ -231,7 +231,17 @@ func TestTCC(t *testing.T) {
 
 		var stdin, stdout, stderr bytes.Buffer
 		func() {
+			vwd, err := ioutil.TempDir("", "ccir-test-tcc-")
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if err := os.Chdir(vwd); err != nil {
+				t.Fatal(err)
+			}
+
 			defer func() {
+				os.Chdir(wd)
 				if err := recover(); err != nil {
 					t.Fatalf("PANIC: %s", err)
 				}
@@ -241,8 +251,6 @@ func TestTCC(t *testing.T) {
 			switch filepath.Base(match) {
 			case "31_args.c":
 				args = []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
-			case "32_led.c":
-				t.Fatal("TODO")
 			default:
 				args = []string{match}
 			}
