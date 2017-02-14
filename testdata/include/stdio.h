@@ -12,7 +12,7 @@
 #define fprintf(x, y...) __builtin_fprintf(x, y)
 #define fread(x, y, z, t) __builtin_fread(x, y, z, t)
 #define fwrite(x, y, z, t) __builtin_fwrite(x, y, z, t)
-#define getc(x) __builtin_getc(x)
+#define getc(x) __builtin_fgetc(x)
 #define printf(x...) __builtin_printf(x)
 #define sprintf(x, y...) __builtin_sprintf(x, y)
 #define stderr (&__stdstreams[2])
@@ -20,7 +20,7 @@
 #define stdout (&__stdstreams[1])
 
 typedef struct {
-	void *f;
+	int dummy;
 } FILE;
 
 FILE __stdstreams[3];
@@ -30,7 +30,6 @@ char *__builtin_fgets(char *s, int size, FILE * stream);
 int __builtin_fclose(FILE * stream);
 int __builtin_fgetc(FILE * stream);
 int __builtin_fprintf(FILE * stream, const char *format, ...);
-int __builtin_getc(FILE * stream);
 int __builtin_printf(const char *format, ...);
 int __builtin_sprintf(char *str, const char *format, ...);
 size_t __builtin_fread(void *ptr, size_t size, size_t nmemb, FILE * stream);

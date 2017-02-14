@@ -242,6 +242,7 @@ func TestTCC(t *testing.T) {
 
 			defer func() {
 				os.Chdir(wd)
+				os.RemoveAll(vwd)
 				if err := recover(); err != nil {
 					t.Fatalf("PANIC: %s", err)
 				}
