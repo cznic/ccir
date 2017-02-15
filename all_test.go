@@ -213,7 +213,7 @@ func TestTCC(t *testing.T) {
 		t.Logf("ir.LinkMain: %v objects\n%s", len(objs), b.Bytes())
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
-				t.Fatalf("[%v] %v: %v", i, v, err)
+				t.Fatalf("[%v]: %v", i, err)
 			}
 		}
 

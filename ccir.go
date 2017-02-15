@@ -748,19 +748,10 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	}
 
 	t := n.Type
-	t0 := t
 	switch t.Kind() {
-	//TODO- case cc.Array:
-	//TODO- 	switch {
-	//TODO- 	case t.Elements() < 0:
-	//TODO- 		TODO(position(n))
-	//TODO- 	//TODO- default:
-	//TODO- 	//TODO- 	TODO(position(n))
-	//TODO- 	//TODO- 	c.addr(n)
-	//TODO- 	//TODO- 	return
-	//TODO- 	}
 	case cc.Function:
-		t = t.Pointer()
+		c.addr(n)
+		return
 	}
 
 	switch {
@@ -803,12 +794,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		case cc.ScopeFile:
 			switch d.Linkage {
 			case cc.External:
-				if t0.Kind() == cc.Function {
-					c.addr(n)
-					break
-				}
-
-				TODO(position(n), t, d.Linkage)
+				c.emit(&ir.Global{Index: -1, Linkage: ir.ExternalLinkage, NameID: c.nm(d), TypeID: c.typ(t).ID(), TypeName: c.tnm(d), Position: position(n)})
 			default:
 				TODO(position(n), t, d.Linkage)
 			}
@@ -845,7 +831,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 			}
 			c.expression(t.Pointer(), n.Expression)
 			args := c.call(t, n.ArgumentExpressionListOpt)
-			c.emit(&ir.Call{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
+			c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
 		case cc.Ptr:
 			TODO(position(n))
 			// ft := t.Element()
