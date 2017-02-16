@@ -15,15 +15,15 @@
 #define getc(x) __builtin_fgetc(x)
 #define printf(x...) __builtin_printf(x)
 #define sprintf(x, y...) __builtin_sprintf(x, y)
-#define stderr (&__stdstreams[2])
-#define stdin (&__stdstreams[0])
-#define stdout (&__stdstreams[1])
+#define stderr (__stdstreams[2])
+#define stdin (__stdstreams[0])
+#define stdout (__stdstreams[1])
 
 typedef struct {
 	int dummy;
 } FILE;
 
-FILE __stdstreams[3];
+FILE *__stdstreams[3];
 
 FILE *__builtin_fopen(const char *path, const char *mode);
 char *__builtin_fgets(char *s, int size, FILE * stream);

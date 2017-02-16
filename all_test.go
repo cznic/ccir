@@ -6,6 +6,7 @@ package ccir
 
 import (
 	"bytes"
+	"encoding/hex"
 	"fmt"
 	"go/scanner"
 	"io/ioutil"
@@ -228,6 +229,12 @@ func TestTCC(t *testing.T) {
 			len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
 		)
 		s.Close()
+		if len(bin.Text) != 0 {
+			t.Logf("Text segment\n%s", hex.Dump(bin.Text))
+		}
+		if len(bin.Data) != 0 {
+			t.Logf("Data segment\n%s", hex.Dump(bin.Data))
+		}
 
 		var stdin, stdout, stderr bytes.Buffer
 		func() {
@@ -252,18 +259,33 @@ func TestTCC(t *testing.T) {
 			switch filepath.Base(match) {
 			case "31_args.c":
 				args = []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
+			case "46_grep.c":
+				ioutil.WriteFile(filepath.Join(vwd, "test"), []byte("abc\ndef\nghi\n"), 0600)
+				args = []string{"./grep", ".", "test"}
 			default:
 				args = []string{match}
 			}
 			es, err := virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<16, 1<<16)
 			if es != 0 || err != nil {
-				t.Fatalf("exit status %v\n%s", es, err)
+				if b := stdout.Bytes(); b != nil {
+					t.Logf("stdout:\n%s", b)
+				}
+				if b := stderr.Bytes(); b != nil {
+					t.Logf("stderr:\n%s", b)
+				}
+				t.Fatalf("exit status %v, err %v", es, err)
 			}
 		}()
 
 		expect := match[:len(match)-len(filepath.Ext(match))] + ".expect"
 		if _, err := os.Stat(expect); err != nil {
 			if os.IsNotExist(err) {
+				if b := stdout.Bytes(); b != nil {
+					t.Logf("stdout:\n%s", b)
+				}
+				if b := stderr.Bytes(); b != nil {
+					t.Logf("stderr:\n%s", b)
+				}
 				continue
 			}
 

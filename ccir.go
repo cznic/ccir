@@ -44,13 +44,20 @@ func TODO(more ...interface{}) string { //TODOOK
 }
 
 type labels struct {
-	caseLabel  int
-	breakLabel int
+	breakLabel    int
+	caseLabel     int
+	continueLabel int
 }
 
 func (l *labels) setBreak(n int) int {
 	r := l.breakLabel
 	l.breakLabel = n
+	return r
+}
+
+func (l *labels) setContinue(n int) int {
+	r := l.continueLabel
+	l.continueLabel = n
 	return r
 }
 
@@ -66,6 +73,7 @@ type varInfo struct {
 type fdata struct {
 	arguments  []ir.TypeID
 	blockLevel int
+	cResult    cc.Type
 	f          *ir.FunctionDefinition
 	label      int
 	result     ir.TypeID
@@ -373,8 +381,13 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 	for i, v := range typ.Arguments {
 		arguments[i] = v.ID()
 	}
+	cResult := t.Result()
+	if cResult.Kind() == cc.Void && f.NameID == ir.NameID(idMain) && f.Linkage == ir.ExternalLinkage {
+		cResult = c.ast.Model.IntType
+	}
 	c.f = fdata{
 		arguments: arguments,
+		cResult:   cResult,
 		f:         f,
 		result:    result,
 		variables: variables,
@@ -404,10 +417,6 @@ func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 				t = c.ast.Model.IntType
 			case cc.Float:
 				t = c.ast.Model.DoubleType
-			case cc.Array:
-				c.addr(l.Expression)
-				i++
-				continue
 			}
 			c.expression(t, l.Expression)
 			i++
@@ -532,13 +541,10 @@ func (c *c) addr(n *cc.Expression) {
 		TODO(position(n))
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
 		t := n.Expression.Type
-		switch {
-		case t.Kind() == cc.Array && t.Elements() >= 0:
-			c.addr(n.Expression)
+		if t.Kind() == cc.Array {
 			t = t.Element().Pointer()
-		default:
-			c.expression(nil, n.Expression)
 		}
+		c.expression(nil, n.Expression)
 		c.expressionList(nil, n.ExpressionList)
 		c.emit(&ir.Element{Address: true, IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 		return
@@ -754,6 +760,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		return
 	}
 
+out:
 	switch {
 	case ot != nil && ot.Kind() != t.Kind():
 		switch ot.Kind() {
@@ -767,11 +774,21 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 			case cc.IsArithmeticType(ot) && cc.IsArithmeticType(t):
 				c.expression(nil, n)
 				c.convert(n, t, ot)
+			case ot.Kind() == cc.Ptr && t.Kind() == cc.Array:
+				break out
 			default:
 				TODO(position(n), ot, t)
 			}
 		}
 		return
+	}
+
+	switch t.Kind() {
+	case cc.Array:
+		if n.Case != 45 { // Expression '=' Expression                          // Case 45
+			c.addr(n)
+			return
+		}
 	}
 
 	switch n.Case {
@@ -814,13 +831,10 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		TODO(position(n))
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
 		t := n.Expression.Type
-		switch {
-		case t.Kind() == cc.Array && t.Elements() >= 0:
-			c.addr(n.Expression)
+		if t.Kind() == cc.Array {
 			t = t.Element().Pointer()
-		default:
-			c.expression(nil, n.Expression)
 		}
+		c.expression(nil, n.Expression)
 		c.expressionList(nil, n.ExpressionList)
 		c.emit(&ir.Element{IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
@@ -870,10 +884,25 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 14: // '(' TypeName ')' '{' InitializerList CommaOpt '}'  // Case 14
 		TODO(position(n))
 	case 15: // "++" Expression                                    // Case 15
-		TODO(position(n))
+		c.addr(n.Expression)
+		delta := 1
+		if t := n.Expression.Type; t.Kind() == cc.Ptr {
+			delta = t.Element().SizeOf()
+		}
+		c.emit(&ir.PreIncrement{Delta: delta, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 16: // "--" Expression                                    // Case 16
-		TODO(position(n))
+		c.addr(n.Expression)
+		delta := 1
+		if t := n.Expression.Type; t.Kind() == cc.Ptr {
+			delta = t.Element().SizeOf()
+		}
+		c.emit(&ir.PreIncrement{Delta: -delta, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 17: // '&' Expression                                     // Case 17
+		if n.Expression.Type.Kind() == cc.Array {
+			TODO(position(n))
+			break
+		}
+
 		c.addr(n.Expression)
 	case 18: // '*' Expression                                     // Case 18
 		c.expression(nil, n.Expression)
@@ -885,8 +914,15 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 	case 21: // '~' Expression                                     // Case 21
 		TODO(position(n))
 	case 22: // '!' Expression                                     // Case 22
-		TODO(position(n))
+		c.expression(nil, n.Expression)
+		c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Expression)})
+		c.emit(&ir.Not{Position: position(n)})
 	case 23: // "sizeof" Expression                                // Case 23
+		if n.Expression.Type.Kind() == cc.Array {
+			TODO(position(n))
+			break
+		}
+
 		TODO(position(n))
 	case 24: // "sizeof" '(' TypeName ')'                          // Case 24
 		TODO(position(n))
@@ -907,7 +943,9 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		c.binop(n, &ir.Add{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 30: // Expression '-' Expression                          // Case 30
 		if n.Expression.Type.Kind() == cc.Ptr || n.Expression2.Type.Kind() == cc.Ptr {
-			TODO(position(n))
+			c.expression(nil, n.Expression)
+			c.expression(nil, n.Expression2)
+			c.emit(&ir.PtrDiff{TypeID: c.typ(n.Type).ID(), Position: position(n)})
 			break
 		}
 
@@ -1008,20 +1046,13 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 		c.emit(&ir.Label{Number: l2, Position: position(n)})
 	case 45: // Expression '=' Expression                          // Case 45
 		c.addr(n.Expression)
-		switch t := n.Expression2.Type; t.Kind() {
+		c.expression(n.Expression.Type, n.Expression2)
+		switch t := n.Expression.Type; t.Kind() {
 		case cc.Array:
-			switch {
-			case t.Elements() < 0:
-				TODO(position(n))
-			default:
-				c.addr(n.Expression2)
-				c.emit(&ir.Copy{TypeID: c.typ(t).ID(), Position: position(n)})
-				return
-			}
+			c.emit(&ir.Copy{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
 		default:
-			c.expression(n.Expression.Type, n.Expression2)
+			c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token)})
 		}
-		c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token)})
 	case 46: // Expression "*=" Expression                         // Case 46
 		c.asop(n, &ir.Mul{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 47: // Expression "/=" Expression                         // Case 47
@@ -1087,20 +1118,20 @@ func (c *c) jumpStatement(labels *labels, n *cc.JumpStatement) {
 	case 0: // "goto" IDENTIFIER ';'
 		TODO(position(n))
 	case 1: // "continue" ';'                  // Case 1
-		TODO(position(n))
+		c.emit(&ir.Jmp{Number: labels.continueLabel, Position: position(n)})
 	case 2: // "break" ';'                     // Case 2
-		b := labels.breakLabel
-		if b < 0 {
-			b = c.label()
-			labels.breakLabel = b
+		label := labels.breakLabel
+		if label < 0 {
+			label = c.label()
+			labels.breakLabel = label
 		}
-		c.emit(&ir.Jmp{Number: b, Position: position(n)})
+		c.emit(&ir.Jmp{Number: label, Position: position(n)})
 	case 3: // "return" ExpressionListOpt ';'  // Case 3
 		if o := n.ExpressionListOpt; o != nil {
 			r := c.f.result
 			c.emit(&ir.Result{Address: true, TypeID: c.types.MustType(r).Pointer().ID(), Position: position(n)})
 			l := o.ExpressionList
-			c.expressionList(l.Type, l)
+			c.expressionList(c.f.cResult, l)
 			c.emit(&ir.Store{TypeID: r, Position: position(n)})
 			c.emit(&ir.Drop{TypeID: r, Position: position(n)})
 		}
@@ -1120,6 +1151,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 	switch n.Case {
 	case 0: // "while" '(' ExpressionList ')' Statement
 		begin := c.label()
+		cl := labels.setContinue(begin)
 		end := c.label()
 		c.emit(&ir.Label{Number: begin, Position: position(n)})
 		el := n.ExpressionList
@@ -1131,14 +1163,15 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		breakLabel := labels.setBreak(end)
 		c.statement(labels, n.Statement)
 		labels.setBreak(breakLabel)
+		labels.setContinue(cl)
 		c.emit(&ir.Jmp{Number: begin, Position: position(n)})
 		c.emit(&ir.Label{Number: end, Position: position(n)})
 	case 1: // "do" Statement "while" '(' ExpressionList ')' ';'                                      // Case 1
 		begin := c.label()
 		c.emit(&ir.Label{Number: begin, Position: position(n)})
 		breakLabel := labels.setBreak(-1)
+		cl := labels.setContinue(begin)
 		c.statement(labels, n.Statement)
-		labels.setBreak(breakLabel)
 		el := n.ExpressionList
 		c.expressionList(el.Type, el)
 		if el.Type.Kind() != cc.Int {
@@ -1148,11 +1181,14 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		if e := labels.breakLabel; e >= 0 {
 			c.emit(&ir.Label{Number: e, Position: position(n)})
 		}
+		labels.setBreak(breakLabel)
+		labels.setContinue(cl)
 	case 2: // "for" '(' ExpressionListOpt ';' ExpressionListOpt ';' ExpressionListOpt ')' Statement  // Case 2
 		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt)
 		test := c.label()
+		cl := labels.setContinue(test)
 		c.emit(&ir.Label{Number: test, Position: position(n)})
-		end := -1
+		end := c.label()
 		if o := n.ExpressionListOpt2; o != nil {
 			el := o.ExpressionList
 			c.expressionList(el.Type, el)
@@ -1165,11 +1201,10 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		breakLabel := labels.setBreak(end)
 		c.statement(labels, n.Statement)
 		labels.setBreak(breakLabel)
+		labels.setContinue(cl)
 		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt3)
 		c.emit(&ir.Jmp{Number: test, Position: position(n)})
-		if end >= 0 {
-			c.emit(&ir.Label{Number: end, Position: position(n)})
-		}
+		c.emit(&ir.Label{Number: end, Position: position(n)})
 	case 3: // "for" '(' Declaration ExpressionListOpt ';' ExpressionListOpt ')' Statement            // Case 3
 		TODO(position(n))
 	default:
@@ -1285,8 +1320,9 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	}
 	c.emit(&ir.Drop{TypeID: typ, Position: position(n.ExpressionList)})
 	labels := labels{
-		caseLabel:  firstCase,
-		breakLabel: -1,
+		breakLabel:    -1,
+		caseLabel:     firstCase,
+		continueLabel: -1,
 	}
 	switch {
 	case defaultCase < 0:
@@ -1402,7 +1438,7 @@ func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement) {
 func (c *c) functionBody(n *cc.FunctionBody) {
 	switch n.Case {
 	case 0: // CompoundStatement
-		c.compoundStatement(&labels{-1, -1}, n.CompoundStatement)
+		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement)
 	case 1: // AssemblerStatement ';'  // Case 1
 		TODO(position(n))
 	default:
