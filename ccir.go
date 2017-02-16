@@ -100,11 +100,6 @@ func newC(model ir.MemoryModel, ast *cc.TranslationUnit) *c {
 	}
 }
 
-func (c *c) nm2(d *cc.Declarator) (ir.NameID, *cc.Bindings) {
-	id, sc := d.Identifier()
-	return ir.NameID(id), sc
-}
-
 func (c *c) nm(d *cc.Declarator) ir.NameID {
 	id, _ := d.Identifier()
 	return ir.NameID(id)
@@ -519,7 +514,7 @@ func (c *c) addr(n *cc.Expression) {
 			case cc.External:
 				c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.ExternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
 			default:
-				TODO(position(n), d.Type, d.Linkage)
+				c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.InternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
 			}
 		default:
 			panic("internal error")
@@ -802,7 +797,14 @@ out:
 			case !ok:
 				panic("internal error")
 			case vi.static:
-				TODO(position(n))
+				t, _ := c.types.Type(vi.typ)
+				switch {
+				case t.Kind() == ir.Array:
+					t = t.(*ir.ArrayType).Item.Pointer()
+				default:
+					t = t.Pointer()
+				}
+				c.emit(&ir.Global{Index: -1, Linkage: ir.InternalLinkage, NameID: vi.staticName, TypeID: t.ID(), Position: position(n)})
 			case vi.arg:
 				c.emit(&ir.Argument{Index: vi.index, TypeID: c.f.arguments[vi.index], Position: position(n)})
 			default:
@@ -813,7 +815,7 @@ out:
 			case cc.External:
 				c.emit(&ir.Global{Index: -1, Linkage: ir.ExternalLinkage, NameID: c.nm(d), TypeID: c.typ(t).ID(), TypeName: c.tnm(d), Position: position(n)})
 			default:
-				TODO(position(n), t, d.Linkage)
+				c.emit(&ir.Global{Index: -1, Linkage: ir.InternalLinkage, NameID: c.nm(d), TypeID: c.typ(t).ID(), TypeName: c.tnm(d), Position: position(n)})
 			}
 		default:
 			panic("internal error")
@@ -1116,7 +1118,7 @@ func (c *c) expressionStatement(n *cc.ExpressionStatement) {
 func (c *c) jumpStatement(labels *labels, n *cc.JumpStatement) {
 	switch n.Case {
 	case 0: // "goto" IDENTIFIER ';'
-		TODO(position(n))
+		c.emit(&ir.Jmp{NameID: ir.NameID(n.Token2.Val), Position: position(n)})
 	case 1: // "continue" ';'                  // Case 1
 		c.emit(&ir.Jmp{Number: labels.continueLabel, Position: position(n)})
 	case 2: // "break" ';'                     // Case 2
@@ -1372,8 +1374,7 @@ func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
 func (c *c) labeledStatement(labels *labels, n *cc.LabeledStatement) {
 	switch n.Case {
 	case 0: // IDENTIFIER ':' Statement
-		// c.f.Emit(ir.Label, 0, ir.NameValue{V: ir.NameID(n.Token.Val)})
-		TODO(position(n))
+		c.emit(&ir.Label{NameID: ir.NameID(n.Token.Val), Position: position(n)})
 	case
 		1, // "case" ConstantExpression ':' Statement  // Case 1
 		2: // "default" ':' Statement                  // Case 2
