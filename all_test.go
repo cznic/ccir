@@ -130,30 +130,19 @@ func parse(src []string, opts ...cc.Opt) (string, *cc.TranslationUnit, error) {
 	return modelName, ast, err
 }
 
-func TestTCC(t *testing.T) {
+func expect(t *testing.T, dir string, hook func(string, string) []string, opts ...cc.Opt) {
 	wd, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	testdata, err := filepath.Rel(wd, ccTestdata)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	dir := filepath.Join(testdata, filepath.FromSlash("tcc-0.9.26/tests/tests2/"))
 	matches, err := filepath.Glob(filepath.Join(dir, "*.c"))
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	for _, match := range matches {
-		modelName, ast, err := parse(
-			[]string{crt0Path, match},
-			cc.EnableDefineOmitCommaBeforeDDD(),
-			cc.ErrLimit(-1),
-			cc.SysIncludePaths([]string{"testdata/include/"}),
-		)
+		modelName, ast, err := parse([]string{crt0Path, match}, opts...)
 		if err != nil {
 			t.Fatal(match, errStr(err))
 		}
@@ -255,16 +244,7 @@ func TestTCC(t *testing.T) {
 				}
 			}()
 
-			var args []string
-			switch filepath.Base(match) {
-			case "31_args.c":
-				args = []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
-			case "46_grep.c":
-				ioutil.WriteFile(filepath.Join(vwd, "test"), []byte("abc\ndef\nghi\n"), 0600)
-				args = []string{"./grep", ".", "test"}
-			default:
-				args = []string{match}
-			}
+			args := hook(vwd, match)
 			es, err := virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<16, 1<<16)
 			if es != 0 || err != nil {
 				if b := stdout.Bytes(); b != nil {
@@ -286,6 +266,7 @@ func TestTCC(t *testing.T) {
 				if b := stderr.Bytes(); b != nil {
 					t.Logf("stderr:\n%s", b)
 				}
+				t.Logf("%s: exit status 0, no respective .expect file exists", match)
 				continue
 			}
 
@@ -304,4 +285,52 @@ func TestTCC(t *testing.T) {
 
 		t.Logf("%s: OK\n%s", match, bytes.TrimRight(stdout.Bytes(), "\n\t "))
 	}
+}
+
+func TestTCC(t *testing.T) {
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	testdata, err := filepath.Rel(wd, ccTestdata)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dir := filepath.Join(testdata, filepath.FromSlash("tcc-0.9.26/tests/tests2/"))
+	expect(t, dir, func(wd, match string) []string {
+		switch filepath.Base(match) {
+		case "31_args.c":
+			return []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
+		case "46_grep.c":
+			ioutil.WriteFile(filepath.Join(wd, "test"), []byte("abc\ndef\nghi\n"), 0600)
+			return []string{"./grep", ".", "test"}
+		default:
+			return []string{match}
+		}
+	},
+		cc.EnableDefineOmitCommaBeforeDDD(),
+		cc.ErrLimit(-1),
+		cc.SysIncludePaths([]string{"testdata/include/"}),
+	)
+}
+
+func TestGCCExec(t *testing.T) {
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	testdata, err := filepath.Rel(wd, ccTestdata)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dir := filepath.Join(testdata, filepath.FromSlash("gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/"))
+	expect(t, dir, func(wd, match string) []string { return []string{match} },
+		cc.EnableOmitFuncRetType(),
+		cc.ErrLimit(-1),
+		cc.SysIncludePaths([]string{"testdata/include/"}),
+	)
 }
