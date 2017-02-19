@@ -329,6 +329,7 @@ func TestGCCExec(t *testing.T) {
 
 	dir := filepath.Join(testdata, filepath.FromSlash("gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/"))
 	expect(t, dir, func(wd, match string) []string { return []string{match} },
+		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableOmitFuncRetType(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),

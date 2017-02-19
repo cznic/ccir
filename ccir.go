@@ -737,7 +737,12 @@ func (c *c) asop(n *cc.Expression, op ir.Operation) {
 	bits, bitoff, bt := c.addr(n.Expression)
 	btid := c.typeID(bt)
 	pt := c.typ(n.Expression.Type.Pointer()).ID()
-	c.emit(&ir.Dup{TypeID: pt, Position: position(n.ExpressionList)})
+	switch {
+	case bt != nil:
+		c.emit(&ir.Dup{TypeID: c.typ(bt.Pointer()).ID(), Position: position(n.ExpressionList)})
+	default:
+		c.emit(&ir.Dup{TypeID: pt, Position: position(n.ExpressionList)})
+	}
 	c.emit(&ir.Load{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: pt, Position: position(n)})
 	at := c.typ(n.Expression.Type).ID()
 	c.convert(n, n.Expression.Type, evalType)
@@ -886,12 +891,23 @@ out:
 		}
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		c.addr(n.Expression)
-		fi, bits, bitoff, bt := c.field(n, n.Expression.Type, n.Token2.Val)
-		c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typeID(bt), Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
+		fi, bits, bitoff, _ := c.field(n, n.Expression.Type, n.Token2.Val)
+		switch {
+		case bits != 0:
+			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(n.Type).ID(), Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
+		default:
+			c.emit(&ir.Field{Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
+		}
 	case 11: // Expression "->" IDENTIFIER                         // Case 11
 		c.expression(nil, n.Expression)
-		fi, bits, bitoff, bt := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
-		c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typeID(bt), Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token2)})
+		fi, bits, bitoff, _ := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
+		//TODO- c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typeID(bt), Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token2)})
+		switch {
+		case bits != 0:
+			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(n.Type).ID(), Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token2)})
+		default:
+			c.emit(&ir.Field{Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token2)})
+		}
 	case 12: // Expression "++"                                    // Case 12
 		bits, _, _ := c.addr(n.Expression)
 		if bits != 0 {
