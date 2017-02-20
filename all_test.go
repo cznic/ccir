@@ -141,7 +141,9 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 		t.Fatal(err)
 	}
 
+	seq := 0
 	for _, match := range matches {
+		seq++
 		modelName, ast, err := parse([]string{crt0Path, match}, opts...)
 		if err != nil {
 			t.Fatal(match, errStr(err))
@@ -266,7 +268,7 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 				if b := stderr.Bytes(); b != nil {
 					t.Logf("stderr:\n%s", b)
 				}
-				t.Logf("%s: exit status 0, no respective .expect file exists", match)
+				t.Logf("%s: OK #%v\nexit status 0, no respective .expect file exists", match, seq)
 				continue
 			}
 
@@ -283,7 +285,7 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 			continue
 		}
 
-		t.Logf("%s: OK\n%s", match, bytes.TrimRight(stdout.Bytes(), "\n\t "))
+		t.Logf("%s: OK #%v\n%s", match, seq, bytes.TrimRight(stdout.Bytes(), "\n\t "))
 	}
 }
 
@@ -329,6 +331,7 @@ func TestGCCExec(t *testing.T) {
 
 	dir := filepath.Join(testdata, filepath.FromSlash("gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/"))
 	expect(t, dir, func(wd, match string) []string { return []string{match} },
+		cc.EnableAlignOf(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableOmitFuncRetType(),
 		cc.ErrLimit(-1),
