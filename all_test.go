@@ -118,11 +118,12 @@ func parse(src []string, opts ...cc.Opt) (string, *cc.TranslationUnit, error) {
 		return "", nil, err
 	}
 
-	ast, err := cc.Parse(`
+	ast, err := cc.Parse(fmt.Sprintf(`
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
-`,
+#define __MODEL_%s__
+`, strings.ToUpper(modelName)),
 		src,
 		model,
 		opts...,
@@ -330,7 +331,14 @@ func TestGCCExec(t *testing.T) {
 	}
 
 	dir := filepath.Join(testdata, filepath.FromSlash("gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/"))
-	expect(t, dir, func(wd, match string) []string { return []string{match} },
+	expect(t, dir,
+		func(wd, match string) []string {
+			if filepath.Base(match) == "20000403-1.c" {
+				panic("TODO")
+			}
+
+			return []string{match}
+		},
 		cc.EnableAlignOf(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableOmitFuncRetType(),

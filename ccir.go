@@ -326,6 +326,15 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 			return &ir.Int32Value{Value: x}, nil
 		case float64:
 			return &ir.Float64Value{Value: x}, nil
+		case uint64:
+			switch {
+			case x < math.MaxInt32:
+				return &ir.Int32Value{Value: int32(x)}, nil
+			case x < math.MaxInt64:
+				return &ir.Int64Value{Value: int64(x)}, nil
+			}
+
+			TODO(position(n), fmt.Sprintf(" %T ", x), x)
 		default:
 			TODO(position(n), fmt.Sprintf("%T", x))
 		}
@@ -1292,12 +1301,16 @@ func (c *c) jumpStatement(labels *labels, n *cc.JumpStatement) {
 		c.emit(&ir.Jmp{Number: label, Position: position(n)})
 	case 3: // "return" ExpressionListOpt ';'  // Case 3
 		if o := n.ExpressionListOpt; o != nil {
-			r := c.f.result
-			c.emit(&ir.Result{Address: true, TypeID: c.types.MustType(r).Pointer().ID(), Position: position(n)})
-			l := o.ExpressionList
-			c.expressionList(c.f.cResult, l)
-			c.emit(&ir.Store{TypeID: r, Position: position(n)})
-			c.emit(&ir.Drop{TypeID: r, Position: position(n)})
+			switch r := c.f.result; r {
+			case 0:
+				c.expressionList(c.ast.Model.VoidType, o.ExpressionList)
+			default:
+				c.emit(&ir.Result{Address: true, TypeID: c.types.MustType(r).Pointer().ID(), Position: position(n)})
+				l := o.ExpressionList
+				c.expressionList(c.f.cResult, l)
+				c.emit(&ir.Store{TypeID: r, Position: position(n)})
+				c.emit(&ir.Drop{TypeID: r, Position: position(n)})
+			}
 		}
 		c.emit(&ir.Return{Position: position(n)})
 	default:
