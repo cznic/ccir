@@ -8,7 +8,6 @@
 package ccir
 
 import (
-	"bytes"
 	"fmt"
 	"go/token"
 	"math"
@@ -19,6 +18,7 @@ import (
 	"github.com/cznic/cc"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/ir"
+	"github.com/cznic/virtual"
 )
 
 var (
@@ -415,8 +415,7 @@ func (c *c) declaration(n *cc.Declaration) {
 				d := l.InitDeclarator.Declarator
 				id, _ := d.Identifier()
 				isFunc := d.Type.Kind() == cc.Function
-				isBuiltin := bytes.HasPrefix(dict.S(id), dict.S(idBuiltinPrefix))
-				if isFunc && isBuiltin {
+				if isFunc && virtual.IsBuiltin(ir.NameID(id)) && !d.Type.Specifier().IsExtern() {
 					f := ir.NewFunctionDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil)
 					f.Body = []ir.Operation{&ir.Panic{Position: position(d)}}
 					c.out = append(c.out, f)
@@ -554,6 +553,14 @@ func (c *c) normalize(n *cc.Expression) cc.Node {
 
 			n = l.Expression
 		default:
+			if n.Case == 0 { // IDENTIFIER
+				switch x := n.IdentResolutionScope().Lookup(cc.NSIdentifiers, n.Token.Val).Node.(type) {
+				case *cc.DirectDeclarator:
+					n.Type = x.TopDeclarator().Type
+				default:
+					panic("internal error")
+				}
+			}
 			return n
 		}
 	}
@@ -872,7 +879,7 @@ func (c *c) asop(n *cc.Expression, op ir.Operation) {
 	c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: at.ID(), Position: position(n)})
 }
 
-func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
+func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	switch x := c.normalize(n).(type) {
 	case *cc.ExpressionList:
 		c.expressionList(ot, x)
@@ -888,14 +895,14 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) { // rvalue
 			t = ot
 		}
 		c.constant(t, v, n)
-		return
+		return t
 	}
 
 	t := n.Type
 	switch t.Kind() {
 	case cc.Function:
 		c.addr(n)
-		return
+		return t.Pointer()
 	}
 
 out:
@@ -921,14 +928,14 @@ out:
 				TODO(position(n), ot, t)
 			}
 		}
-		return
+		return ot
 	}
 
 	switch t.Kind() {
 	case cc.Array:
 		if n.Case != 45 { // Expression '=' Expression                          // Case 45
 			c.addr(n)
-			return
+			return t.Element().Pointer()
 		}
 	}
 
@@ -1075,8 +1082,8 @@ out:
 
 		c.addr(n.Expression)
 	case 18: // '*' Expression                                     // Case 18
-		c.expression(nil, n.Expression)
-		c.emit(&ir.Load{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+		t := c.expression(nil, n.Expression)
+		c.emit(&ir.Load{TypeID: c.typ(t).ID(), Position: position(n)})
 	case 19: // '+' Expression                                     // Case 19
 		TODO(position(n))
 	case 20: // '-' Expression                                     // Case 20
@@ -1262,6 +1269,8 @@ out:
 	default:
 		panic("internal error")
 	}
+
+	return t
 }
 
 func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) {

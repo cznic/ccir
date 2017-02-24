@@ -333,10 +333,6 @@ func TestGCCExec(t *testing.T) {
 	dir := filepath.Join(testdata, filepath.FromSlash("gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/"))
 	expect(t, dir,
 		func(wd, match string) []string {
-			if filepath.Base(match) == "20000403-1.c" {
-				panic("TODO")
-			}
-
 			return []string{match}
 		},
 		cc.EnableAlignOf(),

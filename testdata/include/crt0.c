@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main();
+extern int main();
 
 void _start(int argc, char **argv)
 {

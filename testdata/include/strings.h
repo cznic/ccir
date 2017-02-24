@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#define index(a, b) __builtin_strchr(a, b)
-#define rindex(a, b) __builtin_strrchr(a, b)
+#define index(a, b) strchr(a, b)
+#define rindex(a, b) strrchr(a, b)
 
 #endif				/* _STRINGS_H_ */
