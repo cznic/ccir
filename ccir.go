@@ -801,6 +801,10 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
 		c.convert(n, c.ast.Model.IntType, t)
 		return
+	case uint32:
+		c.emit(&ir.Const32{TypeID: ir.TypeID(idUint32), Value: int32(x), Position: position(n)})
+		c.convert(n, c.ast.Model.UIntType, t)
+		return
 	case int64:
 		c.emit(&ir.Const64{TypeID: ir.TypeID(idInt64), Value: x, Position: position(n)})
 		c.convert(n, c.ast.Model.LongLongType, t)
@@ -824,6 +828,9 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 			TODO(fmt.Errorf("%s: %T", position(n), x))
 		}
 		return
+	default:
+		//dbg("%T", x)
+		TODO(position(n))
 	}
 }
 
@@ -993,7 +1000,11 @@ out:
 		c.expressionList(nil, n.ExpressionList)
 		c.emit(&ir.Element{IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-		switch t := n.Expression.Type; t.Kind() {
+		expr := n.Expression
+		if expr.Type == nil {
+			expr = c.normalize(n.Expression).(*cc.Expression)
+		}
+		switch t := expr.Type; t.Kind() {
 		case cc.Function:
 			if r := t.Result(); r.Kind() != cc.Void {
 				c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})

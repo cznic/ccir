@@ -337,6 +337,7 @@ func TestGCCExec(t *testing.T) {
 		},
 		cc.EnableAlignOf(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
+		cc.EnableImplicitFuncDef(),
 		cc.EnableOmitFuncRetType(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),

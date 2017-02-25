@@ -18,6 +18,7 @@ var (
 	idInt32   = dict.SID("int32")
 	idInt64   = dict.SID("int64")
 	idMain    = dict.SID("main")
+	idUint32  = dict.SID("uint32")
 	idUint64  = dict.SID("uint64")
 )
 
