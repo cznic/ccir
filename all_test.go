@@ -7,21 +7,26 @@ package ccir
 import (
 	"bytes"
 	"encoding/hex"
+	"flag"
 	"fmt"
 	"go/scanner"
+	"go/token"
 	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"testing"
 
 	"github.com/cznic/cc"
+	"github.com/cznic/internal/buffer"
 	"github.com/cznic/ir"
 	"github.com/cznic/mathutil"
 	"github.com/cznic/strutil"
 	"github.com/cznic/virtual"
+	"github.com/cznic/xc"
 )
 
 func caller(s string, va ...interface{}) {
@@ -66,6 +71,8 @@ const (
 
 var (
 	ccTestdata string
+
+	cpp = flag.Bool("cpp", false, "")
 )
 
 func init() {
@@ -111,7 +118,13 @@ func errStr(err error) string {
 	}
 }
 
-func parse(src []string, opts ...cc.Opt) (string, *cc.TranslationUnit, error) {
+func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err error) {
+	defer func() {
+		if e := recover(); e != nil && err == nil {
+			err = fmt.Errorf("PANIC: %v\n%s", e, debug.Stack())
+		}
+	}()
+
 	modelName := fmt.Sprint(mathutil.UintPtrBits)
 	model, err := Model(modelName)
 	if err != nil {
@@ -131,7 +144,7 @@ func parse(src []string, opts ...cc.Opt) (string, *cc.TranslationUnit, error) {
 	return modelName, ast, err
 }
 
-func expect(t *testing.T, dir string, hook func(string, string) []string, opts ...cc.Opt) {
+func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, string) []string, opts ...cc.Opt) {
 	wd, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
@@ -143,13 +156,41 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 	}
 
 	seq := 0
+	okSeq := 0
+	opts0 := opts
 	for _, match := range matches {
+		if skip(match) {
+			t.Logf("%s: skipped")
+			continue
+		}
+
 		seq++
+		var lpos token.Position
+		var cppb buffer.Bytes
+		if *cpp {
+			opts = append(opts0, cc.Cpp(func(toks []xc.Token) {
+				if len(toks) != 0 {
+					p := toks[0].Position()
+					if p.Filename != lpos.Filename {
+						fmt.Fprintf(&cppb, "# %d %q\n", p.Line, p.Filename)
+					}
+					lpos = p
+				}
+				for _, v := range toks {
+					cppb.WriteString(cc.TokSrc(v))
+				}
+				cppb.WriteByte('\n')
+			}))
+		}
 		modelName, ast, err := parse([]string{crt0Path, match}, opts...)
 		if err != nil {
 			t.Fatal(match, errStr(err))
 		}
 
+		if cppb.Len() != 0 {
+			t.Logf("\n%s", cppb.Bytes())
+			cppb.Close()
+		}
 		objs, err := New(modelName, ast)
 		if err != nil {
 			t.Fatal(match, err)
@@ -206,7 +247,7 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 		t.Logf("ir.LinkMain: %v objects\n%s", len(objs), b.Bytes())
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
-				t.Fatalf("[%v]: %v", i, err)
+				t.Fatal("[%v]: %v", i, err)
 			}
 		}
 
@@ -243,7 +284,7 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 				os.Chdir(wd)
 				os.RemoveAll(vwd)
 				if err := recover(); err != nil {
-					t.Fatalf("PANIC: %s", err)
+					t.Fatal("PANIC: %s", err)
 				}
 			}()
 
@@ -256,7 +297,7 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 				if b := stderr.Bytes(); b != nil {
 					t.Logf("stderr:\n%s", b)
 				}
-				t.Fatalf("exit status %v, err %v", es, err)
+				t.Fatal("exit status %v, err %v", es, err)
 			}
 		}()
 
@@ -282,11 +323,12 @@ func expect(t *testing.T, dir string, hook func(string, string) []string, opts .
 		}
 
 		if g, e := stdout.Bytes(), buf; !bytes.Equal(g, e) {
-			t.Fatalf("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
+			t.Fatal("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
 			continue
 		}
 
-		t.Logf("%s: OK #%v\n%s", match, seq, bytes.TrimRight(stdout.Bytes(), "\n\t "))
+		okSeq++
+		t.Logf("%s: OK #%v\n%s", match, okSeq, bytes.TrimRight(stdout.Bytes(), "\n\t "))
 	}
 }
 
@@ -302,17 +344,21 @@ func TestTCC(t *testing.T) {
 	}
 
 	dir := filepath.Join(testdata, filepath.FromSlash("tcc-0.9.26/tests/tests2/"))
-	expect(t, dir, func(wd, match string) []string {
-		switch filepath.Base(match) {
-		case "31_args.c":
-			return []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
-		case "46_grep.c":
-			ioutil.WriteFile(filepath.Join(wd, "test"), []byte("abc\ndef\nghi\n"), 0600)
-			return []string{"./grep", ".", "test"}
-		default:
-			return []string{match}
-		}
-	},
+	expect(
+		t,
+		dir,
+		func(string) bool { return false },
+		func(wd, match string) []string {
+			switch filepath.Base(match) {
+			case "31_args.c":
+				return []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
+			case "46_grep.c":
+				ioutil.WriteFile(filepath.Join(wd, "test"), []byte("abc\ndef\nghi\n"), 0600)
+				return []string{"./grep", ".", "test"}
+			default:
+				return []string{match}
+			}
+		},
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),
@@ -320,6 +366,9 @@ func TestTCC(t *testing.T) {
 }
 
 func TestGCCExec(t *testing.T) {
+	blacklist := map[string]struct{}{
+		"20000703-1.c": {},
+	}
 	wd, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
@@ -331,7 +380,13 @@ func TestGCCExec(t *testing.T) {
 	}
 
 	dir := filepath.Join(testdata, filepath.FromSlash("gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/"))
-	expect(t, dir,
+	expect(
+		t,
+		dir,
+		func(match string) bool {
+			_, ok := blacklist[filepath.Base(match)]
+			return ok
+		},
 		func(wd, match string) []string {
 			return []string{match}
 		},

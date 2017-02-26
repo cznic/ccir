@@ -18,8 +18,10 @@ var (
 	idInt32   = dict.SID("int32")
 	idInt64   = dict.SID("int64")
 	idMain    = dict.SID("main")
+	idUint16  = dict.SID("uint16")
 	idUint32  = dict.SID("uint32")
 	idUint64  = dict.SID("uint64")
+	idUint8   = dict.SID("uint8")
 )
 
 func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }
