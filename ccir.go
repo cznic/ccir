@@ -613,6 +613,16 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, t cc.
 	panic(fmt.Errorf("%s: internal error: %s", position(n), st))
 }
 
+func (c *c) compoundLiteral(n *cc.Expression) varInfo {
+	t := n.TypeName.Type
+	typ := c.typ(t).ID()
+	nfo := varInfo{index: c.f.variable, typ: typ}
+	c.emit(&ir.VariableDeclaration{Index: c.f.variable, TypeID: typ, Position: position(n)})
+	c.exprInitializerList(t, c.f.variable, position(n), n.InitializerList)
+	c.f.variable++
+	return nfo
+}
+
 func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType cc.Type) {
 	switch x := c.normalize(n).(type) {
 	case *cc.Expression:
@@ -713,7 +723,16 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType cc.Type) {
 	case 13: // Expression "--"                                    // Case 13
 		TODO(position(n))
 	case 14: // '(' TypeName ')' '{' InitializerList CommaOpt '}'  // Case 14
-		TODO(position(n))
+		vi := c.compoundLiteral(n)
+		t, _ := c.types.Type(vi.typ)
+		switch {
+		case t.Kind() == ir.Array:
+			t = t.(*ir.ArrayType).Item.Pointer()
+		default:
+			t = t.Pointer()
+		}
+		c.emit(&ir.Variable{Address: true, Index: vi.index, TypeID: t.ID(), Position: position(n)})
+		return 0, 0, nil
 	case 15: // "++" Expression                                    // Case 15
 		TODO(position(n))
 	case 16: // "--" Expression                                    // Case 16
@@ -1152,7 +1171,12 @@ out:
 		TODO(position(n))
 	case 25: // '(' TypeName ')' Expression                        // Case 25
 		c.expression(nil, n.Expression)
-		c.emit(&ir.Convert{TypeID: c.typ(n.Expression.Type).ID(), Result: c.typ(n.TypeName.Type).ID(), Position: position(n)})
+		switch {
+		case n.TypeName.Type.Kind() == cc.Void:
+			c.emit(&ir.Drop{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+		default:
+			c.emit(&ir.Convert{TypeID: c.typ(n.Expression.Type).ID(), Result: c.typ(n.TypeName.Type).ID(), Position: position(n)})
+		}
 	case 26: // Expression '*' Expression                          // Case 26
 		c.binop(n, &ir.Mul{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 27: // Expression '/' Expression                          // Case 27
@@ -1163,6 +1187,14 @@ out:
 		switch n.Expression.Type.Kind() {
 		case cc.Ptr, cc.Array:
 			switch x := n.Expression2.Value.(type) {
+			case nil:
+				t := c.expression(nil, n.Expression)
+				c.expression(t, n.Expression2)
+				tid := c.typ(t).ID()
+				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()), Position: position(n)})
+				c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
+				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				return t
 			case int32:
 				t := c.expression(nil, n.Expression)
 				tid := c.typ(t).ID()

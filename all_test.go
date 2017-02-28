@@ -284,7 +284,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 				os.Chdir(wd)
 				os.RemoveAll(vwd)
 				if err := recover(); err != nil {
-					t.Fatal("PANIC: %s", err)
+					t.Fatalf("PANIC: %s", err)
 				}
 			}()
 
@@ -384,6 +384,10 @@ func TestGCCExec(t *testing.T) {
 		t,
 		dir,
 		func(match string) bool {
+			if filepath.Base(match) == "20000801-2.c" {
+				panic("TODO")
+			}
+
 			_, ok := blacklist[filepath.Base(match)]
 			return ok
 		},
