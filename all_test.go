@@ -139,9 +139,10 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 
 #define NO_TRAMPOLINES 1
 #define __FUNCTION__ __func__
-#define __restrict restrict
 #define __SIZE_TYPE__ size_t
+#define __attribute__(x)
 #define __builtin_memset(s, c, n) memset(s, c, n)
+#define __restrict restrict
 
 #include <string.h>
 `, strings.ToUpper(modelName)),
@@ -279,6 +280,9 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		if len(bin.TSRelative) != 0 {
 			t.Logf("TS relative bitvector\n%s", hex.Dump(bin.TSRelative))
 		}
+		if len(bin.DSRelative) != 0 {
+			t.Logf("DS relative bitvector\n%s", hex.Dump(bin.DSRelative))
+		}
 
 		var stdin, stdout, stderr bytes.Buffer
 		func() {
@@ -379,8 +383,11 @@ func TestTCC(t *testing.T) {
 func TestGCCExec(t *testing.T) {
 	blacklist := map[string]struct{}{
 		"20000703-1.c": {}, // ({ ... });
-		"20000917-1.c": {}, // *({ ({ one (); &a; }); }) = zero ();
+		"20000917-1.c": {}, // ({ ... });
 		"20001009-2.c": {}, // asm
+		"20001203-2.c": {}, // ({ ... });
+		"20010122-1.c": {}, // alloca
+		"20010209-1.c": {}, // nested fn
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -404,6 +411,7 @@ func TestGCCExec(t *testing.T) {
 			return []string{match}
 		},
 		cc.EnableAlignOf(),
+		cc.EnableAlternateKeywords(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableEmptyStructs(),
 		cc.EnableImplicitFuncDef(),
