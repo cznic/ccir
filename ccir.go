@@ -40,7 +40,7 @@ func TODO(more ...interface{}) string { //TODOOK
 	_, fn, fl, _ := runtime.Caller(1)
 	fmt.Fprintf(os.Stderr, "%s:%d: %v\n", path.Base(fn), fl, fmt.Sprint(more...))
 	os.Stderr.Sync()
-	panic(fmt.Errorf("%s:%d: %v\n", path.Base(fn), fl, fmt.Sprint(more...)))
+	panic(fmt.Errorf("%s:%d: %v", path.Base(fn), fl, fmt.Sprint(more...)))
 }
 
 type labels struct {
@@ -109,12 +109,20 @@ func (c *c) nm(d *cc.Declarator) ir.NameID {
 
 func (c *c) tnm(d *cc.Declarator) ir.NameID { return ir.NameID(d.RawSpecifier().TypedefName()) }
 
-func (c *c) typ0(dst *buffer.Bytes, t cc.Type) {
+func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 	sou := "struct{"
 	switch k := t.Kind(); k {
 	case cc.Ptr:
 		dst.WriteByte('*')
-		c.typ0(dst, t.Element())
+		if flat {
+			switch t.Element().Kind() {
+			case cc.Struct, cc.Union, cc.Array:
+				dst.WriteString("struct{}")
+				return
+			}
+		}
+
+		c.typ0(dst, t.Element(), flat)
 	case cc.Enum:
 		dst.WriteString("int")
 		dst.WriteString(sizes[c.ast.Model.Items[cc.Int].Size])
@@ -131,7 +139,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type) {
 		dst.WriteString("func(")
 		p, variadic := t.Parameters()
 		for i, v := range p {
-			c.typ0(dst, v.Type)
+			c.typ0(dst, v.Type, flat)
 			if i+1 < len(p) {
 				dst.WriteByte(',')
 			}
@@ -141,7 +149,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type) {
 		}
 		dst.WriteByte(')')
 		if r := t.Result(); r.Kind() != cc.Void {
-			c.typ0(dst, r)
+			c.typ0(dst, r, flat)
 		}
 	case cc.Array:
 		switch n := t.Elements(); {
@@ -151,7 +159,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type) {
 			dst.WriteByte('[')
 			fmt.Fprintf(dst, "%d", n)
 			dst.WriteByte(']')
-			c.typ0(dst, t.Element())
+			c.typ0(dst, t.Element(), flat)
 		}
 	case cc.Union:
 		sou = "union{"
@@ -172,7 +180,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type) {
 					t = v.BitFieldType
 				}
 
-				c.typ0(dst, t)
+				c.typ0(dst, t, true)
 				if i+1 < len(m) {
 					dst.WriteByte(',')
 				}
@@ -192,7 +200,7 @@ func (c *c) typ(in cc.Type) ir.Type {
 	}
 
 	var dst buffer.Bytes
-	c.typ0(&dst, in)
+	c.typ0(&dst, in, false)
 	out, err := c.types.Type(ir.TypeID(dict.ID(dst.Bytes())))
 	if err != nil {
 		dst.Close()
@@ -242,33 +250,76 @@ func (c *c) addressInitializer(n *cc.Expression) ir.Value {
 }
 
 func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
-	r := &ir.CompositeValue{}
-	s := true
+	values := &ir.CompositeValue{}
+	complete := true
+	designators := 0
 	for l := n; l != nil; l = l.InitializerList {
 		val, init := c.initializer(t, l.Initializer)
 		if init != nil {
-			s = false
+			complete = false
 		}
 
 		if o := l.DesignationOpt; o != nil {
-			TODO(position(n))
+			dl := o.Designation.DesignatorList
+			if dl.DesignatorList != nil {
+				TODO(position(n))
+			}
+
+			switch d := dl.Designator; d.Case {
+			case 0: // '[' ConstantExpression ']'
+				TODO(position(n))
+			case 1: // '.' IDENTIFIER              // Case 1
+				val = &ir.DesignatedValue{Index: -d.Token2.Val, Value: val}
+				designators++
+			default:
+				panic("internal error")
+			}
 		}
 
-		r.Values = append(r.Values, val)
+		values.Values = append(values.Values, val)
 	}
 	switch t.Kind() {
 	case cc.Array:
-		return r, s
+		if designators != 0 {
+			TODO(position(n))
+		}
+
+		return values, complete
 	case cc.Struct:
 		members, incomplete := t.Members()
 		if incomplete {
 			TODO(position(n))
 		}
 
+		if designators != 0 {
+			nvalues := make([]ir.Value, len(members))
+			iField := 0
+		next:
+			for _, v := range values.Values {
+				switch x := v.(type) {
+				case *ir.DesignatedValue:
+					nm := -x.Index
+					for i, v := range members {
+						if v.Name == nm {
+							nvalues[i] = x.Value
+							iField++
+							continue next
+						}
+					}
+
+					panic("internal error")
+				default:
+					nvalues[iField] = x
+					iField++
+				}
+			}
+			values.Values = nvalues
+		}
+
 		iField := 0
 		iValue := 0
 	outer:
-		for i := 0; i < len(members) && iValue < len(r.Values); i++ {
+		for i := 0; i < len(members) && iValue < len(values.Values); i++ {
 			m := members[i]
 			if m.Bits != 0 {
 				iGroup := i
@@ -281,7 +332,7 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 				}
 
 				for j := iGroup; j < groupEnd; j++ {
-					if r.Values[iValue+j] != nil {
+					if values.Values[iValue+j] != nil {
 						// Must combine bit field values
 						TODO(position(n), iGroup, groupEnd)
 						continue outer
@@ -289,18 +340,18 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 				}
 
 				// The bit field group has zero value.
-				r.Values[iField] = nil
+				values.Values[iField] = nil
 				iValue += groupEnd - iGroup
 				iField++
 				continue outer
 			}
 
-			r.Values[iField] = r.Values[iValue]
+			values.Values[iField] = values.Values[iValue]
 			iValue++
 			iField++
 		}
-		r.Values = r.Values[:iField]
-		return r, s
+		values.Values = values.Values[:iField]
+		return values, complete
 	default:
 		panic("internal erro")
 	}
@@ -1338,11 +1389,13 @@ out:
 		c.expression(n.ExpressionList.Type, n.Expression2)
 		c.emit(&ir.Label{Number: l2, Position: position(n)})
 	case 45: // Expression '=' Expression                          // Case 45
-		bits, _, _ := c.addr(n.Expression)
-		if bits != 0 {
-			TODO(position(n))
-		}
+		bits, bitoff, bfType := c.addr(n.Expression)
 		c.expression(n.Expression.Type, n.Expression2)
+		if bits != 0 {
+			c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(bfType).ID(), TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+			break
+		}
+
 		switch t := n.Expression.Type; t.Kind() {
 		case cc.Array:
 			c.emit(&ir.Copy{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})

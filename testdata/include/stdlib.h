@@ -7,6 +7,7 @@
 #define EXIT_SUCCESS 0
 #define NULL ((void *)0)
 
+void *malloc(size_t size);
 void abort(void);
 void exit(int status);
 

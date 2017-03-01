@@ -136,6 +136,14 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
 #define __MODEL_%s__
+
+#define NO_TRAMPOLINES 1
+#define __FUNCTION__ __func__
+#define __restrict restrict
+#define __SIZE_TYPE__ size_t
+#define __builtin_memset(s, c, n) memset(s, c, n)
+
+#include <string.h>
 `, strings.ToUpper(modelName)),
 		src,
 		model,
@@ -160,7 +168,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 	opts0 := opts
 	for _, match := range matches {
 		if skip(match) {
-			t.Logf("%s: skipped")
+			t.Logf("%s: skipped", match)
 			continue
 		}
 
@@ -247,18 +255,18 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		t.Logf("ir.LinkMain: %v objects\n%s", len(objs), b.Bytes())
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
-				t.Fatal("[%v]: %v", i, err)
+				t.Fatalf("[%v]: %v", i, err)
 			}
 		}
 
-		bin, err := virtual.Load(modelName, objs)
+		bin, err := virtual.LoadMain(modelName, objs)
 		if err != nil {
 			t.Fatal(match, err)
 		}
 
 		s := virtual.DumpCodeStr(bin.Code, 0)
 		t.Logf(
-			"virtual.Load: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s",
+			"virtual.LoadMain: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s",
 			len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
 		)
 		s.Close()
@@ -267,6 +275,9 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		}
 		if len(bin.Data) != 0 {
 			t.Logf("Data segment\n%s", hex.Dump(bin.Data))
+		}
+		if len(bin.TSRelative) != 0 {
+			t.Logf("TS relative bitvector\n%s", hex.Dump(bin.TSRelative))
 		}
 
 		var stdin, stdout, stderr bytes.Buffer
@@ -297,7 +308,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 				if b := stderr.Bytes(); b != nil {
 					t.Logf("stderr:\n%s", b)
 				}
-				t.Fatal("exit status %v, err %v", es, err)
+				t.Fatalf("exit status %v, err %v", es, err)
 			}
 		}()
 
@@ -323,7 +334,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		}
 
 		if g, e := stdout.Bytes(), buf; !bytes.Equal(g, e) {
-			t.Fatal("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
+			t.Fatalf("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
 			continue
 		}
 
@@ -367,7 +378,9 @@ func TestTCC(t *testing.T) {
 
 func TestGCCExec(t *testing.T) {
 	blacklist := map[string]struct{}{
-		"20000703-1.c": {},
+		"20000703-1.c": {}, // ({ ... });
+		"20000917-1.c": {}, // *({ ({ one (); &a; }); }) = zero ();
+		"20001009-2.c": {}, // asm
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -384,10 +397,6 @@ func TestGCCExec(t *testing.T) {
 		t,
 		dir,
 		func(match string) bool {
-			if filepath.Base(match) == "20000801-2.c" {
-				panic("TODO")
-			}
-
 			_, ok := blacklist[filepath.Base(match)]
 			return ok
 		},
@@ -396,6 +405,7 @@ func TestGCCExec(t *testing.T) {
 		},
 		cc.EnableAlignOf(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
+		cc.EnableEmptyStructs(),
 		cc.EnableImplicitFuncDef(),
 		cc.EnableOmitFuncRetType(),
 		cc.ErrLimit(-1),

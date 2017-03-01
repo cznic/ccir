@@ -47,8 +47,8 @@ func Model(name string) (*cc.Model, error) {
 		return &cc.Model{
 			Items: map[cc.Kind]cc.ModelItem{
 				cc.Void:              {Size: 0, Align: 1, StructAlign: 1},
-				cc.Ptr:               {Size: 4, Align: 4, StructAlign: 4},
-				cc.UintPtr:           {Size: 4, Align: 4, StructAlign: 4},
+				cc.Ptr:               {Size: 8, Align: 8, StructAlign: 8},
+				cc.UintPtr:           {Size: 8, Align: 8, StructAlign: 8},
 				cc.Char:              {Size: 1, Align: 1, StructAlign: 1},
 				cc.SChar:             {Size: 1, Align: 1, StructAlign: 1},
 				cc.UChar:             {Size: 1, Align: 1, StructAlign: 1},
