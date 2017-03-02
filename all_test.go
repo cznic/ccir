@@ -139,12 +139,14 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 
 #define NO_TRAMPOLINES 1
 #define __FUNCTION__ __func__
-#define __SIZE_TYPE__ size_t
+#define __SIZE_TYPE__ unsigned long
 #define __attribute__(x)
 #define __builtin_memset(s, c, n) memset(s, c, n)
+#define __complex__ _Complex
 #define __restrict restrict
 
 #include <string.h>
+#include <wchar.h>
 `, strings.ToUpper(modelName)),
 		src,
 		model,
@@ -388,6 +390,10 @@ func TestGCCExec(t *testing.T) {
 		"20001203-2.c": {}, // ({ ... });
 		"20010122-1.c": {}, // alloca
 		"20010209-1.c": {}, // nested fn
+		"20010605-1.c": {}, // nested fn
+		"20010605-2.c": {}, // __real__
+		"20010904-1.c": {}, // __attribute__((aligned(32)))
+		"20010904-2.c": {}, // __attribute__((aligned(32)))
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -410,6 +416,7 @@ func TestGCCExec(t *testing.T) {
 		func(wd, match string) []string {
 			return []string{match}
 		},
+		cc.AllowCompatibleTypedefRedefinitions(),
 		cc.EnableAlignOf(),
 		cc.EnableAlternateKeywords(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
