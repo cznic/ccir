@@ -1364,12 +1364,7 @@ out:
 		switch n.Expression.Type.Kind() {
 		case cc.Ptr, cc.Array:
 			switch n.Expression2.Type.Kind() {
-			//TODO- case cc.Ptr, cc.Array:
-			//TODO- 	c.expression(nil, n.Expression)
-			//TODO- 	c.expression(nil, n.Expression2)
-			//TODO- 	c.emit(&ir.PtrDiff{TypeID: c.typ(n.Type).ID(), Position: position(n)})
-			//TODO- 	return n.Type
-			case cc.Ptr:
+			case cc.Array, cc.Ptr:
 				c.expression(nil, n.Expression)
 				c.expression(nil, n.Expression2)
 				c.emit(&ir.PtrDiff{PtrType: c.typ(n.Expression.Type).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
@@ -1378,13 +1373,13 @@ out:
 				TODO(position(n), n.Expression2.Type.Kind())
 			}
 
-			return nil //TODO proper type
+			return n.Type
 		}
 
 		switch n.Expression2.Type.Kind() {
 		case cc.Ptr, cc.Array:
 			TODO(position(n))
-			return nil //TODO proper type
+			return n.Type
 		}
 
 		//TODO if n.Expression.Type.Kind() == cc.Ptr || n.Expression2.Type.Kind() == cc.Ptr {
@@ -1766,7 +1761,7 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 		}
 
 		c.emit(&ir.Dup{TypeID: typ, Position: position(n.ExpressionList)})
-		c.constant(v.Type, v.Value, v)
+		c.constant(t, v.Value, v)
 		c.emit(&ir.Eq{TypeID: typ, Position: position(n.ExpressionList)})
 		drop := c.label()
 		c.emit(&ir.Jz{Number: drop, Position: position(n.ExpressionList)})
