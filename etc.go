@@ -8,20 +8,23 @@ import (
 	"go/token"
 
 	"github.com/cznic/cc"
+	"github.com/cznic/ir"
 	"github.com/cznic/xc"
 )
 
 var (
 	dict = xc.Dict
 
-	idFloat64 = dict.SID("float64")
-	idInt32   = dict.SID("int32")
-	idInt64   = dict.SID("int64")
-	idMain    = dict.SID("main")
-	idUint16  = dict.SID("uint16")
-	idUint32  = dict.SID("uint32")
-	idUint64  = dict.SID("uint64")
-	idUint8   = dict.SID("uint8")
+	idFloat32 = ir.TypeID(dict.SID("float32"))
+	idFloat64 = ir.TypeID(dict.SID("float64"))
+	idInt32   = ir.TypeID(dict.SID("int32"))
+	idInt64   = ir.TypeID(dict.SID("int64"))
+	idInt8    = ir.TypeID(dict.SID("int8"))
+	idMain    = ir.NameID(dict.SID("main"))
+	idUint16  = ir.TypeID(dict.SID("uint16"))
+	idUint32  = ir.TypeID(dict.SID("uint32"))
+	idUint64  = ir.TypeID(dict.SID("uint64"))
+	idUint8   = ir.TypeID(dict.SID("uint8"))
 )
 
 func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }

@@ -72,7 +72,8 @@ const (
 var (
 	ccTestdata string
 
-	cpp = flag.Bool("cpp", false, "")
+	cpp   = flag.Bool("cpp", false, "")
+	trace = flag.Bool("trc", false, "")
 )
 
 func init() {
@@ -119,6 +120,10 @@ func errStr(err error) string {
 }
 
 func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err error) {
+	if *trace {
+		fmt.Println(src)
+	}
+
 	defer func() {
 		if e := recover(); e != nil && err == nil {
 			err = fmt.Errorf("PANIC: %v\n%s", e, debug.Stack())
@@ -144,6 +149,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __builtin_memset(s, c, n) memset(s, c, n)
 #define __complex__ _Complex
 #define __restrict restrict
+#define __builtin_memcpy(dest, src, n) memcpy(dest, src, n)
 
 #include <string.h>
 #include <wchar.h>
@@ -394,6 +400,10 @@ func TestGCCExec(t *testing.T) {
 		"20010605-2.c": {}, // __real__
 		"20010904-1.c": {}, // __attribute__((aligned(32)))
 		"20010904-2.c": {}, // __attribute__((aligned(32)))
+		"20020107-1.c": {}, // asm
+		"20020206-1.c": {}, // ({ ... });
+		"20020314-1.c": {}, // alloca
+		"20020320-1.c": {}, // ({ ... });
 	}
 	wd, err := os.Getwd()
 	if err != nil {

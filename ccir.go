@@ -135,6 +135,9 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 	case cc.Float, cc.Double:
 		dst.WriteString("float")
 		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
+	case cc.FloatComplex, cc.DoubleComplex:
+		dst.WriteString("complex")
+		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
 	case cc.Function:
 		dst.WriteString("func(")
 		p, variadic := t.Parameters()
@@ -249,12 +252,13 @@ func (c *c) addressInitializer(n *cc.Expression) ir.Value {
 	return nil
 }
 
-func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
+func (c *c) arrayInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 	values := &ir.CompositeValue{}
 	complete := true
-	designators := 0
+	var designators int
+	elem := t.Element()
 	for l := n; l != nil; l = l.InitializerList {
-		val, init := c.initializer(t, l.Initializer)
+		val, init := c.initializer(elem, l.Initializer)
 		if init != nil {
 			complete = false
 		}
@@ -269,8 +273,7 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 			case 0: // '[' ConstantExpression ']'
 				TODO(position(n))
 			case 1: // '.' IDENTIFIER              // Case 1
-				val = &ir.DesignatedValue{Index: -d.Token2.Val, Value: val}
-				designators++
+				panic("internal error")
 			default:
 				panic("internal error")
 			}
@@ -278,82 +281,126 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 
 		values.Values = append(values.Values, val)
 	}
-	switch t.Kind() {
-	case cc.Array:
-		if designators != 0 {
-			TODO(position(n))
-		}
+	if designators != 0 {
+		TODO(position(n))
+	}
 
-		return values, complete
-	case cc.Struct:
-		members, incomplete := t.Members()
-		if incomplete {
-			TODO(position(n))
-		}
+	return values, complete
+}
 
-		if designators != 0 {
-			nvalues := make([]ir.Value, len(members))
-			iField := 0
-		next:
-			for _, v := range values.Values {
-				switch x := v.(type) {
-				case *ir.DesignatedValue:
-					nm := -x.Index
-					for i, v := range members {
-						if v.Name == nm {
-							nvalues[i] = x.Value
-							iField++
-							continue next
-						}
+func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
+	members, incomplete := t.Members()
+	if incomplete {
+		TODO(position(n))
+	}
+
+	values := make([]ir.Value, len(members))
+	complete := true
+	var i int
+	for l := n; l != nil; l = l.InitializerList {
+		if o := l.DesignationOpt; o != nil {
+			dl := o.Designation.DesignatorList
+			if dl.DesignatorList != nil {
+				TODO(position(n))
+			}
+
+		search:
+			switch d := dl.Designator; d.Case {
+			case 0: // '[' ConstantExpression ']'
+				panic("internal error")
+			case 1: // '.' IDENTIFIER              // Case 1
+				nm := d.Token2.Val
+				for j, v := range members {
+					if v.Name == nm {
+						i = j
+						break search
 					}
+				}
 
-					panic("internal error")
+				panic("internal error")
+			default:
+				panic("internal error")
+			}
+		}
+
+		ft := members[i].Type
+		val, init := c.initializer(ft, l.Initializer)
+		if init != nil {
+			complete = false
+		}
+		values[i] = val
+		i++
+	}
+
+	iField := 0
+	iValue := 0
+	for i := 0; i < len(members); i++ {
+		m := members[i]
+		if m.Bits != 0 {
+			iGroup := i
+			groupEnd := len(members)
+			for ; i < len(members); i++ {
+				if members[i].Bits == 0 {
+					groupEnd = i
+					i--
+					break
+				}
+			}
+
+			var bval uint64
+			var val ir.Value
+			for j := iGroup; j < groupEnd; j++ {
+				var bits uint64
+				switch x := values[iValue+j].(type) {
+				case *ir.Int32Value:
+					bits = uint64(x.Value)
 				default:
-					nvalues[iField] = x
-					iField++
+					panic(fmt.Errorf("%s: TODO %T", position(n), x))
 				}
-			}
-			values.Values = nvalues
-		}
-
-		iField := 0
-		iValue := 0
-	outer:
-		for i := 0; i < len(members) && iValue < len(values.Values); i++ {
-			m := members[i]
-			if m.Bits != 0 {
-				iGroup := i
-				groupEnd := len(members)
-				for ; i < len(members); i++ {
-					if members[i].Bits == 0 {
-						groupEnd = i
-						break
-					}
-				}
-
-				for j := iGroup; j < groupEnd; j++ {
-					if values.Values[iValue+j] != nil {
-						// Must combine bit field values
-						TODO(position(n), iGroup, groupEnd)
-						continue outer
-					}
-				}
-
-				// The bit field group has zero value.
-				values.Values[iField] = nil
-				iValue += groupEnd - iGroup
-				iField++
-				continue outer
+				bits &= 1<<uint(m.Bits) - 1
+				bval |= bits << uint(m.BitOffsetOf)
 			}
 
-			values.Values[iField] = values.Values[iValue]
-			iValue++
+			if bval != 0 {
+				switch {
+				case bval > math.MaxUint32:
+					val = &ir.Int64Value{Value: int64(bval)}
+				default:
+					val = &ir.Int32Value{Value: int32(bval)}
+				}
+			}
+
+			// The bit field group has zero value.
+			values[iField] = val
+			iValue += groupEnd - iGroup
 			iField++
+			continue
 		}
-		values.Values = values.Values[:iField]
-		return values, complete
+
+		// Normal field.
+		values[iField] = values[iValue]
+		iValue++
+		iField++
+	}
+	values = values[:iField]
+	w := -1
+	for i, v := range values {
+		if v != nil {
+			w = i
+		}
+	}
+	values = values[:w+1]
+	return &ir.CompositeValue{Values: values}, complete
+}
+
+func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
+	switch t.Kind() {
+	case cc.Array, cc.Ptr:
+		return c.arrayInitializerList(t, n)
+	case cc.Struct:
+		return c.structInitializerList(t, n)
 	default:
-		panic("internal erro")
+		panic(fmt.Errorf("%s: internal error %v %v", position(n), t, t.Kind()))
 	}
 }
 
@@ -373,8 +420,16 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 			return nil, n
 		case cc.StringLitID:
 			return &ir.StringValue{StringID: ir.StringID(x)}, nil
+		case int8:
+			return &ir.Int32Value{Value: int32(x)}, nil
+		case uint8:
+			return &ir.Int32Value{Value: int32(x)}, nil
+		case uint16:
+			return &ir.Int32Value{Value: int32(x)}, nil
 		case int32:
 			return &ir.Int32Value{Value: x}, nil
+		case uint32:
+			return &ir.Int32Value{Value: int32(x)}, nil
 		case int64:
 			switch {
 			case x >= math.MinInt32 && x <= math.MaxInt32:
@@ -434,7 +489,14 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 		c.emit(&ir.Store{TypeID: c.typ(ft).ID(), Position: position(init)})
 		c.emit(&ir.Drop{TypeID: c.typ(ft).ID(), Position: position(init)})
 	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
-		TODO(position(n))
+		switch ft.Kind() {
+		case cc.Array:
+			pt := c.typ(ft.Element().Pointer())
+			c.exprInitializerArray(ft, pt, init.InitializerList)
+			c.emit(&ir.Drop{TypeID: pt.ID(), Position: position(init)})
+		default:
+			panic(fmt.Errorf("%s: %v:%v", position(n.Initializer), ft, ft.Kind()))
+		}
 	default:
 		panic("internal error")
 	}
@@ -447,8 +509,8 @@ func (c *c) exprInitializerListArrayElement(t, et cc.Type, pt ir.Type, i int, n 
 		TODO(position(n))
 	}
 
-	c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: int32(i), Position: position(n)})
-	c.emit(&ir.Element{Address: true, IndexType: ir.TypeID(idInt32), TypeID: c.typ(et.Pointer()).ID(), Position: position(n)})
+	c.emit(&ir.Const32{TypeID: idInt32, Value: int32(i), Position: position(n)})
+	c.emit(&ir.Element{Address: true, IndexType: idInt32, TypeID: c.typ(et.Pointer()).ID(), Position: position(n)})
 	switch init := n.Initializer; init.Case {
 	case 0: // Expression
 		c.expression(et, init.Expression)
@@ -463,30 +525,39 @@ func (c *c) exprInitializerListArrayElement(t, et cc.Type, pt ir.Type, i int, n 
 	return i
 }
 
+func (c *c) exprInitializerStruct(t cc.Type, pt ir.Type, l *cc.InitializerList) {
+	i := 0
+	ma, incomplete := t.Members()
+	if incomplete {
+		TODO(position(l))
+	}
+
+	for ; l != nil; l = l.InitializerList {
+		c.emit(&ir.Dup{TypeID: pt.ID(), Position: position(l)})
+		i = c.exprInitializerListStructField(t, ma[i].Type, pt, i, ma[i].Name, l)
+	}
+}
+
+func (c *c) exprInitializerArray(t cc.Type, pt ir.Type, l *cc.InitializerList) {
+	e := t.Element()
+	i := 0
+	for ; l != nil; l = l.InitializerList {
+		c.emit(&ir.Dup{TypeID: pt.ID(), Position: position(l)})
+		i = c.exprInitializerListArrayElement(t, e, pt, i, l)
+	}
+}
+
 func (c *c) exprInitializerList(t cc.Type, vi int, vp token.Position, l *cc.InitializerList) {
 	var pt ir.Type
 	switch t.Kind() {
 	case cc.Struct:
 		pt = c.typ(t).Pointer()
 		c.emit(&ir.Variable{Address: true, Index: vi, TypeID: pt.ID(), Position: vp})
-		i := 0
-		ma, incomplete := t.Members()
-		if incomplete {
-			TODO(position(l))
-		}
-
-		for ; l != nil; l = l.InitializerList {
-			c.emit(&ir.Dup{TypeID: pt.ID(), Position: vp})
-			i = c.exprInitializerListStructField(t, ma[i].Type, pt, i, ma[i].Name, l)
-		}
+		c.exprInitializerStruct(t, pt, l)
 	case cc.Array:
 		pt = c.typ(t.Element().Pointer())
 		c.emit(&ir.Variable{Address: true, Index: vi, TypeID: pt.ID(), Position: vp})
-		i := 0
-		for ; l != nil; l = l.InitializerList {
-			c.emit(&ir.Dup{TypeID: pt.ID(), Position: vp})
-			i = c.exprInitializerListArrayElement(t, t.Element(), pt, i, l)
-		}
+		c.exprInitializerArray(t, pt, l)
 	default:
 		TODO(position(l.Initializer), t.Kind())
 	}
@@ -649,7 +720,7 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 		arguments[i] = v.ID()
 	}
 	cResult := t.Result()
-	if cResult.Kind() == cc.Void && f.NameID == ir.NameID(idMain) && f.Linkage == ir.ExternalLinkage {
+	if cResult.Kind() == cc.Void && f.NameID == idMain && f.Linkage == ir.ExternalLinkage {
 		cResult = c.ast.Model.IntType
 	}
 	c.f = fdata{
@@ -731,6 +802,9 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, t cc.
 				return index, v.Bits, v.BitOffsetOf, v.BitFieldType
 			}
 
+			if group >= 0 {
+				index++
+			}
 			return index, 0, 0, v.Type
 		}
 
@@ -973,26 +1047,32 @@ func (c *c) convert(n cc.Node, from, to cc.Type) {
 
 func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 	switch x := v.(type) {
+	case int8:
+		c.emit(&ir.Const32{TypeID: idInt8, Value: int32(x), Position: position(n)})
+		c.convert(n, c.ast.Model.CharType, t)
 	case uint8:
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idUint8), Value: int32(x), Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idUint8, Value: int32(x), Position: position(n)})
 		c.convert(n, c.ast.Model.UCharType, t)
 	case uint16:
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idUint16), Value: int32(x), Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idUint16, Value: int32(x), Position: position(n)})
 		c.convert(n, c.ast.Model.UShortType, t)
 	case int32:
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: x, Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idInt32, Value: x, Position: position(n)})
 		c.convert(n, c.ast.Model.IntType, t)
 	case uint32:
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idUint32), Value: int32(x), Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idUint32, Value: int32(x), Position: position(n)})
 		c.convert(n, c.ast.Model.UIntType, t)
 	case int64:
-		c.emit(&ir.Const64{TypeID: ir.TypeID(idInt64), Value: x, Position: position(n)})
+		c.emit(&ir.Const64{TypeID: idInt64, Value: x, Position: position(n)})
 		c.convert(n, c.ast.Model.LongLongType, t)
 	case uint64:
-		c.emit(&ir.Const64{TypeID: ir.TypeID(idUint64), Value: int64(x), Position: position(n)})
+		c.emit(&ir.Const64{TypeID: idUint64, Value: int64(x), Position: position(n)})
 		c.convert(n, c.ast.Model.ULongLongType, t)
+	case float32:
+		c.emit(&ir.Const32{TypeID: idFloat32, Value: int32(math.Float32bits(x)), Position: position(n)})
+		c.convert(n, c.ast.Model.FloatType, t)
 	case float64:
-		c.emit(&ir.Const64{TypeID: ir.TypeID(idFloat64), Value: int64(math.Float64bits(x)), Position: position(n)})
+		c.emit(&ir.Const64{TypeID: idFloat64, Value: int64(math.Float64bits(x)), Position: position(n)})
 		c.convert(n, c.ast.Model.DoubleType, t)
 	case cc.StringLitID:
 		c.emit(&ir.StringConst{Value: ir.StringID(x), Position: position(n)})
@@ -1003,7 +1083,7 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		case x == 0:
 			c.emit(&ir.Nil{TypeID: c.typ(t).ID(), Position: position(n)})
 		default:
-			c.emit(&ir.Const64{TypeID: ir.TypeID(idInt64), Value: int64(x), Position: position(n)})
+			c.emit(&ir.Const64{TypeID: idInt64, Value: int64(x), Position: position(n)})
 			c.convert(n, c.ast.Model.LongLongType, t)
 		}
 	default:
@@ -1020,6 +1100,8 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 	switch t := n.Expression.Type; t.Kind() {
 	case cc.Array:
 		return t.Element().Pointer()
+	case cc.Function:
+		return t.Pointer()
 	default:
 		return t
 	}
@@ -1300,7 +1382,8 @@ out:
 		c.expression(nil, n.Expression)
 		c.emit(&ir.Neg{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 21: // '~' Expression                                     // Case 21
-		TODO(position(n))
+		c.expression(nil, n.Expression)
+		c.emit(&ir.Cpl{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 22: // '!' Expression                                     // Case 22
 		c.expression(nil, n.Expression)
 		c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Expression)})
@@ -1423,7 +1506,7 @@ out:
 		// drop
 		// push 1
 		// A:
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
 		c.expression(nil, n.Expression)
 		if n.Expression.Type.Kind() != cc.Int {
 			c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
@@ -1435,8 +1518,8 @@ out:
 			c.emit(&ir.Bool{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
 		}
 		c.emit(&ir.Jz{Number: a, Position: position(n.Expression)})
-		c.emit(&ir.Drop{TypeID: ir.TypeID(idInt32), Position: position(n)})
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: 1, Position: position(n)})
+		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n)})
 		c.emit(&ir.Label{Number: a, Position: position(n)})
 	case 43: // Expression "||" Expression                         // Case 43
 		// push 1
@@ -1449,7 +1532,7 @@ out:
 		// drop
 		// push 0
 		// A:
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Value: 1, Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n)})
 		c.expression(nil, n.Expression)
 		if n.Expression.Type.Kind() != cc.Int {
 			c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
@@ -1461,8 +1544,8 @@ out:
 			c.emit(&ir.Bool{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
 		}
 		c.emit(&ir.Jnz{Number: a, Position: position(n.Expression)})
-		c.emit(&ir.Drop{TypeID: ir.TypeID(idInt32), Position: position(n)})
-		c.emit(&ir.Const32{TypeID: ir.TypeID(idInt32), Position: position(n)})
+		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
 		c.emit(&ir.Label{Number: a, Position: position(n)})
 	case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
 		// eval expr
@@ -1667,6 +1750,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 func (c *c) switchStatement(n *cc.SelectionStatement) {
 	// "switch" '(' ExpressionList ')' Statement               // Case 2
 	t := n.ExpressionList.Type
+	t = c.ast.Model.BinOpType(t, t)
 	c.expressionList(t, n.ExpressionList)
 	firstCase := -1
 	defaultCase := -1
@@ -1919,7 +2003,7 @@ func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 		t := c.typ(d.Type)
 		nm := c.nm(d)
 		ln := c.linkage(d.Linkage)
-		if ln == ir.ExternalLinkage && int(nm) == idMain && len(t.(*ir.FunctionType).Results) == 0 {
+		if ln == ir.ExternalLinkage && nm == idMain && len(t.(*ir.FunctionType).Results) == 0 {
 			t = c.types.MustType(ir.TypeID(dict.SID(string(dict.S(int(t.ID()))) + "int32")))
 		}
 		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), nm, c.tnm(d), t.ID(), ln, c.fnArgNames(d), nil))
