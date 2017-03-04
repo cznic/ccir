@@ -519,7 +519,30 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 
 func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int, n *cc.InitializerList) int {
 	if o := n.DesignationOpt; o != nil {
-		TODO(position(n))
+		l := o.Designation.DesignatorList
+		if l.DesignatorList != nil {
+			TODO(position(n))
+		}
+
+	outer:
+		switch d := l.Designator; d.Case {
+		case 0: // '[' ConstantExpression ']'
+			panic("internal error")
+		case 1: // '.' IDENTIFIER              // Case 1
+			nm = d.Token2.Val
+			members, _ := t.Members()
+			for j, v := range members {
+				if v.Name == nm {
+					i = j
+					ft = v.Type
+					break outer
+				}
+			}
+
+			panic("internal error")
+		default:
+			panic("internal error")
+		}
 	}
 
 	fi, bits, bitoff, bt := c.field(n, t, nm)

@@ -15,6 +15,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"runtime/debug"
 	"strings"
@@ -72,8 +73,9 @@ const (
 var (
 	ccTestdata string
 
-	cpp   = flag.Bool("cpp", false, "")
-	trace = flag.Bool("trc", false, "")
+	cpp    = flag.Bool("cpp", false, "")
+	filter = flag.String("re", "", "")
+	trace  = flag.Bool("trc", false, "")
 )
 
 func init() {
@@ -153,9 +155,11 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __builtin_memset(s, c, n) memset(s, c, n)
 #define __builtin_strcmp(s1, s2) strcmp(s1, s2)
 #define __builtin_strcpy(dest, src) strcpy(dest, src)
+#define __builtin_strlen(s) strlen(s)
 #define __builtin_trap abort
 #define __complex__ _Complex
 #define __restrict restrict
+
 
 #include <math.h>
 #include <string.h>
@@ -417,6 +421,12 @@ func TestGCCExec(t *testing.T) {
 		"20020411-1.c": {}, // __real__
 		"20020412-1.c": {}, // VLA in struct
 		"20021113-1.c": {}, // alloca
+		"20021127-1.c": {}, // https://goo.gl/XDxJEL
+		"20030222-1.c": {}, // asm
+		"20030323-1.c": {}, // __builtin_return_address
+		"20030330-1.c": {}, // __builtin_constant_p
+		"20030408-1.c": {}, // const struct foo X = { a : 'A', c : 'C', e : 'E', g : 'G', i : 'I' };
+		"20030501-1.c": {}, // nested fn
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -428,16 +438,22 @@ func TestGCCExec(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	var re *regexp.Regexp
+	if s := *filter; s != "" {
+		re = regexp.MustCompile(s)
+	}
+
 	dir := filepath.Join(testdata, filepath.FromSlash("gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/"))
 	expect(
 		t,
 		dir,
 		func(match string) bool {
-			if filepath.Base(match) == "20021118-2.c" { //TODO-
-				panic(fmt.Errorf("%s: TODO", match))
+			base := filepath.Base(match)
+			_, skip := blacklist[base]
+			if re != nil && !re.MatchString(base) {
+				skip = true
 			}
-			_, ok := blacklist[filepath.Base(match)]
-			return ok
+			return skip
 		},
 		func(wd, match string) []string {
 			return []string{match}
@@ -445,6 +461,7 @@ func TestGCCExec(t *testing.T) {
 		cc.AllowCompatibleTypedefRedefinitions(),
 		cc.EnableAlignOf(),
 		cc.EnableAlternateKeywords(),
+		cc.EnableAnonymousStructFields(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableEmptyStructs(),
 		cc.EnableImplicitFuncDef(),
