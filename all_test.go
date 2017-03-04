@@ -144,13 +144,20 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 
 #define NO_TRAMPOLINES 1
 #define __FUNCTION__ __func__
+#define __LONG_LONG_MAX__ LLONG_MAX
+#define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
 #define __attribute__(x)
+#define __builtin_expect(exp, c) (exp)
+#define __builtin_memcpy(dest, src, n) memcpy(dest, src, n)
 #define __builtin_memset(s, c, n) memset(s, c, n)
+#define __builtin_strcmp(s1, s2) strcmp(s1, s2)
+#define __builtin_strcpy(dest, src) strcpy(dest, src)
+#define __builtin_trap abort
 #define __complex__ _Complex
 #define __restrict restrict
-#define __builtin_memcpy(dest, src, n) memcpy(dest, src, n)
 
+#include <math.h>
 #include <string.h>
 #include <wchar.h>
 `, strings.ToUpper(modelName)),
@@ -189,13 +196,16 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 				if len(toks) != 0 {
 					p := toks[0].Position()
 					if p.Filename != lpos.Filename {
+						//fmt.Printf("# %d %q\n", p.Line, p.Filename)
 						fmt.Fprintf(&cppb, "# %d %q\n", p.Line, p.Filename)
 					}
 					lpos = p
 				}
 				for _, v := range toks {
+					//fmt.Print(cc.TokSrc(v))
 					cppb.WriteString(cc.TokSrc(v))
 				}
+				//fmt.Println()
 				cppb.WriteByte('\n')
 			}))
 		}
@@ -404,6 +414,9 @@ func TestGCCExec(t *testing.T) {
 		"20020206-1.c": {}, // ({ ... });
 		"20020314-1.c": {}, // alloca
 		"20020320-1.c": {}, // ({ ... });
+		"20020411-1.c": {}, // __real__
+		"20020412-1.c": {}, // VLA in struct
+		"20021113-1.c": {}, // alloca
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -420,6 +433,9 @@ func TestGCCExec(t *testing.T) {
 		t,
 		dir,
 		func(match string) bool {
+			if filepath.Base(match) == "20021118-2.c" { //TODO-
+				panic(fmt.Errorf("%s: TODO", match))
+			}
 			_, ok := blacklist[filepath.Base(match)]
 			return ok
 		},
@@ -433,6 +449,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableEmptyStructs(),
 		cc.EnableImplicitFuncDef(),
 		cc.EnableOmitFuncRetType(),
+		cc.EnableTypeOf(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),
 	)

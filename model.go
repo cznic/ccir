@@ -36,11 +36,11 @@ func Model(name string) (*cc.Model, error) {
 				cc.ULongLong:         {Size: 8, Align: 4, StructAlign: 4},
 				cc.Float:             {Size: 4, Align: 4, StructAlign: 4},
 				cc.Double:            {Size: 8, Align: 4, StructAlign: 4},
-				cc.LongDouble:        {Size: 16, Align: 4, StructAlign: 4},
+				cc.LongDouble:        {Size: 8, Align: 4, StructAlign: 4},
 				cc.Bool:              {Size: 1, Align: 1, StructAlign: 1},
 				cc.FloatComplex:      {Size: 8, Align: 4, StructAlign: 4},
 				cc.DoubleComplex:     {Size: 16, Align: 4, StructAlign: 4},
-				cc.LongDoubleComplex: {Size: 32, Align: 4, StructAlign: 4},
+				cc.LongDoubleComplex: {Size: 16, Align: 4, StructAlign: 4},
 			},
 		}, nil
 	case "64":
@@ -62,11 +62,11 @@ func Model(name string) (*cc.Model, error) {
 				cc.ULongLong:         {Size: 8, Align: 8, StructAlign: 8},
 				cc.Float:             {Size: 4, Align: 4, StructAlign: 4},
 				cc.Double:            {Size: 8, Align: 8, StructAlign: 8},
-				cc.LongDouble:        {Size: 16, Align: 8, StructAlign: 8},
+				cc.LongDouble:        {Size: 8, Align: 8, StructAlign: 8},
 				cc.Bool:              {Size: 1, Align: 1, StructAlign: 1},
 				cc.FloatComplex:      {Size: 8, Align: 8, StructAlign: 8},
 				cc.DoubleComplex:     {Size: 16, Align: 8, StructAlign: 8},
-				cc.LongDoubleComplex: {Size: 32, Align: 8, StructAlign: 8},
+				cc.LongDoubleComplex: {Size: 16, Align: 8, StructAlign: 8},
 			},
 		}, nil
 	default:

@@ -102,6 +102,37 @@ func newC(model ir.MemoryModel, ast *cc.TranslationUnit) *c {
 	}
 }
 
+func (c *c) isVLA(t cc.Type) *cc.Expression {
+	switch d := t.Declarator().DirectDeclarator; d.Case {
+	case 0: // IDENTIFIER
+		return nil
+	case 1: // '(' Declarator ')'                                                 // Case 1
+		TODO(position(d))
+	case 2: // DirectDeclarator '[' TypeQualifierListOpt ExpressionOpt ']'        // Case 2
+		o := d.ExpressionOpt
+		if o == nil {
+			return nil
+		}
+
+		if e := o.Expression; e.Value == nil {
+			return e
+		}
+
+		return nil
+	case 3: // DirectDeclarator '[' "static" TypeQualifierListOpt Expression ']'  // Case 3
+		TODO(position(d))
+	case 4: // DirectDeclarator '[' TypeQualifierList "static" Expression ']'     // Case 4
+		TODO(position(d))
+	case 5: // DirectDeclarator '[' TypeQualifierListOpt '*' ']'                  // Case 5
+		TODO(position(d))
+	case 6: // DirectDeclarator '(' ParameterTypeList ')'                         // Case 6
+		TODO(position(d))
+	case 7: // DirectDeclarator '(' IdentifierListOpt ')'                         // Case 7
+		TODO(position(d))
+	}
+	panic("internal error")
+}
+
 func (c *c) nm(d *cc.Declarator) ir.NameID {
 	id, _ := d.Identifier()
 	return ir.NameID(id)
@@ -132,10 +163,10 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 	case cc.UChar, cc.UShort, cc.UInt, cc.ULong, cc.ULongLong:
 		dst.WriteString("uint")
 		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
-	case cc.Float, cc.Double:
+	case cc.Float, cc.Double, cc.LongDouble:
 		dst.WriteString("float")
 		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
-	case cc.FloatComplex, cc.DoubleComplex:
+	case cc.FloatComplex, cc.DoubleComplex, cc.LongDoubleComplex:
 		dst.WriteString("complex")
 		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
 	case cc.Function:
@@ -175,6 +206,10 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 		default:
 			for i, v := range m {
 				t := v.Type
+				if c.isVLA(t) != nil {
+					panic(fmt.Errorf("%s: struct/union member cannot be a variable lenght array", position(t.Declarator())))
+				}
+
 				if v.Bits != 0 {
 					if v.BitOffsetOf != 0 {
 						continue
@@ -193,7 +228,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 	case cc.Void:
 		dst.WriteString("struct{}")
 	default:
-		panic(fmt.Errorf("internal error %v", k))
+		panic(fmt.Errorf("%s: internal error %v", position(t.Declarator()), k))
 	}
 }
 
@@ -207,7 +242,7 @@ func (c *c) typ(in cc.Type) ir.Type {
 	out, err := c.types.Type(ir.TypeID(dict.ID(dst.Bytes())))
 	if err != nil {
 		dst.Close()
-		panic(fmt.Errorf("internal error: %v", err))
+		panic(fmt.Errorf("%s: type %q:%q, type specifier %q: internal error: %v", position(in.Declarator()), in, in.Kind(), dst.Bytes(), err))
 	}
 
 	dst.Close()
@@ -292,6 +327,16 @@ func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, b
 	members, incomplete := t.Members()
 	if incomplete {
 		TODO(position(n))
+	}
+
+	if len(members) == 1 && n.Len() > 1 {
+		if t0 := members[0].Type; t0.Kind() == cc.Array {
+			val, complete := c.arrayInitializerList(t0, n)
+			if val != nil {
+				val = &ir.CompositeValue{Values: []ir.Value{val}}
+			}
+			return val, complete
+		}
 	}
 
 	values := make([]ir.Value, len(members))
@@ -424,6 +469,8 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 			return &ir.Int32Value{Value: int32(x)}, nil
 		case uint8:
 			return &ir.Int32Value{Value: int32(x)}, nil
+		case int16:
+			return &ir.Int32Value{Value: int32(x)}, nil
 		case uint16:
 			return &ir.Int32Value{Value: int32(x)}, nil
 		case int32:
@@ -435,8 +482,10 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 			case x >= math.MinInt32 && x <= math.MaxInt32:
 				return &ir.Int32Value{Value: int32(x)}, nil
 			default:
-				TODO(position(n), fmt.Sprintf(" %T ", x), x)
+				return &ir.Int64Value{Value: x}, nil
 			}
+		case float32:
+			return &ir.Float32Value{Value: x}, nil
 		case float64:
 			return &ir.Float64Value{Value: x}, nil
 		case uint64:
@@ -596,7 +645,7 @@ func (c *c) isStaticInitializer(t cc.Type, n *cc.Initializer) bool {
 			return false
 		case cc.StringLitID:
 			return t != nil && t.Kind() == cc.Array
-		case int32, uint64, float64, uintptr:
+		case int32, uint64, float32, float64, uintptr:
 			return true
 		default:
 			panic(fmt.Errorf("%s: TODO %T", position(n), x))
@@ -780,6 +829,8 @@ func (c *c) normalize(n *cc.Expression) cc.Node {
 				switch x := n.IdentResolutionScope().Lookup(cc.NSIdentifiers, n.Token.Val).Node.(type) {
 				case *cc.DirectDeclarator:
 					n.Type = x.TopDeclarator().Type
+				case nil:
+					panic(fmt.Errorf("%s: udefined %s", position(n), dict.S(n.Token.Val)))
 				default:
 					panic(fmt.Errorf("%s: internal error %T", position(n), x))
 				}
@@ -819,6 +870,9 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, t cc.
 				continue
 			}
 		default:
+			if group >= 0 {
+				index++
+			}
 			group = -1
 		}
 
@@ -871,8 +925,13 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType cc.Type) {
 				c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.InternalLinkage, NameID: vi.staticName, TypeID: t.ID(), Position: position(n)})
 			case vi.arg:
 				at := c.f.arguments[vi.index]
-				t := c.types.MustType(at).Pointer()
-				c.emit(&ir.Argument{Address: true, Index: vi.index, TypeID: t.ID(), Position: position(n)})
+				t := c.types.MustType(at)
+				switch t.Kind() {
+				case ir.Array:
+					c.emit(&ir.Argument{Index: vi.index, TypeID: t.(*ir.ArrayType).Item.Pointer().ID(), Position: position(n)})
+				default:
+					c.emit(&ir.Argument{Address: true, Index: vi.index, TypeID: t.Pointer().ID(), Position: position(n)})
+				}
 			default:
 				t, _ := c.types.Type(vi.typ)
 				switch {
@@ -1046,6 +1105,10 @@ func (c *c) convert(n cc.Node, from, to cc.Type) {
 }
 
 func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
+	if t.Kind() == cc.Void {
+		return
+	}
+
 	switch x := v.(type) {
 	case int8:
 		c.emit(&ir.Const32{TypeID: idInt8, Value: int32(x), Position: position(n)})
@@ -1161,6 +1224,7 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	switch x := c.normalize(n).(type) {
 	case *cc.ExpressionList:
 		c.expressionList(ot, x)
+		return x.Type
 	case *cc.Expression:
 		n = x
 	default:
@@ -1282,15 +1346,17 @@ out:
 			args := c.call(t, n.ArgumentExpressionListOpt)
 			c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
 		case cc.Ptr:
-			TODO(position(n))
-			// ft := t.Element()
-			// if ft.Kind() != cc.Function {
-			// 	panic("internal error")
-			// }
+			ft := t.Element()
+			if ft.Kind() != cc.Function {
+				panic("internal error")
+			}
 
-			// c.call(ft, n.ArgumentExpressionListOpt)
-			// c.expression(t, n.Expression)
-			// c.f.Emit(ir.Call, c.typ(t), nil, position(n))
+			if r := ft.Result(); r.Kind() != cc.Void {
+				c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
+			}
+			c.expression(t, n.Expression)
+			args := c.call(ft, n.ArgumentExpressionListOpt)
+			c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t).ID(), Position: position(n)})
 		default:
 			TODO(position(n), t.Kind())
 		}
@@ -1550,23 +1616,23 @@ out:
 	case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
 		// eval expr
 		// convert to bool if necessary
-		// jz 1
+		// jz 0
 		// eval exprlist
-		// jmp 2
-		// 1: eval expr2
-		// 2:
+		// jmp 1
+		// 0: eval expr2
+		// 1:
 		c.expression(nil, n.Expression)
-		if n.Expression2.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
+		if n.Expression.Type.Kind() != cc.Int {
+			c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 		}
-		l1 := c.label()
-		c.emit(&ir.Jz{Number: l1, Position: position(n.Expression)})
+		l0 := c.label()
+		c.emit(&ir.Jz{Number: l0, Position: position(n.Expression)})
 		c.expressionList(nil, n.ExpressionList)
-		l2 := c.label()
-		c.emit(&ir.Jmp{Number: l2, Position: position(n)})
-		c.emit(&ir.Label{Number: l1, Position: position(n)})
+		l1 := c.label()
+		c.emit(&ir.Jmp{Number: l1, Position: position(n)})
+		c.emit(&ir.Label{Number: l0, Position: position(n)})
 		c.expression(n.ExpressionList.Type, n.Expression2)
-		c.emit(&ir.Label{Number: l2, Position: position(n)})
+		c.emit(&ir.Label{Number: l1, Position: position(n)})
 	case 45: // Expression '=' Expression                          // Case 45
 		bits, bitoff, bfType := c.addr(n.Expression)
 		c.expression(n.Expression.Type, n.Expression2)
@@ -1608,7 +1674,7 @@ out:
 	case 53: // Expression "&=" Expression                         // Case 53
 		c.asop(n, &ir.And{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 54: // Expression "^=" Expression                         // Case 54
-		TODO(position(n))
+		c.asop(n, &ir.Xor{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 55: // Expression "|=" Expression                         // Case 55
 		TODO(position(n))
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
