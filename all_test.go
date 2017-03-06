@@ -157,6 +157,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __builtin_strcpy(dest, src) strcpy(dest, src)
 #define __builtin_strlen(s) strlen(s)
 #define __builtin_trap abort
+#define __complex _Complex
 #define __complex__ _Complex
 #define __restrict restrict
 
@@ -427,6 +428,12 @@ func TestGCCExec(t *testing.T) {
 		"20030330-1.c": {}, // __builtin_constant_p
 		"20030408-1.c": {}, // const struct foo X = { a : 'A', c : 'C', e : 'E', g : 'G', i : 'I' };
 		"20030501-1.c": {}, // nested fn
+		"20030714-1.c": {}, // implicit selector (TODO check the specs)
+		"20030811-1.c": {}, // __builtin_return_address
+		"20030910-1.c": {}, // __real
+		"20031003-1.c": {}, //TODO https://github.com/golang/go/issues/19405
+		"20040223-1.c": {}, // alloca
+		"20040302-1.c": {}, // &&label
 	}
 	wd, err := os.Getwd()
 	if err != nil {

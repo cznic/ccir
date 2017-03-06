@@ -397,6 +397,8 @@ func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, b
 			for j := iGroup; j < groupEnd; j++ {
 				var bits uint64
 				switch x := values[iValue+j].(type) {
+				case nil:
+					// ok
 				case *ir.Int32Value:
 					bits = uint64(x.Value)
 				default:
@@ -1216,16 +1218,16 @@ func (c *c) asop(n *cc.Expression, op ir.Operation) {
 	evalType := c.asopType(n)
 	bits, bitoff, bt := c.addr(n.Expression)
 	btid := c.typeID(bt)
-	pt := c.typ(n.Expression.Type.Pointer()).ID()
 	switch {
-	case bt != nil:
+	case bits != 0:
 		c.emit(&ir.Dup{TypeID: c.typ(bt.Pointer()).ID(), Position: position(n.ExpressionList)})
+		c.emit(&ir.Load{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(evalType.Pointer()).ID(), Position: position(n)})
 	default:
+		pt := c.typ(n.Expression.Type.Pointer()).ID()
 		c.emit(&ir.Dup{TypeID: pt, Position: position(n.ExpressionList)})
+		c.emit(&ir.Load{TypeID: pt, Position: position(n)})
+		c.convert(n, n.Expression.Type, evalType)
 	}
-	c.emit(&ir.Load{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: pt, Position: position(n)})
-	at := c.typ(n.Expression.Type).ID()
-	c.convert(n, n.Expression.Type, evalType)
 	switch {
 	case n.Expression.Type.Kind() == cc.Ptr:
 		c.expression(nil, n.Expression2)
@@ -1233,8 +1235,13 @@ func (c *c) asop(n *cc.Expression, op ir.Operation) {
 		c.expression(evalType, n.Expression2)
 	}
 	c.emit(op)
-	c.convert(n, evalType, n.Expression.Type)
-	c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: at.ID(), Position: position(n)})
+	switch {
+	case bits != 0:
+		c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(evalType).ID(), Position: position(n)})
+	default:
+		c.convert(n, evalType, n.Expression.Type)
+		c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+	}
 }
 
 func (c *c) shift(n *cc.Expression, op ir.Operation) {
@@ -1416,9 +1423,9 @@ out:
 		}
 		c.emit(&ir.PostIncrement{Delta: delta, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 13: // Expression "--"                                    // Case 13
-		bits, _, _ := c.addr(n.Expression)
+		bits, bitoff, bitType := c.addr(n.Expression)
 		if bits != 0 {
-			TODO(position(n))
+			TODO(position(n), bits, bitoff, bitType, n.Type, n.Expression.Type)
 		}
 		delta := 1
 		if t := n.Expression.Type; t.Kind() == cc.Ptr {
@@ -1492,7 +1499,11 @@ out:
 		case n.TypeName.Type.Kind() == cc.Void:
 			c.emit(&ir.Drop{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 		default:
-			c.emit(&ir.Convert{TypeID: c.typ(n.Expression.Type).ID(), Result: c.typ(n.TypeName.Type).ID(), Position: position(n)})
+			t := n.Expression.Type
+			if t.Kind() == cc.Array {
+				t = t.Element().Pointer()
+			}
+			c.emit(&ir.Convert{TypeID: c.typ(t).ID(), Result: c.typ(n.TypeName.Type).ID(), Position: position(n)})
 		}
 	case 26: // Expression '*' Expression                          // Case 26
 		c.binop(n, &ir.Mul{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
@@ -1699,7 +1710,7 @@ out:
 	case 54: // Expression "^=" Expression                         // Case 54
 		c.asop(n, &ir.Xor{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 55: // Expression "|=" Expression                         // Case 55
-		TODO(position(n))
+		c.asop(n, &ir.Or{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
 	default:
@@ -1952,6 +1963,7 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	switch {
 	case defaultCase < 0:
 		labels.breakLabel = c.label()
+		c.emit(&ir.Jmp{Number: labels.breakLabel, Position: position(n)})
 	default:
 		c.emit(&ir.Jmp{Number: defaultCase, Position: position(n)})
 	}
