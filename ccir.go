@@ -207,7 +207,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 			for i, v := range m {
 				t := v.Type
 				if c.isVLA(t) != nil {
-					panic(fmt.Errorf("%s: struct/union member cannot be a variable lenght array", position(t.Declarator())))
+					panic(fmt.Errorf("%s: struct/union member cannot be a variable length array", position(t.Declarator())))
 				}
 
 				if v.Bits != 0 {
@@ -625,7 +625,7 @@ func (c *c) exprInitializerArray(t cc.Type, pt ir.Type, l *cc.InitializerList) {
 func (c *c) exprInitializerList(t cc.Type, vi int, vp token.Position, l *cc.InitializerList) {
 	var pt ir.Type
 	switch t.Kind() {
-	case cc.Struct:
+	case cc.Struct, cc.Union:
 		pt = c.typ(t).Pointer()
 		c.emit(&ir.Variable{Address: true, Index: vi, TypeID: pt.ID(), Position: vp})
 		c.exprInitializerStruct(t, pt, l)
@@ -766,7 +766,7 @@ func (c *c) declaration(n *cc.Declaration) {
 				val, init := c.initializer(l.InitDeclarator.Declarator.Type, l.InitDeclarator.Initializer)
 				c.out = append(c.out, ir.NewDataDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), ln, val))
 				if init != nil {
-					TODO(position(init))
+					TODO(position(init), val)
 				}
 			}
 		}
@@ -1480,11 +1480,6 @@ out:
 		}
 		c.emit(&ir.PreIncrement{Delta: -delta, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 17: // '&' Expression                                     // Case 17
-		if n.Expression.Type.Kind() == cc.Array {
-			TODO(position(n))
-			break
-		}
-
 		c.addr(n.Expression)
 	case 18: // '*' Expression                                     // Case 18
 		c.expression(n.Type.Pointer(), n.Expression)
@@ -1546,6 +1541,12 @@ out:
 				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
 				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
 				return t
+			case uint64:
+				t := c.expression(nil, n.Expression)
+				tid := c.typ(t).ID()
+				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * int32(x), Position: position(n)})
+				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				return t
 			default:
 				//dbg("%T", x)
 				TODO(position(n))
@@ -1563,15 +1564,31 @@ out:
 	case 30: // Expression '-' Expression                          // Case 30
 		switch n.Expression.Type.Kind() {
 		case cc.Ptr, cc.Array:
-			switch n.Expression2.Type.Kind() {
-			case cc.Array, cc.Ptr:
+			switch x := n.Expression2.Value.(type) {
+			case nil:
 				c.expression(nil, n.Expression)
 				c.expression(nil, n.Expression2)
 				c.emit(&ir.PtrDiff{PtrType: c.typ(n.Expression.Type).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
-				return n.Type
+				return t
+			case int32:
+				t := c.expression(nil, n.Expression)
+				tid := c.typ(t).ID()
+				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
+				c.emit(&ir.Sub{TypeID: tid, Position: position(n)})
+				return t
 			default:
-				TODO(position(n), n.Expression2.Type.Kind())
+				dbg("%T", x)
+				TODO(position(n))
 			}
+			//TODO switch n.Expression2.Type.Kind() {
+			//TODO case cc.Array, cc.Ptr:
+			//TODO 	c.expression(nil, n.Expression)
+			//TODO 	c.expression(nil, n.Expression2)
+			//TODO 	c.emit(&ir.PtrDiff{PtrType: c.typ(n.Expression.Type).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
+			//TODO 	return n.Type
+			//TODO default:
+			//TODO 	TODO(position(n), n.Expression2.Type.Kind())
+			//TODO }
 
 			return n.Type
 		}
@@ -1721,7 +1738,7 @@ out:
 	case 51: // Expression "<<=" Expression                        // Case 51
 		c.asop(n, &ir.Lsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
 	case 52: // Expression ">>=" Expression                        // Case 52
-		TODO(position(n))
+		c.asop(n, &ir.Rsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
 	case 53: // Expression "&=" Expression                         // Case 53
 		c.asop(n, &ir.And{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 54: // Expression "^=" Expression                         // Case 54

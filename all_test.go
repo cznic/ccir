@@ -145,14 +145,21 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __MODEL_%s__
 
 #define NO_TRAMPOLINES 1
+#define __CHAR_BIT__ 8
 #define __FUNCTION__ __func__
+#define __INT16_TYPE__ short
+#define __INT32_TYPE__ int
 #define __LONG_LONG_MAX__ LLONG_MAX
 #define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
 #define __attribute__(x)
+#define __builtin_abort abort
 #define __builtin_expect(exp, c) (exp)
+#define __builtin_malloc(n) malloc(n)
+#define __builtin_memcmp memcmp
 #define __builtin_memcpy(dest, src, n) memcpy(dest, src, n)
 #define __builtin_memset(s, c, n) memset(s, c, n)
+#define __builtin_printf(...) printf(__VA_ARGS__)
 #define __builtin_strcmp(s1, s2) strcmp(s1, s2)
 #define __builtin_strcpy(dest, src) strcpy(dest, src)
 #define __builtin_strlen(s) strlen(s)
@@ -160,6 +167,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __builtin_va_list char*
 #define __complex _Complex
 #define __complex__ _Complex
+#define __const const
 #define __restrict restrict
 
 #include <limits.h>
@@ -464,6 +472,35 @@ func TestGCCExec(t *testing.T) {
 		"20050316-3.c": {}, // __attribute__ ((vector_size (x)))
 		"20050604-1.c": {}, // __attribute__ ((vector_size (x)))
 		"20050607-1.c": {}, // __attribute__ ((vector_size (x)))
+		"20050613-1.c": {}, //TODO { .i.j = expr }
+		"20050929-1.c": {}, //TODO struct C e = { &(struct B) { &(struct A) { 1, 2 }, &(struct A) { 3, 4 } }, &(struct A) { 5, 6 } };
+		"20051110-1.c": {}, //TODO
+		"20051110-2.c": {}, //TODO
+		"20060910-1.c": {}, //TODO
+		"20060930-2.c": {}, //TODO
+		"20061031-1.c": {}, // asm
+		"20061220-1.c": {}, // nested fn
+		"20070614-1.c": {}, //TODO complex literal not handled?
+		"20070824-1.c": {}, // __builtin_alloca
+		"20070919-1.c": {}, // VLA in struct
+		"20071029-1.c": {}, //TODO
+		"20071210-1.c": {}, // &&label
+		"20071211-1.c": {}, // asm
+		"20071219-1.c": {}, //TODO
+		"20071220-1.c": {}, // asm
+		"20071220-2.c": {}, // asm
+		"20080122-1.c": {}, // asm
+		"20080424-1.c": {}, //TODO internal error
+		"20080502-1.c": {}, //TODO signbit
+		"20080519-1.c": {}, //TODO
+		"20080522-1.c": {}, //TODO
+		"20081117-1.c": {}, //TODO
+		"20090113-1.c": {}, //TODO
+		"20090219-1.c": {}, // nested fn
+		"20090814-1.c": {}, //TODO
+		"20101011-1.c": {}, //TODO
+		"20101025-1.c": {}, //TODO
+		"20120919-1.c": {}, //TODO
 	}
 	wd, err := os.Getwd()
 	if err != nil {
