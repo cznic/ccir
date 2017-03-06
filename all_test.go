@@ -157,11 +157,12 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __builtin_strcpy(dest, src) strcpy(dest, src)
 #define __builtin_strlen(s) strlen(s)
 #define __builtin_trap abort
+#define __builtin_va_list char*
 #define __complex _Complex
 #define __complex__ _Complex
 #define __restrict restrict
 
-
+#include <limits.h>
 #include <math.h>
 #include <string.h>
 #include <wchar.h>
@@ -327,7 +328,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 			}()
 
 			args := hook(vwd, match)
-			es, err := virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<16, 1<<16)
+			es, err := virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<20, 1<<20)
 			if es != 0 || err != nil {
 				if b := stdout.Bytes(); b != nil {
 					t.Logf("stdout:\n%s", b)
@@ -381,11 +382,22 @@ func TestTCC(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	var re *regexp.Regexp
+	if s := *filter; s != "" {
+		re = regexp.MustCompile(s)
+	}
+
 	dir := filepath.Join(testdata, filepath.FromSlash("tcc-0.9.26/tests/tests2/"))
 	expect(
 		t,
 		dir,
-		func(string) bool { return false },
+		func(match string) bool {
+			if re != nil && !re.MatchString(filepath.Base(match)) {
+				return true
+			}
+
+			return false
+		},
 		func(wd, match string) []string {
 			switch filepath.Base(match) {
 			case "31_args.c":
@@ -434,6 +446,24 @@ func TestGCCExec(t *testing.T) {
 		"20031003-1.c": {}, //TODO https://github.com/golang/go/issues/19405
 		"20040223-1.c": {}, // alloca
 		"20040302-1.c": {}, // &&label
+		"20040308-1.c": {}, // VLA in struct
+		"20040411-1.c": {}, //TODO VLA
+		"20040423-1.c": {}, //TODO VLA
+		"20040520-1.c": {}, // nested fn
+		"20040709-1.c": {}, // __builtin_classify_type
+		"20040709-2.c": {}, // __builtin_classify_type
+		"20040811-1.c": {}, //TODO VLA
+		"20041124-1.c": {}, // _Complex integer;
+		"20041201-1.c": {}, // _Complex integer;
+		"20041214-1.c": {}, // &&label
+		"20041218-2.c": {}, //TODO VLA
+		"20050121-1.c": {}, // _Complex integer;
+		"20050203-1.c": {}, // asm
+		"20050316-1.c": {}, // __attribute__ ((vector_size (x)))
+		"20050316-2.c": {}, // __attribute__ ((vector_size (x)))
+		"20050316-3.c": {}, // __attribute__ ((vector_size (x)))
+		"20050604-1.c": {}, // __attribute__ ((vector_size (x)))
+		"20050607-1.c": {}, // __attribute__ ((vector_size (x)))
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -470,10 +500,12 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableAlternateKeywords(),
 		cc.EnableAnonymousStructFields(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
+		cc.EnableEmptyDeclarations(),
 		cc.EnableEmptyStructs(),
 		cc.EnableImplicitFuncDef(),
 		cc.EnableOmitFuncRetType(),
 		cc.EnableTypeOf(),
+		cc.EnableWideBitFieldTypes(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),
 	)

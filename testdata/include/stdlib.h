@@ -7,6 +7,7 @@
 #define EXIT_SUCCESS 0
 #define NULL ((void *)0)
 
+int abs(int j);
 void *calloc(size_t nmemb, size_t size);
 void *malloc(size_t size);
 void abort(void);
