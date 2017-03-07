@@ -153,6 +153,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __PTRDIFF_TYPE__ long
 #define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
+#define __UINT32_TYPE__ unsigned
 #define __attribute__(x)
 #define __builtin_abort abort
 #define __builtin_expect(exp, c) (exp)
@@ -439,149 +440,158 @@ func TestTCC(t *testing.T) {
 
 func TestGCCExec(t *testing.T) {
 	blacklist := map[string]struct{}{
-		"20000703-1.c": {}, // ({ ... });
-		"20000917-1.c": {}, // ({ ... });
-		"20001009-2.c": {}, // asm
-		"20001203-2.c": {}, // ({ ... });
-		"20010122-1.c": {}, // alloca
-		"20010209-1.c": {}, // nested fn
-		"20010605-1.c": {}, // nested fn
-		"20010605-2.c": {}, // __real__
-		"20010904-1.c": {}, // __attribute__((aligned(32)))
-		"20010904-2.c": {}, // __attribute__((aligned(32)))
-		"20020107-1.c": {}, // asm
-		"20020206-1.c": {}, // ({ ... });
-		"20020314-1.c": {}, // alloca
-		"20020320-1.c": {}, // ({ ... });
-		"20020411-1.c": {}, // __real__
-		"20020412-1.c": {}, // VLA in struct
-		"20021113-1.c": {}, // alloca
-		"20021127-1.c": {}, // https://goo.gl/XDxJEL
-		"20030222-1.c": {}, // asm
-		"20030323-1.c": {}, // __builtin_return_address
-		"20030330-1.c": {}, // __builtin_constant_p
-		"20030408-1.c": {}, // const struct foo X = { a : 'A', c : 'C', e : 'E', g : 'G', i : 'I' };
-		"20030501-1.c": {}, // nested fn
-		"20030714-1.c": {}, // implicit selector (TODO check the specs)
-		"20030811-1.c": {}, // __builtin_return_address
-		"20030910-1.c": {}, // __real
-		"20031003-1.c": {}, //TODO https://github.com/golang/go/issues/19405
-		"20040223-1.c": {}, // alloca
-		"20040302-1.c": {}, // &&label
-		"20040308-1.c": {}, // VLA in struct
-		"20040411-1.c": {}, //TODO VLA
-		"20040423-1.c": {}, //TODO VLA
-		"20040520-1.c": {}, // nested fn
-		"20040709-1.c": {}, // __builtin_classify_type
-		"20040709-2.c": {}, // __builtin_classify_type
-		"20040811-1.c": {}, //TODO VLA
-		"20041124-1.c": {}, // _Complex integer;
-		"20041201-1.c": {}, // _Complex integer;
-		"20041214-1.c": {}, // &&label
-		"20041218-2.c": {}, //TODO VLA
-		"20050121-1.c": {}, // _Complex integer;
-		"20050203-1.c": {}, // asm
-		"20050316-1.c": {}, // __attribute__ ((vector_size (x)))
-		"20050316-2.c": {}, // __attribute__ ((vector_size (x)))
-		"20050316-3.c": {}, // __attribute__ ((vector_size (x)))
-		"20050604-1.c": {}, // __attribute__ ((vector_size (x)))
-		"20050607-1.c": {}, // __attribute__ ((vector_size (x)))
-		"20050613-1.c": {}, //TODO { .i.j = expr }
-		"20050929-1.c": {}, //TODO struct C e = { &(struct B) { &(struct A) { 1, 2 }, &(struct A) { 3, 4 } }, &(struct A) { 5, 6 } };
-		"20051110-1.c": {}, //TODO
-		"20051110-2.c": {}, //TODO
-		"20060910-1.c": {}, //TODO
-		"20060930-2.c": {}, //TODO
-		"20061031-1.c": {}, // asm
-		"20061220-1.c": {}, // nested fn
-		"20070614-1.c": {}, //TODO complex literal not handled?
-		"20070824-1.c": {}, // __builtin_alloca
-		"20070919-1.c": {}, // VLA in struct
-		"20071029-1.c": {}, //TODO
-		"20071210-1.c": {}, // &&label
-		"20071211-1.c": {}, // asm
-		"20071219-1.c": {}, //TODO
-		"20071220-1.c": {}, // asm
-		"20071220-2.c": {}, // asm
-		"20080122-1.c": {}, // asm
-		"20080424-1.c": {}, //TODO internal error
-		"20080502-1.c": {}, //TODO signbit
-		"20080519-1.c": {}, //TODO
-		"20080522-1.c": {}, //TODO
-		"20081117-1.c": {}, //TODO
-		"20090113-1.c": {}, //TODO
-		"20090219-1.c": {}, // nested fn
-		"20090814-1.c": {}, //TODO
-		"20101011-1.c": {}, //TODO
-		"20101025-1.c": {}, //TODO
-		"20120919-1.c": {}, //TODO
-		"920302-1.c":   {}, // &&label
-		"920415-1.c":   {}, // &&label
-		"920428-1.c":   {}, //TODO
-		"920429-1.c":   {}, //TODO
-		"920501-3.c":   {}, // &&label
-		"920501-4.c":   {}, // &&label
-		"920501-5.c":   {}, // &&label
-		"920501-6.c":   {}, //TODO
-		"920603-1.c":   {}, //TODO
-		"920612-2.c":   {}, // nested fn
-		"920721-3.c":   {}, // nested fn
-		"920721-4.c":   {}, // &&label
-		"920728-1.c":   {}, //TODO
-		"920731-1.c":   {}, //TODO
-		"920909-1.c":   {}, //TODO
-		"920929-1.c":   {}, //TODO VLA
-		"921017-1.c":   {}, //TODO
-		"921019-1.c":   {}, //TODO
-		"921110-1.c":   {}, //TODO
-		"921124-1.c":   {}, //TODO
-		"930406-1.c":   {}, // ({ ... });
-		"930429-2.c":   {}, //TODO
-		"930513-1.c":   {}, //TODO
-		"930513-2.c":   {}, //TODO
-		"930603-1.c":   {}, //TODO
-		"930603-3.c":   {}, //TODO
-		"930608-1.c":   {}, //TODO
-		"930622-1.c":   {}, //TODO
-		"930628-1.c":   {}, //TODO
-		"930719-1.c":   {}, //TODO
-		"930930-2.c":   {}, //TODO
-		"931009-1.c":   {}, //TODO
-		"931228-1.c":   {}, //TODO
-		"941202-1.c":   {}, //TODO
-		"950512-1.c":   {}, //TODO
-		"950628-1.c":   {}, //TODO
-		"950906-1.c":   {}, // ({ ... });
-		"950929-1.c":   {}, //TODO
-		"951003-1.c":   {}, //TODO
-		"960116-1.c":   {}, //TODO
-		"960218-1.c":   {}, //TODO
-		"960301-1.c":   {}, //TODO
-		"960312-1.c":   {}, //TODO
-		"960405-1.c":   {}, //TODO
-		"960416-1.c":   {}, //TODO
-		"960512-1.c":   {}, //TODO
-		"961112-1.c":   {}, //TODO
-		"970217-1.c":   {}, //TODO
-		"980223.c":     {}, //TODO
-		"980506-3.c":   {}, //TODO
-		"980526-1.c":   {}, // &&label
-		"980605-1.c":   {}, //TODO
-		"990130-1.c":   {}, // asm
-		"990208-1.c":   {}, // &&label
-		"990413-2.c":   {}, // asm
-		"990524-1.c":   {}, //TODO
-		"991030-1.c":   {}, //TODO
-		"991118-1.c":   {}, //TODO
-		"991228-1.c":   {}, // __extension__ union { double d; int i[2]; } u = { d: -0.25 };
-		"alias-2.c":    {}, // extern int b[10] __attribute__ ((alias("a")));
-		"alias-3.c":    {}, // extern int b[10] __attribute__ ((alias("a")));
-		"alias-4.c":    {}, // extern int b[10] __attribute__ ((alias("a")));
-		"align-3.c":    {}, // __alignof__(non-type-name)
-		"align-nest.c": {}, // VLA in struct
-		"alloca-1.c":   {}, // __builtin_alloca
-		"anon-1.c":     {}, //TODO
-		"bcp-1.c":      {}, // __builtin_constant_p
+		"20000703-1.c":      {}, // ({ ... });
+		"20000914-1.c":      {}, //TODO
+		"20000917-1.c":      {}, // ({ ... });
+		"20001009-2.c":      {}, // asm
+		"20001203-2.c":      {}, // ({ ... });
+		"20010122-1.c":      {}, // alloca
+		"20010209-1.c":      {}, // nested fn
+		"20010605-1.c":      {}, // nested fn
+		"20010605-2.c":      {}, // __real__
+		"20010904-1.c":      {}, // __attribute__((aligned(32)))
+		"20010904-2.c":      {}, // __attribute__((aligned(32)))
+		"20020107-1.c":      {}, // asm
+		"20020206-1.c":      {}, // ({ ... });
+		"20020314-1.c":      {}, // alloca
+		"20020320-1.c":      {}, // ({ ... });
+		"20020411-1.c":      {}, // __real__
+		"20020412-1.c":      {}, // VLA in struct
+		"20021113-1.c":      {}, // alloca
+		"20021127-1.c":      {}, // https://goo.gl/XDxJEL
+		"20030222-1.c":      {}, // asm
+		"20030323-1.c":      {}, // __builtin_return_address
+		"20030330-1.c":      {}, // __builtin_constant_p
+		"20030408-1.c":      {}, // const struct foo X = { a : 'A', c : 'C', e : 'E', g : 'G', i : 'I' };
+		"20030501-1.c":      {}, // nested fn
+		"20030714-1.c":      {}, // implicit selector (TODO check the specs)
+		"20030811-1.c":      {}, // __builtin_return_address
+		"20030910-1.c":      {}, // __real
+		"20031003-1.c":      {}, //TODO https://github.com/golang/go/issues/19405
+		"20040223-1.c":      {}, // alloca
+		"20040302-1.c":      {}, // &&label
+		"20040308-1.c":      {}, // VLA in struct
+		"20040411-1.c":      {}, //TODO VLA
+		"20040423-1.c":      {}, //TODO VLA
+		"20040520-1.c":      {}, // nested fn
+		"20040709-1.c":      {}, // __builtin_classify_type
+		"20040709-2.c":      {}, // __builtin_classify_type
+		"20040811-1.c":      {}, //TODO VLA
+		"20041124-1.c":      {}, // _Complex integer;
+		"20041201-1.c":      {}, // _Complex integer;
+		"20041214-1.c":      {}, // &&label
+		"20041218-2.c":      {}, //TODO VLA
+		"20050121-1.c":      {}, // _Complex integer;
+		"20050203-1.c":      {}, // asm
+		"20050316-1.c":      {}, // __attribute__ ((vector_size (x)))
+		"20050316-2.c":      {}, // __attribute__ ((vector_size (x)))
+		"20050316-3.c":      {}, // __attribute__ ((vector_size (x)))
+		"20050604-1.c":      {}, // __attribute__ ((vector_size (x)))
+		"20050607-1.c":      {}, // __attribute__ ((vector_size (x)))
+		"20050613-1.c":      {}, //TODO { .i.j = expr }
+		"20050929-1.c":      {}, //TODO struct C e = { &(struct B) { &(struct A) { 1, 2 }, &(struct A) { 3, 4 } }, &(struct A) { 5, 6 } };
+		"20051110-1.c":      {}, //TODO
+		"20051110-2.c":      {}, //TODO
+		"20060910-1.c":      {}, //TODO
+		"20060930-2.c":      {}, //TODO
+		"20061031-1.c":      {}, // asm
+		"20061220-1.c":      {}, // nested fn
+		"20070614-1.c":      {}, //TODO complex literal not handled?
+		"20070824-1.c":      {}, // __builtin_alloca
+		"20070919-1.c":      {}, // VLA in struct
+		"20071029-1.c":      {}, //TODO
+		"20071210-1.c":      {}, // &&label
+		"20071211-1.c":      {}, // asm
+		"20071219-1.c":      {}, //TODO
+		"20071220-1.c":      {}, // asm
+		"20071220-2.c":      {}, // asm
+		"20080122-1.c":      {}, // asm
+		"20080424-1.c":      {}, //TODO internal error
+		"20080502-1.c":      {}, //TODO signbit
+		"20080519-1.c":      {}, //TODO
+		"20080522-1.c":      {}, //TODO
+		"20081117-1.c":      {}, //TODO
+		"20090113-1.c":      {}, //TODO
+		"20090219-1.c":      {}, // nested fn
+		"20090814-1.c":      {}, //TODO
+		"20101011-1.c":      {}, //TODO
+		"20101025-1.c":      {}, //TODO
+		"20120919-1.c":      {}, //TODO
+		"920302-1.c":        {}, // &&label
+		"920415-1.c":        {}, // &&label
+		"920428-1.c":        {}, //TODO
+		"920429-1.c":        {}, //TODO
+		"920501-3.c":        {}, // &&label
+		"920501-4.c":        {}, // &&label
+		"920501-5.c":        {}, // &&label
+		"920501-6.c":        {}, //TODO
+		"920603-1.c":        {}, //TODO
+		"920612-2.c":        {}, // nested fn
+		"920721-3.c":        {}, // nested fn
+		"920721-4.c":        {}, // &&label
+		"920728-1.c":        {}, //TODO
+		"920731-1.c":        {}, //TODO
+		"920909-1.c":        {}, //TODO
+		"920929-1.c":        {}, //TODO VLA
+		"921017-1.c":        {}, //TODO
+		"921019-1.c":        {}, //TODO
+		"921110-1.c":        {}, //TODO
+		"921124-1.c":        {}, //TODO
+		"930406-1.c":        {}, // ({ ... });
+		"930429-2.c":        {}, //TODO
+		"930513-1.c":        {}, //TODO
+		"930513-2.c":        {}, //TODO
+		"930603-1.c":        {}, //TODO
+		"930603-3.c":        {}, //TODO
+		"930608-1.c":        {}, //TODO
+		"930622-1.c":        {}, //TODO
+		"930628-1.c":        {}, //TODO
+		"930719-1.c":        {}, //TODO
+		"930930-2.c":        {}, //TODO
+		"931009-1.c":        {}, //TODO
+		"931228-1.c":        {}, //TODO
+		"941202-1.c":        {}, //TODO
+		"950512-1.c":        {}, //TODO
+		"950628-1.c":        {}, //TODO
+		"950906-1.c":        {}, // ({ ... });
+		"950929-1.c":        {}, //TODO
+		"951003-1.c":        {}, //TODO
+		"960116-1.c":        {}, //TODO
+		"960218-1.c":        {}, //TODO
+		"960301-1.c":        {}, //TODO
+		"960312-1.c":        {}, //TODO
+		"960405-1.c":        {}, //TODO
+		"960416-1.c":        {}, //TODO
+		"960512-1.c":        {}, //TODO
+		"961112-1.c":        {}, //TODO
+		"970217-1.c":        {}, //TODO
+		"980223.c":          {}, //TODO
+		"980506-3.c":        {}, //TODO
+		"980526-1.c":        {}, // &&label
+		"980605-1.c":        {}, //TODO
+		"990130-1.c":        {}, // asm
+		"990208-1.c":        {}, // &&label
+		"990413-2.c":        {}, // asm
+		"990524-1.c":        {}, //TODO
+		"991030-1.c":        {}, //TODO
+		"991228-1.c":        {}, // __extension__ union { double d; int i[2]; } u = { d: -0.25 };
+		"alias-2.c":         {}, // extern int b[10] __attribute__ ((alias("a")));
+		"alias-3.c":         {}, // extern int b[10] __attribute__ ((alias("a")));
+		"alias-4.c":         {}, // extern int b[10] __attribute__ ((alias("a")));
+		"align-3.c":         {}, // __alignof__(non-type-name)
+		"align-nest.c":      {}, // VLA in struct
+		"alloca-1.c":        {}, // __builtin_alloca
+		"anon-1.c":          {}, //TODO
+		"bcp-1.c":           {}, // __builtin_constant_p
+		"bf-sign-2.c":       {}, //TODO
+		"bitfld-1.c":        {}, //TODO
+		"bitfld-3.c":        {}, //TODO
+		"bitfld-5.c":        {}, // asm
+		"bitfld-6.c":        {}, //TODO
+		"bitfld-7.c":        {}, //TODO
+		"bswap-1.c":         {}, // __builtin_bswap64
+		"bswap-2.c":         {}, //TODO
+		"built-in-setjmp.c": {}, //TODO
 	}
 	wd, err := os.Getwd()
 	if err != nil {

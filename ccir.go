@@ -446,7 +446,7 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 	switch t.Kind() {
 	case cc.Array, cc.Ptr:
 		return c.arrayInitializerList(t, n)
-	case cc.Struct:
+	case cc.Struct, cc.Union:
 		return c.structInitializerList(t, n)
 	default:
 		panic(fmt.Errorf("%s: internal error %v %v", position(n), t, t.Kind()))
