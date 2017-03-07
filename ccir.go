@@ -401,11 +401,13 @@ func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, b
 					// ok
 				case *ir.Int32Value:
 					bits = uint64(x.Value)
+				case *ir.Int64Value:
+					bits = uint64(x.Value)
 				default:
 					panic(fmt.Errorf("%s: TODO %T", position(n), x))
 				}
-				bits &= 1<<uint(m.Bits) - 1
-				bval |= bits << uint(m.BitOffsetOf)
+				bits &= 1<<uint(members[j].Bits) - 1
+				bval |= bits << uint(members[j].BitOffsetOf)
 			}
 
 			if bval != 0 {
@@ -478,7 +480,11 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 		case int32:
 			return &ir.Int32Value{Value: x}, nil
 		case uint32:
-			return &ir.Int32Value{Value: int32(x)}, nil
+			if x <= math.MaxInt32 {
+				return &ir.Int32Value{Value: int32(x)}, nil
+			}
+
+			return &ir.Int64Value{Value: int64(x)}, nil
 		case int64:
 			switch {
 			case x >= math.MinInt32 && x <= math.MaxInt32:
@@ -809,7 +815,7 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 
 func (c *c) emit(op ir.Operation) { c.f.f.Body = append(c.f.f.Body, op) }
 
-func (c *c) call(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
+func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 	args := 0
 	if n != nil {
 		for l := n.ArgumentExpressionList; l != nil; l = l.ArgumentExpressionList {
@@ -939,7 +945,7 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 		case cc.ScopeBlock:
 			switch vi, ok := c.f.variables[d]; {
 			case !ok:
-				panic("internal error")
+				panic(fmt.Errorf("%s: internal error", position(n)))
 			case vi.static:
 				t, _ := c.types.Type(vi.typ)
 				switch {
@@ -1007,7 +1013,9 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 		c.emit(&ir.Element{Address: true, IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 		return 0, 0, nil, nil
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-		TODO(position(n))
+		c.call(n)
+		c.emit(&ir.TOS{TypeID: c.typ(n.Expression.Type.Result().Pointer()).ID(), Position: position(n)})
+		return 0, 0, nil, nil
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		c.addr(n.Expression)
 		fi, bits, bitoff, bt, vt := c.field(n, n.Expression.Type, n.Token2.Val)
@@ -1255,6 +1263,36 @@ func (c *c) shift(n *cc.Expression, op ir.Operation) {
 	c.emit(op)
 }
 
+func (c *c) call(n *cc.Expression) {
+	expr := n.Expression
+	if expr.Type == nil {
+		expr = c.normalize(n.Expression).(*cc.Expression)
+	}
+	switch t := expr.Type; t.Kind() {
+	case cc.Function:
+		if r := t.Result(); r.Kind() != cc.Void {
+			c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
+		}
+		c.expression(t.Pointer(), n.Expression)
+		args := c.arguments(t, n.ArgumentExpressionListOpt)
+		c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
+	case cc.Ptr:
+		ft := t.Element()
+		if ft.Kind() != cc.Function {
+			panic("internal error")
+		}
+
+		if r := ft.Result(); r.Kind() != cc.Void {
+			c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
+		}
+		c.expression(t, n.Expression)
+		args := c.arguments(ft, n.ArgumentExpressionListOpt)
+		c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t).ID(), Position: position(n)})
+	default:
+		TODO(position(n), t.Kind())
+	}
+}
+
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	switch x := c.normalize(n).(type) {
 	case *cc.ExpressionList:
@@ -1374,33 +1412,7 @@ out:
 		c.expressionList(nil, n.ExpressionList)
 		c.emit(&ir.Element{IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-		expr := n.Expression
-		if expr.Type == nil {
-			expr = c.normalize(n.Expression).(*cc.Expression)
-		}
-		switch t := expr.Type; t.Kind() {
-		case cc.Function:
-			if r := t.Result(); r.Kind() != cc.Void {
-				c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
-			}
-			c.expression(t.Pointer(), n.Expression)
-			args := c.call(t, n.ArgumentExpressionListOpt)
-			c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
-		case cc.Ptr:
-			ft := t.Element()
-			if ft.Kind() != cc.Function {
-				panic("internal error")
-			}
-
-			if r := ft.Result(); r.Kind() != cc.Void {
-				c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
-			}
-			c.expression(t, n.Expression)
-			args := c.call(ft, n.ArgumentExpressionListOpt)
-			c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t).ID(), Position: position(n)})
-		default:
-			TODO(position(n), t.Kind())
-		}
+		c.call(n)
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		c.addr(n.Expression)
 		fi, bits, bitoff, _, vt := c.field(n, n.Expression.Type, n.Token2.Val)
@@ -1551,13 +1563,23 @@ out:
 				//dbg("%T", x)
 				TODO(position(n))
 			}
-			return nil //TODO proper type
+			return n.Type
 		}
 
 		switch n.Expression2.Type.Kind() {
 		case cc.Ptr, cc.Array:
-			TODO(position(n))
-			return nil //TODO proper type
+			switch x := n.Expression.Value.(type) {
+			case int32:
+				t := c.expression(nil, n.Expression2)
+				tid := c.typ(t).ID()
+				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
+				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				return t
+			default:
+				//dbg("%T", x)
+				TODO(position(n))
+			}
+			return n.Type
 		}
 
 		c.binop(n, &ir.Add{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
@@ -1577,7 +1599,7 @@ out:
 				c.emit(&ir.Sub{TypeID: tid, Position: position(n)})
 				return t
 			default:
-				dbg("%T", x)
+				//dbg("%T", x)
 				TODO(position(n))
 			}
 			//TODO switch n.Expression2.Type.Kind() {
@@ -2106,6 +2128,12 @@ func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement) {
 }
 
 func (c *c) functionBody(n *cc.FunctionBody) {
+	if c.f.f.NameID == idMain && c.f.f.Linkage == ir.ExternalLinkage {
+		c.emit(&ir.Result{Address: true, TypeID: idPInt32, Position: position(n)})
+		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
+		c.emit(&ir.Store{TypeID: idInt32, Position: position(n)})
+		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n)})
+	}
 	switch n.Case {
 	case 0: // CompoundStatement
 		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement)

@@ -150,6 +150,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __INT16_TYPE__ short
 #define __INT32_TYPE__ int
 #define __LONG_LONG_MAX__ LLONG_MAX
+#define __PTRDIFF_TYPE__ long
 #define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
 #define __attribute__(x)
@@ -168,8 +169,21 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __complex _Complex
 #define __complex__ _Complex
 #define __const const
+#define __extension__
+#define __inline inline
 #define __restrict restrict
 
+#if defined __MODEL_32__
+#define __SIZEOF_LONG__ 4
+#define __SIZEOF_POINTER__ 4
+#elif defined __MODEL_64__
+#define __SIZEOF_LONG__ 8
+#define __SIZEOF_POINTER__ 8
+#else
+#error
+#endif
+
+#include <ctype.h>
 #include <limits.h>
 #include <math.h>
 #include <string.h>
@@ -501,6 +515,73 @@ func TestGCCExec(t *testing.T) {
 		"20101011-1.c": {}, //TODO
 		"20101025-1.c": {}, //TODO
 		"20120919-1.c": {}, //TODO
+		"920302-1.c":   {}, // &&label
+		"920415-1.c":   {}, // &&label
+		"920428-1.c":   {}, //TODO
+		"920429-1.c":   {}, //TODO
+		"920501-3.c":   {}, // &&label
+		"920501-4.c":   {}, // &&label
+		"920501-5.c":   {}, // &&label
+		"920501-6.c":   {}, //TODO
+		"920603-1.c":   {}, //TODO
+		"920612-2.c":   {}, // nested fn
+		"920721-3.c":   {}, // nested fn
+		"920721-4.c":   {}, // &&label
+		"920728-1.c":   {}, //TODO
+		"920731-1.c":   {}, //TODO
+		"920909-1.c":   {}, //TODO
+		"920929-1.c":   {}, //TODO VLA
+		"921017-1.c":   {}, //TODO
+		"921019-1.c":   {}, //TODO
+		"921110-1.c":   {}, //TODO
+		"921124-1.c":   {}, //TODO
+		"930406-1.c":   {}, // ({ ... });
+		"930429-2.c":   {}, //TODO
+		"930513-1.c":   {}, //TODO
+		"930513-2.c":   {}, //TODO
+		"930603-1.c":   {}, //TODO
+		"930603-3.c":   {}, //TODO
+		"930608-1.c":   {}, //TODO
+		"930622-1.c":   {}, //TODO
+		"930628-1.c":   {}, //TODO
+		"930719-1.c":   {}, //TODO
+		"930930-2.c":   {}, //TODO
+		"931009-1.c":   {}, //TODO
+		"931228-1.c":   {}, //TODO
+		"941202-1.c":   {}, //TODO
+		"950512-1.c":   {}, //TODO
+		"950628-1.c":   {}, //TODO
+		"950906-1.c":   {}, // ({ ... });
+		"950929-1.c":   {}, //TODO
+		"951003-1.c":   {}, //TODO
+		"960116-1.c":   {}, //TODO
+		"960218-1.c":   {}, //TODO
+		"960301-1.c":   {}, //TODO
+		"960312-1.c":   {}, //TODO
+		"960405-1.c":   {}, //TODO
+		"960416-1.c":   {}, //TODO
+		"960512-1.c":   {}, //TODO
+		"961112-1.c":   {}, //TODO
+		"970217-1.c":   {}, //TODO
+		"980223.c":     {}, //TODO
+		"980506-3.c":   {}, //TODO
+		"980526-1.c":   {}, // &&label
+		"980605-1.c":   {}, //TODO
+		"990130-1.c":   {}, // asm
+		"990208-1.c":   {}, // &&label
+		"990413-2.c":   {}, // asm
+		"990524-1.c":   {}, //TODO
+		"991030-1.c":   {}, //TODO
+		"991118-1.c":   {}, //TODO
+		"991228-1.c":   {}, // __extension__ union { double d; int i[2]; } u = { d: -0.25 };
+		"alias-2.c":    {}, // extern int b[10] __attribute__ ((alias("a")));
+		"alias-3.c":    {}, // extern int b[10] __attribute__ ((alias("a")));
+		"alias-4.c":    {}, // extern int b[10] __attribute__ ((alias("a")));
+		"align-3.c":    {}, // __alignof__(non-type-name)
+		"align-nest.c": {}, // VLA in struct
+		"alloca-1.c":   {}, // __builtin_alloca
+		"anon-1.c":     {}, //TODO
+		"bcp-1.c":      {}, // __builtin_constant_p
 	}
 	wd, err := os.Getwd()
 	if err != nil {
