@@ -145,49 +145,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __MODEL_%s__
 
 #define NO_TRAMPOLINES 1
-#define __CHAR_BIT__ 8
-#define __FUNCTION__ __func__
-#define __INT16_TYPE__ short
-#define __INT32_TYPE__ int
-#define __LONG_LONG_MAX__ LLONG_MAX
-#define __PTRDIFF_TYPE__ long
-#define __SIZEOF_INT__ 4
-#define __SIZE_TYPE__ unsigned long
-#define __UINT32_TYPE__ unsigned
-#define __attribute__(x)
-#define __builtin_abort abort
-#define __builtin_expect(exp, c) (exp)
-#define __builtin_malloc(n) malloc(n)
-#define __builtin_memcmp memcmp
-#define __builtin_memcpy(dest, src, n) memcpy(dest, src, n)
-#define __builtin_memset(s, c, n) memset(s, c, n)
-#define __builtin_printf(...) printf(__VA_ARGS__)
-#define __builtin_strcmp(s1, s2) strcmp(s1, s2)
-#define __builtin_strcpy(dest, src) strcpy(dest, src)
-#define __builtin_strlen(s) strlen(s)
-#define __builtin_trap abort
-#define __builtin_va_list char*
-#define __complex _Complex
-#define __complex__ _Complex
-#define __const const
-#define __extension__
-#define __inline inline
-#define __restrict restrict
 
-#if defined __MODEL_32__
-#define __SIZEOF_LONG__ 4
-#define __SIZEOF_POINTER__ 4
-#elif defined __MODEL_64__
-#define __SIZEOF_LONG__ 8
-#define __SIZEOF_POINTER__ 8
-#else
-#error
-#endif
-
-#include <ctype.h>
-#include <limits.h>
-#include <math.h>
-#include <string.h>
 #include <wchar.h>
 `, strings.ToUpper(modelName)),
 		src,
@@ -213,7 +171,6 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 	opts0 := opts
 	for _, match := range matches {
 		if skip(match) {
-			t.Logf("%s: skipped", match)
 			continue
 		}
 
@@ -225,16 +182,22 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 				if len(toks) != 0 {
 					p := toks[0].Position()
 					if p.Filename != lpos.Filename {
-						//fmt.Printf("# %d %q\n", p.Line, p.Filename)
+						if *trace {
+							fmt.Printf("# %d %q\n", p.Line, p.Filename)
+						}
 						fmt.Fprintf(&cppb, "# %d %q\n", p.Line, p.Filename)
 					}
 					lpos = p
 				}
 				for _, v := range toks {
-					//fmt.Print(cc.TokSrc(v))
+					if *trace {
+						fmt.Print(cc.TokSrc(v))
+					}
 					cppb.WriteString(cc.TokSrc(v))
 				}
-				//fmt.Println()
+				if *trace {
+					fmt.Println()
+				}
 				cppb.WriteByte('\n')
 			}))
 		}
@@ -252,21 +215,23 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 			t.Fatal(match, err)
 		}
 
-		var b bytes.Buffer
+		var newLog, linkLog bytes.Buffer
 		for i, v := range objs {
 			switch x := v.(type) {
 			case *ir.DataDefinition:
-				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
+				fmt.Fprintf(&newLog, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
 			case *ir.FunctionDefinition:
-				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+				fmt.Fprintf(&newLog, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 				for i, v := range x.Body {
-					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
+					fmt.Fprintf(&newLog, "%#05x\t%v\n", i, v)
 				}
 			default:
 				t.Fatalf("[%v] %T %v", i, x, x)
 			}
 		}
-		t.Logf("ccir.New: %v objects\n%s", len(objs), b.Bytes())
+		if *trace {
+			fmt.Printf("%s: ccir.New: %v objects\n%s\n", match, len(objs), newLog.Bytes())
+		}
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
 				switch x := v.(type) {
@@ -286,21 +251,22 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 			t.Fatal(match, err)
 		}
 
-		b.Reset()
 		for i, v := range objs {
 			switch x := v.(type) {
 			case *ir.DataDefinition:
-				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
+				fmt.Fprintf(&linkLog, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
 			case *ir.FunctionDefinition:
-				fmt.Fprintf(&b, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+				fmt.Fprintf(&linkLog, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 				for i, v := range x.Body {
-					fmt.Fprintf(&b, "%#05x\t%v\n", i, v)
+					fmt.Fprintf(&linkLog, "%#05x\t%v\n", i, v)
 				}
 			default:
 				t.Fatalf("[%v] %T %v", i, x, x)
 			}
 		}
-		t.Logf("ir.LinkMain: %v objects\n%s", len(objs), b.Bytes())
+		if *trace {
+			fmt.Printf("%s: ir.LinkMain: %v objects\n%s\n", match, len(objs), linkLog.Bytes())
+		}
 		for i, v := range objs {
 			if err := v.Verify(); err != nil {
 				t.Fatalf("[%v]: %v", i, err)
@@ -309,31 +275,36 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 
 		bin, err := virtual.LoadMain(modelName, objs)
 		if err != nil {
+			t.Logf("%s: ccir.New: %v objects\n%s", match, len(objs), newLog.Bytes())
+			t.Logf("%s: ir.LinkMain: %v objects\n%s", match, len(objs), linkLog.Bytes())
 			t.Fatal(match, err)
 		}
 
-		s := virtual.DumpCodeStr(bin.Code, 0)
-		t.Logf(
-			"virtual.LoadMain: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s",
-			len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
-		)
-		s.Close()
-		if len(bin.Text) != 0 {
-			t.Logf("Text segment\n%s", hex.Dump(bin.Text))
-		}
-		if len(bin.Data) != 0 {
-			t.Logf("Data segment\n%s", hex.Dump(bin.Data))
-		}
-		if len(bin.TSRelative) != 0 {
-			t.Logf("TS relative bitvector\n%s", hex.Dump(bin.TSRelative))
-		}
-		if len(bin.DSRelative) != 0 {
-			t.Logf("DS relative bitvector\n%s", hex.Dump(bin.DSRelative))
+		if *trace {
+			s := virtual.DumpCodeStr(bin.Code, 0)
+			fmt.Printf(
+				"%s: virtual.LoadMain: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s\n",
+				match, len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
+			)
+			s.Close()
+			if len(bin.Text) != 0 {
+				fmt.Printf("Text segment\n%s\n", hex.Dump(bin.Text))
+			}
+			if len(bin.Data) != 0 {
+				fmt.Printf("Data segment\n%s\n", hex.Dump(bin.Data))
+			}
+			if len(bin.TSRelative) != 0 {
+				fmt.Printf("TS relative bitvector\n%s\n", hex.Dump(bin.TSRelative))
+			}
+			if len(bin.DSRelative) != 0 {
+				fmt.Printf("DS relative bitvector\n%s\n", hex.Dump(bin.DSRelative))
+			}
 		}
 
-		var stdin, stdout, stderr bytes.Buffer
+		var stdin bytes.Buffer
+		var stdout, stderr buffer.Bytes
 		func() {
-			vwd, err := ioutil.TempDir("", "ccir-test-tcc-")
+			vwd, err := ioutil.TempDir("", "ccir-test-")
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -353,44 +324,81 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 			args := hook(vwd, match)
 			es, err := virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<20, 1<<20)
 			if es != 0 || err != nil {
+				t.Logf("%s: ccir.New: %v objects\n%s", match, len(objs), newLog.Bytes())
+				t.Logf("%s: ir.LinkMain: %v objects\n%s", match, len(objs), linkLog.Bytes())
+				s := virtual.DumpCodeStr(bin.Code, 0)
+				t.Logf(
+					"%s: virtual.LoadMain: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s",
+					match, len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
+				)
+				if len(bin.Text) != 0 {
+					t.Logf("Text segment\n%s", hex.Dump(bin.Text))
+				}
+				if len(bin.Data) != 0 {
+					t.Logf("Data segment\n%s", hex.Dump(bin.Data))
+				}
+				if len(bin.TSRelative) != 0 {
+					t.Logf("TS relative bitvector\n%s", hex.Dump(bin.TSRelative))
+				}
+				if len(bin.DSRelative) != 0 {
+					t.Logf("DS relative bitvector\n%s", hex.Dump(bin.DSRelative))
+				}
 				if b := stdout.Bytes(); b != nil {
 					t.Logf("stdout:\n%s", b)
 				}
 				if b := stderr.Bytes(); b != nil {
 					t.Logf("stderr:\n%s", b)
 				}
-				t.Fatalf("exit status %v, err %v", es, err)
+				t.Fatalf("%s: exit status %v, err %v", match, es, err)
 			}
 		}()
 
+		check := true
 		expect := match[:len(match)-len(filepath.Ext(match))] + ".expect"
 		if _, err := os.Stat(expect); err != nil {
-			if os.IsNotExist(err) {
-				if b := stdout.Bytes(); b != nil {
-					t.Logf("stdout:\n%s", b)
-				}
-				if b := stderr.Bytes(); b != nil {
-					t.Logf("stderr:\n%s", b)
-				}
-				t.Logf("%s: OK #%v\nexit status 0, no respective .expect file exists", match, seq)
-				continue
+			if !os.IsNotExist(err) {
+				t.Fatal(err)
 			}
 
-			t.Fatal(err)
+			check = false
 		}
 
-		buf, err := ioutil.ReadFile(expect)
-		if err != nil {
-			t.Fatal(err)
+		if check {
+			buf, err := ioutil.ReadFile(expect)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if g, e := stdout.Bytes(), buf; !bytes.Equal(g, e) {
+				t.Logf("%s: ccir.New: %v objects\n%s", match, len(objs), newLog.Bytes())
+				t.Logf("%s: ir.LinkMain: %v objects\n%s", match, len(objs), linkLog.Bytes())
+				s := virtual.DumpCodeStr(bin.Code, 0)
+				t.Logf(
+					"%s: virtual.LoadMain: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s",
+					match, len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
+				)
+				if len(bin.Text) != 0 {
+					t.Logf("Text segment\n%s", hex.Dump(bin.Text))
+				}
+				if len(bin.Data) != 0 {
+					t.Logf("Data segment\n%s", hex.Dump(bin.Data))
+				}
+				if len(bin.TSRelative) != 0 {
+					t.Logf("TS relative bitvector\n%s", hex.Dump(bin.TSRelative))
+				}
+				if len(bin.DSRelative) != 0 {
+					t.Logf("DS relative bitvector\n%s", hex.Dump(bin.DSRelative))
+				}
+				t.Fatalf("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
+			}
 		}
 
-		if g, e := stdout.Bytes(), buf; !bytes.Equal(g, e) {
-			t.Fatalf("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
-			continue
-		}
-
+		newLog.Reset()
+		linkLog.Reset()
 		okSeq++
 		t.Logf("%s: OK #%v\n%s", match, okSeq, bytes.TrimRight(stdout.Bytes(), "\n\t "))
+		stderr.Close()
+		stdout.Close()
 	}
 }
 
@@ -433,6 +441,7 @@ func TestTCC(t *testing.T) {
 			}
 		},
 		cc.EnableDefineOmitCommaBeforeDDD(),
+		cc.EnableImplicitFuncDef(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),
 	)
@@ -531,6 +540,7 @@ func TestGCCExec(t *testing.T) {
 		"920721-4.c":        {}, // &&label
 		"920728-1.c":        {}, //TODO
 		"920731-1.c":        {}, //TODO
+		"920908-2.c":        {}, //TODO
 		"920909-1.c":        {}, //TODO
 		"920929-1.c":        {}, //TODO VLA
 		"921017-1.c":        {}, //TODO

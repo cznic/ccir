@@ -846,25 +846,54 @@ func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 	return args
 }
 
-func (c *c) normalize(n *cc.Expression) cc.Node {
+func (c *c) dd(b *cc.Bindings, n cc.Node, nm int) (*cc.DirectDeclarator, *cc.Bindings) {
+	switch x, s := b.Lookup2(cc.NSIdentifiers, nm); x := x.Node.(type) {
+	case *cc.DirectDeclarator:
+		return x, s
+	case nil:
+		var buf buffer.Bytes
+		buf.Write(dict.S(idBuiltinPrefix))
+		buf.Write(dict.S(nm))
+		nm = dict.ID(buf.Bytes())
+		buf.Close()
+		switch x, s := b.Lookup2(cc.NSIdentifiers, nm); x := x.Node.(type) {
+		case *cc.DirectDeclarator:
+			return x, s
+		}
+
+		panic(fmt.Errorf("%s: undefined %s", position(n), dict.S(nm)))
+	default:
+		panic(fmt.Errorf("%s: internal error %T", position(n), x))
+	}
+}
+
+func (c *c) normalize(n *cc.Expression) *cc.Expression {
 	for {
 		switch n.Case {
 		case 7: // '(' ExpressionList ')'
 			l := n.ExpressionList
 			if l.Len() != 1 {
-				return l
+				return n
 			}
 
 			n = l.Expression
 		default:
-			if n.Case == 0 { // IDENTIFIER
-				switch x := n.IdentResolutionScope().Lookup(cc.NSIdentifiers, n.Token.Val).Node.(type) {
-				case *cc.DirectDeclarator:
+			switch n.Case {
+			case 0: // IDENTIFIER
+				if x, _ := c.dd(n.IdentResolutionScope(), n, n.Token.Val); x != nil {
 					n.Type = x.TopDeclarator().Type
-				case nil:
-					panic(fmt.Errorf("%s: udefined %s", position(n), dict.S(n.Token.Val)))
-				default:
-					panic(fmt.Errorf("%s: internal error %T", position(n), x))
+					return n
+				}
+
+				panic(fmt.Errorf("%s: undefined %s", position(n), dict.S(n.Token.Val)))
+			case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
+				n.Expression = c.normalize(n.Expression)
+				t := n.Expression.Type
+				if t.Kind() == cc.Ptr {
+					t = t.Element()
+				}
+				if t.Kind() == cc.Function {
+					n.Type = t.Result()
 				}
 			}
 			return n
@@ -925,12 +954,7 @@ func (c *c) compoundLiteral(n *cc.Expression) varInfo {
 }
 
 func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
-	switch x := c.normalize(n).(type) {
-	case *cc.Expression:
-		n = x
-	default:
-		panic("internal error")
-	}
+	n = c.normalize(n)
 	if n.Value != nil {
 		TODO(position(n))
 		return 0, 0, nil, nil
@@ -939,8 +963,8 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 	switch n.Case {
 	case 0: // IDENTIFIER
 		id := n.Token.Val
-		b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
-		d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
+		dd, s := c.dd(n.IdentResolutionScope(), n, id)
+		d := dd.TopDeclarator()
 		switch s.Scope() {
 		case cc.ScopeBlock:
 			switch vi, ok := c.f.variables[d]; {
@@ -1190,16 +1214,18 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 }
 
 func (c *c) binopType(n *cc.Expression) cc.Type {
-	if t := n.BinOpType; t != nil {
-		return t
-	}
-
 	switch t := n.Expression.Type; t.Kind() {
 	case cc.Array:
 		return t.Element().Pointer()
 	case cc.Function:
 		return t.Pointer()
 	default:
+		n.Expression = c.normalize(n.Expression)
+		n.Expression2 = c.normalize(n.Expression2)
+		if a, b := n.Expression.Type, n.Expression2.Type; cc.IsArithmeticType(a) && cc.IsArithmeticType(b) {
+			return c.ast.Model.BinOpType(a, b)
+		}
+
 		return t
 	}
 }
@@ -1263,12 +1289,9 @@ func (c *c) shift(n *cc.Expression, op ir.Operation) {
 	c.emit(op)
 }
 
-func (c *c) call(n *cc.Expression) {
-	expr := n.Expression
-	if expr.Type == nil {
-		expr = c.normalize(n.Expression).(*cc.Expression)
-	}
-	switch t := expr.Type; t.Kind() {
+func (c *c) call(n *cc.Expression) cc.Type {
+	fe := c.normalize(n.Expression)
+	switch t := fe.Type; t.Kind() {
 	case cc.Function:
 		if r := t.Result(); r.Kind() != cc.Void {
 			c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
@@ -1276,6 +1299,7 @@ func (c *c) call(n *cc.Expression) {
 		c.expression(t.Pointer(), n.Expression)
 		args := c.arguments(t, n.ArgumentExpressionListOpt)
 		c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
+		return fe.Type.Result()
 	case cc.Ptr:
 		ft := t.Element()
 		if ft.Kind() != cc.Function {
@@ -1288,22 +1312,15 @@ func (c *c) call(n *cc.Expression) {
 		c.expression(t, n.Expression)
 		args := c.arguments(ft, n.ArgumentExpressionListOpt)
 		c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t).ID(), Position: position(n)})
+		return ft.Result()
 	default:
 		TODO(position(n), t.Kind())
 	}
+	panic("internal error")
 }
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
-	switch x := c.normalize(n).(type) {
-	case *cc.ExpressionList:
-		c.expressionList(ot, x)
-		return x.Type
-	case *cc.Expression:
-		n = x
-	default:
-		panic("internal error")
-	}
-
+	n = c.normalize(n)
 	if v := n.Value; v != nil {
 		t := n.Type
 		if ot != nil {
@@ -1325,9 +1342,8 @@ out:
 	case ot != nil && ot.Kind() != t.Kind():
 		switch ot.Kind() {
 		case cc.Void:
-			c.expression(nil, n)
-			if n.Type.Kind() != cc.Void {
-				c.emit(&ir.Drop{TypeID: c.typ(n.Type).ID(), Position: position(n)})
+			if t := c.expression(nil, n); t.Kind() != cc.Void {
+				c.emit(&ir.Drop{TypeID: c.typ(t).ID(), Position: position(n)})
 			}
 		default:
 			switch {
@@ -1412,7 +1428,7 @@ out:
 		c.expressionList(nil, n.ExpressionList)
 		c.emit(&ir.Element{IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-		c.call(n)
+		return c.call(n)
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		c.addr(n.Expression)
 		fi, bits, bitoff, _, vt := c.field(n, n.Expression.Type, n.Token2.Val)
@@ -1519,6 +1535,11 @@ out:
 		TODO(position(n))
 	case 25: // '(' TypeName ')' Expression                        // Case 25
 		c.expression(nil, n.Expression)
+		if n.Expression.Type.Kind() == cc.Function && n.TypeName.Type.Kind() == cc.Ptr {
+			c.emit(&ir.Convert{TypeID: idVoidPtr, Result: c.typ(n.TypeName.Type).ID(), Position: position(n)})
+			break
+		}
+
 		switch {
 		case n.TypeName.Type.Kind() == cc.Void:
 			c.emit(&ir.Drop{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
@@ -1602,16 +1623,6 @@ out:
 				//dbg("%T", x)
 				TODO(position(n))
 			}
-			//TODO switch n.Expression2.Type.Kind() {
-			//TODO case cc.Array, cc.Ptr:
-			//TODO 	c.expression(nil, n.Expression)
-			//TODO 	c.expression(nil, n.Expression2)
-			//TODO 	c.emit(&ir.PtrDiff{PtrType: c.typ(n.Expression.Type).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
-			//TODO 	return n.Type
-			//TODO default:
-			//TODO 	TODO(position(n), n.Expression2.Type.Kind())
-			//TODO }
-
 			return n.Type
 		}
 
