@@ -854,9 +854,9 @@ func (c *c) dd(b *cc.Bindings, n cc.Node, nm int) (*cc.DirectDeclarator, *cc.Bin
 		var buf buffer.Bytes
 		buf.Write(dict.S(idBuiltinPrefix))
 		buf.Write(dict.S(nm))
-		nm = dict.ID(buf.Bytes())
+		nm2 := dict.ID(buf.Bytes())
 		buf.Close()
-		switch x, s := b.Lookup2(cc.NSIdentifiers, nm); x := x.Node.(type) {
+		switch x, s := b.Lookup2(cc.NSIdentifiers, nm2); x := x.Node.(type) {
 		case *cc.DirectDeclarator:
 			return x, s
 		}

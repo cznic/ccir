@@ -4,17 +4,12 @@
 #include <stddef.h>
 
 #define EOF -1
+#define FILE __FILE_TYPE__
 #define NULL ((void *)0)
 #define getc(x) fgetc(x)
 #define stderr (__stdstreams[2])
 #define stdin (__stdstreams[0])
 #define stdout (__stdstreams[1])
-
-typedef struct {
-	int _;
-} FILE;
-
-FILE *__stdstreams[3];
 
 FILE *fopen(const char *path, const char *mode);
 char *fgets(char *s, int size, FILE * stream);

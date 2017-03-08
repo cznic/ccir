@@ -5,9 +5,8 @@
 
 // https://en.wikipedia.org/wiki/Offsetof
 #define offsetof(st, m) ((size_t)(&((st *)0)->m))
-
-typedef int wchar_t;
-typedef long ptrdiff_t;
-typedef unsigned long size_t;
+#define ptrdiff_t __PTRDIFF_TYPE__
+#define size_t __SIZE_TYPE__
+#define wchar_t __WCHAR_TYPE__
 
 #endif				/* _STDDEF_H_ */
