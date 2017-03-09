@@ -1789,8 +1789,10 @@ out:
 		c.asop(n, &ir.Or{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
+	case 57: // '(' CompoundStatement ')'                          // Case 57
+		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, n.Type.Kind() != cc.Void)
 	default:
-		panic("internal error")
+		panic(fmt.Errorf("%s: internal error: Expression.Case %v", position(n), n.Case))
 	}
 
 	return t
@@ -1806,16 +1808,19 @@ func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) {
 	}
 }
 
-func (c *c) expressionListOpt(ot cc.Type, n *cc.ExpressionListOpt) {
+func (c *c) expressionListOpt(ot cc.Type, n *cc.ExpressionListOpt, asExpr bool) {
 	if n == nil {
 		return
 	}
 
+	if asExpr {
+		ot = n.ExpressionList.Type
+	}
 	c.expressionList(ot, n.ExpressionList)
 }
 
-func (c *c) expressionStatement(n *cc.ExpressionStatement) {
-	c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt)
+func (c *c) expressionStatement(n *cc.ExpressionStatement, asExpr bool) {
+	c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt, asExpr)
 }
 
 func (c *c) jumpStatement(labels *labels, n *cc.JumpStatement) {
@@ -1870,7 +1875,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		}
 		c.emit(&ir.Jz{Number: end, Position: position(n)})
 		breakLabel := labels.setBreak(end)
-		c.statement(labels, n.Statement)
+		c.statement(labels, n.Statement, false)
 		labels.setBreak(breakLabel)
 		labels.setContinue(cl)
 		c.emit(&ir.Jmp{Number: begin, Position: position(n)})
@@ -1880,7 +1885,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		c.emit(&ir.Label{Number: begin, Position: position(n)})
 		breakLabel := labels.setBreak(-1)
 		cl := labels.setContinue(begin)
-		c.statement(labels, n.Statement)
+		c.statement(labels, n.Statement, false)
 		el := n.ExpressionList
 		c.expressionList(el.Type, el)
 		if el.Type.Kind() != cc.Int {
@@ -1893,7 +1898,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		labels.setBreak(breakLabel)
 		labels.setContinue(cl)
 	case 2: // "for" '(' ExpressionListOpt ';' ExpressionListOpt ';' ExpressionListOpt ')' Statement  // Case 2
-		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt)
+		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt, false)
 		test := c.label()
 		cont := c.label()
 		cl := labels.setContinue(cont)
@@ -1909,11 +1914,11 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 			c.emit(&ir.Jz{Number: end, Position: position(n)})
 		}
 		breakLabel := labels.setBreak(end)
-		c.statement(labels, n.Statement)
+		c.statement(labels, n.Statement, false)
 		labels.setBreak(breakLabel)
 		labels.setContinue(cl)
 		c.emit(&ir.Label{Number: cont, Position: position(n)})
-		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt3)
+		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt3, false)
 		c.emit(&ir.Jmp{Number: test, Position: position(n)})
 		c.emit(&ir.Label{Number: end, Position: position(n)})
 	case 3: // "for" '(' Declaration ExpressionListOpt ';' ExpressionListOpt ')' Statement            // Case 3
@@ -2043,7 +2048,7 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	default:
 		c.emit(&ir.Jmp{Number: defaultCase, Position: position(n)})
 	}
-	c.statement(&labels, n.Statement)
+	c.statement(&labels, n.Statement, false)
 	if labels.breakLabel >= 0 {
 		c.emit(&ir.Label{Number: labels.breakLabel, Position: position(n.ExpressionList)})
 	}
@@ -2059,7 +2064,7 @@ func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
 		}
 		l1 := c.label()
 		c.emit(&ir.Jz{Number: l1, Position: position(n)})
-		c.statement(labels, n.Statement)
+		c.statement(labels, n.Statement, false)
 		c.emit(&ir.Label{Number: l1, Position: position(n)})
 	case 1: // "if" '(' ExpressionList ')' Statement "else" Statement  // Case 1
 		// expr; jz 1; stmt; jmp 2; 1: stmt2; 2:
@@ -2069,11 +2074,11 @@ func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
 		}
 		l1 := c.label()
 		c.emit(&ir.Jz{Number: l1, Position: position(n)})
-		c.statement(labels, n.Statement)
+		c.statement(labels, n.Statement, false)
 		l2 := c.label()
 		c.emit(&ir.Jmp{Number: l2, Position: position(n)})
 		c.emit(&ir.Label{Number: l1, Position: position(n)})
-		c.statement(labels, n.Statement2)
+		c.statement(labels, n.Statement2, false)
 		c.emit(&ir.Label{Number: l2, Position: position(n)})
 	case 2: // "switch" '(' ExpressionList ')' Statement               // Case 2
 		c.switchStatement(n)
@@ -2094,17 +2099,17 @@ func (c *c) labeledStatement(labels *labels, n *cc.LabeledStatement) {
 	default:
 		panic("internal error")
 	}
-	c.statement(labels, n.Statement)
+	c.statement(labels, n.Statement, false)
 }
 
-func (c *c) statement(labels *labels, n *cc.Statement) {
+func (c *c) statement(labels *labels, n *cc.Statement, asExpr bool) {
 	switch n.Case {
 	case 0: // LabeledStatement
 		c.labeledStatement(labels, n.LabeledStatement)
 	case 1: // CompoundStatement    // Case 1
-		c.compoundStatement(labels, n.CompoundStatement)
+		c.compoundStatement(labels, n.CompoundStatement, false)
 	case 2: // ExpressionStatement  // Case 2
-		c.expressionStatement(n.ExpressionStatement)
+		c.expressionStatement(n.ExpressionStatement, asExpr)
 	case 3: // SelectionStatement   // Case 3
 		c.selectionStatement(labels, n.SelectionStatement)
 	case 4: // IterationStatement   // Case 4
@@ -2118,23 +2123,23 @@ func (c *c) statement(labels *labels, n *cc.Statement) {
 	}
 }
 
-func (c *c) blockItem(labels *labels, n *cc.BlockItem) {
+func (c *c) blockItem(labels *labels, n *cc.BlockItem, asExpr bool) {
 	switch n.Case {
 	case 0: // Declaration
 		c.declaration(n.Declaration)
 	case 1: // Statement    // Case 1
-		c.statement(labels, n.Statement)
+		c.statement(labels, n.Statement, asExpr)
 	default:
 		panic("internal error")
 	}
 }
 
-func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement) {
+func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement, asExpr bool) {
 	c.f.blockLevel++
 	c.emit(&ir.BeginScope{Position: position(n)})
 	if o := n.BlockItemListOpt; o != nil {
 		for l := o.BlockItemList; l != nil; l = l.BlockItemList {
-			c.blockItem(labels, l.BlockItem)
+			c.blockItem(labels, l.BlockItem, asExpr && l.BlockItemList == nil)
 		}
 	}
 	c.f.blockLevel--
@@ -2144,7 +2149,7 @@ func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement) {
 			c.emit(&ir.Return{Position: position(n.Token2)})
 		}
 	}
-	c.emit(&ir.EndScope{Position: position(n.Token2)})
+	c.emit(&ir.EndScope{Position: position(n.Token2), Value: asExpr})
 }
 
 func (c *c) functionBody(n *cc.FunctionBody) {
@@ -2156,7 +2161,7 @@ func (c *c) functionBody(n *cc.FunctionBody) {
 	}
 	switch n.Case {
 	case 0: // CompoundStatement
-		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement)
+		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, false)
 	case 1: // AssemblerStatement ';'  // Case 1
 		TODO(position(n))
 	default:
@@ -2236,7 +2241,7 @@ func New(modelName string, ast *cc.TranslationUnit) (_ []ir.Object, err error) {
 			case error:
 				err = x
 			default:
-				err = fmt.Errorf("%v", x)
+				err = fmt.Errorf("ccir.New: PANIC: %v", x)
 			}
 		}()
 	}
