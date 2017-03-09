@@ -126,9 +126,9 @@ func (c *c) isVLA(t cc.Type) *cc.Expression {
 	case 5: // DirectDeclarator '[' TypeQualifierListOpt '*' ']'                  // Case 5
 		TODO(position(d))
 	case 6: // DirectDeclarator '(' ParameterTypeList ')'                         // Case 6
-		TODO(position(d))
+		return nil
 	case 7: // DirectDeclarator '(' IdentifierListOpt ')'                         // Case 7
-		TODO(position(d))
+		return nil
 	}
 	panic("internal error")
 }
@@ -1590,6 +1590,15 @@ out:
 		switch n.Expression2.Type.Kind() {
 		case cc.Ptr, cc.Array:
 			switch x := n.Expression.Value.(type) {
+			case nil:
+				t := n.Expression2.Type
+				c.expression(t, n.Expression)
+				tid := c.typ(t).ID()
+				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()), Position: position(n)})
+				c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
+				c.expression(nil, n.Expression2)
+				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				return t
 			case int32:
 				t := c.expression(nil, n.Expression2)
 				tid := c.typ(t).ID()
@@ -1597,7 +1606,7 @@ out:
 				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
 				return t
 			default:
-				//dbg("%T", x)
+				dbg("%T", x)
 				TODO(position(n))
 			}
 			return n.Type

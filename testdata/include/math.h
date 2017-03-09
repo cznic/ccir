@@ -19,5 +19,8 @@ double sinh(double x);
 double sqrt(double x);
 double tan(double x);
 double tanh(double x);
+int isinf(double x);
+int isinff(float x);
+int isinfl(long double x);
 
 #endif				/* _MATH_H_ */

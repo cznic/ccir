@@ -12,5 +12,6 @@ void *calloc(size_t nmemb, size_t size);
 void *malloc(size_t size);
 void abort(void);
 void exit(int status);
+void free(void *ptr);
 
 #endif				/* _STDLIB_H_ */

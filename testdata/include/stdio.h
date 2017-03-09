@@ -1,6 +1,7 @@
 #ifndef _STDIO_H_
 #define _STDIO_H_
 
+#include <stdarg.h>
 #include <stddef.h>
 
 #define EOF -1
@@ -18,6 +19,8 @@ int fgetc(FILE * stream);
 int fprintf(FILE * stream, const char *format, ...);
 int printf(const char *format, ...);
 int sprintf(char *str, const char *format, ...);
+int vfprintf(FILE * stream, const char *format, va_list ap);
+int vprintf(const char *format, va_list ap);
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE * stream);
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE * stream);
 

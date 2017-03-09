@@ -16,20 +16,34 @@
 #endif
 
 #define __CHAR_BIT__ 8
+#define __DBL_MAX__ 1.79769313486231570815e+308
+#define __DBL_MIN__ 2.22507385850720138309e-308
 #define __FILE_TYPE__ struct{int _;}
+#define __FLT_MAX__ 3.40282346638528859812e+38F
+#define __FLT_MIN__ 1.17549435082228750797e-38F
 #define __FUNCTION__ __func__
 #define __INT16_TYPE__ short
+#define __INT16_TYPE__ short
 #define __INT32_TYPE__ int
+#define __INT8_TYPE__ char
+#define __INTPTR_TYPE__ long
 #define __INT_MAX__ 2147483647
+#define __LDBL_MAX__ 1.79769313486231570815e+308
+#define __LDBL_MIN__ 2.22507385850720138309e-308
 #define __LONG_LONG_MAX__ 9223372036854775807ll
 #define __PTRDIFF_TYPE__ long
 #define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
 #define __UINT32_TYPE__ unsigned
 #define __UINT64_TYPE__ unsigned long long
+#define __UINT8_TYPE__ unsigned char
+#define __UINTPTR_TYPE__ unsigned long
 #define __WCHAR_TYPE__ int
+#define __attribute(x)
 #define __attribute__(x)
+#define __builtin_choose_expr(a, b, c) (a) ? (b) : (c)
 #define __builtin_expect(exp, c) (exp)
+#define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
 #define __builtin_prefetch(...)
 #define __builtin_va_list char *
 #define __complex _Complex
@@ -39,6 +53,7 @@
 #define __inline inline
 #define __restrict restrict
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
+#define __volatile volatile
 
 __FILE_TYPE__ *__stdstreams[3];
 
@@ -89,6 +104,9 @@ int __builtin_ffsl(long i);
 int __builtin_ffsll(long long i);
 int __builtin_fgetc(__FILE_TYPE__ * stream);
 int __builtin_fprintf(__FILE_TYPE__ * stream, const char *format, ...);
+int __builtin_isinf(double x);
+int __builtin_isinff(float x);
+int __builtin_isinfl(long double x);
 int __builtin_isprint(int c);
 int __builtin_memcmp(const void *s1, const void *s2, __SIZE_TYPE__ n);
 int __builtin_parity(unsigned x);
@@ -102,12 +120,16 @@ int __builtin_sprintf(char *str, const char *format, ...);
 int __builtin_strcmp(const char *s1, const char *s2);
 int __builtin_strncmp(const char *s1, const char *s2, __SIZE_TYPE__ n);
 int __builtin_tolower(int c);
+int __builtin_vfprintf(__FILE_TYPE__ * stream, const char *format,
+		       __builtin_va_list ap);
+int __builtin_vprintf(const char *format, __builtin_va_list ap);
 void *__builtin_calloc(__SIZE_TYPE__ nmemb, __SIZE_TYPE__ size);
 void *__builtin_malloc(__SIZE_TYPE__ size);
 void *__builtin_memcpy(void *dest, const void *src, __SIZE_TYPE__ n);
 void *__builtin_memset(void *s, int c, __SIZE_TYPE__ n);
 void __builtin_abort(void);
 void __builtin_exit(int status);
+void __builtin_free(void *ptr);
 void __builtin_trap(void);
 
 #endif				/* _BUILTIN_H_ */
