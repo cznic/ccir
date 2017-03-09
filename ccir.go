@@ -1606,7 +1606,7 @@ out:
 				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
 				return t
 			default:
-				dbg("%T", x)
+				//dbg("%T", x)
 				TODO(position(n))
 			}
 			return n.Type
