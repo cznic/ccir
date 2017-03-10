@@ -7,6 +7,9 @@
 #define EXIT_SUCCESS 0
 #define NULL ((void *)0)
 
+typedef __SIZE_TYPE__ size_t;
+typedef __WCHAR_TYPE__ wchar_t;
+
 int abs(int j);
 void *calloc(size_t nmemb, size_t size);
 void *malloc(size_t size);

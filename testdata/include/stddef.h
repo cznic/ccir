@@ -5,8 +5,9 @@
 
 // https://en.wikipedia.org/wiki/Offsetof
 #define offsetof(st, m) __builtin_offsetof(st, m)
-#define ptrdiff_t __PTRDIFF_TYPE__
-#define size_t __SIZE_TYPE__
-#define wchar_t __WCHAR_TYPE__
+
+typedef __PTRDIFF_TYPE__ ptrdiff_t;
+typedef __SIZE_TYPE__ size_t;
+typedef __WCHAR_TYPE__ wchar_t;
 
 #endif				/* _STDDEF_H_ */

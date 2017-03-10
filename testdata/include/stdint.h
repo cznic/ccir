@@ -1,12 +1,12 @@
 #ifndef _STDINT_H_
 #define _STDINT_H_
 
-#define int16_t __INT16_TYPE__
-#define int8_t __INT8_TYPE__
-#define intptr_t __INTPTR_TYPE__
-#define uint32_t __UINT32_TYPE__
-#define uint64_t __UINT64_TYPE__
-#define uint8_t __UINT8_TYPE__
-#define uintptr_t __UINTPTR_TYPE__
+typedef __INT16_TYPE__ int16_t;
+typedef __INT8_TYPE__ int8_t;
+typedef __INTPTR_TYPE__ intptr_t;
+typedef __UINT32_TYPE__ uint32_t;
+typedef __UINT64_TYPE__ uint64_t;
+typedef __UINT8_TYPE__ uint8_t;
+typedef __UINTPTR_TYPE__ uintptr_t;
 
 #endif				/* _STDINT_H_ */

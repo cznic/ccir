@@ -202,7 +202,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 		dst.WriteString(sou)
 		switch m, incomplete := t.Members(); {
 		case incomplete:
-			TODO()
+			// nop
 		default:
 			for i, v := range m {
 				t := v.Type
@@ -271,7 +271,18 @@ func (c *c) linkage(l cc.Linkage) ir.Linkage {
 }
 
 func (c *c) addressInitializer(n *cc.Expression) ir.Value {
+	n = c.normalize(n)
 	switch n.Case {
+	case 0: // IDENTIFIER
+		if n.Type.Kind() == cc.Function {
+			id := n.Token.Val
+			b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
+			d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
+			switch s.Scope() {
+			case cc.ScopeFile:
+				return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
+			}
+		}
 	case 17: // '&' Expression                                     // Case 17
 		switch n := n.Expression; n.Case {
 		case 0: // IDENTIFIER
@@ -770,10 +781,11 @@ func (c *c) declaration(n *cc.Declaration) {
 				c.variableDeclaration(d, l)
 			default: // external, internal
 				val, init := c.initializer(l.InitDeclarator.Declarator.Type, l.InitDeclarator.Initializer)
-				c.out = append(c.out, ir.NewDataDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), ln, val))
 				if init != nil {
-					TODO(position(init), val)
+					TODO(position(init), val, c.typ(d.Type))
 				}
+
+				c.out = append(c.out, ir.NewDataDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), ln, val))
 			}
 		}
 	case 1: // StaticAssertDeclaration                          // Case 1
@@ -1352,7 +1364,7 @@ out:
 				c.convert(n, t, ot)
 			case ot.Kind() == cc.Ptr && t.Kind() == cc.Array:
 				break out
-			case ot.Kind() == cc.Ptr && cc.IsIntType(t):
+			case ot.Kind() == cc.Ptr && cc.IsIntType(t) || cc.IsIntType(ot) && t.Kind() == cc.Ptr:
 				c.expression(nil, n)
 				c.convert(n, t, ot)
 			default:
@@ -1564,21 +1576,27 @@ out:
 				t := c.expression(nil, n.Expression)
 				c.expression(t, n.Expression2)
 				tid := c.typ(t).ID()
-				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()), Position: position(n)})
-				c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
-				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				if sz := t.Element().SizeOf(); sz > 1 {
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(sz), Position: position(n)})
+					c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
+				}
+				c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
 				return t
 			case int32:
 				t := c.expression(nil, n.Expression)
-				tid := c.typ(t).ID()
-				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
-				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				if x != 0 {
+					tid := c.typ(t).ID()
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
+					c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
+				}
 				return t
 			case uint64:
 				t := c.expression(nil, n.Expression)
-				tid := c.typ(t).ID()
-				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * int32(x), Position: position(n)})
-				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				if x != 0 {
+					tid := c.typ(t).ID()
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * int32(x), Position: position(n)})
+					c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
+				}
 				return t
 			default:
 				//dbg("%T", x)
@@ -1594,16 +1612,20 @@ out:
 				t := n.Expression2.Type
 				c.expression(t, n.Expression)
 				tid := c.typ(t).ID()
-				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()), Position: position(n)})
-				c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
+				if sz := t.Element().SizeOf(); sz > 1 {
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(sz), Position: position(n)})
+					c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
+				}
 				c.expression(nil, n.Expression2)
-				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
 				return t
 			case int32:
 				t := c.expression(nil, n.Expression2)
-				tid := c.typ(t).ID()
-				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
-				c.emit(&ir.Add{TypeID: tid, Position: position(n)})
+				if x != 0 {
+					tid := c.typ(t).ID()
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
+					c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
+				}
 				return t
 			default:
 				//dbg("%T", x)
@@ -1621,18 +1643,25 @@ out:
 				c.expression(nil, n.Expression)
 				c.expression(nil, n.Expression2)
 				c.emit(&ir.PtrDiff{PtrType: c.typ(n.Expression.Type).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
-				return t
 			case int32:
-				t := c.expression(nil, n.Expression)
-				tid := c.typ(t).ID()
-				c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
-				c.emit(&ir.Sub{TypeID: tid, Position: position(n)})
-				return t
+				c.expression(t, n.Expression)
+				if x != 0 {
+					tid := c.typ(t).ID()
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * x, Position: position(n)})
+					c.emit(&ir.Sub{TypeID: tid, Position: position(n)})
+				}
+			case uintptr:
+				c.expression(t, n.Expression)
+				if x != 0 {
+					tid := c.typ(t).ID()
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * int32(x), Position: position(n)})
+					c.emit(&ir.Sub{TypeID: tid, Position: position(n)})
+				}
 			default:
 				//dbg("%T", x)
 				TODO(position(n))
 			}
-			return n.Type
+			return t
 		}
 
 		switch n.Expression2.Type.Kind() {
@@ -2102,6 +2131,14 @@ func (c *c) labeledStatement(labels *labels, n *cc.LabeledStatement) {
 	c.statement(labels, n.Statement, false)
 }
 
+func (c *c) assemblerStatement(n *cc.AssemblerStatement) {
+	for l := n.AssemblerInstructions; l != nil; l = l.AssemblerInstructions {
+		if v := l.Token.Val; v != idEmptyString {
+			panic(fmt.Errorf("%s: assembler instructions not supported: %s", position(l.Token), dict.S(v)))
+		}
+	}
+}
+
 func (c *c) statement(labels *labels, n *cc.Statement, asExpr bool) {
 	switch n.Case {
 	case 0: // LabeledStatement
@@ -2117,7 +2154,7 @@ func (c *c) statement(labels *labels, n *cc.Statement, asExpr bool) {
 	case 5: // JumpStatement        // Case 5
 		c.jumpStatement(labels, n.JumpStatement)
 	case 6: // AssemblerStatement   // Case 6
-		TODO(position(n))
+		c.assemblerStatement(n.AssemblerStatement)
 	default:
 		panic("internal error")
 	}
@@ -2136,7 +2173,7 @@ func (c *c) blockItem(labels *labels, n *cc.BlockItem, asExpr bool) {
 
 func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement, asExpr bool) {
 	c.f.blockLevel++
-	c.emit(&ir.BeginScope{Position: position(n)})
+	c.emit(&ir.BeginScope{Position: position(n), Value: asExpr})
 	if o := n.BlockItemListOpt; o != nil {
 		for l := o.BlockItemList; l != nil; l = l.BlockItemList {
 			c.blockItem(labels, l.BlockItem, asExpr && l.BlockItemList == nil)

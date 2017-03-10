@@ -30,6 +30,7 @@
 #define __INT_MAX__ 2147483647
 #define __LDBL_MAX__ 1.79769313486231570815e+308
 #define __LDBL_MIN__ 2.22507385850720138309e-308
+#define __LOCALE_TYPE__ struct{int _;}
 #define __LONG_LONG_MAX__ 9223372036854775807ll
 #define __PTRDIFF_TYPE__ long
 #define __SIZEOF_INT__ 4
@@ -123,10 +124,12 @@ int __builtin_tolower(int c);
 int __builtin_vfprintf(__FILE_TYPE__ * stream, const char *format,
 		       __builtin_va_list ap);
 int __builtin_vprintf(const char *format, __builtin_va_list ap);
+void *__builtin_alloca(__SIZE_TYPE__ size);
 void *__builtin_calloc(__SIZE_TYPE__ nmemb, __SIZE_TYPE__ size);
 void *__builtin_malloc(__SIZE_TYPE__ size);
 void *__builtin_memcpy(void *dest, const void *src, __SIZE_TYPE__ n);
 void *__builtin_memset(void *s, int c, __SIZE_TYPE__ n);
+void *__builtin_return_address(unsigned int level);
 void __builtin_abort(void);
 void __builtin_exit(int status);
 void __builtin_free(void *ptr);

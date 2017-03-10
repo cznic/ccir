@@ -69,10 +69,12 @@ const (
 var (
 	ccTestdata string
 
-	cpp    = flag.Bool("cpp", false, "")
-	filter = flag.String("re", "", "")
-	noexec = flag.Bool("noexec", false, "")
-	trace  = flag.Bool("trc", false, "")
+	cpp     = flag.Bool("cpp", false, "")
+	filter  = flag.String("re", "", "")
+	noexec  = flag.Bool("noexec", false, "")
+	oLog    = flag.Bool("log", false, "")
+	trace   = flag.Bool("trc", false, "")
+	yydebug = flag.Int("yydebug", 0, "")
 )
 
 func init() {
@@ -164,6 +166,9 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 			}
 			log.WriteByte('\n')
 		}))
+	}
+	if n := *yydebug; n != 0 {
+		opts = append(opts, cc.YyDebug(n))
 	}
 	modelName, ast, err := parse([]string{crt0Path, match}, opts...)
 	if err != nil {
@@ -266,7 +271,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	if err := func() (err error) {
 		defer func() {
 			if e := recover(); e != nil && err == nil {
-				err = fmt.Errorf("virtual.Exec: PANIC: %v", err)
+				err = fmt.Errorf("virtual.Exec: PANIC: %v", e)
 			}
 		}()
 
@@ -312,6 +317,13 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 		return log, exitStatus, err
 	}
 
+	if b := stdout.Bytes(); b != nil {
+		fmt.Fprintf(&log, "stdout:\n%s\n", b)
+	}
+	if b := stderr.Bytes(); b != nil {
+		fmt.Fprintf(&log, "stderr:\n%s\n", b)
+	}
+
 	expect := match[:len(match)-len(filepath.Ext(match))] + ".expect"
 	if _, err := os.Stat(expect); err != nil {
 		if !os.IsNotExist(err) {
@@ -329,7 +341,6 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	if g, e := stdout.Bytes(), buf; !bytes.Equal(g, e) {
 		return log, 0, fmt.Errorf("==== %v\n==== got\n%s==== exp\n%s", match, g, e)
 	}
-
 	return log, 0, nil
 }
 
@@ -355,6 +366,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 			fmt.Println(match)
 		}
 		seq++
+		doLog := *oLog
 		log, exitStatus, err := expect1(wd, match, hook, opts...)
 		switch {
 		case exitStatus <= 0 && err == nil:
@@ -362,7 +374,11 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		default:
 			if seq-okSeq == 1 {
 				t.Logf("%s: FAIL\n%s\n%s", match, errStr(err), log.Bytes())
+				doLog = false
 			}
+		}
+		if doLog {
+			t.Logf("%s:\n%s", match, log.Bytes())
 		}
 		log.Close()
 	}
@@ -405,11 +421,12 @@ func TestTCC(t *testing.T) {
 				return []string{"./test", "-", "arg1", "arg2", "arg3", "arg4"}
 			case "46_grep.c":
 				ioutil.WriteFile(filepath.Join(wd, "test"), []byte("abc\ndef\nghi\n"), 0600)
-				return []string{"./grep", ".", "test"}
+				return []string{"./grep", "[ea]", "test"}
 			default:
 				return []string{match}
 			}
 		},
+		cc.AllowCompatibleTypedefRedefinitions(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableImplicitFuncDef(),
 		cc.ErrLimit(-1),
@@ -418,22 +435,17 @@ func TestTCC(t *testing.T) {
 }
 
 func TestGCCExec(t *testing.T) {
-	blacklist := map[string]struct{}{}
+	blacklist := map[string]struct{}{
+		"20020412-1.c": {},
+	}
 	todolist := map[string]struct{}{
-		"20001009-2.c":                 {},
-		"20001203-2.c":                 {},
-		"20010122-1.c":                 {},
 		"20010209-1.c":                 {},
 		"20010605-1.c":                 {},
 		"20010605-2.c":                 {},
 		"20020107-1.c":                 {},
 		"20020206-1.c":                 {},
-		"20020314-1.c":                 {},
 		"20020320-1.c":                 {},
 		"20020411-1.c":                 {},
-		"20020412-1.c":                 {},
-		"20021113-1.c":                 {},
-		"20030222-1.c":                 {},
 		"20030323-1.c":                 {},
 		"20030330-1.c":                 {},
 		"20030408-1.c":                 {},
@@ -441,7 +453,6 @@ func TestGCCExec(t *testing.T) {
 		"20030714-1.c":                 {},
 		"20030811-1.c":                 {},
 		"20030910-1.c":                 {},
-		"20040223-1.c":                 {},
 		"20040302-1.c":                 {},
 		"20040308-1.c":                 {},
 		"20040520-1.c":                 {},
@@ -466,7 +477,6 @@ func TestGCCExec(t *testing.T) {
 		"20061031-1.c":                 {},
 		"20061220-1.c":                 {},
 		"20070614-1.c":                 {},
-		"20070824-1.c":                 {},
 		"20070919-1.c":                 {},
 		"20071029-1.c":                 {},
 		"20071210-1.c":                 {},
@@ -544,7 +554,6 @@ func TestGCCExec(t *testing.T) {
 		"alias-4.c":                    {},
 		"align-3.c":                    {},
 		"align-nest.c":                 {},
-		"alloca-1.c":                   {},
 		"anon-1.c":                     {},
 		"bcp-1.c":                      {},
 		"bitfld-5.c":                   {},
@@ -606,7 +615,6 @@ func TestGCCExec(t *testing.T) {
 		"pr34768-1.c":                  {},
 		"pr34768-2.c":                  {},
 		"pr35456.c":                    {},
-		"pr36321.c":                    {},
 		"pr37573.c":                    {},
 		"pr37924.c":                    {},
 		"pr38051.c":                    {},
@@ -777,6 +785,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableAlignOf(),
 		cc.EnableAlternateKeywords(),
 		cc.EnableAnonymousStructFields(),
+		cc.EnableAsm(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableEmptyDeclarations(),
 		cc.EnableEmptyStructs(),

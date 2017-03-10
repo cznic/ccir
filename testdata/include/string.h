@@ -1,9 +1,10 @@
 #ifndef _STRING_H_
 #define _STRING_H_
 
-#include <stddef.h>
-
 #define NULL ((void *)0)
+
+typedef __LOCALE_TYPE__ locale_t;
+typedef __SIZE_TYPE__ size_t;
 
 char *strcat(char *dest, const char *src);
 char *strchr(const char *s, int c);

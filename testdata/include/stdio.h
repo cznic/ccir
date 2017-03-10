@@ -5,12 +5,15 @@
 #include <stddef.h>
 
 #define EOF -1
-#define FILE __FILE_TYPE__
 #define NULL ((void *)0)
 #define getc(x) fgetc(x)
 #define stderr (__stdstreams[2])
 #define stdin (__stdstreams[0])
 #define stdout (__stdstreams[1])
+
+typedef __FILE_TYPE__ FILE;
+typedef __SIZE_TYPE__ size_t;
+typedef __builtin_va_list va_list;
 
 FILE *fopen(const char *path, const char *mode);
 char *fgets(char *s, int size, FILE * stream);
