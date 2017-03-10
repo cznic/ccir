@@ -58,6 +58,8 @@ func use(...interface{}) {}
 
 func init() {
 	use(caller, dbg, TODO) //TODOOK
+	flag.BoolVar(&virtual.Testing, "virtualTesting", false, "")
+	flag.BoolVar(&Testing, "testing", false, "")
 }
 
 // ============================================================================
@@ -147,7 +149,11 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 		model,
 		opts...,
 	)
-	return modelName, ast, err
+	if err != nil {
+		return modelName, nil, fmt.Errorf("cc.Parse: %v", err)
+	}
+
+	return modelName, ast, nil
 }
 
 func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Opt) (log buffer.Bytes, exitStatus int, err error) {
@@ -177,7 +183,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 
 	objs, err := New(modelName, ast)
 	if err != nil {
-		return log, -1, err
+		return log, -1, fmt.Errorf("New: %v", err)
 	}
 
 	fmt.Fprintf(&log, "# ccir.New\n")
@@ -210,7 +216,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	}
 
 	if objs, err = ir.LinkMain(objs); err != nil {
-		return log, -1, err
+		return log, -1, fmt.Errorf("ir.LinkMain: %v", err)
 	}
 
 	fmt.Fprintf(&log, "# ir.LinkMain\n")
@@ -235,7 +241,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 
 	bin, err := virtual.LoadMain(modelName, objs)
 	if err != nil {
-		return log, -1, err
+		return log, -1, fmt.Errorf("virtual.LoadMain: %v", err)
 	}
 
 	s := virtual.DumpCodeStr(bin.Code, 0)
@@ -291,25 +297,13 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 
 		args := hook(vwd, match)
 		if exitStatus, err = virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<20, 1<<20); exitStatus != 0 || err != nil {
-			if len(bin.Text) != 0 {
-				fmt.Fprintf(&log, "Text segment\n%s\n", hex.Dump(bin.Text))
-			}
-			if len(bin.Data) != 0 {
-				fmt.Fprintf(&log, "Data segment\n%s\n", hex.Dump(bin.Data))
-			}
-			if len(bin.TSRelative) != 0 {
-				fmt.Fprintf(&log, "TS relative bitvector\n%s\n", hex.Dump(bin.TSRelative))
-			}
-			if len(bin.DSRelative) != 0 {
-				fmt.Fprintf(&log, "DS relative bitvector\n%s\n", hex.Dump(bin.DSRelative))
-			}
 			if b := stdout.Bytes(); b != nil {
 				fmt.Fprintf(&log, "stdout:\n%s\n", b)
 			}
 			if b := stderr.Bytes(); b != nil {
 				fmt.Fprintf(&log, "stderr:\n%s\n", b)
 			}
-			return err
+			return fmt.Errorf("virtual.Exec: exist status %v, err %v", exitStatus, err)
 		}
 
 		return nil
@@ -436,25 +430,35 @@ func TestTCC(t *testing.T) {
 
 func TestGCCExec(t *testing.T) {
 	blacklist := map[string]struct{}{
+		// VLA struct field.
 		"20020412-1.c": {},
+
+		// Nested function.
+		"20010209-1.c": {},
+		"20010605-1.c": {},
+
+		// __real__ and friends.
+		"20010605-2.c": {},
+
+		// Depends on __attribute__((aligned(N)))
+		"20010904-1.c": {},
+		"20010904-2.c": {},
 	}
 	todolist := map[string]struct{}{
-		"20010209-1.c":                 {},
-		"20010605-1.c":                 {},
-		"20010605-2.c":                 {},
-		"20020107-1.c":                 {},
-		"20020206-1.c":                 {},
 		"20020320-1.c":                 {},
 		"20020411-1.c":                 {},
-		"20030323-1.c":                 {},
+		"20021127-1.c":                 {},
+		"20030222-1.c":                 {},
 		"20030330-1.c":                 {},
 		"20030408-1.c":                 {},
 		"20030501-1.c":                 {},
 		"20030714-1.c":                 {},
-		"20030811-1.c":                 {},
 		"20030910-1.c":                 {},
+		"20031003-1.c":                 {},
 		"20040302-1.c":                 {},
 		"20040308-1.c":                 {},
+		"20040411-1.c":                 {},
+		"20040423-1.c":                 {},
 		"20040520-1.c":                 {},
 		"20040709-1.c":                 {},
 		"20040709-2.c":                 {},
@@ -462,8 +466,8 @@ func TestGCCExec(t *testing.T) {
 		"20041124-1.c":                 {},
 		"20041201-1.c":                 {},
 		"20041214-1.c":                 {},
+		"20041218-2.c":                 {},
 		"20050121-1.c":                 {},
-		"20050203-1.c":                 {},
 		"20050316-1.c":                 {},
 		"20050316-2.c":                 {},
 		"20050316-3.c":                 {},
@@ -474,7 +478,6 @@ func TestGCCExec(t *testing.T) {
 		"20051110-1.c":                 {},
 		"20051110-2.c":                 {},
 		"20060910-1.c":                 {},
-		"20061031-1.c":                 {},
 		"20061220-1.c":                 {},
 		"20070614-1.c":                 {},
 		"20070919-1.c":                 {},
@@ -484,7 +487,6 @@ func TestGCCExec(t *testing.T) {
 		"20071219-1.c":                 {},
 		"20071220-1.c":                 {},
 		"20071220-2.c":                 {},
-		"20080122-1.c":                 {},
 		"20080502-1.c":                 {},
 		"20080519-1.c":                 {},
 		"20080522-1.c":                 {},
@@ -513,7 +515,6 @@ func TestGCCExec(t *testing.T) {
 		"920929-1.c":                   {},
 		"921017-1.c":                   {},
 		"921019-1.c":                   {},
-		"921110-1.c":                   {},
 		"921124-1.c":                   {},
 		"930406-1.c":                   {},
 		"930429-2.c":                   {},
@@ -522,7 +523,9 @@ func TestGCCExec(t *testing.T) {
 		"930603-1.c":                   {},
 		"930603-3.c":                   {},
 		"930608-1.c":                   {},
+		"930621-1.c":                   {},
 		"930622-1.c":                   {},
+		"930630-1.c":                   {},
 		"930719-1.c":                   {},
 		"930930-2.c":                   {},
 		"931009-1.c":                   {},
@@ -535,19 +538,22 @@ func TestGCCExec(t *testing.T) {
 		"960116-1.c":                   {},
 		"960218-1.c":                   {},
 		"960301-1.c":                   {},
-		"960312-1.c":                   {},
 		"960405-1.c":                   {},
 		"960416-1.c":                   {},
 		"960512-1.c":                   {},
 		"961112-1.c":                   {},
+		"970217-1.c":                   {},
 		"980223.c":                     {},
 		"980506-3.c":                   {},
 		"980526-1.c":                   {},
 		"980605-1.c":                   {},
 		"990130-1.c":                   {},
 		"990208-1.c":                   {},
+		"990326-1.c":                   {},
 		"990413-2.c":                   {},
 		"990524-1.c":                   {},
+		"991030-1.c":                   {},
+		"991118-1.c":                   {},
 		"991228-1.c":                   {},
 		"alias-2.c":                    {},
 		"alias-3.c":                    {},
@@ -556,6 +562,12 @@ func TestGCCExec(t *testing.T) {
 		"align-nest.c":                 {},
 		"anon-1.c":                     {},
 		"bcp-1.c":                      {},
+		"bf-sign-1.c":                  {},
+		"bf-sign-2.c":                  {},
+		"bf64-1.c":                     {},
+		"bitfld-1.c":                   {},
+		"bitfld-3.c":                   {},
+		"bitfld-4.c":                   {},
 		"bitfld-5.c":                   {},
 		"bitfld-6.c":                   {},
 		"bitfld-7.c":                   {},
@@ -576,6 +588,7 @@ func TestGCCExec(t *testing.T) {
 		"complex-7.c":                  {},
 		"compndlit-1.c":                {},
 		"const-addr-expr-1.c":          {},
+		"eeprof-1.c":                   {},
 		"frame-address.c":              {},
 		"inst-check.c":                 {},
 		"int-compare.c":                {},
@@ -593,9 +606,9 @@ func TestGCCExec(t *testing.T) {
 		"nest-align-1.c":               {},
 		"nest-stdar-1.c":               {},
 		"nestfunc-7.c":                 {},
-		"pr17377.c":                    {},
 		"pr19005.c":                    {},
 		"pr19449.c":                    {},
+		"pr19689.c":                    {},
 		"pr22061-1.c":                  {},
 		"pr22061-3.c":                  {},
 		"pr22061-4.c":                  {},
@@ -604,25 +617,30 @@ func TestGCCExec(t *testing.T) {
 		"pr22098-3.c":                  {},
 		"pr23135.c":                    {},
 		"pr23324.c":                    {},
+		"pr23467.c":                    {},
 		"pr28289.c":                    {},
 		"pr28982b.c":                   {},
 		"pr30185.c":                    {},
-		"pr33382.c":                    {},
+		"pr31448-2.c":                  {},
+		"pr31448.c":                    {},
+		"pr32244-1.c":                  {},
+		"pr33382.c":                    {}, //TODO SIGSEV
 		"pr33631.c":                    {},
 		"pr34154.c":                    {},
 		"pr34176.c":                    {},
 		"pr34456.c":                    {},
 		"pr34768-1.c":                  {},
 		"pr34768-2.c":                  {},
+		"pr34971.c":                    {},
 		"pr35456.c":                    {},
 		"pr37573.c":                    {},
 		"pr37924.c":                    {},
 		"pr38051.c":                    {},
 		"pr38151.c":                    {},
 		"pr38212.c":                    {},
-		"pr38533.c":                    {},
 		"pr38969.c":                    {},
 		"pr39100.c":                    {},
+		"pr39240.c":                    {},
 		"pr39339.c":                    {},
 		"pr40022.c":                    {},
 		"pr40657.c":                    {},
@@ -635,34 +653,28 @@ func TestGCCExec(t *testing.T) {
 		"pr42691.c":                    {},
 		"pr42833.c":                    {},
 		"pr43220.c":                    {},
-		"pr43385.c":                    {},
 		"pr43438.c":                    {},
 		"pr43560.c":                    {},
 		"pr43784.c":                    {},
 		"pr43987.c":                    {},
 		"pr44164.c":                    {},
-		"pr44468.c":                    {},
 		"pr44555.c":                    {},
 		"pr44683.c":                    {},
-		"pr44852.c":                    {},
 		"pr45034.c":                    {},
-		"pr45695.c":                    {},
 		"pr46309.c":                    {},
 		"pr47237.c":                    {},
 		"pr47337.c":                    {},
 		"pr47538.c":                    {},
-		"pr47925.c":                    {},
 		"pr49218.c":                    {},
 		"pr49279.c":                    {},
 		"pr49390.c":                    {},
 		"pr49644.c":                    {},
 		"pr49768.c":                    {},
 		"pr51447.c":                    {},
-		"pr51581-1.c":                  {},
-		"pr51581-2.c":                  {},
 		"pr51877.c":                    {},
 		"pr51933.c":                    {},
-		"pr52286.c":                    {},
+		"pr52979-1.c":                  {},
+		"pr52979-2.c":                  {},
 		"pr53084.c":                    {},
 		"pr53645-2.c":                  {},
 		"pr53645.c":                    {},
@@ -681,8 +693,10 @@ func TestGCCExec(t *testing.T) {
 		"pr58277-2.c":                  {},
 		"pr58419.c":                    {},
 		"pr58431.c":                    {},
+		"pr58570.c":                    {},
 		"pr58726.c":                    {},
 		"pr58831.c":                    {},
+		"pr58943.c":                    {},
 		"pr58984.c":                    {},
 		"pr59221.c":                    {},
 		"pr59643.c":                    {},
@@ -696,8 +710,8 @@ func TestGCCExec(t *testing.T) {
 		"pr63659.c":                    {},
 		"pr64006.c":                    {},
 		"pr64756.c":                    {},
-		"pr65053-1.c":                  {},
-		"pr65053-2.c":                  {},
+		"pr65215-5.c":                  {},
+		"pr65401.c":                    {},
 		"pr65427.c":                    {},
 		"pr65648.c":                    {},
 		"pr65956.c":                    {},
@@ -717,6 +731,7 @@ func TestGCCExec(t *testing.T) {
 		"pr71554.c":                    {},
 		"pr71626-1.c":                  {},
 		"pr71626-2.c":                  {},
+		"pushpop_macro.c":              {},
 		"scal-to-vec1.c":               {},
 		"scal-to-vec2.c":               {},
 		"scal-to-vec3.c":               {},
@@ -729,6 +744,7 @@ func TestGCCExec(t *testing.T) {
 		"stdarg-1.c":                   {},
 		"stkalign.c":                   {},
 		"string-opt-18.c":              {},
+		"string-opt-5.c":               {},
 		"struct-cpy-1.c":               {},
 		"struct-ini-1.c":               {},
 		"struct-ini-2.c":               {},
@@ -736,13 +752,8 @@ func TestGCCExec(t *testing.T) {
 		"struct-ret-1.c":               {},
 		"va-arg-10.c":                  {},
 		"va-arg-14.c":                  {},
-		"va-arg-21.c":                  {},
 		"va-arg-pack-1.c":              {},
-		"vfprintf-1.c":                 {},
-		"vfprintf-chk-1.c":             {},
 		"vla-dealloc-1.c":              {},
-		"vprintf-1.c":                  {},
-		"vprintf-chk-1.c":              {},
 		"wchar_t-1.c":                  {},
 		"widechar-2.c":                 {},
 		"zero-struct-1.c":              {},

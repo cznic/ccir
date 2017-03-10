@@ -1,9 +1,6 @@
 #ifndef _STDIO_H_
 #define _STDIO_H_
 
-#include <stdarg.h>
-#include <stddef.h>
-
 #define EOF -1
 #define NULL ((void *)0)
 #define getc(x) fgetc(x)

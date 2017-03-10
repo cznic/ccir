@@ -1,7 +1,7 @@
 #ifndef _CTYPE_H_
 #define _CTYPE_H_
 
-#include <locale.h>
+typedef __LOCALE_TYPE__ locale_t;
 
 int isprint(int c);
 int tolower(int c);
