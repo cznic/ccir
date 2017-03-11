@@ -21,6 +21,12 @@ import (
 	"github.com/cznic/virtual"
 )
 
+const (
+	_ = iota
+	stmtExprValue
+	stmtExprAddress
+)
+
 var (
 	// Testing amends things for tests.
 	Testing bool
@@ -1166,6 +1172,14 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 		TODO(position(n))
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
+	case 57: // '(' CompoundStatement ')'                          // Case 57
+		t := n.Type
+		if t.Kind() == cc.Void {
+			panic("internal error")
+		}
+
+		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, stmtExprAddress)
+		return 0, 0, nil, nil
 	}
 	panic(fmt.Errorf("internal error: %v", position(n)))
 }
@@ -1819,7 +1833,11 @@ out:
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
 	case 57: // '(' CompoundStatement ')'                          // Case 57
-		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, n.Type.Kind() != cc.Void)
+		stmtExpr := 0
+		if n.Type.Kind() != cc.Void {
+			stmtExpr = stmtExprValue
+		}
+		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, stmtExpr)
 	default:
 		panic(fmt.Errorf("%s: internal error: Expression.Case %v", position(n), n.Case))
 	}
@@ -1837,19 +1855,31 @@ func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) {
 	}
 }
 
-func (c *c) expressionListOpt(ot cc.Type, n *cc.ExpressionListOpt, asExpr bool) {
+func (c *c) expressionListOpt(ot cc.Type, n *cc.ExpressionListOpt, stmtExpr int) {
 	if n == nil {
 		return
 	}
 
-	if asExpr {
+	switch stmtExpr {
+	case stmtExprValue:
 		ot = n.ExpressionList.Type
+	case stmtExprAddress:
+		t := c.ast.Model.VoidType
+		for l := n.ExpressionList; l != nil; l = l.ExpressionList {
+			if l.ExpressionList == nil {
+				c.addr(l.Expression)
+				return
+			}
+
+			c.expression(t, l.Expression)
+		}
+		return
 	}
 	c.expressionList(ot, n.ExpressionList)
 }
 
-func (c *c) expressionStatement(n *cc.ExpressionStatement, asExpr bool) {
-	c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt, asExpr)
+func (c *c) expressionStatement(n *cc.ExpressionStatement, stmtExpr int) {
+	c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt, stmtExpr)
 }
 
 func (c *c) jumpStatement(labels *labels, n *cc.JumpStatement) {
@@ -1904,7 +1934,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		}
 		c.emit(&ir.Jz{Number: end, Position: position(n)})
 		breakLabel := labels.setBreak(end)
-		c.statement(labels, n.Statement, false)
+		c.statement(labels, n.Statement, 0)
 		labels.setBreak(breakLabel)
 		labels.setContinue(cl)
 		c.emit(&ir.Jmp{Number: begin, Position: position(n)})
@@ -1914,7 +1944,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		c.emit(&ir.Label{Number: begin, Position: position(n)})
 		breakLabel := labels.setBreak(-1)
 		cl := labels.setContinue(begin)
-		c.statement(labels, n.Statement, false)
+		c.statement(labels, n.Statement, 0)
 		el := n.ExpressionList
 		c.expressionList(el.Type, el)
 		if el.Type.Kind() != cc.Int {
@@ -1927,7 +1957,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		labels.setBreak(breakLabel)
 		labels.setContinue(cl)
 	case 2: // "for" '(' ExpressionListOpt ';' ExpressionListOpt ';' ExpressionListOpt ')' Statement  // Case 2
-		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt, false)
+		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt, 0)
 		test := c.label()
 		cont := c.label()
 		cl := labels.setContinue(cont)
@@ -1943,11 +1973,11 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 			c.emit(&ir.Jz{Number: end, Position: position(n)})
 		}
 		breakLabel := labels.setBreak(end)
-		c.statement(labels, n.Statement, false)
+		c.statement(labels, n.Statement, 0)
 		labels.setBreak(breakLabel)
 		labels.setContinue(cl)
 		c.emit(&ir.Label{Number: cont, Position: position(n)})
-		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt3, false)
+		c.expressionListOpt(c.ast.Model.VoidType, n.ExpressionListOpt3, 0)
 		c.emit(&ir.Jmp{Number: test, Position: position(n)})
 		c.emit(&ir.Label{Number: end, Position: position(n)})
 	case 3: // "for" '(' Declaration ExpressionListOpt ';' ExpressionListOpt ')' Statement            // Case 3
@@ -2077,7 +2107,7 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	default:
 		c.emit(&ir.Jmp{Number: defaultCase, Position: position(n)})
 	}
-	c.statement(&labels, n.Statement, false)
+	c.statement(&labels, n.Statement, 0)
 	if labels.breakLabel >= 0 {
 		c.emit(&ir.Label{Number: labels.breakLabel, Position: position(n.ExpressionList)})
 	}
@@ -2093,7 +2123,7 @@ func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
 		}
 		l1 := c.label()
 		c.emit(&ir.Jz{Number: l1, Position: position(n)})
-		c.statement(labels, n.Statement, false)
+		c.statement(labels, n.Statement, 0)
 		c.emit(&ir.Label{Number: l1, Position: position(n)})
 	case 1: // "if" '(' ExpressionList ')' Statement "else" Statement  // Case 1
 		// expr; jz 1; stmt; jmp 2; 1: stmt2; 2:
@@ -2103,11 +2133,11 @@ func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
 		}
 		l1 := c.label()
 		c.emit(&ir.Jz{Number: l1, Position: position(n)})
-		c.statement(labels, n.Statement, false)
+		c.statement(labels, n.Statement, 0)
 		l2 := c.label()
 		c.emit(&ir.Jmp{Number: l2, Position: position(n)})
 		c.emit(&ir.Label{Number: l1, Position: position(n)})
-		c.statement(labels, n.Statement2, false)
+		c.statement(labels, n.Statement2, 0)
 		c.emit(&ir.Label{Number: l2, Position: position(n)})
 	case 2: // "switch" '(' ExpressionList ')' Statement               // Case 2
 		c.switchStatement(n)
@@ -2128,25 +2158,30 @@ func (c *c) labeledStatement(labels *labels, n *cc.LabeledStatement) {
 	default:
 		panic("internal error")
 	}
-	c.statement(labels, n.Statement, false)
+	c.statement(labels, n.Statement, 0)
 }
 
 func (c *c) assemblerStatement(n *cc.AssemblerStatement) {
-	for l := n.AssemblerInstructions; l != nil; l = l.AssemblerInstructions {
-		if v := l.Token.Val; v != idEmptyString {
-			panic(fmt.Errorf("%s: assembler instructions not supported: %s", position(l.Token), dict.S(v)))
+	switch n.Case {
+	case 0: // BasicAssemblerStatement
+		for l := n.BasicAssemblerStatement.AssemblerInstructions; l != nil; l = l.AssemblerInstructions {
+			if v := l.Token.Val; v != idEmptyString {
+				panic(fmt.Errorf("%s: assembler instructions not supported: %s", position(l.Token), dict.S(v)))
+			}
 		}
+	default:
+		panic(fmt.Errorf("%s: assembler instructions not supported", position(n)))
 	}
 }
 
-func (c *c) statement(labels *labels, n *cc.Statement, asExpr bool) {
+func (c *c) statement(labels *labels, n *cc.Statement, stmtExpr int) {
 	switch n.Case {
 	case 0: // LabeledStatement
 		c.labeledStatement(labels, n.LabeledStatement)
 	case 1: // CompoundStatement    // Case 1
-		c.compoundStatement(labels, n.CompoundStatement, false)
+		c.compoundStatement(labels, n.CompoundStatement, 0)
 	case 2: // ExpressionStatement  // Case 2
-		c.expressionStatement(n.ExpressionStatement, asExpr)
+		c.expressionStatement(n.ExpressionStatement, stmtExpr)
 	case 3: // SelectionStatement   // Case 3
 		c.selectionStatement(labels, n.SelectionStatement)
 	case 4: // IterationStatement   // Case 4
@@ -2160,23 +2195,28 @@ func (c *c) statement(labels *labels, n *cc.Statement, asExpr bool) {
 	}
 }
 
-func (c *c) blockItem(labels *labels, n *cc.BlockItem, asExpr bool) {
+func (c *c) blockItem(labels *labels, n *cc.BlockItem, stmtExpr int) {
 	switch n.Case {
 	case 0: // Declaration
 		c.declaration(n.Declaration)
 	case 1: // Statement    // Case 1
-		c.statement(labels, n.Statement, asExpr)
+		c.statement(labels, n.Statement, stmtExpr)
 	default:
 		panic("internal error")
 	}
 }
 
-func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement, asExpr bool) {
+func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement, stmtExpr int) {
+	v := stmtExpr == stmtExprValue || stmtExpr == stmtExprAddress
 	c.f.blockLevel++
-	c.emit(&ir.BeginScope{Position: position(n), Value: asExpr})
+	c.emit(&ir.BeginScope{Position: position(n), Value: v})
 	if o := n.BlockItemListOpt; o != nil {
 		for l := o.BlockItemList; l != nil; l = l.BlockItemList {
-			c.blockItem(labels, l.BlockItem, asExpr && l.BlockItemList == nil)
+			se := 0
+			if l.BlockItemList == nil {
+				se = stmtExpr
+			}
+			c.blockItem(labels, l.BlockItem, se)
 		}
 	}
 	c.f.blockLevel--
@@ -2186,7 +2226,7 @@ func (c *c) compoundStatement(labels *labels, n *cc.CompoundStatement, asExpr bo
 			c.emit(&ir.Return{Position: position(n.Token2)})
 		}
 	}
-	c.emit(&ir.EndScope{Position: position(n.Token2), Value: asExpr})
+	c.emit(&ir.EndScope{Position: position(n.Token2), Value: v})
 }
 
 func (c *c) functionBody(n *cc.FunctionBody) {
@@ -2198,7 +2238,7 @@ func (c *c) functionBody(n *cc.FunctionBody) {
 	}
 	switch n.Case {
 	case 0: // CompoundStatement
-		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, false)
+		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, 0)
 	case 1: // AssemblerStatement ';'  // Case 1
 		TODO(position(n))
 	default:

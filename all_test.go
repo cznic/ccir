@@ -439,17 +439,28 @@ func TestGCCExec(t *testing.T) {
 
 		// __real__ and friends.
 		"20010605-2.c": {},
+		"20020411-1.c": {},
 
 		// Depends on __attribute__((aligned(N)))
 		"20010904-1.c": {},
 		"20010904-2.c": {},
+
+		// https://goo.gl/XDxJEL
+		"20021127-1.c": {},
+
+		// asm
+		"20001009-2.c": {},
+		"20020107-1.c": {},
+		"20030222-1.c": {},
+		"960312-1.c":   {},
+		"pr38533.c":    {},
+		"pr43385.c":    {},
+		"pr45695.c":    {},
+		"pr52286.c":    {},
+		"pr65053-1.c":  {},
+		"pr65053-2.c":  {},
 	}
 	todolist := map[string]struct{}{
-		"20020320-1.c":                 {},
-		"20020411-1.c":                 {},
-		"20021127-1.c":                 {},
-		"20030222-1.c":                 {},
-		"20030330-1.c":                 {},
 		"20030408-1.c":                 {},
 		"20030501-1.c":                 {},
 		"20030714-1.c":                 {},
@@ -797,6 +808,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableAlternateKeywords(),
 		cc.EnableAnonymousStructFields(),
 		cc.EnableAsm(),
+		cc.EnableBuiltinConstantP(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableEmptyDeclarations(),
 		cc.EnableEmptyStructs(),
