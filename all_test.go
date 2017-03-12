@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"testing"
 
@@ -58,8 +59,9 @@ func use(...interface{}) {}
 
 func init() {
 	use(caller, dbg, TODO) //TODOOK
-	flag.BoolVar(&virtual.Testing, "virtualTesting", false, "")
 	flag.BoolVar(&Testing, "testing", false, "")
+	flag.BoolVar(&ir.Testing, "irTesting", false, "")
+	flag.BoolVar(&virtual.Testing, "virtualTesting", false, "")
 }
 
 // ============================================================================
@@ -105,6 +107,7 @@ func init() {
 func errStr(err error) string {
 	switch x := err.(type) {
 	case scanner.ErrorList:
+		x.RemoveMultiples()
 		var b bytes.Buffer
 		for i, v := range x {
 			if i != 0 {
@@ -125,7 +128,7 @@ func errStr(err error) string {
 func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err error) {
 	defer func() {
 		if e := recover(); e != nil && err == nil {
-			err = fmt.Errorf("cc.Parse: PANIC: %v", e)
+			err = fmt.Errorf("cc.Parse: PANIC: %v\n%s", e, debug.Stack())
 		}
 	}()
 
@@ -150,7 +153,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 		opts...,
 	)
 	if err != nil {
-		return modelName, nil, fmt.Errorf("cc.Parse: %v", err)
+		return modelName, nil, fmt.Errorf("cc.Parse: %v", errStr(err))
 	}
 
 	return modelName, ast, nil
@@ -303,7 +306,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 			if b := stderr.Bytes(); b != nil {
 				fmt.Fprintf(&log, "stderr:\n%s\n", b)
 			}
-			return fmt.Errorf("virtual.Exec: exist status %v, err %v", exitStatus, err)
+			return fmt.Errorf("virtual.Exec: exit status %v, err %v", exitStatus, err)
 		}
 
 		return nil
@@ -366,6 +369,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		case exitStatus <= 0 && err == nil:
 			okSeq++
 		default:
+			//dbg("", match)
 			if seq-okSeq == 1 {
 				t.Logf("%s: FAIL\n%s\n%s", match, errStr(err), log.Bytes())
 				doLog = false
@@ -436,10 +440,12 @@ func TestGCCExec(t *testing.T) {
 		// Nested function.
 		"20010209-1.c": {},
 		"20010605-1.c": {},
+		"20030501-1.c": {},
 
 		// __real__ and friends.
 		"20010605-2.c": {},
 		"20020411-1.c": {},
+		"20030910-1.c": {},
 
 		// Depends on __attribute__((aligned(N)))
 		"20010904-1.c": {},
@@ -461,12 +467,6 @@ func TestGCCExec(t *testing.T) {
 		"pr65053-2.c":  {},
 	}
 	todolist := map[string]struct{}{
-		"20030408-1.c":                 {},
-		"20030501-1.c":                 {},
-		"20030714-1.c":                 {},
-		"20030910-1.c":                 {},
-		"20031003-1.c":                 {},
-		"20040302-1.c":                 {},
 		"20040308-1.c":                 {},
 		"20040411-1.c":                 {},
 		"20040423-1.c":                 {},
@@ -512,7 +512,6 @@ func TestGCCExec(t *testing.T) {
 		"920428-1.c":                   {},
 		"920429-1.c":                   {},
 		"920501-3.c":                   {},
-		"920501-4.c":                   {},
 		"920501-5.c":                   {},
 		"920501-6.c":                   {},
 		"920603-1.c":                   {},
@@ -534,9 +533,7 @@ func TestGCCExec(t *testing.T) {
 		"930603-1.c":                   {},
 		"930603-3.c":                   {},
 		"930608-1.c":                   {},
-		"930621-1.c":                   {},
 		"930622-1.c":                   {},
-		"930630-1.c":                   {},
 		"930719-1.c":                   {},
 		"930930-2.c":                   {},
 		"931009-1.c":                   {},
@@ -560,32 +557,25 @@ func TestGCCExec(t *testing.T) {
 		"980605-1.c":                   {},
 		"990130-1.c":                   {},
 		"990208-1.c":                   {},
-		"990326-1.c":                   {},
 		"990413-2.c":                   {},
 		"990524-1.c":                   {},
 		"991030-1.c":                   {},
-		"991118-1.c":                   {},
 		"991228-1.c":                   {},
 		"alias-2.c":                    {},
 		"alias-3.c":                    {},
 		"alias-4.c":                    {},
 		"align-3.c":                    {},
 		"align-nest.c":                 {},
-		"anon-1.c":                     {},
 		"bcp-1.c":                      {},
-		"bf-sign-1.c":                  {},
 		"bf-sign-2.c":                  {},
-		"bf64-1.c":                     {},
 		"bitfld-1.c":                   {},
 		"bitfld-3.c":                   {},
-		"bitfld-4.c":                   {},
 		"bitfld-5.c":                   {},
 		"bitfld-6.c":                   {},
 		"bitfld-7.c":                   {},
 		"bswap-1.c":                    {},
 		"bswap-2.c":                    {},
 		"built-in-setjmp.c":            {},
-		"builtin-constant.c":           {},
 		"builtin-prefetch-2.c":         {},
 		"builtin-prefetch-3.c":         {},
 		"builtin-prefetch-4.c":         {},
@@ -618,8 +608,6 @@ func TestGCCExec(t *testing.T) {
 		"nest-stdar-1.c":               {},
 		"nestfunc-7.c":                 {},
 		"pr19005.c":                    {},
-		"pr19449.c":                    {},
-		"pr19689.c":                    {},
 		"pr22061-1.c":                  {},
 		"pr22061-3.c":                  {},
 		"pr22061-4.c":                  {},
@@ -684,8 +672,6 @@ func TestGCCExec(t *testing.T) {
 		"pr51447.c":                    {},
 		"pr51877.c":                    {},
 		"pr51933.c":                    {},
-		"pr52979-1.c":                  {},
-		"pr52979-2.c":                  {},
 		"pr53084.c":                    {},
 		"pr53645-2.c":                  {},
 		"pr53645.c":                    {},
@@ -698,13 +684,11 @@ func TestGCCExec(t *testing.T) {
 		"pr57344-3.c":                  {},
 		"pr57344-4.c":                  {},
 		"pr57568.c":                    {},
-		"pr57861.c":                    {},
 		"pr57875.c":                    {},
 		"pr58277-1.c":                  {},
 		"pr58277-2.c":                  {},
 		"pr58419.c":                    {},
 		"pr58431.c":                    {},
-		"pr58570.c":                    {},
 		"pr58726.c":                    {},
 		"pr58831.c":                    {},
 		"pr58943.c":                    {},
@@ -713,7 +697,6 @@ func TestGCCExec(t *testing.T) {
 		"pr59643.c":                    {},
 		"pr60003.c":                    {},
 		"pr60960.c":                    {},
-		"pr61306-3.c":                  {},
 		"pr61682.c":                    {},
 		"pr62151.c":                    {},
 		"pr63209.c":                    {},
@@ -759,7 +742,6 @@ func TestGCCExec(t *testing.T) {
 		"struct-cpy-1.c":               {},
 		"struct-ini-1.c":               {},
 		"struct-ini-2.c":               {},
-		"struct-ini-4.c":               {},
 		"struct-ret-1.c":               {},
 		"va-arg-10.c":                  {},
 		"va-arg-14.c":                  {},
@@ -809,13 +791,16 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableAnonymousStructFields(),
 		cc.EnableAsm(),
 		cc.EnableBuiltinConstantP(),
+		cc.EnableComputedGotos(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableEmptyDeclarations(),
 		cc.EnableEmptyStructs(),
 		cc.EnableImplicitFuncDef(),
+		cc.EnableLegacyDesignators(),
 		cc.EnableOmitFuncRetType(),
 		cc.EnableParenthesizedCompoundStatemen(),
 		cc.EnableTypeOf(),
+		cc.EnableUnsignedEnums(),
 		cc.EnableWideBitFieldTypes(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),

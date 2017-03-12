@@ -81,6 +81,7 @@ type fdata struct {
 	blockLevel int
 	cResult    cc.Type
 	f          *ir.FunctionDefinition
+	index      int // Current function object index.
 	label      int
 	result     ir.TypeID
 	static     int
@@ -310,7 +311,7 @@ func (c *c) arrayInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bo
 	var designators int
 	elem := t.Element()
 	for l := n; l != nil; l = l.InitializerList {
-		val, init := c.initializer(elem, l.Initializer)
+		val, init := c.initializer(elem, l.Initializer, false)
 		if init != nil {
 			complete = false
 		}
@@ -360,33 +361,47 @@ func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, b
 	complete := true
 	var i int
 	for l := n; l != nil; l = l.InitializerList {
-		if o := l.DesignationOpt; o != nil {
-			dl := o.Designation.DesignatorList
-			if dl.DesignatorList != nil {
-				TODO(position(n))
+	search2:
+		switch in := l.Initializer; in.Case {
+		case 2: // IDENTIFIER ':' Initializer        // Case 2
+			nm := in.Token.Val
+			for j, v := range members {
+				if v.Name == nm {
+					i = j
+					break search2
+				}
 			}
 
-		search:
-			switch d := dl.Designator; d.Case {
-			case 0: // '[' ConstantExpression ']'
-				panic("internal error")
-			case 1: // '.' IDENTIFIER              // Case 1
-				nm := d.Token2.Val
-				for j, v := range members {
-					if v.Name == nm {
-						i = j
-						break search
-					}
+			panic("internal error")
+		default:
+			if o := l.DesignationOpt; o != nil {
+				dl := o.Designation.DesignatorList
+				if dl.DesignatorList != nil {
+					TODO(position(n))
 				}
 
-				panic("internal error")
-			default:
-				panic("internal error")
+			search:
+				switch d := dl.Designator; d.Case {
+				case 0: // '[' ConstantExpression ']'
+					panic("internal error")
+				case 1: // '.' IDENTIFIER              // Case 1
+					nm := d.Token2.Val
+					for j, v := range members {
+						if v.Name == nm {
+							i = j
+							break search
+						}
+					}
+
+					panic("internal error")
+				default:
+					panic("internal error")
+				}
 			}
 		}
 
 		ft := members[i].Type
-		val, init := c.initializer(ft, l.Initializer)
+		val, init := c.initializer(ft, l.Initializer, true)
 		if init != nil {
 			complete = false
 		}
@@ -470,7 +485,7 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 	}
 }
 
-func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer) {
+func (c *c) initializer(t cc.Type, n *cc.Initializer, ok bool) (ir.Value, *cc.Initializer) {
 	if n == nil {
 		return nil, nil
 	}
@@ -527,6 +542,8 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 			default:
 				return &ir.Int64Value{Value: int64(x)}, nil
 			}
+		case cc.ComputedGotoID:
+			return &ir.AddressValue{NameID: c.f.f.NameID, Linkage: c.f.f.Linkage, Label: ir.NameID(x), Index: -1}, nil
 		default:
 			TODO(position(n), fmt.Sprintf("%T", x))
 		}
@@ -538,6 +555,12 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer) (ir.Value, *cc.Initializer
 		}
 
 		return val, init
+	case 2: // IDENTIFIER ':' Initializer        // Case 2
+		if ok {
+			return c.initializer(t, n.Initializer, false)
+		}
+
+		TODO(position(n), t)
 	}
 	panic("internal error")
 }
@@ -664,7 +687,7 @@ func (c *c) exprInitializerList(t cc.Type, vi int, vp token.Position, l *cc.Init
 
 func (c *c) staticDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList) {
 	typ := c.typ(d.Type).ID()
-	val, init := c.initializer(l.InitDeclarator.Declarator.Type, l.InitDeclarator.Initializer)
+	val, init := c.initializer(l.InitDeclarator.Declarator.Type, l.InitDeclarator.Initializer, false)
 	var b buffer.Bytes
 	// func\x00varname\x00index
 	b.Write(dict.S(int(c.f.f.NameID)))
@@ -682,7 +705,7 @@ func (c *c) staticDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList) {
 	}
 }
 
-func (c *c) isStaticInitializer(t cc.Type, n *cc.Initializer) bool {
+func (c *c) isStaticInitializer(t cc.Type, n *cc.Initializer, list bool) bool {
 	if n == nil {
 		return true
 	}
@@ -693,7 +716,7 @@ func (c *c) isStaticInitializer(t cc.Type, n *cc.Initializer) bool {
 		case nil:
 			return false
 		case cc.StringLitID:
-			return t != nil && t.Kind() == cc.Array
+			return !list && t != nil && t.Kind() == cc.Array
 		case int32, uint32, int64, uint64, float32, float64, complex64, complex128, uintptr:
 			return true
 		default:
@@ -701,12 +724,19 @@ func (c *c) isStaticInitializer(t cc.Type, n *cc.Initializer) bool {
 		}
 	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
 		for l := n.InitializerList; l != nil; l = l.InitializerList {
-			if !c.isStaticInitializer(nil, l.Initializer) {
+			if !c.isStaticInitializer(t, l.Initializer, true) {
 				return false
 			}
 		}
 
 		return true
+	case 2: // IDENTIFIER ':' Initializer        // Case 2
+		m, err := t.Member(n.Token.Val)
+		if err != nil {
+			panic(fmt.Errorf("%s: type %v has no member %s", dict.S(n.Token.Val)))
+		}
+
+		return c.isStaticInitializer(m.Type, n.Initializer, false)
 	}
 	panic("internal error")
 }
@@ -721,8 +751,8 @@ func (c *c) variableDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList) {
 	if c.isCompoundInitializer(init) {
 		val = &ir.CompositeValue{}
 	}
-	if c.isStaticInitializer(d.Type, init) {
-		val, init = c.initializer(l.InitDeclarator.Declarator.Type, init)
+	if c.isStaticInitializer(d.Type, init, false) {
+		val, init = c.initializer(l.InitDeclarator.Declarator.Type, init, false)
 	}
 	vx := c.f.variable
 	c.f.variable++
@@ -786,7 +816,7 @@ func (c *c) declaration(n *cc.Declaration) {
 
 				c.variableDeclaration(d, l)
 			default: // external, internal
-				val, init := c.initializer(l.InitDeclarator.Declarator.Type, l.InitDeclarator.Initializer)
+				val, init := c.initializer(l.InitDeclarator.Declarator.Type, l.InitDeclarator.Initializer, false)
 				if init != nil {
 					TODO(position(init), val, c.typ(d.Type))
 				}
@@ -1347,7 +1377,7 @@ func (c *c) call(n *cc.Expression) cc.Type {
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	n = c.normalize(n)
-	if v := n.Value; v != nil {
+	if v := n.Value; v != nil && n.Case != 58 { // "&&" IDENTIFIER
 		t := n.Type
 		if ot != nil {
 			t = ot
@@ -1461,6 +1491,9 @@ out:
 		switch {
 		case bits != 0:
 			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
+			if vt.Kind() == cc.Bool && bits == 1 {
+				c.emit(&ir.Neg{TypeID: c.typ(vt).ID(), Position: position(n)})
+			}
 		default:
 			c.emit(&ir.Field{Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
 		}
@@ -1470,6 +1503,9 @@ out:
 		switch {
 		case bits != 0:
 			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token2)})
+			if vt.Kind() == cc.Bool && bits == 1 {
+				c.emit(&ir.Neg{TypeID: c.typ(vt).ID(), Position: position(n)})
+			}
 		default:
 			t := n.Expression.Type
 			if t.Kind() == cc.Array {
@@ -1909,6 +1945,14 @@ func (c *c) jumpStatement(labels *labels, n *cc.JumpStatement) {
 			}
 		}
 		c.emit(&ir.Return{Position: position(n)})
+	case 4: // "goto" Expression ';'           // Case 4
+		switch e := n.Expression; e.Case {
+		case 18: // '*' Expression                                     // Case 18
+			c.expression(nil, e.Expression)
+		default:
+			TODO(position(n), e.Case)
+		}
+		c.emit(&ir.JmpP{Position: position(n)})
 	default:
 		panic("internal error")
 	}
@@ -2272,6 +2316,7 @@ func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 			t = c.types.MustType(ir.TypeID(dict.SID(string(dict.S(int(t.ID()))) + "int32")))
 		}
 		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), nm, c.tnm(d), t.ID(), ln, c.fnArgNames(d), nil))
+		c.f.index = len(c.out)
 		c.out = append(c.out, c.f.f)
 		c.functionBody(n.FunctionBody)
 		c.f = fdata{}
