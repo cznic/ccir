@@ -16,6 +16,8 @@ var (
 	dict = xc.Dict
 
 	idBuiltinPrefix = dict.SID("__builtin_")
+	idComplex128    = ir.TypeID(dict.SID("complex128"))
+	idComplex64     = ir.TypeID(dict.SID("complex64"))
 	idEmptyString   = dict.SID(`""`)
 	idFloat32       = ir.TypeID(dict.SID("float32"))
 	idFloat64       = ir.TypeID(dict.SID("float64"))

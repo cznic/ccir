@@ -542,10 +542,12 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer, ok bool) (ir.Value, *cc.In
 			default:
 				return &ir.Int64Value{Value: int64(x)}, nil
 			}
+		case complex64:
+			return &ir.Complex64Value{Value: x}, nil
 		case cc.ComputedGotoID:
 			return &ir.AddressValue{NameID: c.f.f.NameID, Linkage: c.f.f.Linkage, Label: ir.NameID(x), Index: -1}, nil
 		default:
-			TODO(position(n), fmt.Sprintf("%T", x))
+			TODO(position(n), fmt.Sprintf(" %T", x))
 		}
 	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
 		init := n
@@ -1251,6 +1253,9 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 	case float64:
 		c.emit(&ir.Const64{TypeID: idFloat64, Value: int64(math.Float64bits(x)), Position: position(n)})
 		c.convert(n, c.ast.Model.DoubleType, t)
+	case complex64:
+		c.emit(&ir.Const64{TypeID: idComplex64, Value: int64(math.Float32bits(real(x)))<<32 | int64(math.Float32bits(imag(x))), Position: position(n)})
+		c.convert(n, c.ast.Model.FloatComplexType, t)
 	case cc.StringLitID:
 		c.emit(&ir.StringConst{Value: ir.StringID(x), Position: position(n)})
 	case cc.LongStringLitID:
@@ -1264,8 +1269,7 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 			c.convert(n, c.ast.Model.LongLongType, t)
 		}
 	default:
-		//dbg("%T", x)
-		TODO(position(n))
+		TODO(position(n), fmt.Sprintf(" %T", x))
 	}
 }
 
