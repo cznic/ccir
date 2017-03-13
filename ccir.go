@@ -22,7 +22,7 @@ import (
 )
 
 const (
-	_ = iota
+	_ = iota //TODOOK
 	stmtExprValue
 	stmtExprAddress
 )
@@ -733,7 +733,7 @@ func (c *c) isStaticInitializer(t cc.Type, n *cc.Initializer, list bool) bool {
 	case 2: // IDENTIFIER ':' Initializer        // Case 2
 		m, err := t.Member(n.Token.Val)
 		if err != nil {
-			panic(fmt.Errorf("%s: type %v has no member %s", dict.S(n.Token.Val)))
+			panic(fmt.Errorf("%s: type %v has no member %s", position(n), t, dict.S(n.Token.Val)))
 		}
 
 		return c.isStaticInitializer(m.Type, n.Initializer, false)
@@ -1305,7 +1305,7 @@ func (c *c) asopType(n *cc.Expression) cc.Type {
 	}
 }
 
-func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) {
+func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) cc.Type {
 	evalType := c.asopType(n)
 	bits, bitoff, bt, vt := c.addr(n.Expression)
 	btid := c.typeID(bt)
@@ -1313,6 +1313,7 @@ func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) {
 	case bits != 0:
 		c.emit(&ir.Dup{TypeID: c.typ(bt.Pointer()).ID(), Position: position(n.ExpressionList)})
 		c.emit(&ir.Load{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(vt.Pointer()).ID(), Position: position(n)})
+		c.convert(n, vt, evalType)
 	default:
 		pt := c.typ(n.Expression.Type.Pointer()).ID()
 		c.emit(&ir.Dup{TypeID: pt, Position: position(n.ExpressionList)})
@@ -1332,10 +1333,13 @@ func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) {
 	c.emit(op)
 	switch {
 	case bits != 0:
+		c.convert(n, evalType, vt)
 		c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(vt).ID(), Position: position(n)})
+		return vt
 	default:
 		c.convert(n, evalType, n.Expression.Type)
-		c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+		c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+		return n.Expression.Type
 	}
 }
 
@@ -1648,6 +1652,14 @@ out:
 					c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
 				}
 				return t
+			case int64:
+				t := c.expression(nil, n.Expression)
+				if x != 0 {
+					tid := c.typ(t).ID()
+					c.emit(&ir.Const32{TypeID: tid, Value: int32(t.Element().SizeOf()) * int32(x), Position: position(n)})
+					c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
+				}
+				return t
 			default:
 				//dbg("%T", x)
 				TODO(position(n))
@@ -1816,11 +1828,11 @@ out:
 		}
 		l0 := c.label()
 		c.emit(&ir.Jz{Number: l0, Position: position(n.Expression)})
-		c.expressionList(nil, n.ExpressionList)
+		c.expressionList(n.Type, n.ExpressionList)
 		l1 := c.label()
 		c.emit(&ir.Jmp{Number: l1, Position: position(n)})
 		c.emit(&ir.Label{Number: l0, Position: position(n)})
-		c.expression(n.ExpressionList.Type, n.Expression2)
+		c.expression(n.Type, n.Expression2)
 		c.emit(&ir.Label{Number: l1, Position: position(n)})
 	case 45: // Expression '=' Expression                          // Case 45
 		bits, bitoff, bfType, vt := c.addr(n.Expression)
@@ -1837,35 +1849,33 @@ out:
 			c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token)})
 		}
 	case 46: // Expression "*=" Expression                         // Case 46
-		c.asop(n, &ir.Mul{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Mul{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 47: // Expression "/=" Expression                         // Case 47
-		c.asop(n, &ir.Div{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Div{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 48: // Expression "%=" Expression                         // Case 48
-		c.asop(n, &ir.Rem{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Rem{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 49: // Expression "+=" Expression                         // Case 49
 		if t := n.Expression.Type; t.Kind() == cc.Ptr {
-			c.asop(n, &ir.Element{Address: true, TypeID: c.typ(t).ID(), IndexType: c.typ(n.Expression2.Type).ID(), Position: position(n)})
-			break
+			return c.asop(n, &ir.Element{Address: true, TypeID: c.typ(t).ID(), IndexType: c.typ(n.Expression2.Type).ID(), Position: position(n)})
 		}
 
-		c.asop(n, &ir.Add{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Add{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 50: // Expression "-=" Expression                         // Case 50
 		if n.Expression.Type.Kind() == cc.Ptr {
-			c.asop(n, &ir.Element{Address: true, Neg: true, TypeID: c.typ(t).ID(), IndexType: c.typ(n.Expression2.Type).ID(), Position: position(n)})
-			break
+			return c.asop(n, &ir.Element{Address: true, Neg: true, TypeID: c.typ(t).ID(), IndexType: c.typ(n.Expression2.Type).ID(), Position: position(n)})
 		}
 
-		c.asop(n, &ir.Sub{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Sub{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 51: // Expression "<<=" Expression                        // Case 51
-		c.asop(n, &ir.Lsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
+		return c.asop(n, &ir.Lsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
 	case 52: // Expression ">>=" Expression                        // Case 52
-		c.asop(n, &ir.Rsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
+		return c.asop(n, &ir.Rsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
 	case 53: // Expression "&=" Expression                         // Case 53
-		c.asop(n, &ir.And{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.And{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 54: // Expression "^=" Expression                         // Case 54
-		c.asop(n, &ir.Xor{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Xor{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 55: // Expression "|=" Expression                         // Case 55
-		c.asop(n, &ir.Or{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Or{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
 	case 57: // '(' CompoundStatement ')'                          // Case 57

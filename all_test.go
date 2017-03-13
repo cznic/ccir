@@ -436,20 +436,33 @@ func TestGCCExec(t *testing.T) {
 	blacklist := map[string]struct{}{
 		// VLA struct field.
 		"20020412-1.c": {},
+		"20040308-1.c": {},
 
 		// Nested function.
 		"20010209-1.c": {},
 		"20010605-1.c": {},
 		"20030501-1.c": {},
+		"20040520-1.c": {},
+		"20061220-1.c": {},
 
-		// __real__ and friends.
+		// __real__, complex integers and and friends.
 		"20010605-2.c": {},
 		"20020411-1.c": {},
 		"20030910-1.c": {},
+		"20041124-1.c": {},
+		"20041201-1.c": {},
+		"20050121-1.c": {},
 
 		// Depends on __attribute__((aligned(N)))
 		"20010904-1.c": {},
 		"20010904-2.c": {},
+
+		// Depends on __attribute__ ((vector_size (N)))
+		"20050316-1.c": {},
+		"20050316-2.c": {},
+		"20050316-3.c": {},
+		"20050604-1.c": {},
+		"20050607-1.c": {},
 
 		// https://goo.gl/XDxJEL
 		"20021127-1.c": {},
@@ -467,29 +480,21 @@ func TestGCCExec(t *testing.T) {
 		"pr65053-2.c":  {},
 	}
 	todolist := map[string]struct{}{
-		"20040308-1.c":                 {},
-		"20040411-1.c":                 {},
-		"20040423-1.c":                 {},
-		"20040520-1.c":                 {},
-		"20040709-1.c":                 {},
-		"20040709-2.c":                 {},
-		"20040811-1.c":                 {},
-		"20041124-1.c":                 {},
-		"20041201-1.c":                 {},
-		"20041214-1.c":                 {},
-		"20041218-2.c":                 {},
-		"20050121-1.c":                 {},
-		"20050316-1.c":                 {},
-		"20050316-2.c":                 {},
-		"20050316-3.c":                 {},
-		"20050604-1.c":                 {},
-		"20050607-1.c":                 {},
-		"20050613-1.c":                 {},
-		"20050929-1.c":                 {},
-		"20051110-1.c":                 {},
-		"20051110-2.c":                 {},
-		"20060910-1.c":                 {},
-		"20061220-1.c":                 {},
+		// SIGSEV
+		"pr33382.c": {},
+
+		// VLA. Need to resolve https://github.com/cznic/cc/issues/91 first.
+		"20040411-1.c": {},
+		"20040423-1.c": {},
+		"20040811-1.c": {},
+		"20041218-2.c": {},
+
+		// { .i.j = 42 }
+		"20050613-1.c": {},
+
+		// Global with composite literal initializer
+		"20050929-1.c": {},
+
 		"20070614-1.c":                 {},
 		"20070919-1.c":                 {},
 		"20071029-1.c":                 {},
@@ -518,7 +523,6 @@ func TestGCCExec(t *testing.T) {
 		"920612-2.c":                   {},
 		"920721-3.c":                   {},
 		"920721-4.c":                   {},
-		"920728-1.c":                   {},
 		"920731-1.c":                   {},
 		"920908-2.c":                   {},
 		"920909-1.c":                   {},
@@ -541,7 +545,6 @@ func TestGCCExec(t *testing.T) {
 		"941202-1.c":                   {},
 		"950512-1.c":                   {},
 		"950628-1.c":                   {},
-		"950929-1.c":                   {},
 		"951003-1.c":                   {},
 		"960116-1.c":                   {},
 		"960218-1.c":                   {},
@@ -607,7 +610,6 @@ func TestGCCExec(t *testing.T) {
 		"nest-align-1.c":               {},
 		"nest-stdar-1.c":               {},
 		"nestfunc-7.c":                 {},
-		"pr19005.c":                    {},
 		"pr22061-1.c":                  {},
 		"pr22061-3.c":                  {},
 		"pr22061-4.c":                  {},
@@ -623,7 +625,6 @@ func TestGCCExec(t *testing.T) {
 		"pr31448-2.c":                  {},
 		"pr31448.c":                    {},
 		"pr32244-1.c":                  {},
-		"pr33382.c":                    {}, //TODO SIGSEV
 		"pr33631.c":                    {},
 		"pr34154.c":                    {},
 		"pr34176.c":                    {},
@@ -632,8 +633,6 @@ func TestGCCExec(t *testing.T) {
 		"pr34768-2.c":                  {},
 		"pr34971.c":                    {},
 		"pr35456.c":                    {},
-		"pr37573.c":                    {},
-		"pr37924.c":                    {},
 		"pr38051.c":                    {},
 		"pr38151.c":                    {},
 		"pr38212.c":                    {},
@@ -644,11 +643,9 @@ func TestGCCExec(t *testing.T) {
 		"pr40022.c":                    {},
 		"pr40657.c":                    {},
 		"pr41239.c":                    {},
-		"pr41919.c":                    {},
 		"pr41935.c":                    {},
 		"pr42231.c":                    {},
 		"pr42248.c":                    {},
-		"pr42512.c":                    {},
 		"pr42691.c":                    {},
 		"pr42833.c":                    {},
 		"pr43220.c":                    {},
@@ -659,7 +656,6 @@ func TestGCCExec(t *testing.T) {
 		"pr44164.c":                    {},
 		"pr44555.c":                    {},
 		"pr44683.c":                    {},
-		"pr45034.c":                    {},
 		"pr46309.c":                    {},
 		"pr47237.c":                    {},
 		"pr47337.c":                    {},
@@ -684,7 +680,6 @@ func TestGCCExec(t *testing.T) {
 		"pr57344-3.c":                  {},
 		"pr57344-4.c":                  {},
 		"pr57568.c":                    {},
-		"pr57875.c":                    {},
 		"pr58277-1.c":                  {},
 		"pr58277-2.c":                  {},
 		"pr58419.c":                    {},
@@ -693,7 +688,6 @@ func TestGCCExec(t *testing.T) {
 		"pr58831.c":                    {},
 		"pr58943.c":                    {},
 		"pr58984.c":                    {},
-		"pr59221.c":                    {},
 		"pr59643.c":                    {},
 		"pr60003.c":                    {},
 		"pr60960.c":                    {},
@@ -714,10 +708,8 @@ func TestGCCExec(t *testing.T) {
 		"pr68328.c":                    {},
 		"pr68381.c":                    {},
 		"pr68532.c":                    {},
-		"pr68648.c":                    {},
 		"pr69320-1.c":                  {},
 		"pr69320-2.c":                  {},
-		"pr69447.c":                    {},
 		"pr69691.c":                    {},
 		"pr70127.c":                    {},
 		"pr70460.c":                    {},
@@ -790,11 +782,13 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableAlternateKeywords(),
 		cc.EnableAnonymousStructFields(),
 		cc.EnableAsm(),
+		cc.EnableBuiltinClassifyType(),
 		cc.EnableBuiltinConstantP(),
 		cc.EnableComputedGotos(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableEmptyDeclarations(),
 		cc.EnableEmptyStructs(),
+		cc.EnableImaginarySuffix(),
 		cc.EnableImplicitFuncDef(),
 		cc.EnableLegacyDesignators(),
 		cc.EnableOmitFuncRetType(),

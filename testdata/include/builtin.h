@@ -46,7 +46,10 @@
 #define __builtin_expect(exp, c) (exp)
 #define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
 #define __builtin_prefetch(...)
+#define __builtin_va_arg(ap, type) *(type*)(ap -= __roundup(sizeof(type), __stackAlign))
+#define __builtin_va_end(ap) ap = 0
 #define __builtin_va_list char *
+#define __builtin_va_start(ap, arg) ap = (va_list)(&arg)
 #define __complex _Complex
 #define __complex__ _Complex
 #define __const const

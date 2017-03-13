@@ -1,9 +1,9 @@
 #ifndef _STDARG_H_
 #define _STDARG_H_
 
-#define va_arg(ap, type) *(type*)(ap -= __roundup(sizeof(type), __stackAlign))
-#define va_end(ap) ap = 0
-#define va_start(ap, arg) ap = (va_list)(&arg)
+#define va_arg(ap, type) __builtin_va_arg(ap, type)
+#define va_end(ap) __builtin_va_end(ap)
+#define va_start(ap, arg) __builtin_va_start(ap, arg)
 
 typedef __builtin_va_list va_list;
 
