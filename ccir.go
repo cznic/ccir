@@ -723,6 +723,8 @@ func (c *c) isStaticInitializer(t cc.Type, n *cc.Initializer, list bool) bool {
 			return !list && t != nil && t.Kind() == cc.Array
 		case int32, uint32, int64, uint64, float32, float64, complex64, complex128, uintptr:
 			return true
+		case cc.ComputedGotoID:
+			return true
 		default:
 			panic(fmt.Errorf("%s: TODO %T", position(n), x))
 		}
