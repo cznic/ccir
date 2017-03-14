@@ -369,7 +369,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		case exitStatus <= 0 && err == nil:
 			okSeq++
 		default:
-			//dbg("", match)
+			dbg("", match)
 			if seq-okSeq == 1 {
 				t.Logf("%s: FAIL\n%s\n%s", match, errStr(err), log.Bytes())
 				doLog = false
@@ -478,6 +478,9 @@ func TestGCCExec(t *testing.T) {
 		"pr52286.c":    {},
 		"pr65053-1.c":  {},
 		"pr65053-2.c":  {},
+		"20071211-1.c": {},
+		"20071220-1.c": {},
+		"20071220-2.c": {},
 	}
 	todolist := map[string]struct{}{
 		// SIGSEV
@@ -488,6 +491,7 @@ func TestGCCExec(t *testing.T) {
 		"20040423-1.c": {},
 		"20040811-1.c": {},
 		"20041218-2.c": {},
+		"20070919-1.c": {},
 
 		// { .i.j = 42 }
 		"20050613-1.c": {},
@@ -495,19 +499,14 @@ func TestGCCExec(t *testing.T) {
 		// Global with composite literal initializer
 		"20050929-1.c": {},
 
-		"20070919-1.c":                 {},
-		"20071029-1.c":                 {},
-		"20071210-1.c":                 {},
-		"20071211-1.c":                 {},
-		"20071219-1.c":                 {},
-		"20071220-1.c":                 {},
-		"20071220-2.c":                 {},
-		"20080502-1.c":                 {},
-		"20080519-1.c":                 {},
-		"20080522-1.c":                 {},
+		// Union composite literal.
+		"20071029-1.c": {},
+
+		// global = &global;
+		"20080522-1.c": {},
+
 		"20090113-1.c":                 {},
 		"20090219-1.c":                 {},
-		"20090814-1.c":                 {},
 		"20101011-1.c":                 {},
 		"20101025-1.c":                 {},
 		"20120919-1.c":                 {},
@@ -630,14 +629,12 @@ func TestGCCExec(t *testing.T) {
 		"pr34768-1.c":                  {},
 		"pr34768-2.c":                  {},
 		"pr34971.c":                    {},
-		"pr35456.c":                    {},
 		"pr38051.c":                    {},
 		"pr38151.c":                    {},
 		"pr38212.c":                    {},
 		"pr38969.c":                    {},
 		"pr39100.c":                    {},
 		"pr39240.c":                    {},
-		"pr39339.c":                    {},
 		"pr40022.c":                    {},
 		"pr40657.c":                    {},
 		"pr41239.c":                    {},

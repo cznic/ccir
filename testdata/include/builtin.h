@@ -59,6 +59,11 @@
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
 #define __volatile volatile
 
+#define __builtin_signbit(x) ( \
+		sizeof(x) == sizeof(float) ? __builtin_sign_bitf(x) : \
+		__builtin_sign_bit(x) \
+	)
+
 __FILE_TYPE__ *__stdstreams[3];
 
 __FILE_TYPE__ *__builtin_fopen(const char *path, const char *mode);
@@ -120,6 +125,8 @@ int __builtin_popcount(unsigned x);
 int __builtin_popcountl(unsigned long x);
 int __builtin_popcountll(unsigned long long x);
 int __builtin_printf(const char *format, ...);
+int __builtin_sign_bit(double x);
+int __builtin_sign_bitf(float x);
 int __builtin_sprintf(char *str, const char *format, ...);
 int __builtin_strcmp(const char *s1, const char *s2);
 int __builtin_strncmp(const char *s1, const char *s2, __SIZE_TYPE__ n);

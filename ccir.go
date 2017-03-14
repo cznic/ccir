@@ -617,6 +617,8 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 			pt := c.typ(ft.Element().Pointer())
 			c.exprInitializerArray(ft, pt, init.InitializerList)
 			c.emit(&ir.Drop{TypeID: pt.ID(), Position: position(init)})
+		case cc.Struct:
+			c.exprInitializerStruct(t, c.typ(t).Pointer(), init.InitializerList)
 		default:
 			panic(fmt.Errorf("%s: %v:%v", position(n.Initializer), ft, ft.Kind()))
 		}
@@ -1217,6 +1219,11 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 }
 
 func (c *c) convert(n cc.Node, from, to cc.Type) {
+	if from.Kind() == cc.Ptr {
+		if t := from.Element(); t.Kind() == cc.Array {
+			from = t.Element().Pointer()
+		}
+	}
 	c.emit(&ir.Convert{TypeID: c.typ(from).ID(), Result: c.typ(to).ID(), Position: position(n)})
 }
 
@@ -1395,6 +1402,10 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	}
 
 	t := n.Type
+	if t == nil {
+		TODO(position(n))
+	}
+
 	switch t.Kind() {
 	case cc.Function:
 		c.addr(n)
