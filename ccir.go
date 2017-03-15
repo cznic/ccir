@@ -885,7 +885,7 @@ func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 			if i < len(p) {
 				t = p[i].Type
 			}
-			if t == nil {
+			if t == nil { // 6.5.2.2/6
 				switch l.Expression.Type.Kind() {
 				case cc.Char, cc.SChar, cc.UChar, cc.Short, cc.UShort:
 					t = c.ast.Model.IntType
@@ -1023,6 +1023,23 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 		case cc.ScopeBlock:
 			switch vi, ok := c.f.variables[d]; {
 			case !ok:
+				t := d.Type
+				if t.Kind() == cc.Function && d.Linkage == cc.None {
+					for s.Scope() == cc.ScopeBlock {
+						s = s.Parent
+					}
+					dd, _ := c.dd(s, n, id)
+					d := dd.TopDeclarator()
+					n.Type = d.Type
+					switch d.Linkage {
+					case cc.External:
+						c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.ExternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
+					default:
+						c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.InternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
+					}
+					break
+				}
+
 				panic(fmt.Errorf("%s: internal error", position(n)))
 			case vi.static:
 				t, _ := c.types.Type(vi.typ)
@@ -1374,7 +1391,7 @@ func (c *c) call(n *cc.Expression) cc.Type {
 			c.emit(&ir.AllocResult{TypeID: c.typ(r).ID(), TypeName: 0, Position: position(n)})
 		}
 		c.expression(t.Pointer(), n.Expression)
-		args := c.arguments(t, n.ArgumentExpressionListOpt)
+		args := c.arguments(n.Expression.Type, n.ArgumentExpressionListOpt)
 		c.emit(&ir.CallFP{Arguments: args, TypeID: c.typ(t.Pointer()).ID(), Position: position(n)})
 		return fe.Type.Result()
 	case cc.Ptr:
@@ -1533,18 +1550,18 @@ out:
 		}
 	case 11: // Expression "->" IDENTIFIER                         // Case 11
 		c.expression(nil, n.Expression)
+		t := n.Expression.Type
+		if t.Kind() == cc.Array {
+			t = t.Element().Pointer()
+		}
 		fi, bits, bitoff, _, vt := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
 		switch {
 		case bits != 0:
-			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token2)})
+			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(t).ID(), Position: position(n.Token2)})
 			if vt.Kind() == cc.Bool && bits == 1 {
 				c.emit(&ir.Neg{TypeID: c.typ(vt).ID(), Position: position(n)})
 			}
 		default:
-			t := n.Expression.Type
-			if t.Kind() == cc.Array {
-				t = t.Element().Pointer()
-			}
 			c.emit(&ir.Field{Index: fi, TypeID: c.typ(t).ID(), Position: position(n.Token2)})
 		}
 	case 12: // Expression "++"                                    // Case 12
@@ -1732,9 +1749,13 @@ out:
 		case cc.Ptr, cc.Array:
 			switch x := n.Expression2.Value.(type) {
 			case nil:
+				t := n.Expression.Type
+				if t.Kind() == cc.Array {
+					t = t.Element().Pointer()
+				}
 				c.expression(nil, n.Expression)
 				c.expression(nil, n.Expression2)
-				c.emit(&ir.PtrDiff{PtrType: c.typ(n.Expression.Type).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
+				c.emit(&ir.PtrDiff{PtrType: c.typ(t).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
 			case int32:
 				c.expression(t, n.Expression)
 				if x != 0 {

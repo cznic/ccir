@@ -6,5 +6,5 @@ void _start(int argc, char **argv)
 	__stdstreams[1] = __builtin_fopen("/dev/stdout", "w");
 	__stdstreams[2] = __builtin_fopen("/dev/stderr", "w");
 
-	__builtin_exit(((int (*)(int, char **, ...))(main)) (argc, argv));
+	__builtin_exit(((int (*)())(main)) (argc, argv));
 }
