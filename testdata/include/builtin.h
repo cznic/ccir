@@ -50,7 +50,7 @@
 #define __builtin_va_copy(dest, src) dest = src
 #define __builtin_va_end(ap) ap = 0
 #define __builtin_va_list char *
-#define __builtin_va_start(ap, arg) ap = (va_list)(&arg)
+#define __builtin_va_start(ap, arg) ap = (__builtin_va_list)(&arg)
 #define __complex _Complex
 #define __complex__ _Complex
 #define __const const
