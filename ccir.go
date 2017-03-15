@@ -1266,9 +1266,13 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		c.emit(&ir.Const64{TypeID: idComplex64, Value: int64(math.Float32bits(real(x)))<<32 | int64(math.Float32bits(imag(x))), Position: position(n)})
 		c.convert(n, c.ast.Model.FloatComplexType, t)
 	case cc.StringLitID:
-		c.emit(&ir.StringConst{Value: ir.StringID(x), Position: position(n)})
+		t0 := c.ast.Model.CharType.Pointer()
+		c.emit(&ir.StringConst{Value: ir.StringID(x), TypeID: c.typ(t0).ID(), Position: position(n)})
+		c.convert(n, t0, t)
 	case cc.LongStringLitID:
-		c.emit(&ir.StringConst{Value: ir.StringID(x), Wide: true, Position: position(n)})
+		t0 := c.ast.Model.IntType.Pointer()
+		c.emit(&ir.StringConst{Value: ir.StringID(x), TypeID: c.typ(t0).ID(), Position: position(n)})
+		c.convert(n, t0, t)
 	case uintptr:
 		switch {
 		case x == 0:
@@ -1449,7 +1453,16 @@ out:
 	case cc.Array:
 		if n.Case != 45 { // Expression '=' Expression                          // Case 45
 			c.addr(n)
-			return t.Element().Pointer()
+			t2 := ot
+			for t2 != nil && t2.Kind() == cc.Ptr {
+				t2 = t2.Element()
+			}
+			if ot == nil || t2.Kind() == cc.Array {
+				return t.Element().Pointer()
+			}
+
+			c.convert(n, t.Element().Pointer(), ot)
+			return ot
 		}
 	}
 
