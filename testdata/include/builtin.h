@@ -74,6 +74,7 @@ __SIZE_TYPE__ __builtin_fread(void *ptr, __SIZE_TYPE__ size,
 __SIZE_TYPE__ __builtin_fwrite(const void *ptr, __SIZE_TYPE__ size,
 			       __SIZE_TYPE__ nmemb, __FILE_TYPE__ * stream);
 __SIZE_TYPE__ __builtin_strlen(const char *s);
+__UINT64_TYPE__ __builtin_bswap64(__UINT64_TYPE__ x);
 char *__builtin_fgets(char *s, int size, __FILE_TYPE__ * stream);
 char *__builtin_strcat(char *dest, const char *src);
 char *__builtin_strchr(const char *s, int c);
@@ -137,6 +138,7 @@ int __builtin_vfprintf(__FILE_TYPE__ * stream, const char *format,
 int __builtin_vprintf(const char *format, __builtin_va_list ap);
 void *__builtin_alloca(__SIZE_TYPE__ size);
 void *__builtin_calloc(__SIZE_TYPE__ nmemb, __SIZE_TYPE__ size);
+void *__builtin_frame_address(unsigned int level);
 void *__builtin_malloc(__SIZE_TYPE__ size);
 void *__builtin_memcpy(void *dest, const void *src, __SIZE_TYPE__ n);
 void *__builtin_memset(void *s, int c, __SIZE_TYPE__ n);
