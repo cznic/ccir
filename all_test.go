@@ -207,13 +207,13 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 		if err := v.Verify(); err != nil {
 			switch x := v.(type) {
 			case *ir.FunctionDefinition:
-				fmt.Fprintf(&log, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+				fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 				for i, v := range x.Body {
 					fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
 				}
-				return log, -1, err
+				return log, -1, fmt.Errorf("# [%v]: Verify (A): %v", i, err)
 			default:
-				return log, -1, fmt.Errorf("[%v] %T %v: %v", i, x, x, err)
+				return log, -1, fmt.Errorf("[%v]: %T %v: %v", i, x, x, err)
 			}
 		}
 	}
@@ -226,19 +226,19 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	for i, v := range objs {
 		switch x := v.(type) {
 		case *ir.DataDefinition:
-			fmt.Fprintf(&log, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
+			fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
 		case *ir.FunctionDefinition:
-			fmt.Fprintf(&log, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+			fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 			for i, v := range x.Body {
 				fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
 			}
 		default:
-			return log, -1, fmt.Errorf("[%v] %T %v", i, x, x)
+			return log, -1, fmt.Errorf("[%v]: %T %v", i, x, x)
 		}
 	}
 	for i, v := range objs {
 		if err := v.Verify(); err != nil {
-			return log, -1, fmt.Errorf("[%v]: %v", i, err)
+			return log, -1, fmt.Errorf("# [%v]: Verify (B): %v", i, err)
 		}
 	}
 
@@ -575,6 +575,7 @@ func TestGCCExec(t *testing.T) {
 		"pr70460.c":            {},
 		"921019-1.c":           {},
 		"980223.c":             {},
+		"960416-1.c":           {},
 
 		// missing include file
 		"20101011-1.c": {},
@@ -607,12 +608,11 @@ func TestGCCExec(t *testing.T) {
 		// qsort
 		"pr34456.c": {}, // qsort
 
-		// Other
+		// f().field
 		"950628-1.c": {},
-		"960301-1.c": {},
-		"960416-1.c": {},
-		"980506-3.c": {},
-		//"990524-1.c":                   {},
+
+		// Other
+		"980506-3.c":                   {},
 		"991030-1.c":                   {},
 		"991228-1.c":                   {},
 		"bf-sign-2.c":                  {},

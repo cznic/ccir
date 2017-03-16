@@ -223,6 +223,9 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 					}
 
 					t = v.BitFieldType
+					if t == nil {
+						t = c.ast.Model.IntType
+					}
 				}
 
 				c.typ0(dst, t, true)
@@ -965,6 +968,12 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, bitFi
 	for _, v := range ms {
 		if v.Name == nm {
 			if v.Bits != 0 {
+				if v.BitFieldType == nil {
+					v.BitFieldType = c.ast.Model.IntType
+				}
+				if v.Type == nil {
+					v.Type = c.ast.Model.IntType
+				}
 				return index, v.Bits, v.BitOffsetOf, v.BitFieldType, v.Type
 			}
 
@@ -1108,9 +1117,10 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 		c.emit(&ir.Element{Address: true, IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 		return 0, 0, nil, nil
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-		c.call(n)
-		c.emit(&ir.TOS{TypeID: c.typ(n.Expression.Type.Result().Pointer()).ID(), Position: position(n)})
-		return 0, 0, nil, nil
+		TODO(position(n))
+		//c.call(n)
+		//c.emit(&ir.TOS{TypeID: c.typ(n.Expression.Type.Result().Pointer()).ID(), Position: position(n)})
+		//return 0, 0, nil, nil
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		c.addr(n.Expression)
 		fi, bits, bitoff, bt, vt := c.field(n, n.Expression.Type, n.Token2.Val)
