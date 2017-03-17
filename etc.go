@@ -21,6 +21,7 @@ var (
 	idEmptyString   = dict.SID(`""`)
 	idFloat32       = ir.TypeID(dict.SID("float32"))
 	idFloat64       = ir.TypeID(dict.SID("float64"))
+	idInt16         = ir.TypeID(dict.SID("int16"))
 	idInt32         = ir.TypeID(dict.SID("int32"))
 	idInt32Ptr      = ir.TypeID(dict.SID("*int32"))
 	idInt64         = ir.TypeID(dict.SID("int64"))

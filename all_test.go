@@ -548,6 +548,7 @@ func TestGCCExec(t *testing.T) {
 		"20070919-1.c": {},
 		"920929-1.c":   {},
 		"970217-1.c":   {},
+		"pr43220.c":    {},
 
 		// Initializer
 		"20050613-1.c":         {},
@@ -589,6 +590,7 @@ func TestGCCExec(t *testing.T) {
 		"pr23324.c":            {},
 		"pr33631.c":            {},
 		"pr39100.c":            {},
+		"pr57568.c":            {},
 
 		// missing include file
 		"20101011-1.c": {},
@@ -630,6 +632,12 @@ func TestGCCExec(t *testing.T) {
 		"pr22061-1.c": {},
 		"pr23135.c":   {},
 		"pr28982b.c":  {},
+		"pr42833.c":   {},
+		"pr44164.c":   {},
+		"pr46309.c":   {},
+		"pr53645-2.c": {},
+		"pr53645.c":   {},
+		"pr58831.c":   {},
 
 		// bitfields
 		"bf-sign-2.c": {},
@@ -646,27 +654,19 @@ func TestGCCExec(t *testing.T) {
 		"builtin-types-compatible-p.c": {}, // https://www.daemon-systems.org/man/__builtin_types_compatible_p.3.html
 		"eeprof-1.c":                   {},
 		"frame-address.c":              {},
+		"pr47237.c":                    {},
+
+		// wrong Complex128Value
+		"pr49644.c": {},
+
+		// ir.Link
+		"pr54937.c": {},
+
+		// ir.Verify
+		"pr58431.c": {},
+		"pr58726.c": {},
 
 		// Other
-		"pr42691.c":       {},
-		"pr42833.c":       {},
-		"pr43220.c":       {},
-		"pr43987.c":       {},
-		"pr44164.c":       {},
-		"pr44555.c":       {},
-		"pr44683.c":       {},
-		"pr46309.c":       {},
-		"pr47237.c":       {},
-		"pr47538.c":       {},
-		"pr49218.c":       {},
-		"pr49644.c":       {},
-		"pr53645-2.c":     {},
-		"pr53645.c":       {},
-		"pr54937.c":       {},
-		"pr57568.c":       {},
-		"pr58431.c":       {},
-		"pr58726.c":       {},
-		"pr58831.c":       {},
 		"pr58943.c":       {},
 		"pr58984.c":       {},
 		"pr59643.c":       {},

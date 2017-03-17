@@ -85,6 +85,7 @@ double __builtin_acos(double x);
 double __builtin_asin(double x);
 double __builtin_atan(double x);
 double __builtin_ceil(double x);
+double __builtin_copysign(double x, double y);
 double __builtin_cos(double x);
 double __builtin_cosh(double x);
 double __builtin_exp(double x);

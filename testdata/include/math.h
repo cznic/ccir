@@ -5,6 +5,7 @@ double acos(double x);
 double asin(double x);
 double atan(double x);
 double ceil(double x);
+double copysign(double x, double y);
 double cos(double x);
 double cosh(double x);
 double exp(double x);

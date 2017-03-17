@@ -1253,10 +1253,13 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 }
 
 func (c *c) convert(n cc.Node, from, to cc.Type) {
-	if from.Kind() == cc.Ptr {
+	switch from.Kind() {
+	case cc.Ptr:
 		if t := from.Element(); t.Kind() == cc.Array {
 			from = t.Element().Pointer()
 		}
+	case cc.Array:
+		from = from.Element().Pointer()
 	}
 	c.emit(&ir.Convert{TypeID: c.typ(from).ID(), Result: c.typ(to).ID(), Position: position(n)})
 }
@@ -1273,6 +1276,9 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 	case uint8:
 		c.emit(&ir.Const32{TypeID: idUint8, Value: int32(x), Position: position(n)})
 		c.convert(n, c.ast.Model.UCharType, t)
+	case int16:
+		c.emit(&ir.Const32{TypeID: idInt16, Value: int32(x), Position: position(n)})
+		c.convert(n, c.ast.Model.ShortType, t)
 	case uint16:
 		c.emit(&ir.Const32{TypeID: idUint16, Value: int32(x), Position: position(n)})
 		c.convert(n, c.ast.Model.UShortType, t)
@@ -1446,9 +1452,7 @@ func (c *c) condExpr(n *cc.Expression) {
 	// 0: eval expr2
 	// 1:
 	c.expression(nil, n.Expression)
-	if n.Expression.Type.Kind() != cc.Int {
-		c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
-	}
+	c.bool(n, n.Expression.Type)
 	l0 := c.label()
 	c.emit(&ir.Jz{Number: l0, Position: position(n.Expression)})
 	c.expressionList(n.Type, n.ExpressionList)
@@ -1687,7 +1691,7 @@ out:
 		c.emit(&ir.Cpl{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 	case 22: // '!' Expression                                     // Case 22
 		c.expression(nil, n.Expression)
-		c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Expression)})
+		c.bool(n, n.Expression.Type)
 		c.emit(&ir.Not{Position: position(n)})
 	case 23: // "sizeof" Expression                                // Case 23
 		if n.Expression.Type.Kind() == cc.Array {
@@ -1701,7 +1705,7 @@ out:
 	case 25: // '(' TypeName ')' Expression                        // Case 25
 		c.expression(nil, n.Expression)
 		if n.Expression.Type.Kind() == cc.Function && n.TypeName.Type.Kind() == cc.Ptr {
-			c.emit(&ir.Convert{TypeID: idVoidPtr, Result: c.typ(n.TypeName.Type).ID(), Position: position(n)})
+			c.convert(n, c.ast.Model.VoidType.Pointer(), n.TypeName.Type)
 			break
 		}
 
@@ -1709,11 +1713,7 @@ out:
 		case n.TypeName.Type.Kind() == cc.Void:
 			c.emit(&ir.Drop{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
 		default:
-			t := n.Expression.Type
-			if t.Kind() == cc.Array {
-				t = t.Element().Pointer()
-			}
-			c.emit(&ir.Convert{TypeID: c.typ(t).ID(), Result: c.typ(n.TypeName.Type).ID(), Position: position(n)})
+			c.convert(n, n.Expression.Type, n.TypeName.Type)
 		}
 	case 26: // Expression '*' Expression                          // Case 26
 		c.binop(ot, n, &ir.Mul{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
@@ -1891,15 +1891,11 @@ out:
 		// A:
 		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
 		c.expression(nil, n.Expression)
-		if n.Expression.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, n.Expression.Type)
 		a := c.label()
 		c.emit(&ir.Jz{Number: a, Position: position(n.Expression)})
 		c.expression(nil, n.Expression2)
-		if n.Expression2.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, n.Expression2.Type)
 		c.emit(&ir.Jz{Number: a, Position: position(n.Expression)})
 		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n)})
 		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n)})
@@ -1917,15 +1913,11 @@ out:
 		// A:
 		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n)})
 		c.expression(nil, n.Expression)
-		if n.Expression.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, n.Expression.Type)
 		a := c.label()
 		c.emit(&ir.Jnz{Number: a, Position: position(n.Expression)})
 		c.expression(nil, n.Expression2)
-		if n.Expression2.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, n.Expression2.Type)
 		c.emit(&ir.Jnz{Number: a, Position: position(n.Expression)})
 		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n)})
 		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
@@ -2081,9 +2073,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		c.emit(&ir.Label{Number: begin, Position: position(n)})
 		el := n.ExpressionList
 		c.expressionList(el.Type, el)
-		if el.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(el.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, el.Type)
 		c.emit(&ir.Jz{Number: end, Position: position(n)})
 		breakLabel := labels.setBreak(end)
 		c.statement(labels, n.Statement, 0)
@@ -2099,9 +2089,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 		c.statement(labels, n.Statement, 0)
 		el := n.ExpressionList
 		c.expressionList(el.Type, el)
-		if el.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(el.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, el.Type)
 		c.emit(&ir.Jnz{Number: begin, Position: position(n.ExpressionList)})
 		if e := labels.breakLabel; e >= 0 {
 			c.emit(&ir.Label{Number: e, Position: position(n)})
@@ -2119,9 +2107,7 @@ func (c *c) iterationStatement(labels *labels, n *cc.IterationStatement) {
 			el := o.ExpressionList
 			c.expressionList(el.Type, el)
 			end = c.label()
-			if el.Type.Kind() != cc.Int {
-				c.emit(&ir.Bool{TypeID: c.typ(el.Type).ID(), Position: position(n)})
-			}
+			c.bool(n, el.Type)
 			c.emit(&ir.Jz{Number: end, Position: position(n)})
 		}
 		breakLabel := labels.setBreak(end)
@@ -2265,14 +2251,26 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	}
 }
 
+func (c *c) bool(n cc.Node, from cc.Type) {
+	switch from.Kind() {
+	case cc.Ptr:
+		if t := from.Element(); t.Kind() == cc.Array {
+			from = t.Element().Pointer()
+		}
+	case cc.Array:
+		from = from.Element().Pointer()
+	}
+	if from.Kind() != cc.Int {
+		c.emit(&ir.Bool{TypeID: c.typ(from).ID(), Position: position(n)})
+	}
+}
+
 func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
 	switch n.Case {
 	case 0: // "if" '(' ExpressionList ')' Statement
 		// expr; jz 1; stmt; 1:
 		c.expressionList(nil, n.ExpressionList)
-		if n.ExpressionList.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.ExpressionList.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, n.ExpressionList.Type)
 		l1 := c.label()
 		c.emit(&ir.Jz{Number: l1, Position: position(n)})
 		c.statement(labels, n.Statement, 0)
@@ -2280,9 +2278,7 @@ func (c *c) selectionStatement(labels *labels, n *cc.SelectionStatement) {
 	case 1: // "if" '(' ExpressionList ')' Statement "else" Statement  // Case 1
 		// expr; jz 1; stmt; jmp 2; 1: stmt2; 2:
 		c.expressionList(nil, n.ExpressionList)
-		if n.ExpressionList.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.ExpressionList.Type).ID(), Position: position(n)})
-		}
+		c.bool(n, n.ExpressionList.Type)
 		l1 := c.label()
 		c.emit(&ir.Jz{Number: l1, Position: position(n)})
 		c.statement(labels, n.Statement, 0)
