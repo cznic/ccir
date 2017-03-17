@@ -471,6 +471,7 @@ func TestGCCExec(t *testing.T) {
 		"20010904-1.c": {},
 		"20010904-2.c": {},
 		"align-3.c":    {},
+		"pr23467.c":    {},
 
 		// Depends on __attribute__ ((vector_size (N)))
 		"20050316-1.c": {},
@@ -582,6 +583,12 @@ func TestGCCExec(t *testing.T) {
 		"builtin-prefetch-5.c": {},
 		"compndlit-1.c":        {},
 		"lto-tbaa-1.c":         {},
+		"pr22098-1.c":          {},
+		"pr22098-2.c":          {},
+		"pr22098-3.c":          {},
+		"pr23324.c":            {},
+		"pr33631.c":            {},
+		"pr39100.c":            {},
 
 		// missing include file
 		"20101011-1.c": {},
@@ -621,6 +628,8 @@ func TestGCCExec(t *testing.T) {
 		"complex-6.c": {},
 		"complex-7.c": {},
 		"pr22061-1.c": {},
+		"pr23135.c":   {},
+		"pr28982b.c":  {},
 
 		// bitfields
 		"bf-sign-2.c": {},
@@ -628,6 +637,10 @@ func TestGCCExec(t *testing.T) {
 		"bitfld-3.c":  {},
 		"bitfld-5.c":  {},
 		"bswap-2.c":   {},
+		"pr31448-2.c": {},
+		"pr31448.c":   {},
+		"pr32244-1.c": {},
+		"pr34971.c":   {},
 
 		// builtins
 		"builtin-types-compatible-p.c": {}, // https://www.daemon-systems.org/man/__builtin_types_compatible_p.3.html
@@ -635,25 +648,6 @@ func TestGCCExec(t *testing.T) {
 		"frame-address.c":              {},
 
 		// Other
-		"pr22098-1.c":     {},
-		"pr22098-2.c":     {},
-		"pr22098-3.c":     {},
-		"pr23135.c":       {},
-		"pr23324.c":       {},
-		"pr23467.c":       {},
-		"pr28289.c":       {},
-		"pr28982b.c":      {},
-		"pr31448-2.c":     {},
-		"pr31448.c":       {},
-		"pr32244-1.c":     {},
-		"pr33631.c":       {},
-		"pr34768-1.c":     {},
-		"pr34768-2.c":     {},
-		"pr34971.c":       {},
-		"pr38051.c":       {},
-		"pr38212.c":       {},
-		"pr39100.c":       {},
-		"pr42231.c":       {},
 		"pr42691.c":       {},
 		"pr42833.c":       {},
 		"pr43220.c":       {},
@@ -760,6 +754,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableEmptyStructs(),
 		cc.EnableImaginarySuffix(),
 		cc.EnableImplicitFuncDef(),
+		cc.EnableImplicitIntType(),
 		cc.EnableLegacyDesignators(),
 		cc.EnableOmitFuncArgTypes(),
 		cc.EnableOmitFuncRetType(),

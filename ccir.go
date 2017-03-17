@@ -1209,7 +1209,13 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 	case 43: // Expression "||" Expression                         // Case 43
 		TODO(position(n))
 	case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
-		TODO(position(n))
+		switch n.Type.Kind() {
+		case cc.Function:
+			c.condExpr(n)
+		default:
+			TODO(position(n))
+		}
+		return 0, 0, nil, nil
 	case 45: // Expression '=' Expression                          // Case 45
 		TODO(position(n))
 	case 46: // Expression "*=" Expression                         // Case 46
@@ -1334,6 +1340,7 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 
 func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) {
 	t := c.binopType(n)
+	//dbg("%s: %v, %v, %v, %v, %v", position(n), ot, n.Type, n.Expression.Type, n.Expression2.Type, t)
 	c.expression(t, n.Expression)
 	c.expression(t, n.Expression2)
 	c.emit(op)
@@ -1426,6 +1433,30 @@ func (c *c) call(n *cc.Expression) cc.Type {
 		TODO(position(n), t.Kind())
 	}
 	panic("internal error")
+}
+
+func (c *c) condExpr(n *cc.Expression) {
+	//case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
+	//
+	// eval expr
+	// convert to bool if necessary
+	// jz 0
+	// eval exprlist
+	// jmp 1
+	// 0: eval expr2
+	// 1:
+	c.expression(nil, n.Expression)
+	if n.Expression.Type.Kind() != cc.Int {
+		c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+	}
+	l0 := c.label()
+	c.emit(&ir.Jz{Number: l0, Position: position(n.Expression)})
+	c.expressionList(n.Type, n.ExpressionList)
+	l1 := c.label()
+	c.emit(&ir.Jmp{Number: l1, Position: position(n)})
+	c.emit(&ir.Label{Number: l0, Position: position(n)})
+	c.expression(n.Type, n.Expression2)
+	c.emit(&ir.Label{Number: l1, Position: position(n)})
 }
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
@@ -1774,9 +1805,22 @@ out:
 				if t.Kind() == cc.Array {
 					t = t.Element().Pointer()
 				}
-				c.expression(nil, n.Expression)
-				c.expression(nil, n.Expression2)
-				c.emit(&ir.PtrDiff{PtrType: c.typ(t).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
+				switch n.Expression2.Type.Kind() {
+				case cc.Ptr, cc.Array:
+					c.expression(t, n.Expression)
+					c.expression(t, n.Expression2)
+					c.emit(&ir.PtrDiff{PtrType: c.typ(t).ID(), TypeID: c.typ(n.Type).ID(), Position: position(n)})
+				default:
+					c.expression(nil, n.Expression)
+					c.expression(t, n.Expression2)
+					tid := c.typ(t).ID()
+					if sz := t.Element().SizeOf(); sz > 1 {
+						c.emit(&ir.Const32{TypeID: tid, Value: int32(sz), Position: position(n)})
+						c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
+					}
+					c.emit(&ir.Sub{TypeID: tid, Position: position(n.Token)})
+					return t
+				}
 			case int32:
 				c.expression(t, n.Expression)
 				if x != 0 {
@@ -1887,25 +1931,7 @@ out:
 		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
 		c.emit(&ir.Label{Number: a, Position: position(n)})
 	case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
-		// eval expr
-		// convert to bool if necessary
-		// jz 0
-		// eval exprlist
-		// jmp 1
-		// 0: eval expr2
-		// 1:
-		c.expression(nil, n.Expression)
-		if n.Expression.Type.Kind() != cc.Int {
-			c.emit(&ir.Bool{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
-		}
-		l0 := c.label()
-		c.emit(&ir.Jz{Number: l0, Position: position(n.Expression)})
-		c.expressionList(n.Type, n.ExpressionList)
-		l1 := c.label()
-		c.emit(&ir.Jmp{Number: l1, Position: position(n)})
-		c.emit(&ir.Label{Number: l0, Position: position(n)})
-		c.expression(n.Type, n.Expression2)
-		c.emit(&ir.Label{Number: l1, Position: position(n)})
+		c.condExpr(n)
 	case 45: // Expression '=' Expression                          // Case 45
 		bits, bitoff, bfType, vt := c.addr(n.Expression)
 		c.expression(n.Expression.Type, n.Expression2)
