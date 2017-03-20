@@ -466,6 +466,7 @@ func TestGCCExec(t *testing.T) {
 		"pr38151.c":    {},
 		"pr38969.c":    {},
 		"pr56837.c":    {},
+		"complex-6.c":  {},
 
 		// Depends on __attribute__((aligned(N)))
 		"20010904-1.c": {},
@@ -474,12 +475,24 @@ func TestGCCExec(t *testing.T) {
 		"pr23467.c":    {},
 
 		// Depends on __attribute__ ((vector_size (N)))
-		"20050316-1.c": {},
-		"20050316-2.c": {},
-		"20050316-3.c": {},
-		"20050604-1.c": {},
-		"20050607-1.c": {},
-		"simd-4.c":     {},
+		"20050316-1.c":   {},
+		"20050316-2.c":   {},
+		"20050316-3.c":   {},
+		"20050604-1.c":   {},
+		"20050607-1.c":   {},
+		"simd-4.c":       {},
+		"pr23135.c":      {},
+		"pr60960.c":      {},
+		"pr65427.c":      {},
+		"pr71626-1.c":    {},
+		"pr71626-2.c":    {},
+		"scal-to-vec1.c": {},
+		"scal-to-vec2.c": {},
+		"scal-to-vec3.c": {},
+		"simd-1.c":       {},
+		"simd-2.c":       {},
+		"simd-5.c":       {},
+		"simd-6.c":       {},
 
 		// https://goo.gl/XDxJEL
 		"20021127-1.c": {},
@@ -517,6 +530,7 @@ func TestGCCExec(t *testing.T) {
 		"pr65956.c":    {},
 		"pr68328.c":    {},
 		"pr69320-2.c":  {},
+		"stkalign.c":   {},
 
 		// __label__
 		"920415-1.c": {},
@@ -541,14 +555,15 @@ func TestGCCExec(t *testing.T) {
 		"pr34154.c": {},
 
 		// VLA. Need to resolve https://github.com/cznic/cc/issues/91 first.
-		"20040411-1.c": {},
-		"20040423-1.c": {},
-		"20040811-1.c": {},
-		"20041218-2.c": {},
-		"20070919-1.c": {},
-		"920929-1.c":   {},
-		"970217-1.c":   {},
-		"pr43220.c":    {},
+		"20040411-1.c":    {},
+		"20040423-1.c":    {},
+		"20040811-1.c":    {},
+		"20041218-2.c":    {},
+		"20070919-1.c":    {},
+		"920929-1.c":      {},
+		"970217-1.c":      {},
+		"pr43220.c":       {},
+		"vla-dealloc-1.c": {},
 
 		// Initializer
 		"20050613-1.c":         {},
@@ -591,6 +606,16 @@ func TestGCCExec(t *testing.T) {
 		"pr33631.c":            {},
 		"pr39100.c":            {},
 		"pr57568.c":            {},
+		"va-arg-pack-1.c":      {},
+		"zero-struct-1.c":      {},
+		"pr70602.c":            {},
+		"pr69691.c":            {},
+		"struct-ini-1.c":       {},
+		"991228-1.c":           {},
+		"pr28982b.c":           {},
+		"pr44164.c":            {},
+		"pr53645-2.c":          {},
+		"pr53645.c":            {},
 
 		// missing include file
 		"20101011-1.c": {},
@@ -624,20 +649,13 @@ func TestGCCExec(t *testing.T) {
 		// qsort
 		"pr34456.c": {}, // qsort
 
-		// cc.Parse
-		"991228-1.c":  {},
-		"complex-5.c": {},
-		"complex-6.c": {},
-		"complex-7.c": {},
+		// cc.Parse later
 		"pr22061-1.c": {},
-		"pr23135.c":   {},
-		"pr28982b.c":  {},
-		"pr42833.c":   {},
-		"pr44164.c":   {},
-		"pr46309.c":   {},
-		"pr53645-2.c": {},
-		"pr53645.c":   {},
-		"pr58831.c":   {},
+		"pr46309.c":   {}, // expr ? void : int
+		"pr68249.c":   {}, // m = b || c < 0 || c > 1 ? : c;
+
+		// cc.Parse
+		"wchar_t-1.c": {}, // Wrong wide char literal value.
 
 		// bitfields
 		"bf-sign-2.c": {},
@@ -655,58 +673,39 @@ func TestGCCExec(t *testing.T) {
 		"eeprof-1.c":                   {},
 		"frame-address.c":              {},
 		"pr47237.c":                    {},
+		"pr64006.c":                    {},
+		"pr68381.c":                    {},
+		"pr71554.c":                    {},
 
-		// wrong Complex128Value
+		// complex arithmetic
 		"pr49644.c": {},
 
 		// ir.Link
-		"pr54937.c": {},
+		"pr54937.c":       {},
+		"string-opt-18.c": {},
 
 		// ir.Verify
 		"pr58431.c": {},
 		"pr58726.c": {},
 
-		// Other
-		"pr58943.c":       {},
-		"pr58984.c":       {},
-		"pr59643.c":       {},
-		"pr60960.c":       {},
-		"pr62151.c":       {},
-		"pr63209.c":       {},
-		"pr63659.c":       {},
-		"pr64006.c":       {},
-		"pr65215-5.c":     {},
-		"pr65401.c":       {},
-		"pr65427.c":       {},
-		"pr67714.c":       {},
-		"pr68249.c":       {},
-		"pr68381.c":       {},
-		"pr69691.c":       {},
-		"pr70127.c":       {},
-		"pr71554.c":       {},
-		"pr71626-1.c":     {},
-		"pr71626-2.c":     {},
+		// evaluation order and side effects
+		"pr58943.c": {},
+
+		// #pragma
 		"pushpop_macro.c": {},
-		"scal-to-vec1.c":  {},
-		"scal-to-vec2.c":  {},
-		"scal-to-vec3.c":  {},
-		"scope-1.c":       {},
-		"simd-1.c":        {},
-		"simd-2.c":        {},
-		"simd-5.c":        {},
-		"simd-6.c":        {},
-		"stkalign.c":      {},
-		"string-opt-18.c": {},
-		"string-opt-5.c":  {},
-		"struct-cpy-1.c":  {},
-		"struct-ini-1.c":  {},
-		"struct-ini-2.c":  {},
-		"va-arg-pack-1.c": {},
-		"vla-dealloc-1.c": {},
-		"wchar_t-1.c":     {},
-		"widechar-2.c":    {},
-		"zero-struct-1.c": {},
-		"zero-struct-2.c": {},
+
+		// Shifts
+		"20020226-1.c": {},
+		"20020508-1.c": {},
+		"20020508-2.c": {},
+		"20020508-3.c": {},
+		"pr40386.c":    {},
+
+		// New
+		"scope-1.c": {},
+
+		// Other
+		"struct-cpy-1.c": {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {

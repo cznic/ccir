@@ -15,7 +15,9 @@
 #error
 #endif
 
+#define __BYTE_ORDER__ -1
 #define __CHAR_BIT__ 8
+#define __DBL_MANT_DIG__ 53
 #define __DBL_MAX__ 1.79769313486231570815e+308
 #define __DBL_MIN__ 2.22507385850720138309e-308
 #define __FILE_TYPE__ struct{int _;}
@@ -23,10 +25,11 @@
 #define __FLT_MIN__ 1.17549435082228750797e-38F
 #define __FUNCTION__ __func__
 #define __INT16_TYPE__ short
-#define __INT16_TYPE__ short
 #define __INT32_TYPE__ int
 #define __INT8_TYPE__ char
+#define __INT8_TYPE__ char
 #define __INTPTR_TYPE__ long
+#define __INT_LEAST8_TYPE__ __INT8_TYPE__
 #define __INT_MAX__ 2147483647
 #define __LDBL_MAX__ 1.79769313486231570815e+308
 #define __LDBL_MIN__ 2.22507385850720138309e-308
@@ -39,6 +42,7 @@
 #define __UINT64_TYPE__ unsigned long long
 #define __UINT8_TYPE__ unsigned char
 #define __UINTPTR_TYPE__ unsigned long
+#define __UINT_LEAST32_TYPE__ __UINT32_TYPE__
 #define __WCHAR_TYPE__ int
 #define __attribute(x)
 #define __attribute__(x)
@@ -100,6 +104,8 @@ double __builtin_sinh(double x);
 double __builtin_sqrt(double x);
 double __builtin_tan(double x);
 double __builtin_tanh(double x);
+float __builtin_cimagf(float _Complex z);
+float __builtin_crealf(float _Complex z);
 int __builtin_abs(int j);
 int __builtin_clrsb(int x);
 int __builtin_clrsbl(long x);
