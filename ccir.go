@@ -1048,23 +1048,18 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 			switch vi, ok := c.f.variables[d]; {
 			case !ok:
 				t := d.Type
-				if t.Kind() == cc.Function && d.Linkage == cc.None {
-					for s.Scope() == cc.ScopeBlock {
-						s = s.Parent
-					}
-					dd, _ := c.dd(s, n, id)
-					d := dd.TopDeclarator()
-					n.Type = d.Type
-					switch d.Linkage {
-					case cc.External:
-						c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.ExternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
-					default:
-						c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.InternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
-					}
-					break
+				for s.Scope() == cc.ScopeBlock {
+					s = s.Parent
 				}
-
-				panic(fmt.Errorf("%s: internal error", position(n)))
+				dd, _ := c.dd(s, n, id)
+				d := dd.TopDeclarator()
+				n.Type = d.Type
+				switch d.Linkage {
+				case cc.External:
+					c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.ExternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
+				default:
+					c.emit(&ir.Global{Address: true, Index: -1, Linkage: ir.InternalLinkage, NameID: c.nm(d), TypeID: c.typ(t.Pointer()).ID(), TypeName: c.tnm(d), Position: position(n)})
+				}
 			case vi.static:
 				t, _ := c.types.Type(vi.typ)
 				switch {
@@ -1572,7 +1567,23 @@ out:
 		case cc.ScopeBlock:
 			switch vi, ok := c.f.variables[d]; {
 			case !ok:
-				panic(fmt.Errorf("%s: internal error", position(n)))
+				t := d.Type
+				if t.Kind() == cc.Function {
+					c.addr(n)
+					break
+				}
+				for s.Scope() == cc.ScopeBlock {
+					s = s.Parent
+				}
+				dd, _ := c.dd(s, n, id)
+				d := dd.TopDeclarator()
+				n.Type = d.Type
+				switch d.Linkage {
+				case cc.External:
+					c.emit(&ir.Global{Index: -1, Linkage: ir.ExternalLinkage, NameID: c.nm(d), TypeID: c.typ(t).ID(), TypeName: c.tnm(d), Position: position(n)})
+				default:
+					c.emit(&ir.Global{Index: -1, Linkage: ir.InternalLinkage, NameID: c.nm(d), TypeID: c.typ(t).ID(), TypeName: c.tnm(d), Position: position(n)})
+				}
 			case vi.static:
 				t, _ := c.types.Type(vi.typ)
 				switch {

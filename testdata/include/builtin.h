@@ -38,6 +38,7 @@
 #define __PTRDIFF_TYPE__ long
 #define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
+#define __SSIZE_TYPE__ long
 #define __UINT32_TYPE__ unsigned
 #define __UINT64_TYPE__ unsigned long long
 #define __UINT8_TYPE__ unsigned char
@@ -78,6 +79,8 @@ __SIZE_TYPE__ __builtin_fread(void *ptr, __SIZE_TYPE__ size,
 __SIZE_TYPE__ __builtin_fwrite(const void *ptr, __SIZE_TYPE__ size,
 			       __SIZE_TYPE__ nmemb, __FILE_TYPE__ * stream);
 __SIZE_TYPE__ __builtin_strlen(const char *s);
+__SSIZE_TYPE__ __builtin_write(int fd, const void *buf, __SIZE_TYPE__ count);
+__SSIZE_TYPE__ __builtin_read(int fd, void *buf, __SIZE_TYPE__ count);
 __UINT64_TYPE__ __builtin_bswap64(__UINT64_TYPE__ x);
 char *__builtin_fgets(char *s, int size, __FILE_TYPE__ * stream);
 char *__builtin_strcat(char *dest, const char *src);
@@ -127,6 +130,7 @@ int __builtin_isinff(float x);
 int __builtin_isinfl(long double x);
 int __builtin_isprint(int c);
 int __builtin_memcmp(const void *s1, const void *s2, __SIZE_TYPE__ n);
+int __builtin_open(const char *pathname, int flags, ...);
 int __builtin_parity(unsigned x);
 int __builtin_parityl(unsigned long x);
 int __builtin_parityll(unsigned long long x);

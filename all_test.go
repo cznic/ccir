@@ -107,7 +107,9 @@ func init() {
 func errStr(err error) string {
 	switch x := err.(type) {
 	case scanner.ErrorList:
-		x.RemoveMultiples()
+		if len(x) != 1 {
+			x.RemoveMultiples()
+		}
 		var b bytes.Buffer
 		for i, v := range x {
 			if i != 0 {
@@ -438,6 +440,7 @@ func TestGCCExec(t *testing.T) {
 		"20020412-1.c": {},
 		"20040308-1.c": {},
 		"align-nest.c": {},
+		"pr41935.c":    {},
 
 		// Nested function.
 		"20010209-1.c":   {},
@@ -615,10 +618,12 @@ func TestGCCExec(t *testing.T) {
 		"va-arg-pack-1.c":      {},
 		"zero-struct-1.c":      {},
 
-		// missing include file
+		// signal.h
 		"20101011-1.c": {},
-		"loop-2f.c":    {},
-		"loop-2g.c":    {},
+
+		// mmap.h
+		"loop-2f.c": {},
+		"loop-2g.c": {},
 
 		// &&label expr
 		"920302-1.c":    {},
@@ -630,10 +635,6 @@ func TestGCCExec(t *testing.T) {
 		// &func
 		"930513-1.c": {},
 		"930608-1.c": {},
-
-		// Struct tag redefined
-		"930930-2.c": {},
-		"pr41935.c":  {},
 
 		// invalid floating point constant
 		"960405-1.c": {},
@@ -695,12 +696,6 @@ func TestGCCExec(t *testing.T) {
 		"20020508-2.c": {},
 		"20020508-3.c": {},
 		"pr40386.c":    {},
-
-		// New
-		"scope-1.c": {},
-
-		// Other
-		"struct-cpy-1.c": {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -759,4 +754,91 @@ func TestGCCExec(t *testing.T) {
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{"testdata/include/"}),
 	)
+}
+
+func TestSelfie(t *testing.T) {
+	const (
+		modelName = "32"
+		src       = "testdata/selfie/selfie.c"
+	)
+
+	model, err := Model(modelName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ast, err := cc.Parse(
+		fmt.Sprintf(`
+#define __STDC_HOSTED__ 1
+#define __STDC_VERSION__ 199901L
+#define __STDC__ 1
+#define __MODEL_%s__
+
+#include <builtin.h>
+`, strings.ToUpper(modelName)),
+		[]string{crt0Path, src},
+		model,
+		cc.SysIncludePaths([]string{"testdata/include/"}),
+	)
+	if err != nil {
+		t.Fatal(errStr(err))
+	}
+
+	objs, err := New(modelName, ast)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, v := range objs {
+		if err := v.Verify(); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if objs, err = ir.LinkMain(objs); err != nil {
+		t.Fatal(err)
+	}
+
+	for _, v := range objs {
+		if err := v.Verify(); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	bin, err := virtual.LoadMain(modelName, objs)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_ = bin
+	return //TODO-
+
+	var exitStatus int
+	var log buffer.Bytes
+	if err := func() (err error) {
+		defer func() {
+			if e := recover(); e != nil && err == nil {
+				err = fmt.Errorf("virtual.Exec: PANIC: %v", e)
+			}
+		}()
+
+		var (
+			stdin          bytes.Buffer
+			stdout, stderr buffer.Bytes
+		)
+		exitStatus, err = virtual.Exec(bin, []string{"./selfie"}, &stdin, &stdout, &stderr, 1<<27, 1<<20)
+		if b := stdout.Bytes(); b != nil {
+			fmt.Fprintf(&log, "stdout:\n%s\n", b)
+		}
+		if b := stderr.Bytes(); b != nil {
+			fmt.Fprintf(&log, "stderr:\n%s\n", b)
+		}
+		if exitStatus != 0 || err != nil {
+			t.Fatalf("exit status %v, err %v\n%s", exitStatus, err, log.Bytes())
+		}
+
+		return nil
+	}(); err != nil {
+		t.Fatalf("exit status %v, err %v\n%s", exitStatus, err, log.Bytes())
+	}
 }
