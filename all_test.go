@@ -696,24 +696,6 @@ func TestGCCExec(t *testing.T) {
 		"20020508-2.c": {},
 		"20020508-3.c": {},
 		"pr40386.c":    {},
-
-		// 32-bits
-		"20040709-1.c":       {},
-		"20040709-2.c":       {},
-		"20080424-1.c":       {},
-		"20081117-1.c":       {},
-		"930126-1.c":         {},
-		"930628-1.c":         {},
-		"991118-1.c":         {},
-		"bf-pack-1.c":        {},
-		"bf64-1.c":           {},
-		"bswap-1.c":          {},
-		"builtin-bitops-1.c": {},
-		"complex-2.c":        {},
-		"pr42248.c":          {},
-		"pr58570.c":          {},
-		"pr65215-3.c":        {},
-		"pr65215-4.c":        {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -830,19 +812,18 @@ func TestSelfie(t *testing.T) {
 		return
 	}
 
-	var exitStatus int
-	var log buffer.Bytes
+	var (
+		exitStatus     int
+		log            buffer.Bytes
+		stdin          bytes.Buffer
+		stdout, stderr buffer.Bytes
+	)
 	if err := func() (err error) {
 		defer func() {
 			if e := recover(); e != nil && err == nil {
 				err = fmt.Errorf("virtual.Exec: PANIC: %v", e)
 			}
 		}()
-
-		var (
-			stdin          bytes.Buffer
-			stdout, stderr buffer.Bytes
-		)
 		exitStatus, err = virtual.Exec(bin, []string{"./selfie"}, &stdin, &stdout, &stderr, 1<<27, 1<<20)
 		if b := stdout.Bytes(); b != nil {
 			fmt.Fprintf(&log, "stdout:\n%s\n", b)
@@ -858,4 +839,10 @@ func TestSelfie(t *testing.T) {
 	}(); err != nil {
 		t.Fatalf("exit status %v, err %v\n%s", exitStatus, err, log.Bytes())
 	}
+
+	if g, e := strings.TrimSpace(string(log.Bytes())), `stdout:
+./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]`; g != e {
+		t.Fatalf("\ngot\n%sexp\n%s", g, e)
+	}
+	log.Close()
 }

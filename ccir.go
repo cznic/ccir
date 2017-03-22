@@ -1330,11 +1330,12 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		default:
 			switch {
 			case mathutil.BitLenUintptr(x) <= 32:
-				c.emit(&ir.Const32{TypeID: idInt32, Value: int32(x), Position: position(n)})
+				c.emit(&ir.Const32{TypeID: idUint32, Value: int32(x), Position: position(n)})
+				c.convert(n, c.ast.Model.UIntType, t)
 			default:
-				c.emit(&ir.Const64{TypeID: idInt64, Value: int64(x), Position: position(n)})
+				c.emit(&ir.Const64{TypeID: idUint64, Value: int64(x), Position: position(n)})
+				c.convert(n, c.ast.Model.ULongLongType, t)
 			}
-			c.convert(n, c.ast.Model.LongType, t)
 		}
 	default:
 		TODO(position(n), fmt.Sprintf(" %T", x))
@@ -1387,12 +1388,12 @@ func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) cc.Type {
 	btid := c.typeID(bt)
 	switch {
 	case bits != 0:
-		c.emit(&ir.Dup{TypeID: c.typ(bt.Pointer()).ID(), Position: position(n.ExpressionList)})
+		c.emit(&ir.Dup{TypeID: c.typ(bt.Pointer()).ID(), Position: position(n.Expression)})
 		c.emit(&ir.Load{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(vt.Pointer()).ID(), Position: position(n)})
 		c.convert(n, vt, evalType)
 	default:
 		pt := c.typ(n.Expression.Type.Pointer()).ID()
-		c.emit(&ir.Dup{TypeID: pt, Position: position(n.ExpressionList)})
+		c.emit(&ir.Dup{TypeID: pt, Position: position(n.Expression)})
 		c.emit(&ir.Load{TypeID: pt, Position: position(n)})
 		c.convert(n, n.Expression.Type, evalType)
 	}
@@ -1423,10 +1424,10 @@ func (c *c) shift(n *cc.Expression, op ir.Operation) {
 	t := n.Expression.Type
 	t = c.ast.Model.BinOpType(t, t)
 	c.expression(t, n.Expression)
-	t = n.Expression2.Type
-	t = c.ast.Model.BinOpType(t, t)
-	c.expression(t, n.Expression2)
-	c.convert(n.Expression2, t, c.ast.Model.IntType)
+	t2 := n.Expression2.Type
+	t2 = c.ast.Model.BinOpType(t2, t2)
+	c.expression(t2, n.Expression2)
+	c.convert(n.Expression2, t2, c.ast.Model.IntType)
 	c.emit(op)
 }
 
