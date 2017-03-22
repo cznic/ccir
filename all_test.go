@@ -696,6 +696,24 @@ func TestGCCExec(t *testing.T) {
 		"20020508-2.c": {},
 		"20020508-3.c": {},
 		"pr40386.c":    {},
+
+		// 32-bits
+		"20040709-1.c":       {},
+		"20040709-2.c":       {},
+		"20080424-1.c":       {},
+		"20081117-1.c":       {},
+		"930126-1.c":         {},
+		"930628-1.c":         {},
+		"991118-1.c":         {},
+		"bf-pack-1.c":        {},
+		"bf64-1.c":           {},
+		"bswap-1.c":          {},
+		"builtin-bitops-1.c": {},
+		"complex-2.c":        {},
+		"pr42248.c":          {},
+		"pr58570.c":          {},
+		"pr65215-3.c":        {},
+		"pr65215-4.c":        {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -757,11 +775,9 @@ func TestGCCExec(t *testing.T) {
 }
 
 func TestSelfie(t *testing.T) {
-	const (
-		modelName = "32"
-		src       = "testdata/selfie/selfie.c"
-	)
+	const src = "testdata/selfie/selfie.c"
 
+	modelName := fmt.Sprint(mathutil.UintPtrBits)
 	model, err := Model(modelName)
 	if err != nil {
 		t.Fatal(err)
@@ -810,8 +826,9 @@ func TestSelfie(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_ = bin
-	return //TODO-
+	if modelName != "32" {
+		return
+	}
 
 	var exitStatus int
 	var log buffer.Bytes

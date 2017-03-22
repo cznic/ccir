@@ -18,6 +18,7 @@ import (
 	"github.com/cznic/cc"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/ir"
+	"github.com/cznic/mathutil"
 	"github.com/cznic/virtual"
 )
 
@@ -1327,8 +1328,13 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		case x == 0:
 			c.emit(&ir.Nil{TypeID: c.typ(t).ID(), Position: position(n)})
 		default:
-			c.emit(&ir.Const64{TypeID: idInt64, Value: int64(x), Position: position(n)})
-			c.convert(n, c.ast.Model.LongLongType, t)
+			switch {
+			case mathutil.BitLenUintptr(x) <= 32:
+				c.emit(&ir.Const32{TypeID: idInt32, Value: int32(x), Position: position(n)})
+			default:
+				c.emit(&ir.Const64{TypeID: idInt64, Value: int64(x), Position: position(n)})
+			}
+			c.convert(n, c.ast.Model.LongType, t)
 		}
 	default:
 		TODO(position(n), fmt.Sprintf(" %T", x))
@@ -1354,7 +1360,7 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 
 func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) {
 	t := c.binopType(n)
-	//dbg("%s: %v, %v, %v, %v, %v", position(n), ot, n.Type, n.Expression.Type, n.Expression2.Type, t)
+	//dbg("%s: ot %v, n.Type %v, e.Type %v, e2.Type %v, binopType %v", position(n), ot, n.Type, n.Expression.Type, n.Expression2.Type, t)
 	c.expression(t, n.Expression)
 	c.expression(t, n.Expression2)
 	c.emit(op)
@@ -1909,6 +1915,7 @@ out:
 		switch t := n.Expression.Type; t.Kind() {
 		case cc.Array:
 			c.emit(&ir.Copy{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
+			return t.Element().Pointer()
 		default:
 			c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token)})
 		}
