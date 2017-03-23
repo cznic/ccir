@@ -59,6 +59,7 @@ func use(...interface{}) {}
 
 func init() {
 	use(caller, dbg, TODO) //TODOOK
+	isTesting = true
 	flag.BoolVar(&Testing, "testing", false, "")
 	flag.BoolVar(&ir.Testing, "irTesting", false, "")
 	flag.BoolVar(&virtual.Testing, "virtualTesting", false, "")
@@ -549,6 +550,9 @@ func TestGCCExec(t *testing.T) {
 
 		// _Alignas
 		"pr68532.c": {},
+
+		// Profiling
+		"eeprof-1.c": {},
 	}
 	todolist := map[string]struct{}{
 		// case range
@@ -669,19 +673,14 @@ func TestGCCExec(t *testing.T) {
 
 		// builtins
 		"builtin-types-compatible-p.c": {}, // https://www.daemon-systems.org/man/__builtin_types_compatible_p.3.html
-		"eeprof-1.c":                   {},
-		"frame-address.c":              {},
-		"pr47237.c":                    {},
-		"pr64006.c":                    {},
-		"pr68381.c":                    {},
-		"pr71554.c":                    {},
+		"frame-address.c":              {}, // __builtin_frame_address
+		"pr47237.c":                    {}, // __builtin_apply, __builtin_apply_args
+		"pr64006.c":                    {}, // __builtin_mul_overflow
+		"pr68381.c":                    {}, // __builtin_mul_overflow
+		"pr71554.c":                    {}, // __builtin_mul_overflow
 
-		// complex arithmetic
-		"pr49644.c": {},
-
-		// ir.Link
-		"pr54937.c":       {},
-		"string-opt-18.c": {},
+		// function pointer of a builtin
+		"pr54937.c": {},
 
 		// ir.Verify
 		"pr58431.c": {},
@@ -699,11 +698,6 @@ func TestGCCExec(t *testing.T) {
 		"20020508-2.c": {},
 		"20020508-3.c": {},
 		"pr40386.c":    {},
-
-		// cc.Parse 32-bits
-		"991118-1.c":  {},
-		"bf64-1.c":    {},
-		"pr65215-4.c": {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -764,6 +758,72 @@ func TestGCCExec(t *testing.T) {
 	)
 }
 
+type file struct {
+	name string
+	data []byte
+}
+
+func selfie(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (output []byte, resultFiles []file) {
+	dir, err := ioutil.TempDir("", "ccir-test-")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	defer os.RemoveAll(dir)
+
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	defer os.Chdir(cwd)
+
+	if err := os.Chdir(dir); err != nil {
+		t.Fatal(err)
+	}
+
+	for _, v := range inputFiles {
+		if err := ioutil.WriteFile(v.name, v.data, 0600); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	defer func() {
+		if e := recover(); e != nil && err == nil {
+			t.Fatal(fmt.Errorf("virtual.Exec: PANIC: %v", e))
+		}
+	}()
+
+	var stdin, stdout, stderr bytes.Buffer
+	exitStatus, err := virtual.Exec(bin, argv, &stdin, &stdout, &stderr, 1<<27, 1<<20)
+	if exitStatus != 0 || err != nil {
+		var log bytes.Buffer
+		if b := stdout.Bytes(); b != nil {
+			fmt.Fprintf(&log, "stdout:\n%s\n", b)
+		}
+		if b := stderr.Bytes(); b != nil {
+			fmt.Fprintf(&log, "stderr:\n%s\n", b)
+		}
+		t.Fatalf("exit status %v, err %v\n%s", exitStatus, err, log.Bytes())
+	}
+
+	glob, err := filepath.Glob("*.*")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, m := range glob {
+		data, err := ioutil.ReadFile(m)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		resultFiles = append(resultFiles, file{m, data})
+	}
+
+	return append(stdout.Bytes(), stderr.Bytes()...), resultFiles
+}
+
 func TestSelfie(t *testing.T) {
 	const src = "testdata/selfie/selfie.c"
 
@@ -820,37 +880,21 @@ func TestSelfie(t *testing.T) {
 		return
 	}
 
-	var (
-		exitStatus     int
-		log            buffer.Bytes
-		stdin          bytes.Buffer
-		stdout, stderr buffer.Bytes
-	)
-	if err := func() (err error) {
-		defer func() {
-			if e := recover(); e != nil && err == nil {
-				err = fmt.Errorf("virtual.Exec: PANIC: %v", e)
-			}
-		}()
-		exitStatus, err = virtual.Exec(bin, []string{"./selfie"}, &stdin, &stdout, &stderr, 1<<27, 1<<20)
-		if b := stdout.Bytes(); b != nil {
-			fmt.Fprintf(&log, "stdout:\n%s\n", b)
-		}
-		if b := stderr.Bytes(); b != nil {
-			fmt.Fprintf(&log, "stderr:\n%s\n", b)
-		}
-		if exitStatus != 0 || err != nil {
-			t.Fatalf("exit status %v, err %v\n%s", exitStatus, err, log.Bytes())
-		}
-
-		return nil
-	}(); err != nil {
-		t.Fatalf("exit status %v, err %v\n%s", exitStatus, err, log.Bytes())
+	source, err := ioutil.ReadFile("testdata/selfie/selfie.c")
+	if err != nil {
+		t.Fatal(err)
 	}
 
-	if g, e := strings.TrimSpace(string(log.Bytes())), `stdout:
-./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]`; g != e {
+	sourceFile := file{"selfie.c", source}
+	out, _ := selfie(t, bin, []string{"./selfie"}, nil)
+	if g, e := bytes.TrimSpace(out), []byte("./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]"); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%sexp\n%s", g, e)
 	}
-	log.Close()
+	t.Logf("%s", out)
+
+	out, _ = selfie(t, bin,
+		[]string{"./selfie", "-c", "selfie.c", "-o", "selfie1.m", "-s", "selfie1.s", "-m", "2", "-c", "selfie.c", "-o", "selfie2.m", "-s", "selfie2.s"},
+		[]file{sourceFile},
+	)
+	t.Logf("%s", out)
 }

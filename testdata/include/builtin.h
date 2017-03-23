@@ -152,6 +152,8 @@ void *__builtin_calloc(__SIZE_TYPE__ nmemb, __SIZE_TYPE__ size);
 void *__builtin_frame_address(unsigned int level);
 void *__builtin_malloc(__SIZE_TYPE__ size);
 void *__builtin_memcpy(void *dest, const void *src, __SIZE_TYPE__ n);
+void *__builtin_memmove(void *dest, const void *src, __SIZE_TYPE__ n);
+void *__builtin_mempcpy(void *dest, const void *src, __SIZE_TYPE__ n);
 void *__builtin_memset(void *s, int c, __SIZE_TYPE__ n);
 void *__builtin_return_address(unsigned int level);
 void __builtin_abort(void);

@@ -32,6 +32,8 @@ var (
 	// Testing amends things for tests.
 	Testing bool
 
+	isTesting bool // Running tests.
+
 	sizes = map[int]string{
 		0:  "0",
 		1:  "8",
