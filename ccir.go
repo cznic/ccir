@@ -433,10 +433,11 @@ func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, b
 	for i := 0; i < len(members) && iValue < len(values); i++ {
 		m := members[i]
 		if m.Bits != 0 {
-			iGroup := i
+			group := m.BitFieldGroup
+			groupStart := i
 			groupEnd := len(members)
 			for ; i < len(members); i++ {
-				if members[i].Bits == 0 {
+				if members[i].Bits == 0 || members[i].BitFieldGroup != group {
 					groupEnd = i
 					i--
 					break
@@ -445,7 +446,7 @@ func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, b
 
 			var bval uint64
 			var val ir.Value
-			for j := iGroup; j < groupEnd && iValue < len(values); j++ {
+			for j := groupStart; j < groupEnd && iValue < len(values); j++ {
 				var bits uint64
 				switch x := values[iValue].(type) {
 				case nil:
@@ -624,10 +625,11 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 	switch init := n.Initializer; init.Case {
 	case 0: // Expression
 		if bits != 0 {
-			c.expression(vt, init.Expression)
+			c.expression(bt, init.Expression)
+			bt := c.typ(bt).ID()
 			vt := c.typ(vt).ID()
-			c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(bt).ID(), TypeID: vt, Position: position(init)})
-			c.emit(&ir.Drop{TypeID: vt, Position: position(init)})
+			c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: bt, TypeID: vt, Position: position(init)})
+			c.emit(&ir.Drop{TypeID: bt, Position: position(init)})
 			break
 		}
 
@@ -989,6 +991,9 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, bitFi
 				}
 				if v.Type == nil {
 					v.Type = c.ast.Model.IntType
+				}
+				if group >= 0 && v.BitFieldGroup != group {
+					index++
 				}
 				return index, v.Bits, v.BitOffsetOf, v.BitFieldType, v.Type
 			}
@@ -1410,9 +1415,9 @@ func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) cc.Type {
 	c.emit(op)
 	switch {
 	case bits != 0:
-		c.convert(n, evalType, vt)
+		c.convert(n, evalType, bt)
 		c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: btid, TypeID: c.typ(vt).ID(), Position: position(n)})
-		return vt
+		return bt
 	default:
 		c.convert(n, evalType, n.Expression.Type)
 		c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
@@ -1907,12 +1912,13 @@ out:
 		c.condExpr(n)
 	case 45: // Expression '=' Expression                          // Case 45
 		bits, bitoff, bfType, vt := c.addr(n.Expression)
-		c.expression(n.Expression.Type, n.Expression2)
 		if bits != 0 {
+			c.expression(bfType, n.Expression2)
 			c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(bfType).ID(), TypeID: c.typ(vt).ID(), Position: position(n)})
-			break
+			return bfType
 		}
 
+		c.expression(n.Expression.Type, n.Expression2)
 		switch t := n.Expression.Type; t.Kind() {
 		case cc.Array:
 			c.emit(&ir.Copy{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})

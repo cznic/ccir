@@ -654,15 +654,18 @@ func TestGCCExec(t *testing.T) {
 		"pr68249.c":   {}, // m = b || c < 0 || c > 1 ? : c;
 
 		// bitfields
-		"bf-sign-2.c": {},
-		"bitfld-1.c":  {},
-		"bitfld-3.c":  {},
-		"bitfld-5.c":  {},
-		"bswap-2.c":   {},
-		"pr31448-2.c": {},
-		"pr31448.c":   {},
-		"pr32244-1.c": {},
-		"pr34971.c":   {},
+		"20031201-1.c": {}, // regression
+		"20040709-1.c": {},
+		"20040709-2.c": {},
+		"921016-1.c":   {}, // regression
+		"bf-sign-2.c":  {},
+		"bitfld-1.c":   {},
+		"bitfld-3.c":   {},
+		"bitfld-5.c":   {},
+		"pr31448-2.c":  {},
+		"pr31448.c":    {},
+		"pr32244-1.c":  {},
+		"pr34971.c":    {},
 
 		// builtins
 		"builtin-types-compatible-p.c": {}, // https://www.daemon-systems.org/man/__builtin_types_compatible_p.3.html
@@ -696,6 +699,11 @@ func TestGCCExec(t *testing.T) {
 		"20020508-2.c": {},
 		"20020508-3.c": {},
 		"pr40386.c":    {},
+
+		// cc.Parse 32-bits
+		"991118-1.c":  {},
+		"bf64-1.c":    {},
+		"pr65215-4.c": {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {
