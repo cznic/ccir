@@ -984,6 +984,11 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, bitFi
 		TODO(position(n))
 	}
 
+	// dbg("==== %s:", position(n))
+	// for _, v := range ms {
+	// 	dbg("\t%#v", v)
+	// }
+
 	group := -1
 	for _, v := range ms {
 		if v.Name == nm {
@@ -1668,6 +1673,9 @@ out:
 		c.addr(n.Expression)
 		switch {
 		case bits != 0:
+			if n.Expression.Type.Kind() == cc.Union {
+				fi = 0
+			}
 			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
 			if vt.Kind() == cc.Bool && bits == 1 {
 				c.emit(&ir.Neg{TypeID: c.typ(vt).ID(), Position: position(n)})
@@ -1755,11 +1763,11 @@ out:
 	case 19: // '+' Expression                                     // Case 19
 		TODO(position(n))
 	case 20: // '-' Expression                                     // Case 20
-		c.expression(nil, n.Expression)
-		c.emit(&ir.Neg{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+		c.expression(n.Type, n.Expression)
+		c.emit(&ir.Neg{TypeID: c.typ(n.Type).ID(), Position: position(n)})
 	case 21: // '~' Expression                                     // Case 21
-		c.expression(nil, n.Expression)
-		c.emit(&ir.Cpl{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+		c.expression(n.Type, n.Expression)
+		c.emit(&ir.Cpl{TypeID: c.typ(n.Type).ID(), Position: position(n)})
 	case 22: // '!' Expression                                     // Case 22
 		c.expression(nil, n.Expression)
 		c.bool(n, n.Expression.Type)
@@ -1936,12 +1944,13 @@ out:
 			return bfType
 		}
 
-		c.expression(n.Expression.Type, n.Expression2)
+		u := c.expression(n.Expression.Type, n.Expression2)
 		switch t := n.Expression.Type; t.Kind() {
 		case cc.Array:
 			c.emit(&ir.Copy{TypeID: c.typ(n.Expression2.Type).ID(), Position: position(n)})
 			return t.Element().Pointer()
 		default:
+			c.convert(n, u, n.Expression.Type)
 			c.emit(&ir.Store{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token)})
 		}
 	case 46: // Expression "*=" Expression                         // Case 46
