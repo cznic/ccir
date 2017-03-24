@@ -159,6 +159,8 @@ void *__builtin_return_address(unsigned int level);
 void __builtin_abort(void);
 void __builtin_exit(int status);
 void __builtin_free(void *ptr);
+void __builtin_qsort(void *base, __SIZE_TYPE__ nmemb, __SIZE_TYPE__ size,
+		     int (*compar) (const void *, const void *));
 void __builtin_trap(void);
 
 #endif				/* _BUILTIN_H_ */

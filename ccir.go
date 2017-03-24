@@ -1542,8 +1542,11 @@ out:
 			case ot.Kind() == cc.Ptr && cc.IsIntType(t) || cc.IsIntType(ot) && t.Kind() == cc.Ptr:
 				c.expression(nil, n)
 				c.convert(n, t, ot)
+			case ot.Kind() == cc.Array && t.Kind() == cc.Ptr && t.Element().Kind() == cc.Void:
+				c.expression(nil, n)
+				c.convert(n, t, ot)
 			default:
-				TODO(position(n), ot, ot.Kind(), t, t.Kind())
+				TODO(fmt.Sprint(position(n), ot, ot.Kind(), t, t.Kind()))
 			}
 		}
 		return ot
@@ -1633,12 +1636,25 @@ out:
 		c.expressionList(n.Type, n.ExpressionList)
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
 		t := n.Expression.Type
-		if t.Kind() == cc.Array {
-			t = t.Element().Pointer()
+		u := n.ExpressionList.Type
+		switch {
+		case (t.Kind() == cc.Ptr || t.Kind() == cc.Array) && cc.IsIntType(u):
+			if t.Kind() == cc.Array {
+				t = t.Element().Pointer()
+			}
+			c.expression(nil, n.Expression)
+			c.expressionList(nil, n.ExpressionList)
+			c.emit(&ir.Element{IndexType: c.typ(u).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
+		case (u.Kind() == cc.Ptr || u.Kind() == cc.Array) && cc.IsIntType(t):
+			if u.Kind() == cc.Array {
+				u = u.Element().Pointer()
+			}
+			c.expressionList(nil, n.ExpressionList)
+			c.expression(nil, n.Expression)
+			c.emit(&ir.Element{IndexType: c.typ(t).ID(), TypeID: c.typ(u).ID(), Position: position(n)})
+		default:
+			panic("internal error")
 		}
-		c.expression(nil, n.Expression)
-		c.expressionList(nil, n.ExpressionList)
-		c.emit(&ir.Element{IndexType: c.typ(n.ExpressionList.Type).ID(), TypeID: c.typ(t).ID(), Position: position(n)})
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
 		return c.call(n)
 	case 10: // Expression '.' IDENTIFIER                          // Case 10

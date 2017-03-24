@@ -74,12 +74,13 @@ const (
 var (
 	ccTestdata string
 
-	cpp     = flag.Bool("cpp", false, "")
-	filter  = flag.String("re", "", "")
-	noexec  = flag.Bool("noexec", false, "")
-	oLog    = flag.Bool("log", false, "")
-	trace   = flag.Bool("trc", false, "")
-	yydebug = flag.Int("yydebug", 0, "")
+	cpp        = flag.Bool("cpp", false, "")
+	filter     = flag.String("re", "", "")
+	noexec     = flag.Bool("noexec", false, "")
+	oLog       = flag.Bool("log", false, "")
+	stackTrace = flag.Bool("stackTrace", false, "")
+	trace      = flag.Bool("trc", false, "")
+	yydebug    = flag.Int("yydebug", 0, "")
 )
 
 func init() {
@@ -566,6 +567,7 @@ func TestGCCExec(t *testing.T) {
 		"20070919-1.c":    {},
 		"920929-1.c":      {},
 		"970217-1.c":      {},
+		"pr22061-1.c":     {},
 		"pr43220.c":       {},
 		"vla-dealloc-1.c": {},
 
@@ -649,13 +651,9 @@ func TestGCCExec(t *testing.T) {
 		"pr56982.c":         {},
 		"pr60003.c":         {},
 
-		// qsort
-		"pr34456.c": {}, // qsort
-
 		// cc.Parse later
-		"pr22061-1.c": {},
-		"pr46309.c":   {}, // expr ? void : int
-		"pr68249.c":   {}, // m = b || c < 0 || c > 1 ? : c;
+		"pr46309.c": {}, // expr ? void : int
+		"pr68249.c": {}, // m = b || c < 0 || c > 1 ? : c;
 
 		// bitfields
 		"20031201-1.c": {}, // regression
@@ -880,21 +878,9 @@ func TestSelfie(t *testing.T) {
 		return
 	}
 
-	source, err := ioutil.ReadFile("testdata/selfie/selfie.c")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	sourceFile := file{"selfie.c", source}
 	out, _ := selfie(t, bin, []string{"./selfie"}, nil)
 	if g, e := bytes.TrimSpace(out), []byte("./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]"); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%sexp\n%s", g, e)
 	}
-	t.Logf("%s", out)
-
-	out, _ = selfie(t, bin,
-		[]string{"./selfie", "-c", "selfie.c", "-o", "selfie1.m", "-s", "selfie1.s", "-m", "2", "-c", "selfie.c", "-o", "selfie2.m", "-s", "selfie2.s"},
-		[]file{sourceFile},
-	)
 	t.Logf("%s", out)
 }
