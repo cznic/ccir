@@ -4,4 +4,3 @@
 typedef __SSIZE_TYPE__ ssize_t;
 
 #endif				/* _SYS_TYPES_H_ */
-

@@ -37,3 +37,12 @@ var (
 )
 
 func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }
+
+func isUnsigned(t cc.Type) bool {
+	switch t.Kind() {
+	case cc.Bool, cc.UChar, cc.UShort, cc.UInt, cc.ULong, cc.ULongLong:
+		return true
+	default:
+		return false
+	}
+}

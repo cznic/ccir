@@ -110,6 +110,7 @@ double __builtin_tanh(double x);
 float __builtin_cimagf(float _Complex z);
 float __builtin_crealf(float _Complex z);
 int __builtin_abs(int j);
+int __builtin_close(int fd);
 int __builtin_clrsb(int x);
 int __builtin_clrsbl(long x);
 int __builtin_clrsbll(long long x);

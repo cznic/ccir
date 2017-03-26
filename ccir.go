@@ -96,6 +96,7 @@ type fdata struct {
 type c struct {
 	ast      *cc.TranslationUnit
 	builtins map[ir.NameID]struct{}
+	cint     cc.Type
 	ctypes   map[cc.Type]ir.Type
 	f        fdata
 	model    ir.MemoryModel
@@ -107,6 +108,7 @@ func newC(model ir.MemoryModel, ast *cc.TranslationUnit) *c {
 	return &c{
 		ast:      ast,
 		builtins: map[ir.NameID]struct{}{},
+		cint:     ast.Model.IntType,
 		ctypes:   map[cc.Type]ir.Type{},
 		model:    model,
 		types:    ir.TypeCache{},
@@ -168,10 +170,10 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 	case cc.Enum:
 		dst.WriteString("int")
 		dst.WriteString(sizes[c.ast.Model.Items[cc.Int].Size])
-	case cc.Bool, cc.Char, cc.SChar, cc.Short, cc.Int, cc.Long, cc.LongLong:
+	case cc.Char, cc.SChar, cc.Short, cc.Int, cc.Long, cc.LongLong:
 		dst.WriteString("int")
 		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
-	case cc.UChar, cc.UShort, cc.UInt, cc.ULong, cc.ULongLong:
+	case cc.Bool, cc.UChar, cc.UShort, cc.UInt, cc.ULong, cc.ULongLong:
 		dst.WriteString("uint")
 		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
 	case cc.Float, cc.Double, cc.LongDouble:
@@ -228,7 +230,7 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 
 					t = v.BitFieldType
 					if t == nil {
-						t = c.ast.Model.IntType
+						t = c.cint
 					}
 				}
 
@@ -285,7 +287,7 @@ func (c *c) linkage(l cc.Linkage) ir.Linkage {
 }
 
 func (c *c) addressInitializer(n *cc.Expression) ir.Value {
-	n = c.normalize(n)
+	n, _ = c.normalize(n)
 	switch n.Case {
 	case 0: // IDENTIFIER
 		if n.Type.Kind() == cc.Function {
@@ -879,7 +881,7 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 	}
 	cResult := t.Result()
 	if cResult.Kind() == cc.Void && f.NameID == idMain && f.Linkage == ir.ExternalLinkage {
-		cResult = c.ast.Model.IntType
+		cResult = c.cint
 	}
 	c.f = fdata{
 		arguments: arguments,
@@ -911,7 +913,7 @@ func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 			if t == nil { // 6.5.2.2/6
 				switch l.Expression.Type.Kind() {
 				case cc.Char, cc.SChar, cc.UChar, cc.Short, cc.UShort:
-					t = c.ast.Model.IntType
+					t = c.cint
 				case cc.Float:
 					t = c.ast.Model.DoubleType
 				}
@@ -944,13 +946,27 @@ func (c *c) dd(b *cc.Bindings, n cc.Node, nm int) (*cc.DirectDeclarator, *cc.Bin
 	}
 }
 
-func (c *c) normalize(n *cc.Expression) *cc.Expression {
+func (c *c) promote(t cc.Type, bits int) cc.Type {
+	if bits != 0 {
+		if bits == 1 && isUnsigned(t) {
+			return t
+		}
+
+		if bits < c.cint.SizeOf()*8 {
+			return c.cint
+		}
+	}
+
+	return t
+}
+
+func (c *c) normalize(n *cc.Expression) (*cc.Expression, cc.Type) {
 	for {
 		switch n.Case {
 		case 7: // '(' ExpressionList ')'
 			l := n.ExpressionList
 			if l.Len() != 1 {
-				return n
+				return n, n.Type
 			}
 
 			n = l.Expression
@@ -959,12 +975,12 @@ func (c *c) normalize(n *cc.Expression) *cc.Expression {
 			case 0: // IDENTIFIER
 				if x, _ := c.dd(n.IdentResolutionScope(), n, n.Token.Val); x != nil {
 					n.Type = x.TopDeclarator().Type
-					return n
+					return n, n.Type
 				}
 
 				panic(fmt.Errorf("%s: undefined %s", position(n), dict.S(n.Token.Val)))
 			case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-				n.Expression = c.normalize(n.Expression)
+				n.Expression, _ = c.normalize(n.Expression)
 				t := n.Expression.Type
 				if t.Kind() == cc.Ptr {
 					t = t.Element()
@@ -972,8 +988,14 @@ func (c *c) normalize(n *cc.Expression) *cc.Expression {
 				if t.Kind() == cc.Function {
 					n.Type = t.Result()
 				}
+			case 10: // Expression '.' IDENTIFIER                          // Case 10
+				_, bits, _, _, vt := c.field(n, n.Expression.Type, n.Token2.Val)
+				return n, c.promote(vt, bits)
+			case 11: // Expression "->" IDENTIFIER                         // Case 11
+				_, bits, _, _, vt := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
+				return n, c.promote(vt, bits)
 			}
-			return n
+			return n, n.Type
 		}
 	}
 }
@@ -984,7 +1006,7 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, bitFi
 		TODO(position(n))
 	}
 
-	// dbg("==== %s:", position(n))
+	// dbg("==== %s: %v %q", position(n), st, dict.S(nm))
 	// for _, v := range ms {
 	// 	dbg("\t%#v", v)
 	// }
@@ -994,15 +1016,15 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, bitFi
 		if v.Name == nm {
 			if v.Bits != 0 {
 				if v.BitFieldType == nil {
-					v.BitFieldType = c.ast.Model.IntType
+					v.BitFieldType = c.cint
 				}
 				if v.Type == nil {
-					v.Type = c.ast.Model.IntType
+					v.Type = c.cint
 				}
 				if group >= 0 && v.BitFieldGroup != group {
 					index++
 				}
-				return index, v.Bits, v.BitOffsetOf, v.BitFieldType, v.Type
+				return index, v.Bits, v.BitOffsetOf, v.BitFieldType, c.promote(v.Type, bits)
 			}
 
 			if group >= 0 {
@@ -1045,7 +1067,7 @@ func (c *c) compoundLiteral(n *cc.Expression) varInfo {
 }
 
 func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
-	n = c.normalize(n)
+	n, _ = c.normalize(n)
 	if n.Value != nil {
 		TODO(position(n))
 		return 0, 0, nil, nil
@@ -1305,7 +1327,7 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		c.convert(n, c.ast.Model.UShortType, t)
 	case int32:
 		c.emit(&ir.Const32{TypeID: idInt32, Value: x, Position: position(n)})
-		c.convert(n, c.ast.Model.IntType, t)
+		c.convert(n, c.cint, t)
 	case uint32:
 		c.emit(&ir.Const32{TypeID: idUint32, Value: int32(x), Position: position(n)})
 		c.convert(n, c.ast.Model.UIntType, t)
@@ -1332,7 +1354,7 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		c.emit(&ir.StringConst{Value: ir.StringID(x), TypeID: c.typ(t0).ID(), Position: position(n)})
 		c.convert(n, t0, t)
 	case cc.LongStringLitID:
-		t0 := c.ast.Model.IntType.Pointer()
+		t0 := c.cint.Pointer()
 		c.emit(&ir.StringConst{Value: ir.StringID(x), TypeID: c.typ(t0).ID(), Position: position(n)})
 		c.convert(n, t0, t)
 	case uintptr:
@@ -1361,9 +1383,10 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 	case cc.Function:
 		return t.Pointer()
 	default:
-		n.Expression = c.normalize(n.Expression)
-		n.Expression2 = c.normalize(n.Expression2)
-		if a, b := n.Expression.Type, n.Expression2.Type; cc.IsArithmeticType(a) && cc.IsArithmeticType(b) {
+		var a, b cc.Type
+		n.Expression, a = c.normalize(n.Expression)
+		n.Expression2, b = c.normalize(n.Expression2)
+		if cc.IsArithmeticType(a) && cc.IsArithmeticType(b) {
 			return c.ast.Model.BinOpType(a, b)
 		}
 
@@ -1373,7 +1396,7 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 
 func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) {
 	t := c.binopType(n)
-	//dbg("%s: ot %v, n.Type %v, e.Type %v, e2.Type %v, binopType %v", position(n), ot, n.Type, n.Expression.Type, n.Expression2.Type, t)
+	//dbg("%s: ot %v, n.Type %v, e.Type %v, e2.Type %v, binopType %v", position(n.Token), ot, n.Type, n.Expression.Type, n.Expression2.Type, t)
 	c.expression(t, n.Expression)
 	c.expression(t, n.Expression2)
 	c.emit(op)
@@ -1444,7 +1467,7 @@ func (c *c) shift(n *cc.Expression, op ir.Operation) {
 }
 
 func (c *c) call(n *cc.Expression) cc.Type {
-	fe := c.normalize(n.Expression)
+	fe, _ := c.normalize(n.Expression)
 	switch t := fe.Type; t.Kind() {
 	case cc.Function:
 		if r := t.Result(); r.Kind() != cc.Void {
@@ -1507,7 +1530,7 @@ func (c *c) condExpr(n *cc.Expression) {
 }
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
-	n = c.normalize(n)
+	n, _ = c.normalize(n)
 	if v := n.Value; v != nil && n.Case != 58 && // "&&" IDENTIFIER
 		n.Case != 7 { // '(' ExpressionList ')'                             // Case 7
 		t := n.Type
@@ -1664,7 +1687,7 @@ out:
 		return c.call(n)
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		fi, bits, bitoff, _, vt := c.field(n, n.Expression.Type, n.Token2.Val)
-		if e := c.normalize(n.Expression); e.Case == 9 { // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
+		if e, _ := c.normalize(n.Expression); e.Case == 9 { // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
 			c.call(e)
 			c.emit(&ir.FieldValue{Index: fi, TypeID: c.typ(n.Expression.Type).ID(), Position: position(n.Token2)})
 			break
@@ -1677,9 +1700,7 @@ out:
 				fi = 0
 			}
 			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
-			if vt.Kind() == cc.Bool && bits == 1 {
-				c.emit(&ir.Neg{TypeID: c.typ(vt).ID(), Position: position(n)})
-			}
+			return vt
 		default:
 			c.emit(&ir.Field{Index: fi, TypeID: c.typ(n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
 		}
@@ -1692,10 +1713,11 @@ out:
 		fi, bits, bitoff, _, vt := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
 		switch {
 		case bits != 0:
-			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(t).ID(), Position: position(n.Token2)})
-			if vt.Kind() == cc.Bool && bits == 1 {
-				c.emit(&ir.Neg{TypeID: c.typ(vt).ID(), Position: position(n)})
+			if n.Expression.Type.Kind() == cc.Union {
+				fi = 0
 			}
+			c.emit(&ir.Field{Bits: bits, BitOffset: bitoff, BitFieldType: c.typ(vt).ID(), Index: fi, TypeID: c.typ(t).ID(), Position: position(n.Token2)})
+			return vt
 		default:
 			c.emit(&ir.Field{Index: fi, TypeID: c.typ(t).ID(), Position: position(n.Token2)})
 		}
@@ -1972,9 +1994,9 @@ out:
 
 		return c.asop(n, &ir.Sub{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 51: // Expression "<<=" Expression                        // Case 51
-		return c.asop(n, &ir.Lsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
+		return c.asop(n, &ir.Lsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.cint)
 	case 52: // Expression ">>=" Expression                        // Case 52
-		return c.asop(n, &ir.Rsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.ast.Model.IntType)
+		return c.asop(n, &ir.Rsh{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)}, c.cint)
 	case 53: // Expression "&=" Expression                         // Case 53
 		return c.asop(n, &ir.And{TypeID: c.typ(c.asopType(n)).ID(), Position: position(n)})
 	case 54: // Expression "^=" Expression                         // Case 54

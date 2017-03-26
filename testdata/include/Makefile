@@ -29,11 +29,11 @@ cpu: clean
 	go tool pprof -lines *.test cpu.out
 
 edit:
-	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.c *.h
+	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.c *.h sys/*h
 
 editor:
 	#TODO go generate
-	indent -linux *.c *.h #TODO sys/*.h
+	indent -linux *.c *.h sys/*.h
 
 internalError:
 	egrep -ho '"internal error.*"' *.go | sort | cat -n

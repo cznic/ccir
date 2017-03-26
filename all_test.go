@@ -20,6 +20,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/cznic/cc"
 	"github.com/cznic/internal/buffer"
@@ -686,11 +687,11 @@ func TestGCCExec(t *testing.T) {
 		// main:0x2d: 	field           	#6, *struct{int64,int64,int64,int64,}:15@35:uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bf-sign-2.c:40:10
 		"bf-sign-2.c": {},
 
-		// ----------------------------------------------- virtual.Exec
+		// # [91]: Verify (A): mismatched types, got uint32, expected uint64
+		// bar:0xf: 	convert         	uint64, uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr65215-3.c:14:33
+		"pr65215-3.c": {},
 
-		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-1.c: FAIL
-		// 	virtual.Exec: exit status 1, err <nil>
-		"bitfld-1.c": {},
+		// ----------------------------------------------- virtual.Exec
 
 		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-3.c: FAIL
 		// 	virtual.Exec: exit status 1, err <nil>
@@ -699,10 +700,6 @@ func TestGCCExec(t *testing.T) {
 		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-5.c: FAIL
 		// 	virtual.Exec: exit status 1, err <nil>
 		"bitfld-5.c": {},
-
-		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr31448-2.c: FAIL
-		// 	virtual.Exec: exit status 1, err <nil>
-		"pr31448-2.c": {},
 
 		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr31448.c: FAIL
 		// 	virtual.Exec: exit status 1, err <nil>
@@ -780,7 +777,7 @@ type file struct {
 	data []byte
 }
 
-func selfie(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (output []byte, resultFiles []file) {
+func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (output []byte, resultFiles []file, duration time.Duration) {
 	dir, err := ioutil.TempDir("", "ccir-test-")
 	if err != nil {
 		t.Fatal(err)
@@ -812,8 +809,10 @@ func selfie(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file)
 	}()
 
 	var stdin, stdout, stderr bytes.Buffer
+	t0 := time.Now()
 	exitStatus, err := virtual.Exec(bin, argv, &stdin, &stdout, &stderr, 1<<27, 1<<20)
-	if exitStatus != 0 || err != nil {
+	duration = time.Since(t0)
+	if err != nil {
 		var log bytes.Buffer
 		if b := stdout.Bytes(); b != nil {
 			fmt.Fprintf(&log, "stdout:\n%s\n", b)
@@ -838,12 +837,10 @@ func selfie(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file)
 		resultFiles = append(resultFiles, file{m, data})
 	}
 
-	return append(stdout.Bytes(), stderr.Bytes()...), resultFiles
+	return bytes.TrimSpace(append(stdout.Bytes(), stderr.Bytes()...)), resultFiles, duration
 }
 
-func TestSelfie(t *testing.T) {
-	const src = "testdata/selfie/selfie.c"
-
+func build(t *testing.T, predef string, src []string) (string, *virtual.Binary) {
 	modelName := fmt.Sprint(mathutil.UintPtrBits)
 	model, err := Model(modelName)
 	if err != nil {
@@ -858,9 +855,12 @@ func TestSelfie(t *testing.T) {
 #define __MODEL_%s__
 
 #include <builtin.h>
-`, strings.ToUpper(modelName)),
-		[]string{crt0Path, src},
+%s
+`, strings.ToUpper(modelName), predef),
+		append([]string{crt0Path}, src...),
 		model,
+		cc.AllowCompatibleTypedefRedefinitions(),
+		cc.EnableImplicitFuncDef(),
 		cc.SysIncludePaths([]string{"testdata/include/"}),
 	)
 	if err != nil {
@@ -872,9 +872,19 @@ func TestSelfie(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for _, v := range objs {
+	var log buffer.Bytes
+	for i, v := range objs {
 		if err := v.Verify(); err != nil {
-			t.Fatal(err)
+			switch x := v.(type) {
+			case *ir.FunctionDefinition:
+				fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+				for i, v := range x.Body {
+					fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
+				}
+				t.Fatalf("# [%v]: Verify (A): %v\n%s", i, err, log.Bytes())
+			default:
+				t.Fatalf("[%v]: %T %v: %v", i, x, x, err)
+			}
 		}
 	}
 
@@ -893,13 +903,93 @@ func TestSelfie(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	return modelName, bin
+}
+
+func findRepo(t *testing.T, s string) string {
+	s = filepath.FromSlash(s)
+	for _, v := range strings.Split(strutil.Gopath(), string(os.PathListSeparator)) {
+		p := filepath.Join(v, "src", s)
+		fi, err := os.Lstat(p)
+		if err != nil {
+			continue
+		}
+
+		if fi.IsDir() {
+			wd, err := os.Getwd()
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if p, err = filepath.Rel(wd, p); err != nil {
+				t.Fatal(err)
+			}
+
+			return p
+		}
+	}
+	return ""
+}
+
+func TestSelfie(t *testing.T) {
+	const repo = "github.com/cksystemsteaching/selfie"
+	pth := findRepo(t, repo)
+	if pth == "" {
+		t.Logf("repository not found, skipping: %v", repo)
+		return
+	}
+
+	modelName, bin := build(t, "", []string{filepath.Join(pth, "selfie.c")})
 	if modelName != "32" {
 		return
 	}
 
-	out, _ := selfie(t, bin, []string{"./selfie"}, nil)
-	if g, e := bytes.TrimSpace(out), []byte("./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]"); !bytes.Equal(g, e) {
-		t.Fatalf("\ngot\n%sexp\n%s", g, e)
+	args := []string{"./selfie"}
+	out, _, d := exec(t, bin, args, nil)
+	if g, e := out, []byte("./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]"); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
-	t.Logf("%s", out)
+	t.Logf("%s\n%s\n%v", args, out, d)
+}
+
+func TestC4(t *testing.T) {
+	_, bin := build(t, "", []string{"testdata/github.com/rswier/c4/c4.c"})
+
+	args := []string{"./c4"}
+	out, _, d := exec(t, bin, args, nil)
+	if g, e := out, []byte("usage: c4 [-s] [-d] file ..."); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
+	}
+	t.Logf("%s\n%s\n%v", args, out, d)
+
+	hello, err := ioutil.ReadFile("testdata/github.com/rswier/c4/hello.c")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	args = []string{"./c4", "hello.c"}
+	out, _, d = exec(t, bin, args, []file{{"hello.c", hello}})
+	if g, e := out, []byte(`hello, world
+exit(0) cycle = 9`); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
+	}
+	t.Logf("%s\n%s\n%v", args, out, d)
+
+	args = []string{"./c4", "-s", "hello.c"}
+	out, _, d = exec(t, bin, args, []file{{"hello.c", hello}})
+	t.Logf("%s\n%s\n%v", args, out, d)
+
+	c4, err := ioutil.ReadFile("testdata/github.com/rswier/c4/c4.c")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	args = []string{"./c4", "c4.c", "hello.c"}
+	out, _, d = exec(t, bin, args, []file{{"c4.c", c4}, {"hello.c", hello}})
+	if g, e := out, []byte(`hello, world
+exit(0) cycle = 9
+exit(0) cycle = 26012`); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
+	}
+	t.Logf("%s\n%s\n%v", args, out, d)
 }
