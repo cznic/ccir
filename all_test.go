@@ -675,14 +675,6 @@ func TestGCCExec(t *testing.T) {
 
 		// -------------------------------------------------- ir.Verify
 
-		// # [94]: Verify (A): mismatched types, got int32, expected uint32
-		// f1:0x10: 	convert         	uint32, int32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/20031201-1.c:27:11
-		"20031201-1.c": {}, // regression
-
-		// # [88]: Verify (A): mismatched operand types: int16 and int32
-		// main:0xd: 	eq              	int32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/921016-1.c:8:5
-		"921016-1.c": {}, // regression
-
 		// # [89]: Verify (A): invalid index
 		// main:0x2d: 	field           	#6, *struct{int64,int64,int64,int64,}:15@35:uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bf-sign-2.c:40:10
 		"bf-sign-2.c": {},
@@ -703,7 +695,7 @@ func TestGCCExec(t *testing.T) {
 
 		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr31448.c: FAIL
 		// 	virtual.Exec: exit status 1, err <nil>
-		"pr31448.c": {},
+		//"pr31448.c": {},
 
 		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr32244-1.c: FAIL
 		// 	virtual.Exec: exit status 1, err <nil>
