@@ -955,7 +955,7 @@ func (c *c) promoteBitfield(t cc.Type, bits int) cc.Type {
 	return t
 }
 
-func (c *c) normalize(n *cc.Expression) (*cc.Expression, cc.Type) {
+func (c *c) normalize(n *cc.Expression) (_ *cc.Expression, t cc.Type) {
 	for {
 		switch n.Case {
 		case 7: // '(' ExpressionList ')'
@@ -966,6 +966,12 @@ func (c *c) normalize(n *cc.Expression) (*cc.Expression, cc.Type) {
 
 			n = l.Expression
 		default:
+			var bits int
+			t = n.Type
+			if n.Value != nil {
+				return n, t
+			}
+
 			switch n.Case {
 			case 0: // IDENTIFIER
 				if x, _ := c.dd(n.IdentResolutionScope(), n, n.Token.Val); x != nil {
@@ -975,20 +981,19 @@ func (c *c) normalize(n *cc.Expression) (*cc.Expression, cc.Type) {
 
 				panic(fmt.Errorf("%s: undefined %s", position(n), dict.S(n.Token.Val)))
 			case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-				n.Expression, _ = c.normalize(n.Expression)
-				t := n.Expression.Type
+				_, t = c.normalize(n.Expression)
 				if t.Kind() == cc.Ptr {
 					t = t.Element()
 				}
-				if t.Kind() == cc.Function {
-					n.Type = t.Result()
-				}
+				t = t.Result()
+				n.Type = t
+				break
 			case 10: // Expression '.' IDENTIFIER                          // Case 10
-				_, bits, _, _, vt := c.field(n, n.Expression.Type, n.Token2.Val)
-				return n, c.promoteBitfield(vt, bits)
+				_, bits, _, _, t = c.field(n, n.Expression.Type, n.Token2.Val)
+				t = c.promoteBitfield(t, bits).SetBits(bits)
 			case 11: // Expression "->" IDENTIFIER                         // Case 11
-				_, bits, _, _, vt := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
-				return n, c.promoteBitfield(vt, bits)
+				_, bits, _, _, t = c.field(n, n.Expression.Type.Element(), n.Token2.Val)
+				t = c.promoteBitfield(t, bits).SetBits(bits)
 			case
 				26, // Expression '*' Expression                          // Case 26
 				27, // Expression '/' Expression                          // Case 27
@@ -998,12 +1003,11 @@ func (c *c) normalize(n *cc.Expression) (*cc.Expression, cc.Type) {
 				39, // Expression '&' Expression                          // Case 39
 				40, // Expression '^' Expression                          // Case 40
 				41: // Expression '|' Expression                          // Case 41
-				return n, c.binopType(n)
+				t = c.binopType(n)
 			case
 				31, // Expression "<<" Expression                         // Case 31
 				32: // Expression ">>" Expression                         // Case 32
-				t := n.Expression.Type
-				return n, c.ast.Model.BinOpType(t, t)
+				t = c.ast.Model.BinOpType(n.Expression.Type, n.Expression.Type)
 			case
 				46, // Expression "*=" Expression                         // Case 46
 				47, // Expression "/=" Expression                         // Case 47
@@ -1015,10 +1019,9 @@ func (c *c) normalize(n *cc.Expression) (*cc.Expression, cc.Type) {
 				53, // Expression "&=" Expression                         // Case 53
 				54, // Expression "^=" Expression                         // Case 54
 				55: // Expression "|=" Expression                         // Case 55
-				_, t := c.normalize(n.Expression)
-				return n, t
+				_, t = c.normalize(n.Expression)
 			}
-			return n, n.Type
+			return n, t
 		}
 	}
 }
@@ -1383,6 +1386,10 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 }
 
 func (c *c) binopType(n *cc.Expression) cc.Type {
+	if n.Value != nil {
+		TODO(position(n))
+	}
+
 	switch t := n.Expression.Type; t.Kind() {
 	case cc.Array:
 		return t.Element().Pointer()
@@ -1393,7 +1400,10 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 		n.Expression, a = c.normalize(n.Expression)
 		n.Expression2, b = c.normalize(n.Expression2)
 		if cc.IsArithmeticType(a) && cc.IsArithmeticType(b) {
-			return c.ast.Model.BinOpType(a, b)
+			t = c.ast.Model.BinOpType(a, b)
+			if cc.IsIntType(t) {
+				t = t.SetBits(mathutil.Max(a.Bits(), b.Bits()))
+			}
 		}
 
 		return t
@@ -1406,6 +1416,13 @@ func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) cc.Type {
 	c.expression(t, n.Expression)
 	c.expression(t, n.Expression2)
 	c.emit(op)
+	if cc.IsIntType(t) {
+		if bits, b := c.ast.Model.Items[t.Kind()].Size*8, t.Bits(); b < bits {
+			if isUnsigned(t) {
+				c.bitField(n, b, 0, t, t)
+			}
+		}
+	}
 	if ot != nil {
 		return c.convert(n, t, ot)
 	}
@@ -1414,9 +1431,12 @@ func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) cc.Type {
 }
 
 func (c *c) relop(ot cc.Type, n *cc.Expression, op ir.Operation) cc.Type {
-	c.binop(ot, n, op)
+	t := c.binopType(n)
+	c.expression(t, n.Expression)
+	c.expression(t, n.Expression2)
+	c.emit(op)
 	if ot != nil {
-		return ot
+		return c.convert(n, t, ot)
 	}
 
 	return c.cint

@@ -678,9 +678,6 @@ func TestGCCExec(t *testing.T) {
 		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-3.c:23:1	0x00081		abort
 		"bitfld-3.c": {},
 
-		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-5.c:17:1	0x00062		abort
-		"bitfld-5.c": {},
-
 		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr32244-1.c:12:1	0x00050		abort
 		"pr32244-1.c": {},
 
@@ -923,6 +920,7 @@ func TestSelfie(t *testing.T) {
 	if g, e := out, []byte("./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]"); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
+
 	t.Logf("%s\n%s\n%v", args, out, d)
 
 	args = []string{"./selfie", "-c", "hello.c", "-m", "1"}
@@ -956,6 +954,25 @@ hello.c: exiting with exit code 0 and 0.00MB of mallocated memory
 ./selfie: stores: 20,3(15.01%)@0x1D0(~7),1(5.00%)@0x4C(~1),0(0.00%)`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
+
+	t.Logf("%s\n%s\n%v", args, out, d)
+
+	selfie, err := ioutil.ReadFile(filepath.Join(pth, "selfie.c"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	args = []string{"./selfie", "-c", "selfie.c"}
+	out, _, d = exec(t, bin, args, []file{{"selfie.c", selfie}})
+	if g, e := out, []byte(`./selfie: this is selfie's starc compiling selfie.c
+./selfie: 176362 characters read in 7086 lines and 970 comments
+./selfie: with 97764(55.55%) characters in 28916 actual symbols
+./selfie: 260 global variables, 290 procedures, 450 string literals
+./selfie: 1960 calls, 722 assignments, 57 while, 571 if, 241 return
+./selfie: 121676 bytes generated with 28783 instructions and 6544 bytes of data`); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
+	}
+
 	t.Logf("%s\n%s\n%v", args, out, d)
 }
 
@@ -967,6 +984,7 @@ func TestC4(t *testing.T) {
 	if g, e := out, []byte("usage: c4 [-s] [-d] file ..."); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
+
 	t.Logf("%s\n%s\n%v", args, out, d)
 
 	hello, err := ioutil.ReadFile("testdata/github.com/rswier/c4/hello.c")
@@ -980,6 +998,7 @@ func TestC4(t *testing.T) {
 exit(0) cycle = 9`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
+
 	t.Logf("%s\n%s\n%v", args, out, d)
 
 	args = []string{"./c4", "-s", "hello.c"}
@@ -998,5 +1017,6 @@ exit(0) cycle = 9
 exit(0) cycle = 26012`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
+
 	t.Logf("%s\n%s\n%v", args, out, d)
 }
