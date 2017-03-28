@@ -673,36 +673,18 @@ func TestGCCExec(t *testing.T) {
 		// #pragma
 		"pushpop_macro.c": {},
 
-		// -------------------------------------------------- ir.Verify
-
-		// # [89]: Verify (A): invalid index
-		// main:0x2d: 	field           	#6, *struct{int64,int64,int64,int64,}:15@35:uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bf-sign-2.c:40:10
-		"bf-sign-2.c": {},
-
-		// # [91]: Verify (A): mismatched types, got uint32, expected uint64
-		// bar:0xf: 	convert         	uint64, uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr65215-3.c:14:33
-		"pr65215-3.c": {},
-
 		// ----------------------------------------------- virtual.Exec
 
-		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-3.c: FAIL
-		// 	virtual.Exec: exit status 1, err <nil>
+		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-3.c:23:1	0x00081		abort
 		"bitfld-3.c": {},
 
-		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-5.c: FAIL
-		// 	virtual.Exec: exit status 1, err <nil>
+		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-5.c:17:1	0x00062		abort
 		"bitfld-5.c": {},
 
-		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr31448.c: FAIL
-		// 	virtual.Exec: exit status 1, err <nil>
-		//"pr31448.c": {},
-
-		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr32244-1.c: FAIL
-		// 	virtual.Exec: exit status 1, err <nil>
+		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr32244-1.c:12:1	0x00050		abort
 		"pr32244-1.c": {},
 
-		// all_test.go:378: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr34971.c: FAIL
-		// 	virtual.Exec: exit status 1, err <nil>
+		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr34971.c:12:1	0x00064		abort
 		"pr34971.c": {},
 	}
 	wd, err := os.Getwd()
@@ -939,6 +921,39 @@ func TestSelfie(t *testing.T) {
 	args := []string{"./selfie"}
 	out, _, d := exec(t, bin, args, nil)
 	if g, e := out, []byte("./selfie: usage: selfie { -c { source } | -o binary | -s assembly | -l binary } [ ( -m | -d | -y | -min | -mob ) size ... ]"); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
+	}
+	t.Logf("%s\n%s\n%v", args, out, d)
+
+	args = []string{"./selfie", "-c", "hello.c", "-m", "1"}
+	out, _, d = exec(t, bin, args, []file{{"hello.c", []byte(`
+int *foo;
+
+int main() {
+	foo = "Hello world!";
+	while (*foo!=0) { 
+		write(1, foo, 4);
+		foo = foo + 1;
+	}
+	*foo = 10;
+	write(1, foo, 1);
+}
+`)}})
+	if g, e := out, []byte(`./selfie: this is selfie's starc compiling hello.c
+./selfie: 141 characters read in 12 lines and 0 comments
+./selfie: with 102(72.46%) characters in 52 actual symbols
+./selfie: 1 global variables, 1 procedures, 1 string literals
+./selfie: 2 calls, 3 assignments, 1 while, 0 if, 0 return
+./selfie: 660 bytes generated with 159 instructions and 24 bytes of data
+./selfie: this is selfie's mipster executing hello.c with 1MB of physical memory
+Hello world!
+hello.c: exiting with exit code 0 and 0.00MB of mallocated memory
+./selfie: this is selfie's mipster terminating hello.c with exit code 0 and 0.01MB of mapped memory
+./selfie: profile: total,max(ratio%)@addr(line#),2max(ratio%)@addr(line#),3max(ratio%)@addr(line#)
+./selfie: calls: 5,4(80.00%)@0x88(~1),1(20.00%)@0x17C(~5),0(0.00%)
+./selfie: loops: 3,3(100.00%)@0x198(~6),0(0.00%),0(0.00%)
+./selfie: loads: 32,4(12.50%)@0x88(~1),3(9.38%)@0x1D4(~7),1(3.12%)@0x24(~1)
+./selfie: stores: 20,3(15.01%)@0x1D0(~7),1(5.00%)@0x4C(~1),0(0.00%)`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
 	t.Logf("%s\n%s\n%v", args, out, d)

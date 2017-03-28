@@ -945,12 +945,8 @@ func (c *c) dd(b *cc.Bindings, n cc.Node, nm int) (*cc.DirectDeclarator, *cc.Bin
 	}
 }
 
-func (c *c) promote(t cc.Type, bits int) cc.Type {
+func (c *c) promoteBitfield(t cc.Type, bits int) cc.Type {
 	if bits != 0 {
-		if bits == 1 && isUnsigned(t) {
-			return t
-		}
-
 		if bits < c.cint.SizeOf()*8 {
 			return c.cint
 		}
@@ -989,10 +985,38 @@ func (c *c) normalize(n *cc.Expression) (*cc.Expression, cc.Type) {
 				}
 			case 10: // Expression '.' IDENTIFIER                          // Case 10
 				_, bits, _, _, vt := c.field(n, n.Expression.Type, n.Token2.Val)
-				return n, c.promote(vt, bits)
+				return n, c.promoteBitfield(vt, bits)
 			case 11: // Expression "->" IDENTIFIER                         // Case 11
 				_, bits, _, _, vt := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
-				return n, c.promote(vt, bits)
+				return n, c.promoteBitfield(vt, bits)
+			case
+				26, // Expression '*' Expression                          // Case 26
+				27, // Expression '/' Expression                          // Case 27
+				28, // Expression '%' Expression                          // Case 28
+				29, // Expression '+' Expression                          // Case 29
+				30, // Expression '-' Expression                          // Case 30
+				39, // Expression '&' Expression                          // Case 39
+				40, // Expression '^' Expression                          // Case 40
+				41: // Expression '|' Expression                          // Case 41
+				return n, c.binopType(n)
+			case
+				31, // Expression "<<" Expression                         // Case 31
+				32: // Expression ">>" Expression                         // Case 32
+				t := n.Expression.Type
+				return n, c.ast.Model.BinOpType(t, t)
+			case
+				46, // Expression "*=" Expression                         // Case 46
+				47, // Expression "/=" Expression                         // Case 47
+				48, // Expression "%=" Expression                         // Case 48
+				49, // Expression "+=" Expression                         // Case 49
+				50, // Expression "-=" Expression                         // Case 50
+				51, // Expression "<<=" Expression                        // Case 51
+				52, // Expression ">>=" Expression                        // Case 52
+				53, // Expression "&=" Expression                         // Case 53
+				54, // Expression "^=" Expression                         // Case 54
+				55: // Expression "|=" Expression                         // Case 55
+				_, t := c.normalize(n.Expression)
+				return n, t
 			}
 			return n, n.Type
 		}
@@ -1020,7 +1044,7 @@ func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, bitFi
 				if v.Type == nil {
 					v.Type = c.cint
 				}
-				return index + v.BitFieldGroup, v.Bits, v.BitOffsetOf, v.BitFieldType, c.promote(v.Type, bits)
+				return index + v.BitFieldGroup, v.Bits, v.BitOffsetOf, v.BitFieldType, v.Type
 			}
 
 			return index + groups + 1, 0, 0, nil, v.Type
@@ -1276,7 +1300,7 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 	panic(fmt.Errorf("internal error: %v", position(n)))
 }
 
-func (c *c) convert(n cc.Node, from, to cc.Type) {
+func (c *c) convert(n cc.Node, from, to cc.Type) cc.Type {
 	switch from.Kind() {
 	case cc.Ptr:
 		if t := from.Element(); t.Kind() == cc.Array {
@@ -1286,6 +1310,7 @@ func (c *c) convert(n cc.Node, from, to cc.Type) {
 		from = from.Element().Pointer()
 	}
 	c.emit(&ir.Convert{TypeID: c.typ(from).ID(), Result: c.typ(to).ID(), Position: position(n)})
+	return to
 }
 
 func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
@@ -1375,15 +1400,26 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 	}
 }
 
-func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) {
+func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) cc.Type {
 	t := c.binopType(n)
 	//dbg("%s: ot %v, n.Type %v, e.Type %v, e2.Type %v, binopType %v", position(n.Token), ot, n.Type, n.Expression.Type, n.Expression2.Type, t)
 	c.expression(t, n.Expression)
 	c.expression(t, n.Expression2)
 	c.emit(op)
 	if ot != nil {
-		c.convert(n, t, ot)
+		return c.convert(n, t, ot)
 	}
+
+	return t
+}
+
+func (c *c) relop(ot cc.Type, n *cc.Expression, op ir.Operation) cc.Type {
+	c.binop(ot, n, op)
+	if ot != nil {
+		return ot
+	}
+
+	return c.cint
 }
 
 func (c *c) asopType(n *cc.Expression) cc.Type {
@@ -1435,7 +1471,7 @@ func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) cc.Type {
 	}
 }
 
-func (c *c) shift(n *cc.Expression, op ir.Operation) {
+func (c *c) shift(n *cc.Expression, op ir.Operation) cc.Type {
 	t := n.Expression.Type
 	t = c.ast.Model.BinOpType(t, t)
 	c.expression(t, n.Expression)
@@ -1444,6 +1480,7 @@ func (c *c) shift(n *cc.Expression, op ir.Operation) {
 	c.expression(t2, n.Expression2)
 	c.convert(n.Expression2, t2, c.ast.Model.IntType)
 	c.emit(op)
+	return t
 }
 
 func (c *c) call(n *cc.Expression) cc.Type {
@@ -1571,8 +1608,7 @@ out:
 		default:
 			switch {
 			case cc.IsArithmeticType(ot) && cc.IsArithmeticType(t):
-				c.expression(nil, n)
-				c.convert(n, t, ot)
+				c.convert(n, c.expression(nil, n), ot)
 			case ot.Kind() == cc.Ptr && t.Kind() == cc.Array:
 				break out
 			case ot.Kind() == cc.Ptr && cc.IsIntType(t) || cc.IsIntType(ot) && t.Kind() == cc.Ptr:
@@ -1669,7 +1705,7 @@ out:
 
 		panic("internal error")
 	case 7: // '(' ExpressionList ')'                             // Case 7
-		c.expressionList(n.Type, n.ExpressionList)
+		return c.expressionList(n.Type, n.ExpressionList)
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
 		t := n.Expression.Type
 		u := n.ExpressionList.Type
@@ -1815,11 +1851,11 @@ out:
 			c.convert(n, n.Expression.Type, n.TypeName.Type)
 		}
 	case 26: // Expression '*' Expression                          // Case 26
-		c.binop(ot, n, &ir.Mul{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.Mul{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 27: // Expression '/' Expression                          // Case 27
-		c.binop(ot, n, &ir.Div{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.Div{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 28: // Expression '%' Expression                          // Case 28
-		c.binop(ot, n, &ir.Rem{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.Rem{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 29: // Expression '+' Expression                          // Case 29
 		switch n.Expression.Type.Kind() {
 		case cc.Ptr, cc.Array:
@@ -1848,7 +1884,7 @@ out:
 			return t
 		}
 
-		c.binop(ot, n, &ir.Add{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.Add{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 30: // Expression '-' Expression                          // Case 30
 		switch n.Expression.Type.Kind() {
 		case cc.Ptr, cc.Array:
@@ -1887,29 +1923,29 @@ out:
 		//TODO 	break
 		//TODO }
 
-		c.binop(ot, n, &ir.Sub{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.Sub{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 31: // Expression "<<" Expression                         // Case 31
-		c.shift(n, &ir.Lsh{TypeID: c.typ(n.Type).ID(), Position: position(n)})
+		return c.shift(n, &ir.Lsh{TypeID: c.typ(n.Type).ID(), Position: position(n)})
 	case 32: // Expression ">>" Expression                         // Case 32
-		c.shift(n, &ir.Rsh{TypeID: c.typ(n.Type).ID(), Position: position(n)})
+		return c.shift(n, &ir.Rsh{TypeID: c.typ(n.Type).ID(), Position: position(n)})
 	case 33: // Expression '<' Expression                          // Case 33
-		c.binop(nil, n, &ir.Lt{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.relop(nil, n, &ir.Lt{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 34: // Expression '>' Expression                          // Case 34
-		c.binop(nil, n, &ir.Gt{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.relop(nil, n, &ir.Gt{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 35: // Expression "<=" Expression                         // Case 35
-		c.binop(nil, n, &ir.Leq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.relop(nil, n, &ir.Leq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 36: // Expression ">=" Expression                         // Case 36
-		c.binop(nil, n, &ir.Geq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.relop(nil, n, &ir.Geq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 37: // Expression "==" Expression                         // Case 37
-		c.binop(nil, n, &ir.Eq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.relop(nil, n, &ir.Eq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 38: // Expression "!=" Expression                         // Case 38
-		c.binop(nil, n, &ir.Neq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.relop(nil, n, &ir.Neq{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 39: // Expression '&' Expression                          // Case 39
-		c.binop(ot, n, &ir.And{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.And{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 40: // Expression '^' Expression                          // Case 40
-		c.binop(ot, n, &ir.Xor{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.Xor{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 41: // Expression '|' Expression                          // Case 41
-		c.binop(ot, n, &ir.Or{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
+		return c.binop(ot, n, &ir.Or{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 42: // Expression "&&" Expression                         // Case 42
 		// push 0
 		// eval expr
@@ -2017,14 +2053,15 @@ out:
 	return t
 }
 
-func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) {
+func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) (r cc.Type) {
 	t := c.ast.Model.VoidType
 	for l := n; l != nil; l = l.ExpressionList {
 		if l.ExpressionList == nil {
 			t = ot
 		}
-		c.expression(t, l.Expression)
+		r = c.expression(t, l.Expression)
 	}
+	return r
 }
 
 func (c *c) expressionListOpt(ot cc.Type, n *cc.ExpressionListOpt, stmtExpr int) {
