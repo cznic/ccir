@@ -75,13 +75,12 @@ const (
 var (
 	ccTestdata string
 
-	cpp        = flag.Bool("cpp", false, "")
-	filter     = flag.String("re", "", "")
-	noexec     = flag.Bool("noexec", false, "")
-	oLog       = flag.Bool("log", false, "")
-	stackTrace = flag.Bool("stackTrace", false, "")
-	trace      = flag.Bool("trc", false, "")
-	yydebug    = flag.Int("yydebug", 0, "")
+	cpp     = flag.Bool("cpp", false, "")
+	filter  = flag.String("re", "", "")
+	noexec  = flag.Bool("noexec", false, "")
+	oLog    = flag.Bool("log", false, "")
+	trace   = flag.Bool("trc", false, "")
+	yydebug = flag.Int("yydebug", 0, "")
 )
 
 func init() {
@@ -642,10 +641,6 @@ func TestGCCExec(t *testing.T) {
 		"990208-1.c":    {},
 		"comp-goto-1.c": {},
 
-		// &func
-		"930513-1.c": {},
-		"930608-1.c": {},
-
 		// invalid floating point constant
 		"960405-1.c": {},
 
@@ -657,14 +652,8 @@ func TestGCCExec(t *testing.T) {
 		"pr68381.c":                    {}, // __builtin_mul_overflow
 		"pr71554.c":                    {}, // __builtin_mul_overflow
 
-		// function pointer of a builtin
-		"pr54937.c": {},
-
 		// assignment evaluation order and side effects
 		"pr58943.c": {},
-
-		// #pragma
-		"pushpop_macro.c": {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {

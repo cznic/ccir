@@ -265,14 +265,6 @@ func (c *c) typ(in cc.Type) ir.Type {
 	return out
 }
 
-func (c *c) typeID(in cc.Type) ir.TypeID {
-	if in == nil {
-		return 0
-	}
-
-	return c.typ(in).ID()
-}
-
 func (c *c) linkage(l cc.Linkage) ir.Linkage {
 	switch l {
 	case cc.External:
