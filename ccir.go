@@ -1007,7 +1007,11 @@ func (c *c) normalize(n *cc.Expression) (_ *cc.Expression, t cc.Type) {
 			case
 				31, // Expression "<<" Expression                         // Case 31
 				32: // Expression ">>" Expression                         // Case 32
-				t = c.ast.Model.BinOpType(n.Expression.Type, n.Expression.Type)
+				_, u := c.normalize(n.Expression)
+				t = c.ast.Model.BinOpType(u, u)
+				if w, bits := u.SizeOf()*8, u.Bits(); w > bits {
+					t = t.SetBits(bits)
+				}
 			case
 				46, // Expression "*=" Expression                         // Case 46
 				47, // Expression "/=" Expression                         // Case 47
@@ -1404,6 +1408,11 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 			if cc.IsIntType(t) {
 				t = t.SetBits(mathutil.Max(a.Bits(), b.Bits()))
 			}
+			return t
+		}
+
+		if a.Kind() == cc.Ptr && b.Kind() == cc.Ptr && n.Case == 30 { // Expression '-' Expression                          // Case 30
+			return c.ast.Model.LongType
 		}
 
 		return t
@@ -1411,6 +1420,10 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 }
 
 func (c *c) binop(ot cc.Type, n *cc.Expression, op ir.Operation) cc.Type {
+	if n.Value != nil {
+		TODO(position(n))
+	}
+
 	t := c.binopType(n)
 	//dbg("%s: ot %v, n.Type %v, e.Type %v, e2.Type %v, binopType %v", position(n.Token), ot, n.Type, n.Expression.Type, n.Expression2.Type, t)
 	c.expression(t, n.Expression)
@@ -1492,14 +1505,16 @@ func (c *c) asop(n *cc.Expression, op ir.Operation, more ...cc.Type) cc.Type {
 }
 
 func (c *c) shift(n *cc.Expression, op ir.Operation) cc.Type {
-	t := n.Expression.Type
-	t = c.ast.Model.BinOpType(t, t)
+	_, t := c.normalize(n)
 	c.expression(t, n.Expression)
 	t2 := n.Expression2.Type
 	t2 = c.ast.Model.BinOpType(t2, t2)
 	c.expression(t2, n.Expression2)
 	c.convert(n.Expression2, t2, c.ast.Model.IntType)
 	c.emit(op)
+	if w, b := t.SizeOf()*8, t.Bits(); b > 0 && b < w {
+		c.bitField(n, b, 0, t, t)
+	}
 	return t
 }
 
@@ -1561,6 +1576,32 @@ func (c *c) condExpr(n *cc.Expression) {
 		c.emit(&ir.Label{Number: l0, Position: position(n)})
 		c.expression(n.Type, n.Expression2)
 		c.emit(&ir.Label{Number: l1, Position: position(n)})
+	default:
+		TODO(position(n), fmt.Sprintf(" %T", v))
+	}
+}
+
+func (c *c) condExpr2(n *cc.Expression) {
+	// Expression '?' ':' Expression                      // Case 59
+	switch v := n.Expression.Value.(type) {
+	case nil:
+		// eval expr
+		// dup
+		// convert to bool if necessary
+		// jnz 0
+		// drop
+		// eval expr2
+		// 0:
+		t := n.Type
+		tid := c.typ(t).ID()
+		c.expression(t, n.Expression)
+		c.emit(&ir.Dup{TypeID: tid, Position: position(n)})
+		c.bool(n, t)
+		l0 := c.label()
+		c.emit(&ir.Jnz{Number: l0, Position: position(n.Token)})
+		c.emit(&ir.Drop{TypeID: tid, Position: position(n.Token2)})
+		c.expression(n.Type, n.Expression2)
+		c.emit(&ir.Label{Number: l0, Position: position(n)})
 	default:
 		TODO(position(n), fmt.Sprintf(" %T", v))
 	}
@@ -2066,6 +2107,8 @@ out:
 			stmtExpr = stmtExprValue
 		}
 		c.compoundStatement(&labels{-1, -1, -1}, n.CompoundStatement, stmtExpr)
+	case 59: // Expression '?' ':' Expression                      // Case 59
+		c.condExpr2(n)
 	default:
 		panic(fmt.Errorf("%s: internal error: Expression.Case %v", position(n), n.Case))
 	}

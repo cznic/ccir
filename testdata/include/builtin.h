@@ -70,6 +70,8 @@
 		__builtin_sign_bit(x) \
 	)
 
+typedef void *__JMP_BUF_TYPE__[7];
+
 __FILE_TYPE__ *__stdstreams[3];
 
 __FILE_TYPE__ *__builtin_fopen(const char *path, const char *mode);
@@ -141,6 +143,7 @@ int __builtin_popcountll(unsigned long long x);
 int __builtin_printf(const char *format, ...);
 int __builtin_sign_bit(double x);
 int __builtin_sign_bitf(float x);
+int __builtin_setjmp(void *env);
 int __builtin_sprintf(char *str, const char *format, ...);
 int __builtin_strcmp(const char *s1, const char *s2);
 int __builtin_strncmp(const char *s1, const char *s2, __SIZE_TYPE__ n);
@@ -160,6 +163,7 @@ void *__builtin_return_address(unsigned int level);
 void __builtin_abort(void);
 void __builtin_exit(int status);
 void __builtin_free(void *ptr);
+void __builtin_longjmp(void *env, int val);
 void __builtin_qsort(void *base, __SIZE_TYPE__ nmemb, __SIZE_TYPE__ size,
 		     int (*compar) (const void *, const void *));
 void __builtin_trap(void);

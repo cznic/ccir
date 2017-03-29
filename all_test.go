@@ -516,15 +516,18 @@ func TestGCCExec(t *testing.T) {
 		"pr38533.c":    {},
 		"pr40022.c":    {},
 		"pr40657.c":    {},
+		"pr41239.c":    {},
 		"pr43385.c":    {},
 		"pr43560.c":    {},
 		"pr45695.c":    {},
+		"pr46309.c":    {},
 		"pr49279.c":    {},
 		"pr49390.c":    {},
 		"pr51877.c":    {},
 		"pr51933.c":    {},
 		"pr52286.c":    {},
 		"pr56205.c":    {},
+		"pr56982.c":    {},
 		"pr57344-1.c":  {},
 		"pr57344-2.c":  {},
 		"pr57344-3.c":  {},
@@ -646,16 +649,6 @@ func TestGCCExec(t *testing.T) {
 		// invalid floating point constant
 		"960405-1.c": {},
 
-		// jmp
-		"built-in-setjmp.c": {},
-		"pr41239.c":         {},
-		"pr56982.c":         {},
-		"pr60003.c":         {},
-
-		// cc.Parse later
-		"pr46309.c": {}, // expr ? void : int
-		"pr68249.c": {}, // m = b || c < 0 || c > 1 ? : c;
-
 		// builtins
 		"builtin-types-compatible-p.c": {}, // https://www.daemon-systems.org/man/__builtin_types_compatible_p.3.html
 		"frame-address.c":              {}, // __builtin_frame_address
@@ -667,22 +660,11 @@ func TestGCCExec(t *testing.T) {
 		// function pointer of a builtin
 		"pr54937.c": {},
 
-		// evaluation order and side effects
+		// assignment evaluation order and side effects
 		"pr58943.c": {},
 
 		// #pragma
 		"pushpop_macro.c": {},
-
-		// ----------------------------------------------- virtual.Exec
-
-		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/bitfld-3.c:23:1	0x00081		abort
-		"bitfld-3.c": {},
-
-		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr32244-1.c:12:1	0x00050		abort
-		"pr32244-1.c": {},
-
-		// ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/pr34971.c:12:1	0x00064		abort
-		"pr34971.c": {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -732,6 +714,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableImplicitFuncDef(),
 		cc.EnableImplicitIntType(),
 		cc.EnableLegacyDesignators(),
+		cc.EnableOmitConditionalOperand(),
 		cc.EnableOmitFuncArgTypes(),
 		cc.EnableOmitFuncRetType(),
 		cc.EnableParenthesizedCompoundStatemen(),
