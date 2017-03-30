@@ -373,7 +373,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		case exitStatus <= 0 && err == nil:
 			okSeq++
 		default:
-			//dbg("", match)
+			dbg("", match)
 			if seq-okSeq == 1 {
 				t.Logf("%s: FAIL\n%s\n%s", match, errStr(err), log.Bytes())
 				doLog = false
@@ -557,8 +557,14 @@ func TestGCCExec(t *testing.T) {
 
 		// Profiling
 		"eeprof-1.c": {},
+
+		// 6.5.16/4: The order of evaluation of the operands is unspecified.
+		"pr58943.c": {},
 	}
 	todolist := map[string]struct{}{
+		// long double constant out of range for double.
+		"960405-1.c": {},
+
 		// case range
 		"pr34154.c": {},
 
@@ -587,8 +593,8 @@ func TestGCCExec(t *testing.T) {
 		"980223.c":             {},
 		"991228-1.c":           {},
 		"bcp-1.c":              {},
-		"bitfld-6.c":           {}, //TODO + __BYTE_ORDER__
-		"bitfld-7.c":           {}, //TODO + __BYTE_ORDER__
+		"bitfld-6.c":           {},
+		"bitfld-7.c":           {},
 		"builtin-prefetch-2.c": {},
 		"builtin-prefetch-3.c": {},
 		"builtin-prefetch-4.c": {},
@@ -600,9 +606,8 @@ func TestGCCExec(t *testing.T) {
 		"pr22098-1.c":          {},
 		"pr22098-2.c":          {},
 		"pr22098-3.c":          {},
-		"pr23324.c":            {},
 		"pr28982b.c":           {},
-		"pr33382.c":            {},
+		"pr33382.c":            {}, // SIGSEGV
 		"pr33631.c":            {},
 		"pr34176.c":            {},
 		"pr39100.c":            {},
@@ -641,19 +646,12 @@ func TestGCCExec(t *testing.T) {
 		"990208-1.c":    {},
 		"comp-goto-1.c": {},
 
-		// invalid floating point constant
-		"960405-1.c": {},
-
 		// builtins
-		"builtin-types-compatible-p.c": {}, // https://www.daemon-systems.org/man/__builtin_types_compatible_p.3.html
-		"frame-address.c":              {}, // __builtin_frame_address
-		"pr47237.c":                    {}, // __builtin_apply, __builtin_apply_args
-		"pr64006.c":                    {}, // __builtin_mul_overflow
-		"pr68381.c":                    {}, // __builtin_mul_overflow
-		"pr71554.c":                    {}, // __builtin_mul_overflow
-
-		// assignment evaluation order and side effects
-		"pr58943.c": {},
+		"frame-address.c": {}, // __builtin_frame_address
+		"pr47237.c":       {}, // __builtin_apply, __builtin_apply_args
+		"pr64006.c":       {}, // __builtin_mul_overflow
+		"pr68381.c":       {}, // __builtin_mul_overflow
+		"pr71554.c":       {}, // __builtin_mul_overflow
 	}
 	wd, err := os.Getwd()
 	if err != nil {

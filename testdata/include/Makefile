@@ -33,7 +33,7 @@ edit:
 
 editor:
 	#TODO go generate
-	indent -linux *.c *.h sys/*.h
+	indent -linux -l -1 *.c *.h sys/*.h
 
 internalError:
 	egrep -ho '"internal error.*"' *.go | sort | cat -n

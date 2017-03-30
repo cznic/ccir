@@ -51,6 +51,7 @@
 #define __builtin_expect(exp, c) (exp)
 #define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
 #define __builtin_prefetch(...)
+#define __builtin_types_compatible_p(type1, type2) __builtin_types_compatible__((type1){}, (type2){})
 #define __builtin_va_arg(ap, type) *(type*)(ap -= __roundup(sizeof(type), __stackAlign))
 #define __builtin_va_copy(dest, src) dest = src
 #define __builtin_va_end(ap) ap = 0
@@ -76,13 +77,11 @@ __FILE_TYPE__ *__stdstreams[3];
 
 __FILE_TYPE__ *__builtin_fopen(const char *path, const char *mode);
 __FILE_TYPE__ *__bultin_fopen(const char *path, const char *mode);
-__SIZE_TYPE__ __builtin_fread(void *ptr, __SIZE_TYPE__ size,
-			      __SIZE_TYPE__ nmemb, __FILE_TYPE__ * stream);
-__SIZE_TYPE__ __builtin_fwrite(const void *ptr, __SIZE_TYPE__ size,
-			       __SIZE_TYPE__ nmemb, __FILE_TYPE__ * stream);
+__SIZE_TYPE__ __builtin_fread(void *ptr, __SIZE_TYPE__ size, __SIZE_TYPE__ nmemb, __FILE_TYPE__ * stream);
+__SIZE_TYPE__ __builtin_fwrite(const void *ptr, __SIZE_TYPE__ size, __SIZE_TYPE__ nmemb, __FILE_TYPE__ * stream);
 __SIZE_TYPE__ __builtin_strlen(const char *s);
-__SSIZE_TYPE__ __builtin_write(int fd, const void *buf, __SIZE_TYPE__ count);
 __SSIZE_TYPE__ __builtin_read(int fd, void *buf, __SIZE_TYPE__ count);
+__SSIZE_TYPE__ __builtin_write(int fd, const void *buf, __SIZE_TYPE__ count);
 __UINT64_TYPE__ __builtin_bswap64(__UINT64_TYPE__ x);
 char *__builtin_fgets(char *s, int size, __FILE_TYPE__ * stream);
 char *__builtin_strcat(char *dest, const char *src);
@@ -141,15 +140,14 @@ int __builtin_popcount(unsigned x);
 int __builtin_popcountl(unsigned long x);
 int __builtin_popcountll(unsigned long long x);
 int __builtin_printf(const char *format, ...);
+int __builtin_setjmp(void *env);
 int __builtin_sign_bit(double x);
 int __builtin_sign_bitf(float x);
-int __builtin_setjmp(void *env);
 int __builtin_sprintf(char *str, const char *format, ...);
 int __builtin_strcmp(const char *s1, const char *s2);
 int __builtin_strncmp(const char *s1, const char *s2, __SIZE_TYPE__ n);
 int __builtin_tolower(int c);
-int __builtin_vfprintf(__FILE_TYPE__ * stream, const char *format,
-		       __builtin_va_list ap);
+int __builtin_vfprintf(__FILE_TYPE__ * stream, const char *format, __builtin_va_list ap);
 int __builtin_vprintf(const char *format, __builtin_va_list ap);
 void *__builtin_alloca(__SIZE_TYPE__ size);
 void *__builtin_calloc(__SIZE_TYPE__ nmemb, __SIZE_TYPE__ size);
@@ -164,8 +162,7 @@ void __builtin_abort(void);
 void __builtin_exit(int status);
 void __builtin_free(void *ptr);
 void __builtin_longjmp(void *env, int val);
-void __builtin_qsort(void *base, __SIZE_TYPE__ nmemb, __SIZE_TYPE__ size,
-		     int (*compar) (const void *, const void *));
+void __builtin_qsort(void *base, __SIZE_TYPE__ nmemb, __SIZE_TYPE__ size, int (*compar) (const void *, const void *));
 void __builtin_trap(void);
 
 #endif				/* _BUILTIN_H_ */

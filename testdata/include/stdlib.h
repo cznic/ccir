@@ -14,7 +14,6 @@ void *malloc(size_t size);
 void abort(void);
 void exit(int status);
 void free(void *ptr);
-void qsort(void *base, size_t nmemb, size_t size,
-	   int (*compar) (const void *, const void *));
+void qsort(void *base, size_t nmemb, size_t size, int (*compar) (const void *, const void *));
 
 #endif				/* _STDLIB_H_ */

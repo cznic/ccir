@@ -971,7 +971,8 @@ func (c *c) normalize(n *cc.Expression) (_ *cc.Expression, t cc.Type) {
 					return n, n.Type
 				}
 
-				panic(fmt.Errorf("%s: undefined %s", position(n), dict.S(n.Token.Val)))
+				nm := n.Token.Val
+				panic(fmt.Errorf("%s: undefined %s", position(n), dict.S(nm)))
 			case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
 				_, t = c.normalize(n.Expression)
 				if t.Kind() == cc.Ptr {
