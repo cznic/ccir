@@ -581,8 +581,6 @@ func TestGCCExec(t *testing.T) {
 		"vla-dealloc-1.c": {},
 
 		// Initializer
-		"pr33382.c": {}, // SIGSEGV
-
 		"20050613-1.c":         {}, // struct B b = { .a.j = 5 };
 		"20050929-1.c":         {}, // struct C e = { &(struct B) { &(struct A) { 1, 2 }, &(struct A) { 3, 4 } }, &(struct A) { 5, 6 } };
 		"20071029-1.c":         {}, // t = (T) { { ++i, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
@@ -597,17 +595,17 @@ func TestGCCExec(t *testing.T) {
 		"pr22098-2.c":          {}, // b = (uintptr_t)(p = &(int []){0, 1, 2}[1]);
 		"pr22098-3.c":          {}, // b = (uintptr_t)(p = &(int []){0, f(), 2}[1]);
 		"pr28982b.c":           {}, // cc.Parse: PANIC: runtime error: invalid memory address or nil pointer dereference
+		"pr33382.c":            {}, // SIGSEGV
 		"pr33631.c":            {}, // struct { int c; pthread_mutex_t m; } r = { .m = 0 };
-		"pr43784.c":            {},
-		"pr44164.c":            {},
-		"pr53084.c":            {},
-		"pr53645-2.c":          {},
-		"pr53645.c":            {},
-		"pr57568.c":            {},
-		"pr70460.c":            {},
-		"struct-ini-1.c":       {},
-		"va-arg-pack-1.c":      {},
-		"zero-struct-1.c":      {},
+		"pr43784.c":            {}, // static struct s *p = &v.d.b;
+		"pr44164.c":            {}, // cc.Parse: PANIC @ github.com/cznic/cc/ast2.go:2919
+		"pr53084.c":            {}, // static const char *const foo[] = {"foo" + 1};
+		"pr53645-2.c":          {}, // cc.Parse: PANIC: TODO: github.com/cznic/cc/ast2.go:3058
+		"pr53645.c":            {}, // cc.Parse: PANIC: TODO: github.com/cznic/cc/ast2.go:3058
+		"pr57568.c":            {}, // int a[6][9] = { }, b = 1, *c = &a[3][5];
+		"pr70460.c":            {}, // static int b[] = { &&lab1 - &&lab0, &&lab2 - &&lab0 };
+		"struct-ini-1.c":       {}, // New: runtime error: index out of range
+		"zero-struct-1.c":      {}, // char *f = &y[0];
 
 		// signal.h
 		"20101011-1.c": {},
@@ -617,17 +615,16 @@ func TestGCCExec(t *testing.T) {
 		"loop-2g.c": {},
 
 		// &&label expr
-		"920302-1.c":    {},
-		"920501-3.c":    {},
-		"920501-5.c":    {},
-		"990208-1.c":    {},
-		"comp-goto-1.c": {},
+		//"920501-3.c":    {}, // New: ccir.go:1396: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/920501-3.c:16:10 cc.ComputedGotoID
+		//"990208-1.c":    {}, // New: ccir.go:1396: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/990208-1.c:13:13 cc.ComputedGotoID
+		"comp-goto-1.c": {}, // # [100]: Verify (A): mismatched operand type, got int32, expected uint32; simulator_kernel:0x64: 	lsh             	uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/comp-goto-1.c:83:40
 
 		// builtins
-		"pr47237.c": {}, // __builtin_apply, __builtin_apply_args
-		"pr64006.c": {}, // __builtin_mul_overflow
-		"pr68381.c": {}, // __builtin_mul_overflow
-		"pr71554.c": {}, // __builtin_mul_overflow
+		"pr47237.c":       {}, // __builtin_apply, __builtin_apply_args
+		"pr64006.c":       {}, // __builtin_mul_overflow
+		"pr68381.c":       {}, // __builtin_mul_overflow
+		"pr71554.c":       {}, // __builtin_mul_overflow
+		"va-arg-pack-1.c": {}, // __builtin_va_arg_pack
 	}
 	wd, err := os.Getwd()
 	if err != nil {

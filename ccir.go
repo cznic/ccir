@@ -1378,6 +1378,9 @@ func (c *c) constant(t cc.Type, v interface{}, n cc.Node) {
 		t0 := c.cint.Pointer()
 		c.emit(&ir.StringConst{Value: ir.StringID(x), TypeID: c.typ(t0).ID(), Position: position(n)})
 		c.convert(n, t0, t)
+	case cc.ComputedGotoID:
+		addr := &ir.Const{Value: &ir.AddressValue{Index: -1, NameID: c.f.f.NameID, Linkage: c.f.f.Linkage, Label: ir.NameID(x)}, TypeID: idVoidPtr, Position: position(n)}
+		c.emit(addr)
 	case uintptr:
 		switch {
 		case x == 0:
@@ -1645,8 +1648,7 @@ func (c *c) fieldBits(n *cc.Expression, fi, bits, bitoff int, ft, bt cc.Type) cc
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	n, _ = c.normalize(n)
-	if v := n.Value; v != nil && n.Case != 58 && // "&&" IDENTIFIER
-		n.Case != 7 { // '(' ExpressionList ')'                             // Case 7
+	if v := n.Value; v != nil && n.Case != 7 { // '(' ExpressionList ')'                             // Case 7
 		t := n.Type
 		if ot != nil {
 			t = ot
