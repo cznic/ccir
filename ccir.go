@@ -282,14 +282,21 @@ func (c *c) addressInitializer(n *cc.Expression) ir.Value {
 	n, _ = c.normalize(n)
 	switch n.Case {
 	case 0: // IDENTIFIER
-		if n.Type.Kind() == cc.Function {
+		switch n.Type.Kind() {
+		case cc.Array, cc.Function:
 			id := n.Token.Val
 			b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
 			d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
 			switch s.Scope() {
 			case cc.ScopeFile:
 				return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
+			case cc.ScopeBlock:
+				if d.Type.Specifier().IsStatic() {
+					return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
+				}
 			}
+		default:
+			TODO(position(n), fmt.Sprintf(" %v:%v", n.Type, n.Type.Kind()))
 		}
 	case 17: // '&' Expression                                     // Case 17
 		switch n := n.Expression; n.Case {
@@ -302,6 +309,8 @@ func (c *c) addressInitializer(n *cc.Expression) ir.Value {
 				return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
 			}
 		}
+	case 25: // '(' TypeName ')' Expression                        // Case 25
+		return c.addressInitializer(n.Expression)
 	}
 	return nil
 }
@@ -643,7 +652,7 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 			panic(fmt.Errorf("%s: %v:%v", position(n.Initializer), ft, ft.Kind()))
 		}
 	default:
-		panic("internal error")
+		panic(fmt.Errorf("%s: internal error %v, %v, %v, %v, %v, %q", position(init), init.Case, t, ft, pt, i, dict.S(nm)))
 	}
 	i++
 	return i
@@ -662,7 +671,13 @@ func (c *c) exprInitializerListArrayElement(t, et cc.Type, pt ir.Type, i int, n 
 		c.emit(&ir.Store{TypeID: c.typ(et).ID(), Position: position(init)})
 		c.emit(&ir.Drop{TypeID: c.typ(et).ID(), Position: position(init)})
 	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
-		TODO(position(n))
+		switch et.Kind() {
+		case cc.Struct:
+			c.exprInitializerStruct(et, pt, init.InitializerList)
+			c.emit(&ir.Drop{TypeID: pt.ID(), Position: position(init)})
+		default:
+			panic(fmt.Errorf("%s: %v, %v, %v", position(n.Initializer), t, et, pt))
+		}
 	default:
 		panic("internal error")
 	}

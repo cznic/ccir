@@ -15,7 +15,7 @@
 #error
 #endif
 
-#define __BYTE_ORDER__ -1
+#define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
 #define __CHAR_BIT__ 8
 #define __DBL_MANT_DIG__ 53
 #define __DBL_MAX__ 1.79769313486231570815e+308
@@ -35,6 +35,8 @@
 #define __LDBL_MIN__ 2.22507385850720138309e-308
 #define __LOCALE_TYPE__ struct{int _;}
 #define __LONG_LONG_MAX__ 9223372036854775807ll
+#define __ORDER_BIG_ENDIAN__ 2
+#define __ORDER_LITTLE_ENDIAN__ 1
 #define __PTRDIFF_TYPE__ long
 #define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
@@ -51,6 +53,7 @@
 #define __builtin_expect(exp, c) (exp)
 #define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
 #define __builtin_prefetch(...)
+#define __builtin_signbit(x) (sizeof(x) == sizeof(float) ? __builtin_sign_bitf(x) : __builtin_sign_bit(x))
 #define __builtin_types_compatible_p(type1, type2) __builtin_types_compatible__((type1){}, (type2){})
 #define __builtin_va_arg(ap, type) *(type*)(ap -= __roundup(sizeof(type), __stackAlign))
 #define __builtin_va_copy(dest, src) dest = src
@@ -65,11 +68,6 @@
 #define __restrict restrict
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
 #define __volatile volatile
-
-#define __builtin_signbit(x) ( \
-		sizeof(x) == sizeof(float) ? __builtin_sign_bitf(x) : \
-		__builtin_sign_bit(x) \
-	)
 
 typedef void *__JMP_BUF_TYPE__[7];
 

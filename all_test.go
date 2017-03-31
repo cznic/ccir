@@ -373,7 +373,7 @@ func expect(t *testing.T, dir string, skip func(string) bool, hook func(string, 
 		case exitStatus <= 0 && err == nil:
 			okSeq++
 		default:
-			dbg("", match)
+			//dbg("%v\n%v", match, err)
 			if seq-okSeq == 1 {
 				t.Logf("%s: FAIL\n%s\n%s", match, errStr(err), log.Bytes())
 				doLog = false
@@ -581,53 +581,30 @@ func TestGCCExec(t *testing.T) {
 		"vla-dealloc-1.c": {},
 
 		// Initializer
-		"20050613-1.c":         {},
-		"20050929-1.c":         {},
-		"20071029-1.c":         {},
-		"20080522-1.c":         {},
-		"20090113-1.c":         {},
-		"20101025-1.c":         {},
-		"20120919-1.c":         {},
-		"921019-1.c":           {},
-		"960416-1.c":           {},
-		"980223.c":             {},
-		"991228-1.c":           {},
-		"bcp-1.c":              {},
-		"bitfld-6.c":           {},
-		"bitfld-7.c":           {},
-		"builtin-prefetch-2.c": {},
-		"builtin-prefetch-3.c": {},
-		"builtin-prefetch-4.c": {},
-		"builtin-prefetch-5.c": {},
-		"compndlit-1.c":        {},
-		"const-addr-expr-1.c":  {},
-		"longlong.c":           {},
-		"lto-tbaa-1.c":         {},
-		"pr22098-1.c":          {},
-		"pr22098-2.c":          {},
-		"pr22098-3.c":          {},
-		"pr28982b.c":           {},
-		"pr33382.c":            {}, // SIGSEGV
-		"pr33631.c":            {},
-		"pr34176.c":            {},
-		"pr39100.c":            {},
-		"pr43438.c":            {},
+		"pr33382.c": {}, // SIGSEGV
+
+		"20050613-1.c":         {}, // struct B b = { .a.j = 5 };
+		"20050929-1.c":         {}, // struct C e = { &(struct B) { &(struct A) { 1, 2 }, &(struct A) { 3, 4 } }, &(struct A) { 5, 6 } };
+		"20071029-1.c":         {}, // t = (T) { { ++i, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+		"921019-1.c":           {}, // void *foo[]={(void *)&("X"[0])};
+		"960416-1.c":           {}, // f((union foo)0)
+		"991228-1.c":           {}, // cc.Parse: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/991228-1.c:1:51: invalid designator for type double
+		"builtin-prefetch-4.c": {}, // int *ptr = &arr[20];
+		"compndlit-1.c":        {}, // x = (struct S) {b:0, a:0, c:({ struct S o = x; o.a == 1 ? 10 : 20;})};
+		"const-addr-expr-1.c":  {}, // int *Upgd_minor_ID = (int *) &((Upgrade_items + 1)->uaattrid);
+		"lto-tbaa-1.c":         {}, // int **ptr = &b2.b;
+		"pr22098-1.c":          {}, // b = (uintptr_t)(p = &(int []){0, 1, 2}[++a]);
+		"pr22098-2.c":          {}, // b = (uintptr_t)(p = &(int []){0, 1, 2}[1]);
+		"pr22098-3.c":          {}, // b = (uintptr_t)(p = &(int []){0, f(), 2}[1]);
+		"pr28982b.c":           {}, // cc.Parse: PANIC: runtime error: invalid memory address or nil pointer dereference
+		"pr33631.c":            {}, // struct { int c; pthread_mutex_t m; } r = { .m = 0 };
 		"pr43784.c":            {},
 		"pr44164.c":            {},
-		"pr47337.c":            {},
 		"pr53084.c":            {},
 		"pr53645-2.c":          {},
 		"pr53645.c":            {},
 		"pr57568.c":            {},
-		"pr58277-1.c":          {},
-		"pr58277-2.c":          {},
-		"pr58419.c":            {},
-		"pr61682.c":            {},
-		"pr64756.c":            {},
-		"pr69320-1.c":          {},
-		"pr69691.c":            {},
 		"pr70460.c":            {},
-		"pr70602.c":            {},
 		"struct-ini-1.c":       {},
 		"va-arg-pack-1.c":      {},
 		"zero-struct-1.c":      {},
@@ -647,11 +624,10 @@ func TestGCCExec(t *testing.T) {
 		"comp-goto-1.c": {},
 
 		// builtins
-		"frame-address.c": {}, // __builtin_frame_address
-		"pr47237.c":       {}, // __builtin_apply, __builtin_apply_args
-		"pr64006.c":       {}, // __builtin_mul_overflow
-		"pr68381.c":       {}, // __builtin_mul_overflow
-		"pr71554.c":       {}, // __builtin_mul_overflow
+		"pr47237.c": {}, // __builtin_apply, __builtin_apply_args
+		"pr64006.c": {}, // __builtin_mul_overflow
+		"pr68381.c": {}, // __builtin_mul_overflow
+		"pr71554.c": {}, // __builtin_mul_overflow
 	}
 	wd, err := os.Getwd()
 	if err != nil {
