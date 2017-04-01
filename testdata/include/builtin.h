@@ -52,7 +52,7 @@
 #define __builtin_choose_expr(a, b, c) (a) ? (b) : (c)
 #define __builtin_expect(exp, c) (exp)
 #define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
-#define __builtin_prefetch(...)
+#define __builtin_prefetch(addr, ...) (void)(addr)
 #define __builtin_signbit(x) (sizeof(x) == sizeof(float) ? __builtin_sign_bitf(x) : __builtin_sign_bit(x))
 #define __builtin_types_compatible_p(type1, type2) __builtin_types_compatible__((type1){}, (type2){})
 #define __builtin_va_arg(ap, type) *(type*)(ap -= __roundup(sizeof(type), __stackAlign))

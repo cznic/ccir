@@ -215,9 +215,9 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 				for i, v := range x.Body {
 					fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
 				}
-				return log, -1, fmt.Errorf("# [%v]: Verify (A): %v", i, err)
+				return log, -1, fmt.Errorf("# [%v, err]: Verify (A): %v", i, err)
 			default:
-				return log, -1, fmt.Errorf("[%v]: %T %v: %v", i, x, x, err)
+				return log, -1, fmt.Errorf("[%v, err]: %T %v: %v", i, x, x, err)
 			}
 		}
 	}
@@ -230,9 +230,9 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	for i, v := range objs {
 		switch x := v.(type) {
 		case *ir.DataDefinition:
-			fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
+			fmt.Fprintf(&log, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
 		case *ir.FunctionDefinition:
-			fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+			fmt.Fprintf(&log, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
 			for i, v := range x.Body {
 				fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
 			}
@@ -242,7 +242,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	}
 	for i, v := range objs {
 		if err := v.Verify(); err != nil {
-			return log, -1, fmt.Errorf("# [%v]: Verify (B): %v", i, err)
+			return log, -1, fmt.Errorf("# [%v, err]: Verify (B): %v", i, err)
 		}
 	}
 
@@ -486,6 +486,8 @@ func TestGCCExec(t *testing.T) {
 		"20050604-1.c":   {},
 		"20050607-1.c":   {},
 		"pr23135.c":      {},
+		"pr53645-2.c":    {},
+		"pr53645.c":      {},
 		"pr60960.c":      {},
 		"pr65427.c":      {},
 		"pr71626-1.c":    {},
@@ -581,31 +583,18 @@ func TestGCCExec(t *testing.T) {
 		"vla-dealloc-1.c": {},
 
 		// Initializer
-		"20050613-1.c":         {}, // struct B b = { .a.j = 5 };
-		"20050929-1.c":         {}, // struct C e = { &(struct B) { &(struct A) { 1, 2 }, &(struct A) { 3, 4 } }, &(struct A) { 5, 6 } };
-		"20071029-1.c":         {}, // t = (T) { { ++i, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
-		"921019-1.c":           {}, // void *foo[]={(void *)&("X"[0])};
-		"960416-1.c":           {}, // f((union foo)0)
-		"991228-1.c":           {}, // cc.Parse: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/991228-1.c:1:51: invalid designator for type double
-		"builtin-prefetch-4.c": {}, // int *ptr = &arr[20];
-		"compndlit-1.c":        {}, // x = (struct S) {b:0, a:0, c:({ struct S o = x; o.a == 1 ? 10 : 20;})};
-		"const-addr-expr-1.c":  {}, // int *Upgd_minor_ID = (int *) &((Upgrade_items + 1)->uaattrid);
-		"lto-tbaa-1.c":         {}, // int **ptr = &b2.b;
-		"pr22098-1.c":          {}, // b = (uintptr_t)(p = &(int []){0, 1, 2}[++a]);
-		"pr22098-2.c":          {}, // b = (uintptr_t)(p = &(int []){0, 1, 2}[1]);
-		"pr22098-3.c":          {}, // b = (uintptr_t)(p = &(int []){0, f(), 2}[1]);
-		"pr28982b.c":           {}, // cc.Parse: PANIC: runtime error: invalid memory address or nil pointer dereference
-		"pr33382.c":            {}, // SIGSEGV
-		"pr33631.c":            {}, // struct { int c; pthread_mutex_t m; } r = { .m = 0 };
-		"pr43784.c":            {}, // static struct s *p = &v.d.b;
-		"pr44164.c":            {}, // cc.Parse: PANIC @ github.com/cznic/cc/ast2.go:2919
-		"pr53084.c":            {}, // static const char *const foo[] = {"foo" + 1};
-		"pr53645-2.c":          {}, // cc.Parse: PANIC: TODO: github.com/cznic/cc/ast2.go:3058
-		"pr53645.c":            {}, // cc.Parse: PANIC: TODO: github.com/cznic/cc/ast2.go:3058
-		"pr57568.c":            {}, // int a[6][9] = { }, b = 1, *c = &a[3][5];
-		"pr70460.c":            {}, // static int b[] = { &&lab1 - &&lab0, &&lab2 - &&lab0 };
-		"struct-ini-1.c":       {}, // New: runtime error: index out of range
-		"zero-struct-1.c":      {}, // char *f = &y[0];
+		"20050613-1.c":        {}, // struct B b = { .a.j = 5 };
+		"20050929-1.c":        {}, // struct C e = { &(struct B) { &(struct A) { 1, 2 }, &(struct A) { 3, 4 } }, &(struct A) { 5, 6 } };
+		"20071029-1.c":        {}, // t = (T) { { ++i, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+		"921019-1.c":          {}, // void *foo[]={(void *)&("X"[0])};
+		"991228-1.c":          {}, // cc.Parse: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/991228-1.c:1:51: invalid designator for type double
+		"compndlit-1.c":       {}, // x = (struct S) {b:0, a:0, c:({ struct S o = x; o.a == 1 ? 10 : 20;})};
+		"const-addr-expr-1.c": {}, // int *Upgd_minor_ID = (int *) &((Upgrade_items + 1)->uaattrid);
+		"pr22098-1.c":         {}, // b = (uintptr_t)(p = &(int []){0, 1, 2}[++a]);
+		"pr22098-2.c":         {}, // b = (uintptr_t)(p = &(int []){0, 1, 2}[1]);
+		"pr22098-3.c":         {}, // b = (uintptr_t)(p = &(int []){0, f(), 2}[1]);
+		"pr33631.c":           {}, // struct { int c; pthread_mutex_t m; } r = { .m = 0 };
+		"pr70460.c":           {}, // static int b[] = { &&lab1 - &&lab0, &&lab2 - &&lab0 };
 
 		// signal.h
 		"20101011-1.c": {},
@@ -615,8 +604,6 @@ func TestGCCExec(t *testing.T) {
 		"loop-2g.c": {},
 
 		// &&label expr
-		//"920501-3.c":    {}, // New: ccir.go:1396: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/920501-3.c:16:10 cc.ComputedGotoID
-		//"990208-1.c":    {}, // New: ccir.go:1396: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/990208-1.c:13:13 cc.ComputedGotoID
 		"comp-goto-1.c": {}, // # [100]: Verify (A): mismatched operand type, got int32, expected uint32; simulator_kernel:0x64: 	lsh             	uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/comp-goto-1.c:83:40
 
 		// builtins
@@ -674,6 +661,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableImplicitFuncDef(),
 		cc.EnableImplicitIntType(),
 		cc.EnableLegacyDesignators(),
+		cc.EnableNonConstStaticInitExpressions(),
 		cc.EnableOmitConditionalOperand(),
 		cc.EnableOmitFuncArgTypes(),
 		cc.EnableOmitFuncRetType(),

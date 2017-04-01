@@ -89,6 +89,7 @@ type fdata struct {
 	loop       bool
 	result     ir.TypeID
 	static     int
+	statics    map[ir.NameID]ir.NameID
 	variable   int
 	variables  map[*cc.Declarator]varInfo
 }
@@ -278,12 +279,12 @@ func (c *c) linkage(l cc.Linkage) ir.Linkage {
 	}
 }
 
-func (c *c) addressInitializer(n *cc.Expression) ir.Value {
+func (c *c) addressInitializer(n *cc.Expression) (r ir.Value) {
 	n, _ = c.normalize(n)
 	switch n.Case {
 	case 0: // IDENTIFIER
 		switch n.Type.Kind() {
-		case cc.Array, cc.Function:
+		case cc.Array, cc.Function, cc.Union, cc.Struct:
 			id := n.Token.Val
 			b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
 			d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
@@ -292,12 +293,47 @@ func (c *c) addressInitializer(n *cc.Expression) ir.Value {
 				return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
 			case cc.ScopeBlock:
 				if d.Type.Specifier().IsStatic() {
-					return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
+					return &ir.AddressValue{Index: -1, Linkage: ir.InternalLinkage, NameID: c.f.statics[c.nm(d)]}
 				}
 			}
 		default:
 			TODO(position(n), fmt.Sprintf(" %v:%v", n.Type, n.Type.Kind()))
 		}
+	case 8: // Expression '[' ExpressionList ']'                  // Case 8
+		t := n.Expression.Type
+		switch t.Kind() {
+		case cc.Array:
+			switch x := c.addressInitializer(n.Expression).(type) {
+			case *ir.AddressValue:
+				switch index := n.ExpressionList.Value.(type) {
+				case int32:
+					x.Offset += uintptr(index) * uintptr(t.Element().SizeOf())
+				default:
+					TODO(position(n), fmt.Sprintf(" %T", index))
+				}
+				return x
+			default:
+				TODO(position(n.Token), fmt.Sprintf(" %T", x))
+			}
+		default:
+			TODO(position(n), " ", t.Kind())
+		}
+	case 10: // Expression '.' IDENTIFIER                          // Case 10
+		t := n.Expression.Type
+		switch x := c.addressInitializer(n.Expression).(type) {
+		case *ir.AddressValue:
+			m, err := t.Member(n.Token2.Val)
+			if err != nil {
+				panic("internal errir")
+			}
+
+			x.Offset += uintptr(m.OffsetOf)
+			return x
+		default:
+			TODO(position(n.Token), fmt.Sprintf(" %T", x))
+		}
+	case 14: // '(' TypeName ')' '{' InitializerList CommaOpt '}'  // Case 14
+		TODO(position(n))
 	case 17: // '&' Expression                                     // Case 17
 		switch n := n.Expression; n.Case {
 		case 0: // IDENTIFIER
@@ -308,6 +344,8 @@ func (c *c) addressInitializer(n *cc.Expression) ir.Value {
 			case cc.ScopeFile:
 				return &ir.AddressValue{Index: -1, Linkage: c.linkage(d.Linkage), NameID: c.nm(d)}
 			}
+		default:
+			return c.addressInitializer(n)
 		}
 	case 25: // '(' TypeName ')' Expression                        // Case 25
 		return c.addressInitializer(n.Expression)
@@ -425,6 +463,15 @@ func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, b
 		}
 
 		ft := members[i].Type
+		if i == len(members)-1 && l.InitializerList != nil && ft.Kind() == cc.Array {
+			val, ok := c.initializerList(ft, l)
+			values[i] = val
+			if !ok {
+				complete = false
+			}
+			break
+		}
+
 		val, init := c.initializer(ft, l.Initializer, true)
 		if init != nil {
 			complete = false
@@ -510,6 +557,89 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 	}
 }
 
+func (c *c) initializerExpr(n *cc.Expression) ir.Value {
+	switch x := n.Value.(type) {
+	case nil:
+		switch n.Case {
+		case 29: // Expression '+' Expression                          // Case 29
+			if n.Expression.Value != nil && n.Expression2 != nil {
+				switch a := c.initializerExpr(n.Expression).(type) {
+				case *ir.StringValue:
+					switch x := n.Expression2.Value.(type) {
+					case int32:
+						a.Offset += uintptr(x)
+						return a
+					default:
+						panic(fmt.Errorf("%s: %T", position(n), x))
+					}
+				default:
+					panic(fmt.Errorf("%s: %T", position(n), a))
+				}
+			}
+		default:
+			if val := c.addressInitializer(n); val != nil {
+				return val
+			}
+		}
+
+		return nil
+	case cc.StringLitID:
+		return &ir.StringValue{StringID: ir.StringID(x)}
+	case cc.LongStringLitID:
+		return &ir.WideStringValue{Value: []rune(string(dict.S(int(x))))}
+	case int8:
+		return &ir.Int32Value{Value: int32(x)}
+	case uint8:
+		return &ir.Int32Value{Value: int32(x)}
+	case int16:
+		return &ir.Int32Value{Value: int32(x)}
+	case uint16:
+		return &ir.Int32Value{Value: int32(x)}
+	case int32:
+		return &ir.Int32Value{Value: x}
+	case uint32:
+		if x <= math.MaxInt32 {
+			return &ir.Int32Value{Value: int32(x)}
+		}
+
+		return &ir.Int64Value{Value: int64(x)}
+	case int64:
+		switch {
+		case x >= math.MinInt32 && x <= math.MaxInt32:
+			return &ir.Int32Value{Value: int32(x)}
+		default:
+			return &ir.Int64Value{Value: x}
+		}
+	case float32:
+		return &ir.Float32Value{Value: x}
+	case float64:
+		return &ir.Float64Value{Value: x}
+	case uint64:
+		switch {
+		case x <= math.MaxInt32:
+			return &ir.Int32Value{Value: int32(x)}
+		default:
+			return &ir.Int64Value{Value: int64(x)}
+		}
+	case uintptr:
+		switch {
+		case x <= math.MaxInt32:
+			return &ir.Int32Value{Value: int32(x)}
+		default:
+			return &ir.Int64Value{Value: int64(x)}
+		}
+	case complex64:
+		return &ir.Complex64Value{Value: x}
+	case complex128:
+		return &ir.Complex128Value{Value: x}
+	case cc.ComputedGotoID:
+		return &ir.AddressValue{NameID: c.f.f.NameID, Linkage: c.f.f.Linkage, Label: ir.NameID(x), Index: -1}
+	default:
+		TODO(position(n), fmt.Sprintf(" %T", x))
+	}
+	panic("unreachable")
+}
+
 func (c *c) initializer(t cc.Type, n *cc.Initializer, ok bool) (ir.Value, *cc.Initializer) {
 	if n == nil {
 		return nil, nil
@@ -517,67 +647,11 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer, ok bool) (ir.Value, *cc.In
 
 	switch n.Case {
 	case 0: // Expression
-		switch x := n.Expression.Value.(type) {
-		case nil:
-			if val := c.addressInitializer(n.Expression); val != nil {
-				return val, nil
-			}
-
-			return nil, n
-		case cc.StringLitID:
-			return &ir.StringValue{StringID: ir.StringID(x)}, nil
-		case cc.LongStringLitID:
-			return &ir.WideStringValue{Value: []rune(string(dict.S(int(x))))}, nil
-		case int8:
-			return &ir.Int32Value{Value: int32(x)}, nil
-		case uint8:
-			return &ir.Int32Value{Value: int32(x)}, nil
-		case int16:
-			return &ir.Int32Value{Value: int32(x)}, nil
-		case uint16:
-			return &ir.Int32Value{Value: int32(x)}, nil
-		case int32:
-			return &ir.Int32Value{Value: x}, nil
-		case uint32:
-			if x <= math.MaxInt32 {
-				return &ir.Int32Value{Value: int32(x)}, nil
-			}
-
-			return &ir.Int64Value{Value: int64(x)}, nil
-		case int64:
-			switch {
-			case x >= math.MinInt32 && x <= math.MaxInt32:
-				return &ir.Int32Value{Value: int32(x)}, nil
-			default:
-				return &ir.Int64Value{Value: x}, nil
-			}
-		case float32:
-			return &ir.Float32Value{Value: x}, nil
-		case float64:
-			return &ir.Float64Value{Value: x}, nil
-		case uint64:
-			switch {
-			case x <= math.MaxInt32:
-				return &ir.Int32Value{Value: int32(x)}, nil
-			default:
-				return &ir.Int64Value{Value: int64(x)}, nil
-			}
-		case uintptr:
-			switch {
-			case x <= math.MaxInt32:
-				return &ir.Int32Value{Value: int32(x)}, nil
-			default:
-				return &ir.Int64Value{Value: int64(x)}, nil
-			}
-		case complex64:
-			return &ir.Complex64Value{Value: x}, nil
-		case complex128:
-			return &ir.Complex128Value{Value: x}, nil
-		case cc.ComputedGotoID:
-			return &ir.AddressValue{NameID: c.f.f.NameID, Linkage: c.f.f.Linkage, Label: ir.NameID(x), Index: -1}, nil
-		default:
-			TODO(position(n), fmt.Sprintf(" %T", x))
+		if val := c.initializerExpr(n.Expression); val != nil {
+			return val, nil
 		}
+
+		return nil, n
 	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
 		init := n
 		val, ok := c.initializerList(t, n.InitializerList)
@@ -731,6 +805,7 @@ func (c *c) staticDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList) {
 	b.WriteByte(0)
 	fmt.Fprintf(&b, "%v", c.f.static)
 	snm := ir.NameID(dict.ID(b.Bytes()))
+	c.f.statics[c.nm(d)] = snm
 	b.Close()
 	c.f.variables[d] = varInfo{index: c.f.static, static: true, typ: typ, staticName: snm}
 	c.out = append(c.out, ir.NewDataDefinition(position(d), snm, c.tnm(d), typ, ir.InternalLinkage, val))
@@ -894,6 +969,7 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 		cResult:   cResult,
 		f:         f,
 		result:    result,
+		statics:   map[ir.NameID]ir.NameID{},
 		variables: variables,
 	}
 }
@@ -963,6 +1039,10 @@ func (c *c) promoteBitfield(t cc.Type, bits int) cc.Type {
 }
 
 func (c *c) normalize(n *cc.Expression) (_ *cc.Expression, t cc.Type) {
+	if n == nil {
+		panic(fmt.Errorf("internal error"))
+	}
+
 	for {
 		switch n.Case {
 		case 7: // '(' ExpressionList ')'
@@ -1909,7 +1989,7 @@ out:
 	case 24: // "sizeof" '(' TypeName ')'                          // Case 24
 		TODO(position(n))
 	case 25: // '(' TypeName ')' Expression                        // Case 25
-		c.expression(nil, n.Expression)
+		t := c.expression(nil, n.Expression)
 		if n.Expression.Type.Kind() == cc.Function && n.TypeName.Type.Kind() == cc.Ptr {
 			c.convert(n, c.ast.Model.VoidType.Pointer(), n.TypeName.Type)
 			break
@@ -1917,7 +1997,11 @@ out:
 
 		switch {
 		case n.TypeName.Type.Kind() == cc.Void:
-			c.emit(&ir.Drop{TypeID: c.typ(n.Expression.Type).ID(), Position: position(n)})
+			switch {
+			case t.Kind() == cc.Ptr && t.Element().Kind() == cc.Array:
+				t = t.Element().Element().Pointer()
+			}
+			c.emit(&ir.Drop{TypeID: c.typ(t).ID(), Position: position(n)})
 		default:
 			c.convert(n, n.Expression.Type, n.TypeName.Type)
 		}
