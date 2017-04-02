@@ -1,18 +1,33 @@
 #ifndef _BUILTIN_H_
 #define _BUILTIN_H_
 
-#if defined __MODEL_386__ || defined __MODEL_arm__ || defined __MODEL_arm64be__ || \
-	defined __MODEL_armbe__ || defined __MODEL_mips__ || defined __MODEL_mipsle__ || \
-	defined __MODEL_ppc__ || defined __MODEL_ppc64le__ || defined __MODEL_s390__ || \
-	defined __MODEL_s390x__ || defined __MODEL_sparc__
+#if \
+	defined __arch_386__ || \
+	defined __arch_arm64be__ || \
+	defined __arch_arm__ || \
+	defined __arch_armbe__ || \
+	defined __arch_mips__ || \
+	defined __arch_mipsle__ || \
+	defined __arch_ppc64le__ || \
+	defined __arch_ppc__ || \
+	defined __arch_s390__ || \
+	defined __arch_s390x__ || \
+	defined __arch_sparc__
 #define __LONG_MAX__ 2147483647l
 #define __SIZEOF_LONG__ 4
 #define __SIZEOF_POINTER__ 4
 #define __ULONG_MAX__ 4294967295ul
 #define __stackAlign 4
-#elif defined __MODEL_amd64__ || defined __MODEL_amd64p32__ || defined __MODEL_arm64__ || \
-	defined __MODEL_mips64__ || defined __MODEL_mips64le__ || defined __MODEL_mips64p32__ || \
-	defined __MODEL_mips64p32le__ || defined __MODEL_ppc64__ || defined __MODEL_sparc64__
+#elif \
+	defined __arch_amd64__ || \
+	defined __arch_amd64p32__ || \
+	defined __arch_arm64__ || \
+	defined __arch_mips64__ || \
+	defined __arch_mips64le__ || \
+	defined __arch_mips64p32__ || \
+	defined __arch_mips64p32le__ || \
+	defined __arch_ppc64__ || \
+defined __arch_sparc64__
 #define __LONG_MAX__ 9223372036854775807l
 #define __SIZEOF_LONG__ 8
 #define __SIZEOF_POINTER__ 8
@@ -22,6 +37,32 @@
 #error
 #endif
 
+#if \
+	defined __arch_386__ || \
+	defined __arch_amd64__ || \
+	defined __arch_amd64p32__ || \
+	defined __arch_arm64__ || \
+	defined __arch_arm__ || \
+	defined __arch_mips64le__ || \
+	defined __arch_mips64p32le__ || \
+	defined __arch_mipsle__ || \
+	defined __arch_ppc64le__ || \
+	defined __arch_s390__ || \
+	defined __arch_s390x__ || \
+	defined __arch_sparc64__ || \
+	defined __arch_sparc__
+#define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
+#elif \
+	defined __arch_arm64be__ || \
+	defined __arch_armbe__ || \
+	defined __arch_mips64__ || \
+	defined __arch_mips64p32__ || \
+	defined __arch_mips__ || \
+	defined __arch_ppc64__
+defined __arch_ppc__ ||
+#define __BYTE_ORDER__ __ORDER_BIG_ENDIAN__
+#error
+#endif
 #define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
 #define __CHAR_BIT__ 8
 #define __DBL_MANT_DIG__ 53
@@ -75,7 +116,6 @@
 #define __restrict restrict
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
 #define __volatile volatile
-
 typedef void *__JMP_BUF_TYPE__[7];
 
 __FILE_TYPE__ *__stdstreams[3];

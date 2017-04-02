@@ -146,7 +146,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
-#define __MODEL_%s__ 1
+#define __arch_%s__ 1
 
 #define NO_TRAMPOLINES 1
 
@@ -754,7 +754,7 @@ func build(t *testing.T, predef string, src []string) (string, *virtual.Binary) 
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
-#define __MODEL_%s__ 1
+#define __arch_%s__ 1
 
 #include <builtin.h>
 %s
