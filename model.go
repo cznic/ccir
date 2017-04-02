@@ -17,7 +17,7 @@ func Model(name string) (*cc.Model, error) {
 	}
 
 	switch name {
-	case "32":
+	case "386", "arm", "arm64be", "armbe", "mips", "mipsle", "ppc", "ppc64le", "s390", "s390x", "sparc":
 		return &cc.Model{
 			Items: map[cc.Kind]cc.ModelItem{
 				cc.Void:              {Size: 0, Align: 1, StructAlign: 1},
@@ -43,7 +43,33 @@ func Model(name string) (*cc.Model, error) {
 				cc.LongDoubleComplex: {Size: 16, Align: 8, StructAlign: 4},
 			},
 		}, nil
-	case "64":
+	case "amd64p32", "mips64p32", "mips64p32le":
+		return &cc.Model{
+			Items: map[cc.Kind]cc.ModelItem{
+				cc.Void:              {Size: 0, Align: 1, StructAlign: 1},
+				cc.Ptr:               {Size: 4, Align: 4, StructAlign: 4},
+				cc.UintPtr:           {Size: 4, Align: 4, StructAlign: 4},
+				cc.Char:              {Size: 1, Align: 1, StructAlign: 1},
+				cc.SChar:             {Size: 1, Align: 1, StructAlign: 1},
+				cc.UChar:             {Size: 1, Align: 1, StructAlign: 1},
+				cc.Short:             {Size: 2, Align: 2, StructAlign: 2},
+				cc.UShort:            {Size: 2, Align: 2, StructAlign: 2},
+				cc.Int:               {Size: 4, Align: 4, StructAlign: 4},
+				cc.UInt:              {Size: 4, Align: 4, StructAlign: 4},
+				cc.Long:              {Size: 8, Align: 8, StructAlign: 8},
+				cc.ULong:             {Size: 8, Align: 8, StructAlign: 8},
+				cc.LongLong:          {Size: 8, Align: 8, StructAlign: 8},
+				cc.ULongLong:         {Size: 8, Align: 8, StructAlign: 8},
+				cc.Float:             {Size: 4, Align: 4, StructAlign: 4},
+				cc.Double:            {Size: 8, Align: 8, StructAlign: 8},
+				cc.LongDouble:        {Size: 8, Align: 8, StructAlign: 8},
+				cc.Bool:              {Size: 1, Align: 1, StructAlign: 1},
+				cc.FloatComplex:      {Size: 8, Align: 8, StructAlign: 8},
+				cc.DoubleComplex:     {Size: 16, Align: 8, StructAlign: 8},
+				cc.LongDoubleComplex: {Size: 16, Align: 8, StructAlign: 8},
+			},
+		}, nil
+	case "amd64", "arm64", "mips64", "mips64le", "ppc64", "sparc64":
 		return &cc.Model{
 			Items: map[cc.Kind]cc.ModelItem{
 				cc.Void:              {Size: 0, Align: 1, StructAlign: 1},

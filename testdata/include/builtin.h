@@ -1,12 +1,19 @@
 #ifndef _BUILTIN_H_
 #define _BUILTIN_H_
 
-#if defined __MODEL_32__
+#if defined __MODEL_386__ || defined __MODEL_arm__ || defined __MODEL_arm64be__ || \
+	defined __MODEL_armbe__ || defined __MODEL_mips__ || defined __MODEL_mipsle__ || \
+	defined __MODEL_ppc__ || defined __MODEL_ppc64le__ || defined __MODEL_s390__ || \
+	defined __MODEL_s390x__ || defined __MODEL_sparc__
+#define __ULONG_MAX__ 4294967295ul
 #define __LONG_MAX__ 2147483647l
 #define __SIZEOF_LONG__ 4
 #define __SIZEOF_POINTER__ 4
 #define __stackAlign 4
-#elif defined __MODEL_64__
+#elif defined __MODEL_amd64__ || defined __MODEL_amd64p32__ || defined __MODEL_arm64__ || \
+	defined __MODEL_mips64__ || defined __MODEL_mips64le__ || defined __MODEL_mips64p32__ || \
+	defined __MODEL_mips64p32le__ || defined __MODEL_ppc64__ || defined __MODEL_sparc64__
+#define __ULONG_MAX__ 18446744073709551615ul
 #define __LONG_MAX__ 9223372036854775807l
 #define __SIZEOF_LONG__ 8
 #define __SIZEOF_POINTER__ 8

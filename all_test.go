@@ -136,7 +136,7 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 		}
 	}()
 
-	modelName := fmt.Sprint(mathutil.UintPtrBits)
+	modelName := runtime.GOARCH
 	model, err := Model(modelName)
 	if err != nil {
 		return "", nil, err
@@ -146,12 +146,12 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
-#define __MODEL_%s__
+#define __MODEL_%s__ 1
 
 #define NO_TRAMPOLINES 1
 
 #include <builtin.h>
-`, strings.ToUpper(modelName)),
+`, modelName),
 		src,
 		model,
 		opts...,
@@ -743,7 +743,7 @@ func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (
 }
 
 func build(t *testing.T, predef string, src []string) (string, *virtual.Binary) {
-	modelName := fmt.Sprint(mathutil.UintPtrBits)
+	modelName := runtime.GOARCH
 	model, err := Model(modelName)
 	if err != nil {
 		t.Fatal(err)
@@ -754,11 +754,11 @@ func build(t *testing.T, predef string, src []string) (string, *virtual.Binary) 
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
-#define __MODEL_%s__
+#define __MODEL_%s__ 1
 
 #include <builtin.h>
 %s
-`, strings.ToUpper(modelName), predef),
+`, modelName, predef),
 		append([]string{crt0Path}, src...),
 		model,
 		cc.AllowCompatibleTypedefRedefinitions(),
