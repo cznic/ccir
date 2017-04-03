@@ -33,15 +33,6 @@ var (
 	Testing bool
 
 	isTesting bool // Running tests.
-
-	sizes = map[int]string{
-		0:  "0",
-		1:  "8",
-		2:  "16",
-		4:  "32",
-		8:  "64",
-		16: "128",
-	}
 )
 
 //TODO remove me.
@@ -169,20 +160,15 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 
 		c.typ0(dst, t.Element(), flat)
 	case cc.Enum:
-		dst.WriteString("int")
-		dst.WriteString(sizes[c.ast.Model.Items[cc.Int].Size])
+		dst.WriteString(fmt.Sprintf("int%v", c.ast.Model.Items[cc.Int].Size*8))
 	case cc.Char, cc.SChar, cc.Short, cc.Int, cc.Long, cc.LongLong:
-		dst.WriteString("int")
-		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
+		dst.WriteString(fmt.Sprintf("int%v", c.ast.Model.Items[k].Size*8))
 	case cc.Bool, cc.UChar, cc.UShort, cc.UInt, cc.ULong, cc.ULongLong:
-		dst.WriteString("uint")
-		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
+		dst.WriteString(fmt.Sprintf("uint%v", c.ast.Model.Items[k].Size*8))
 	case cc.Float, cc.Double, cc.LongDouble:
-		dst.WriteString("float")
-		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
+		dst.WriteString(fmt.Sprintf("float%v", c.ast.Model.Items[k].Size*8))
 	case cc.FloatComplex, cc.DoubleComplex, cc.LongDoubleComplex:
-		dst.WriteString("complex")
-		dst.WriteString(sizes[c.ast.Model.Items[k].Size])
+		dst.WriteString(fmt.Sprintf("complex%v", c.ast.Model.Items[k].Size*8))
 	case cc.Function:
 		dst.WriteString("func(")
 		p, variadic := t.Parameters()

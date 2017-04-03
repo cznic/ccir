@@ -1,4 +1,4 @@
-# Copyright 2017 The IR Authors. All rights reserved.
+# Copyright 2017 The CCIR Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -32,7 +32,7 @@ edit:
 	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.c *.h sys/*h
 
 editor:
-	#TODO go generate
+	go generate
 	indent -linux -l -1 *.c *.h sys/*.h
 
 internalError:

@@ -1,3 +1,9 @@
+//  Copyright 2017 The CCIR Authors. All rights reserved.
+//  Use of this source code is governed by a BSD-style
+//  license that can be found in the LICENSE file.
+
+// +build ignore
+
 #ifndef _BUILTIN_H_
 #define _BUILTIN_H_
 
@@ -27,14 +33,58 @@
 	defined __arch_mips64p32__ || \
 	defined __arch_mips64p32le__ || \
 	defined __arch_ppc64__ || \
-defined __arch_sparc64__
+	defined __arch_sparc64__
 #define __LONG_MAX__ 9223372036854775807l
 #define __SIZEOF_LONG__ 8
 #define __SIZEOF_POINTER__ 8
 #define __ULONG_MAX__ 18446744073709551615ul
 #define __stackAlign 8
 #else
-#error
+#error "unknown/unsupported architecture"
+#endif
+
+#if defined __os_android__
+#define __ANDROID__ 1
+#include <android/api-level.h>
+#elif defined __os_darwin__
+#define __APPLE__ 1
+#define __unix__ 1
+#elif defined __os_dragonfly__
+#define __DragonFly__ 1
+#define __unix__ 1
+#elif defined __os_freebsd__
+#define __FreeBSD__ 1
+#define __unix__ 1
+#elif defined __os_linux__ || defined __os_android__
+#define __linux__ 1
+#define __unix__ 1
+#elif defined __os_nacl__
+#define __pnacl__ 1
+#define __native_client__ 1
+#elif defined __os_netbsd__
+#define __NetBSD__ 1
+#define __unix__ 1
+#elif defined __os_openbsd__
+#define __OpenBSD__ 1
+#define __unix__ 1
+#elif defined __os_plan9__
+#define EPLAN9 1
+#define __unix__ 1
+#elif defined __os_solaris__
+#define sun 1
+#define __sun
+#define __unix__ 1
+#elif defined __os_windows__
+#define _WIN32
+#if sizeof(void*) == 8
+#define _WIN64
+#endif
+#elif defined __os_zos __
+#define __MVS__
+#define __HOS_MVS__
+#define __TOS_MVS__
+#else
+#error "unknown/unsupported OS"
 #endif
 
 #if \
@@ -58,13 +108,15 @@ defined __arch_sparc64__
 	defined __arch_mips64__ || \
 	defined __arch_mips64p32__ || \
 	defined __arch_mips__ || \
-	defined __arch_ppc64__
-defined __arch_ppc__ ||
+	defined __arch_ppc64__ || \
+	defined __arch_ppc__
+
 #define __BYTE_ORDER__ __ORDER_BIG_ENDIAN__
-#error
+#error "unknown/unsupported architecture"
 #endif
 #define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
 #define __CHAR_BIT__ 8
+#define __CLOCK_TYPE__ long
 #define __DBL_MANT_DIG__ 53
 #define __DBL_MAX__ 1.79769313486231570815e+308
 #define __DBL_MIN__ 2.22507385850720138309e-308
@@ -89,6 +141,7 @@ defined __arch_ppc__ ||
 #define __SIZEOF_INT__ 4
 #define __SIZE_TYPE__ unsigned long
 #define __SSIZE_TYPE__ long
+#define __TIME_TYPE__ long
 #define __UINT32_TYPE__ unsigned
 #define __UINT64_TYPE__ unsigned long long
 #define __UINT8_TYPE__ unsigned char

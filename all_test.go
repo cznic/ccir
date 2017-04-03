@@ -69,18 +69,20 @@ func init() {
 // ============================================================================
 
 const (
-	crt0Path = "testdata/include/crt0.c"
+	crt0Path = "include/crt0.c"
 )
 
 var (
 	ccTestdata string
 
-	cpp     = flag.Bool("cpp", false, "")
-	filter  = flag.String("re", "", "")
-	noexec  = flag.Bool("noexec", false, "")
-	oLog    = flag.Bool("log", false, "")
-	trace   = flag.Bool("trc", false, "")
-	yydebug = flag.Int("yydebug", 0, "")
+	cpp      = flag.Bool("cpp", false, "")
+	errLimit = flag.Int("errlimit", 10, "")
+	filter   = flag.String("re", "", "")
+	ndebug   = flag.Bool("ndebug", false, "")
+	noexec   = flag.Bool("noexec", false, "")
+	oLog     = flag.Bool("log", false, "")
+	trace    = flag.Bool("trc", false, "")
+	yydebug  = flag.Int("yydebug", 0, "")
 )
 
 func init() {
@@ -147,11 +149,12 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
 #define __arch_%s__ 1
+#define __os_%s__ 1
 
 #define NO_TRAMPOLINES 1
 
 #include <builtin.h>
-`, modelName),
+`, modelName, runtime.GOOS),
 		src,
 		model,
 		opts...,
@@ -432,7 +435,7 @@ func TestTCC(t *testing.T) {
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableImplicitFuncDef(),
 		cc.ErrLimit(-1),
-		cc.SysIncludePaths([]string{"testdata/include/"}),
+		cc.SysIncludePaths([]string{"include/"}),
 	)
 }
 
@@ -670,7 +673,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableUnsignedEnums(),
 		cc.EnableWideBitFieldTypes(),
 		cc.ErrLimit(-1),
-		cc.SysIncludePaths([]string{"testdata/include/"}),
+		cc.SysIncludePaths([]string{"include/"}),
 	)
 }
 
@@ -742,29 +745,60 @@ func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (
 	return bytes.TrimSpace(append(stdout.Bytes(), stderr.Bytes()...)), resultFiles, duration
 }
 
-func build(t *testing.T, predef string, src []string) (string, *virtual.Binary) {
+func build(t *testing.T, predef string, src []string, opts ...cc.Opt) (string, *virtual.Binary) {
 	modelName := runtime.GOARCH
 	model, err := Model(modelName)
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	var log buffer.Bytes
+	var lpos token.Position
+	if *cpp {
+		opts = append(opts, cc.Cpp(func(toks []xc.Token) {
+			if len(toks) != 0 {
+				p := toks[0].Position()
+				if p.Filename != lpos.Filename {
+					fmt.Fprintf(&log, "# %d %q\n", p.Line, p.Filename)
+				}
+				lpos = p
+			}
+			for _, v := range toks {
+				log.WriteString(cc.TokSrc(v))
+			}
+			log.WriteByte('\n')
+		}))
+	}
+
+	ndbg := ""
+	if *ndebug {
+		ndbg = "#define NDEBUG 1"
+	}
 	ast, err := cc.Parse(
 		fmt.Sprintf(`
+%s
 #define __STDC_HOSTED__ 1
 #define __STDC_VERSION__ 199901L
 #define __STDC__ 1
 #define __arch_%s__ 1
+#define __os_%s__ 1
 
 #include <builtin.h>
 %s
-`, modelName, predef),
+`, ndbg, modelName, runtime.GOOS, predef),
 		append([]string{crt0Path}, src...),
 		model,
-		cc.AllowCompatibleTypedefRedefinitions(),
-		cc.EnableImplicitFuncDef(),
-		cc.SysIncludePaths([]string{"testdata/include/"}),
+		append([]cc.Opt{
+			cc.AllowCompatibleTypedefRedefinitions(),
+			cc.EnableImplicitFuncDef(),
+			cc.ErrLimit(*errLimit),
+			cc.SysIncludePaths([]string{"include/"}),
+		}, opts...)...,
 	)
+	if s := log.Bytes(); len(s) != 0 {
+		t.Logf("\n%s", s)
+		log.Close()
+	}
 	if err != nil {
 		t.Fatal(errStr(err))
 	}
@@ -774,7 +808,6 @@ func build(t *testing.T, predef string, src []string) (string, *virtual.Binary) 
 		t.Fatal(err)
 	}
 
-	var log buffer.Bytes
 	for i, v := range objs {
 		if err := v.Verify(); err != nil {
 			switch x := v.(type) {
@@ -841,8 +874,8 @@ func TestSelfie(t *testing.T) {
 		return
 	}
 
-	modelName, bin := build(t, "", []string{filepath.Join(pth, "selfie.c")})
-	if modelName != "32" {
+	_, bin := build(t, "", []string{filepath.Join(pth, "selfie.c")})
+	if m, _ := Model(runtime.GOARCH); m.Items[cc.Ptr].Size != 4 {
 		return
 	}
 
@@ -950,4 +983,23 @@ exit(0) cycle = 26012`); !bytes.Equal(g, e) {
 	}
 
 	t.Logf("%s\n%s\n%v", args, out, d)
+}
+
+func TestSqlite(t *testing.T) {
+	return //TODO-
+	const repo = "sqlite.org/sqlite-amalgamation-3180000/"
+	pth := findRepo(t, repo)
+	if pth == "" {
+		t.Logf("repository not found, skipping: %v", repo)
+		return
+	}
+
+	_, bin := build(
+		t,
+		"",
+		[]string{"testdata/sqlite/test.c"},
+		cc.EnableNonConstStaticInitExpressions(),
+		cc.IncludePaths([]string{pth}),
+	)
+	_ = bin
 }
