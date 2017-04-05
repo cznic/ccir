@@ -7,4 +7,6 @@
 #ifndef _MEMORY_H_
 #define _MEMORY_H_
 
+#include __header(memory)
+
 #endif				/* _MEMORY_H_ */

@@ -7,12 +7,15 @@
 #ifndef _WCHAR_H_
 #define _WCHAR_H_
 
-#define NULL ((void *)0)
+#include <ctype.h>
+#include <locale.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
 
-typedef __FILE_TYPE__ FILE;
-typedef __LOCALE_TYPE__ locale_t;
-typedef __SIZE_TYPE__ size_t;
-typedef __builtin_va_list va_list;
-typedef __WCHAR_TYPE__ wchar_t;
+#include __header(wchar)
 
 #endif				/* _WCHAR_H_ */

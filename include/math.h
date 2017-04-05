@@ -7,6 +7,9 @@
 #ifndef _MATH_H_
 #define _MATH_H_
 
+#include <float.h>
+
+//TODO
 double acos(double x);
 double asin(double x);
 double atan(double x);
@@ -29,5 +32,7 @@ double tanh(double x);
 int isinf(double x);
 int isinff(float x);
 int isinfl(long double x);
+
+#include __header(math)
 
 #endif				/* _MATH_H_ */

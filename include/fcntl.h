@@ -8,7 +8,7 @@
 #define _FCNTL_H_
 
 #include <stdio.h>
-#include <sys/stat.h>
+//#include <sys/stat.h>
 #include <sys/types.h>
 
 int fcntl(int fd, int cmd, ... /* arg */ );

@@ -7,9 +7,10 @@
 #ifndef _CTYPE_H_
 #define _CTYPE_H_
 
-typedef __LOCALE_TYPE__ locale_t;
+#include <locale.h>
 
-int isprint(int c);
-int tolower(int c);
+#define __int32_t int
+
+#include __header(ctype)
 
 #endif				/* _CTYPE_H_ */

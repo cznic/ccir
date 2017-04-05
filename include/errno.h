@@ -3,14 +3,6 @@
 #ifndef _ERRNO_H_
 #define _ERRNO_H_
 
-int errno = 0;
-
-#define EACCES		13	/* permission denied */
-#define EAGAIN		11	/* resource temporarily unavailable */
-#define EBUSY		16	/* device or resource busy */
-#define EINTR		4	/* interrupted system call */
-#define ENOLCK		37	/* no locks available */
-#define EPERM		1	/* operation not permitted */
-#define ETIMEDOUT		110	/* connection timed out */
+#include __header(errno)
 
 #endif				/* _ERRNO_H_ */

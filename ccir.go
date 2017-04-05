@@ -889,7 +889,7 @@ func (c *c) declaration(n *cc.Declaration, alwaysEvalInitializers bool) {
 			d := l.InitDeclarator.Declarator
 			id, _ := d.Identifier()
 			isFunc := d.Type.Kind() == cc.Function
-			if isFunc && virtual.IsBuiltin(ir.NameID(id)) && !d.Type.Specifier().IsExtern() {
+			if isFunc && virtual.IsBuiltin(ir.NameID(id)) {
 				if _, ok := c.builtins[ir.NameID(id)]; ok {
 					continue
 				}

@@ -4,13 +4,15 @@
 
 // +build ignore
 
-extern int main();
+int main();
+
+void *stdin, *stdout, *stderr;
 
 void _start(int argc, char **argv)
 {
-	__stdstreams[0] = __builtin_fopen("/dev/stdin", "r");
-	__stdstreams[1] = __builtin_fopen("/dev/stdout", "w");
-	__stdstreams[2] = __builtin_fopen("/dev/stderr", "w");
+	stdin = fopen("/dev/stdin", "r");
+	stdout = fopen("/dev/stdout", "w");
+	stderr = fopen("/dev/stderr", "w");
 
-	__builtin_exit(((int (*)())(main)) (argc, argv));
+	exit(((int (*)())main) (argc, argv));
 }

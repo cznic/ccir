@@ -145,15 +145,12 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 	}
 
 	ast, err := cc.Parse(fmt.Sprintf(`
-#define __STDC_HOSTED__ 1
-#define __STDC_VERSION__ 199901L
-#define __STDC__ 1
-#define __arch_%s__ 1
-#define __os_%s__ 1
+#define __arch__ %s
+#define __os__ %s
+#include <builtin.h>
 
 #define NO_TRAMPOLINES 1
-
-#include <builtin.h>
+#define __GNUC__
 `, modelName, runtime.GOOS),
 		src,
 		model,
@@ -432,6 +429,7 @@ func TestTCC(t *testing.T) {
 			}
 		},
 		cc.AllowCompatibleTypedefRedefinitions(),
+		cc.EnableAnonymousStructFields(),
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableImplicitFuncDef(),
 		cc.ErrLimit(-1),
@@ -531,6 +529,7 @@ func TestGCCExec(t *testing.T) {
 		"pr51933.c":    {},
 		"pr52286.c":    {},
 		"pr56205.c":    {},
+		"pr56866.c":    {},
 		"pr56982.c":    {},
 		"pr57344-1.c":  {},
 		"pr57344-2.c":  {},
@@ -615,6 +614,12 @@ func TestGCCExec(t *testing.T) {
 		"pr68381.c":       {}, // __builtin_mul_overflow
 		"pr71554.c":       {}, // __builtin_mul_overflow
 		"va-arg-pack-1.c": {}, // __builtin_va_arg_pack
+
+		// long double
+		"pr39228.c": {},
+
+		// other
+		"conversion.c": {},
 	}
 	wd, err := os.Getwd()
 	if err != nil {
@@ -777,12 +782,8 @@ func build(t *testing.T, predef string, src []string, opts ...cc.Opt) (string, *
 	ast, err := cc.Parse(
 		fmt.Sprintf(`
 %s
-#define __STDC_HOSTED__ 1
-#define __STDC_VERSION__ 199901L
-#define __STDC__ 1
-#define __arch_%s__ 1
-#define __os_%s__ 1
-
+#define __arch__ %s
+#define __os__ %s
 #include <builtin.h>
 %s
 `, ndbg, modelName, runtime.GOOS, predef),
@@ -791,6 +792,7 @@ func build(t *testing.T, predef string, src []string, opts ...cc.Opt) (string, *
 		append([]cc.Opt{
 			cc.AllowCompatibleTypedefRedefinitions(),
 			cc.EnableImplicitFuncDef(),
+			cc.EnableNonConstStaticInitExpressions(),
 			cc.ErrLimit(*errLimit),
 			cc.SysIncludePaths([]string{"include/"}),
 		}, opts...)...,
@@ -997,8 +999,7 @@ func TestSqlite(t *testing.T) {
 	_, bin := build(
 		t,
 		"",
-		[]string{"testdata/sqlite/test.c"},
-		cc.EnableNonConstStaticInitExpressions(),
+		[]string{"testdata/sqlite/test.c", filepath.Join(pth, "sqlite3.c")},
 		cc.IncludePaths([]string{pth}),
 	)
 	_ = bin

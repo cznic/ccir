@@ -7,8 +7,7 @@
 #ifndef _LOCALE_H_
 #define _LOCALE_H_
 
-#define NULL ((void *)0)
-
-typedef __LOCALE_TYPE__ locale_t;
+#include <stddef.h>
+#include __header(locale)
 
 #endif				/* _LOCALE_H_ */

@@ -11,9 +11,9 @@ all: editor
 	go vet 2>&1 | grep -v $(ngrep) || true
 	golint 2>&1 | grep -v $(ngrep) || true
 	make todo
-	unused . || true
+	unused generator.go || true
 	misspell *.go
-	gosimple || true
+	gosimple generator.go || true
 	unconvert || true
 	maligned || true
 
@@ -29,11 +29,12 @@ cpu: clean
 	go tool pprof -lines *.test cpu.out
 
 edit:
-	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.c *.h sys/*h
+	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.go
 
 editor:
-	go generate
+	go generate 2>&1 | tee log
 	indent -linux -l -1 *.c *.h sys/*.h
+	rm -f *.h~ sys/*.h~
 
 internalError:
 	egrep -ho '"internal error.*"' *.go | sort | cat -n

@@ -7,9 +7,8 @@
 #ifndef _SETJMP_H_
 #define _SETJMP_H_
 
-typedef __JMP_BUF_TYPE__ jmp_buf;
+typedef void *__jmp_buf[7];
 
-int setjmp(jmp_buf env);
-void longjmp(jmp_buf env, int val);
+#include __header(setjmp)
 
 #endif				/* _SETJMP_H_ */

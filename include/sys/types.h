@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-typedef __CLOCK_TYPE__ clock_t;
+typedef __clock_t clock_t;
 typedef int pid_t;
 typedef int pthread_attr_t;
 typedef long blkcnt_t;

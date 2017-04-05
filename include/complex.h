@@ -7,7 +7,6 @@
 #ifndef _COMPLEX_H_
 #define _COMPLEX_H_
 
-float cimagf(float complex z);
-float crealf(float complex z);
+#include __header(complex)
 
 #endif				/* _COMPLEX_H_ */
