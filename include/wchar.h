@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-
 #include __header(wchar)
 
 #endif				/* _WCHAR_H_ */

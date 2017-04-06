@@ -7,9 +7,6 @@
 
 #include <sys/types.h>
 #include <time.h>
-
-#define __sig_atomic_t int
-
 #include __header(signal)
 
 #endif				/* _SIGNAL_H_ */

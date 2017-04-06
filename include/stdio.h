@@ -12,7 +12,6 @@
 #include <sys/types.h>
 
 #define EOF (-1)
-#define _G_fpos_t long long
 #define _IO_getc(x) fgetc(x)
 
 #include __header(stdio)

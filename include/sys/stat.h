@@ -9,7 +9,6 @@
 
 #include <time.h>
 #include <sys/types.h>
-
 #include __header(stat)
 
 #endif				/* _SYS_STAT_H_ */

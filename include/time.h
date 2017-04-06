@@ -7,13 +7,12 @@
 #ifndef _TIME_H_
 #define _TIME_H_
 
+typedef int AAAA;
 #include <sys/types.h>
+typedef int BBBB;
 #include <locale.h>
 #include <signal.h>
 #include <stddef.h>
-
-#define __time_t long
-
 #include __header(time)
 
 #endif				/* _TIME_H_ */

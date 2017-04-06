@@ -8,15 +8,8 @@
 #define _PTHREAD_H_
 
 #include <sys/types.h>
-
-#define PTHREAD_MUTEXATTR_INITIALIZER {0, 0}
-#define PTHREAD_MUTEX_INITIALIZER {PTHREAD_MUTEXATTR_INITIALIZER, {0, 0}, {0, 0}, 0, 0}
-
-enum {
-	PTHREAD_MUTEX_NORMAL,
-	PTHREAD_MUTEX_ERRORCHECK,
-	PTHREAD_MUTEX_RECURSIVE,
-	PTHREAD_MUTEX_DEFAULT
-};
+#include <time.h>
+#include <sched.h>
+#include __header(pthread)
 
 #endif				/* _PTHREAD_H_ */

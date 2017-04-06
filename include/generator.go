@@ -11,6 +11,7 @@ import (
 	"flag"
 	"fmt"
 	"go/scanner"
+	"go/token"
 	"log"
 	"os"
 	"path/filepath"
@@ -29,8 +30,10 @@ const (
 )
 
 var (
-	predefined          string
-	include, sysInclude []string
+	dict       = xc.Dict
+	include    []string
+	predefined string
+	sysInclude []string
 )
 
 func errStr(err error) string {
@@ -55,6 +58,8 @@ func errStr(err error) string {
 		return err.Error()
 	}
 }
+
+func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }
 
 func emit(nm string, src string, b []byte) {
 	f, err := os.Create(fmt.Sprintf("%s_%s_%s.h", nm, runtime.GOOS, runtime.GOARCH))
@@ -86,7 +91,7 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 	if m.IsFnLike {
 		var a [][]byte
 		for _, m := range m.Args {
-			a = append(a, xc.Dict.S(m))
+			a = append(a, dict.S(m))
 		}
 		s = fmt.Sprintf("(%s)", bytes.Join(a, []byte(", ")))
 	}
@@ -131,7 +136,7 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 		}
 		s = fmt.Sprintf("%s %v", s, strings.Join(a, " "))
 	}
-	return fmt.Sprintf("#define %s%s", xc.Dict.S(m.DefTok.Val), s)
+	return fmt.Sprintf("#define %s%s", dict.S(m.DefTok.Val), s)
 }
 
 func structOrUnion(b *buffer.Bytes, n *cc.StructOrUnion) {
@@ -141,13 +146,13 @@ func structOrUnion(b *buffer.Bytes, n *cc.StructOrUnion) {
 	case 1: // "union"   // Case 1
 		b.WriteString("union ")
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
 func identifierOpt(b *buffer.Bytes, n *cc.IdentifierOpt) {
 	if n != nil {
-		fmt.Fprintf(b, "%s ", xc.Dict.S(n.Token.Val))
+		fmt.Fprintf(b, "%s ", dict.S(n.Token.Val))
 	}
 }
 
@@ -166,18 +171,18 @@ func specifierQualifierList(b *buffer.Bytes, n *cc.SpecifierQualifierList) {
 		typeQualifier(b, n.TypeQualifier)
 		specifierQualifierListOpt(b, n.SpecifierQualifierListOpt)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
 func typeQualifierList(b *buffer.Bytes, n *cc.TypeQualifierList) {
 	switch n.Case {
 	case 0: // TypeQualifier
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		typeQualifier(b, n.TypeQualifier)
 	case 1: // TypeQualifierList TypeQualifier  // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -197,7 +202,7 @@ func pointer(b *buffer.Bytes, n *cc.Pointer) {
 		typeQualifierListOpt(b, n.TypeQualifierListOpt)
 		pointer(b, n.Pointer)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -212,9 +217,9 @@ func abstractDeclarator(b *buffer.Bytes, n *cc.AbstractDeclarator) {
 	case 0: // Pointer
 		pointer(b, n.Pointer)
 	case 1: // PointerOpt DirectAbstractDeclarator  // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -233,7 +238,7 @@ func parameterDeclaration(b *buffer.Bytes, n *cc.ParameterDeclaration) {
 		declarationSpecifiers(b, n.DeclarationSpecifiers)
 		abstractDeclaratorOpt(b, n.AbstractDeclaratorOpt)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -255,7 +260,7 @@ func parameterTypeList(b *buffer.Bytes, n *cc.ParameterTypeList) {
 		parameterList(b, n.ParameterList)
 		b.WriteString(",...")
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -265,7 +270,7 @@ func expression(b *buffer.Bytes, n *cc.Expression) {
 		return
 	}
 
-	log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+	log.Fatalf("%s: internal error: %v", position(n), n.Case)
 }
 
 func expressionOpt(b *buffer.Bytes, n *cc.ExpressionOpt) {
@@ -277,7 +282,7 @@ func expressionOpt(b *buffer.Bytes, n *cc.ExpressionOpt) {
 func directDeclarator(b *buffer.Bytes, n *cc.DirectDeclarator) {
 	switch n.Case {
 	case 0: // IDENTIFIER
-		fmt.Fprintf(b, "%s ", xc.Dict.S(n.Token.Val))
+		fmt.Fprintf(b, "%s ", dict.S(n.Token.Val))
 	case 1: // '(' Declarator ')'                                                 // Case 1
 		b.WriteByte('(')
 		declarator(b, n.Declarator)
@@ -289,20 +294,20 @@ func directDeclarator(b *buffer.Bytes, n *cc.DirectDeclarator) {
 		expressionOpt(b, n.ExpressionOpt)
 		b.WriteByte(']')
 	case 3: // DirectDeclarator '[' "static" TypeQualifierListOpt Expression ']'  // Case 3
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 4: // DirectDeclarator '[' TypeQualifierList "static" Expression ']'     // Case 4
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 5: // DirectDeclarator '[' TypeQualifierListOpt '*' ']'                  // Case 5
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 6: // DirectDeclarator '(' ParameterTypeList ')'                         // Case 6
 		directDeclarator(b, n.DirectDeclarator)
 		b.WriteByte('(')
 		parameterTypeList(b, n.ParameterTypeList)
 		b.WriteByte(')')
 	case 7: // DirectDeclarator '(' IdentifierListOpt ')'                         // Case 7
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -316,9 +321,9 @@ func structDeclarator(b *buffer.Bytes, n *cc.StructDeclarator) {
 	case 0: // Declarator
 		declarator(b, n.Declarator)
 	case 1: // DeclaratorOpt ':' ConstantExpression  // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -335,11 +340,11 @@ func structDeclaration(b *buffer.Bytes, n *cc.StructDeclaration) {
 		structDeclaratorList(b, n.StructDeclaratorList)
 		b.WriteByte(';')
 	case 1: // SpecifierQualifierList ';'                       // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 2: // StaticAssertDeclaration                          // Case 2
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -359,22 +364,26 @@ func structOrUnionSpecifier(b *buffer.Bytes, n *cc.StructOrUnionSpecifier) {
 		b.WriteByte('}')
 	case 1: // StructOrUnion IDENTIFIER                                   // Case 1
 		structOrUnion(b, n.StructOrUnion)
-		fmt.Fprintf(b, "%s ", xc.Dict.S(n.Token.Val))
+		fmt.Fprintf(b, "%s ", dict.S(n.Token.Val))
 	case 2: // StructOrUnion IdentifierOpt '{' '}'                        // Case 2
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
 func enumerationConstant(b *buffer.Bytes, n *cc.EnumerationConstant) {
-	fmt.Fprintf(b, "%s ", xc.Dict.S(n.Token.Val))
+	fmt.Fprintf(b, "%s ", dict.S(n.Token.Val))
 }
 
 func constantExpression(b *buffer.Bytes, v interface{}, t cc.Type) {
 	switch t.Kind() {
 	case cc.Int:
 		fmt.Fprintf(b, "%v ", v)
+	case cc.UInt:
+		fmt.Fprintf(b, "%vu ", v)
+	case cc.ULong:
+		fmt.Fprintf(b, "%vul ", v)
 	default:
 		log.Fatalf("internal error: %v", t.Kind())
 	}
@@ -383,13 +392,13 @@ func constantExpression(b *buffer.Bytes, v interface{}, t cc.Type) {
 func enumerator(b *buffer.Bytes, n *cc.Enumerator) {
 	switch n.Case {
 	case 0: // EnumerationConstant
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		enumerationConstant(b, n.EnumerationConstant)
 	case 1: // EnumerationConstant '=' ConstantExpression  // Case 1
 		enumerationConstant(b, n.EnumerationConstant)
 		b.WriteByte('=')
 		constantExpression(b, n.ConstantExpression.Value, n.ConstantExpression.Type)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -412,9 +421,9 @@ func enumSpecifier(b *buffer.Bytes, n *cc.EnumSpecifier) {
 		enumeratorList(b, n.EnumeratorList)
 		b.WriteByte('}')
 	case 1: // "enum" IDENTIFIER                                     // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -439,21 +448,21 @@ func typeSpecifier(b *buffer.Bytes, n *cc.TypeSpecifier) {
 	case 8: // "unsigned"                   // Case 8
 		b.WriteString("unsigned ")
 	case 9: // "_Bool"                      // Case 9
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 10: // "_Complex"                   // Case 10
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 11: // StructOrUnionSpecifier       // Case 11
 		structOrUnionSpecifier(b, n.StructOrUnionSpecifier)
 	case 12: // EnumSpecifier                // Case 12
 		enumSpecifier(b, n.EnumSpecifier)
 	case 13: // TYPEDEFNAME                  // Case 13
-		fmt.Fprintf(b, "%s ", xc.Dict.S(n.Token.Val))
+		fmt.Fprintf(b, "%s ", dict.S(n.Token.Val))
 	case 14: // "typeof" '(' Expression ')'  // Case 14
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 15: // "typeof" '(' TypeName ')'    // Case 15
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -470,13 +479,13 @@ func storageClassSpecifier(b *buffer.Bytes, n *cc.StorageClassSpecifier) {
 	case 1: // "extern"    // Case 1
 		b.WriteString("extern ")
 	case 2: // "static"    // Case 2
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 3: // "auto"      // Case 3
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 4: // "register"  // Case 4
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -484,11 +493,11 @@ func typeQualifier(b *buffer.Bytes, n *cc.TypeQualifier) {
 	switch n.Case {
 	case 0: // "const"
 	case 1: // "restrict"  // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 2: // "volatile"  // Case 2
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -504,9 +513,9 @@ func declarationSpecifiers(b *buffer.Bytes, n *cc.DeclarationSpecifiers) {
 		typeQualifier(b, n.TypeQualifier)
 		declarationSpecifiersOpt(b, n.DeclarationSpecifiersOpt)
 	case 3: // FunctionSpecifier DeclarationSpecifiersOpt      // Case 3
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -515,9 +524,9 @@ func initDeclarator(b *buffer.Bytes, n *cc.InitDeclarator) {
 	case 0: // Declarator
 		declarator(b, n.Declarator)
 	case 1: // Declarator '=' Initializer  // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 }
 
@@ -535,7 +544,7 @@ func initDeclaratorListOpt(b *buffer.Bytes, n *cc.InitDeclaratorListOpt) {
 
 func declaration(n *cc.Declaration) (r scanner.ErrorList) {
 	var b buffer.Bytes
-	pos := xc.FileSet.Position(n.Pos())
+	pos := position(n)
 	switch n.Case {
 	case 0: // DeclarationSpecifiers InitDeclaratorListOpt ';'
 		declarationSpecifiers(&b, n.DeclarationSpecifiers)
@@ -543,9 +552,9 @@ func declaration(n *cc.Declaration) (r scanner.ErrorList) {
 		b.WriteByte(';')
 		r.Add(pos, string(b.Bytes()))
 	case 1: // StaticAssertDeclaration                          // Case 1
-		log.Fatalf("%s: TODO: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
-		log.Fatalf("%s: internal error: %v", xc.FileSet.Position(n.Pos()), n.Case)
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
 	b.Close()
 	return r
@@ -561,12 +570,13 @@ func header(nm string) {
 		fmt.Sprintf(`
 #define __os__ %s
 #define __arch__ %s
-#include <builtin.h>
+#include <predefined.h>
 %s
 #include <%s.h>
 `, runtime.GOOS, runtime.GOARCH, morePredefined, nm),
 		nil,
 		m,
+		cc.EnableAnonymousStructFields(),
 		cc.EnableIncludeNext(),
 		cc.IncludePaths(include),
 		cc.SysIncludePaths(sysInclude),
@@ -590,7 +600,7 @@ func header(nm string) {
 	}
 	for l := ast; l != nil; l = l.TranslationUnit {
 		n := l.ExternalDeclaration
-		pos := xc.FileSet.Position(n.Pos())
+		pos := position(n)
 		if filepath.Base(pos.Filename) != base {
 			continue
 		}
@@ -617,7 +627,7 @@ func header(nm string) {
 	emit(nm, src, []byte(strings.Join(a, "\n")))
 }
 
-func builtin() {
+func cppMacros() {
 	a := strings.Split(predefined, "\n")
 	w := 0
 	for _, v := range a {
@@ -629,20 +639,20 @@ func builtin() {
 		a[w] = v
 		w++
 	}
-	emit("builtin", "cpp", []byte(strings.Join(a[:w], "\n")))
+	emit("predefined", "cpp", []byte(strings.Join(a[:w], "\n")))
 }
 
 func main() {
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile)
-	oBuiltin := flag.Bool("builtin", false, "")
+	oPredefined := flag.Bool("predefined", false, "")
 	flag.Parse()
 	var err error
 	if predefined, include, sysInclude, err = cc.HostConfig("-std=c99"); err != nil {
 		log.Fatal(err)
 	}
 
-	if *oBuiltin {
-		builtin()
+	if *oPredefined {
+		cppMacros()
 		return
 	}
 
@@ -652,11 +662,14 @@ func main() {
 		"ctype",
 		"dlfcn",
 		"errno",
+		"fcntl",
 		"float",
 		"limits",
 		"locale",
 		"math",
 		"memory",
+		"pthread",
+		"sched",
 		"setjmp",
 		"signal",
 		"stdarg",
@@ -671,10 +684,11 @@ func main() {
 		"sys/select",
 		"sys/stat",
 		"sys/time",
+		"sys/types",
+		"sys/wait",
 		"time",
+		"unistd",
 		"wchar",
-		//TODO "fcntl",
-		//TODO "unistd",
 	} {
 		header(v)
 	}

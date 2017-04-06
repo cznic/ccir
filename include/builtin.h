@@ -7,19 +7,14 @@
 #ifndef _BUILTIN_H_
 #define _BUILTIN_H_
 
-#define __str(x) #x
-#define ____header(name, os, arch) __str(name##_##os##_##arch.h)
-#define ___header(name, os, arch) ____header(name, os, arch)
-#define __header(name) ___header(name, __os__, __arch__)
+#include <predefined.h>
 
-#include __header(builtin)
-
-//TODO int128
-#undef __SIZEOF_INT128__
+typedef int __sig_atomic_t;
+typedef long long _G_fpos_t;
 
 #define __FUNCTION__ __func__
 #define __attribute(x)
-#define __attribute__(xyz)
+#define __attribute__(x)
 #define __builtin_choose_expr(a, b, c) (a) ? (b) : (c)
 #define __builtin_expect(exp, c) (exp)
 #define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
@@ -29,14 +24,12 @@
 #define __builtin_va_arg(ap, type) *(type*)(ap -= __roundup(sizeof(type), __SIZEOF_POINTER__))
 #define __builtin_va_copy(dest, src) dest = src
 #define __builtin_va_end(ap) ap = 0
-#define __builtin_va_list char*
 #define __builtin_va_start(ap, arg) ap = (__builtin_va_list)(&arg)
-#define __clock_t long
 #define __complex__ _Complex
 #define __const const
 #define __extension__
-#define __inline
-#define __restrict
+#define __inline inline
+#define __restrict restrict
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
 #define __volatile volatile
 

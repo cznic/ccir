@@ -4,7 +4,7 @@
 
 .PHONY:	all clean cover cpu editor internalError later mem nuke todo edit
 
-grep=--include=*.go --include=*.l --include=*.y --include=*.yy
+grep=--include=*.go --include=*.l --include=*.y --include=*.yy --include=*.h
 ngrep='TODOOK\|parser\.go\|scanner\.go\|.*_string\.go'
 
 all: editor
@@ -12,10 +12,7 @@ all: editor
 	golint 2>&1 | grep -v $(ngrep) || true
 	make todo
 	unused generator.go || true
-	misspell *.go
 	gosimple generator.go || true
-	unconvert || true
-	maligned || true
 
 clean:
 	go clean
@@ -32,6 +29,7 @@ edit:
 	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.go
 
 editor:
+	gofmt -l -s -w *.go
 	go generate 2>&1 | tee log
 	indent -linux -l -1 *.c *.h sys/*.h
 	rm -f *.h~ sys/*.h~

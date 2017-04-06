@@ -7,7 +7,6 @@
 
 #include <sys/types.h>
 #include <sys/select.h>
-
 #include __header(time)
 
 #endif				/* _SYS_TIME_H_ */

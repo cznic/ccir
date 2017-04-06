@@ -4,11 +4,11 @@
 
 // +build ignore
 
-#ifndef _SETJMP_H_
-#define _SETJMP_H_
+#ifndef _SCHED_H_
+#define _SCHED_H_
 
-//TODO wrong size for __386__
+#include <sys/types.h>
+#include <time.h>
+#include __header(sched)
 
-#include __header(setjmp)
-
-#endif				/* _SETJMP_H_ */
+#endif				/* _SCHED_H_ */

@@ -11,21 +11,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
-
-char *getcwd(char *buf, size_t size);
-int access(const char *pathname, int mode);
-int chown(const char *pathname, uid_t owner, gid_t group);
-int close(int fd);
-int fchown(int fd, uid_t owner, gid_t group);
-int ftruncate(int fd, off_t length);
-int lchown(const char *pathname, uid_t owner, gid_t group);
-int rmdir(const char *pathname);
-int truncate(const char *path, off_t length);
-int unlink(const char *pathname);
-ssize_t read(int fd, void *buf, size_t count);
-ssize_t readlink(const char *pathname, char *buf, size_t bufsiz);
-ssize_t write(int fd, const void *buf, size_t count);
-uid_t geteuid(void);
-uid_t getuid(void);
+#include __header(unistd)
 
 #endif				/* _UNISTD_H_ */

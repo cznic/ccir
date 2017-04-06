@@ -8,7 +8,7 @@
 #define CLOCKS_PER_SEC ( ( clock_t ) 1000000 )
 #define _TIME_H 1
 #define __clock_t_defined 1
-typedef long clock_t;
+typedef __clock_t clock_t;
 #define __time_t_defined 1
 typedef __time_t time_t;
 struct tm {
