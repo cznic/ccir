@@ -15,10 +15,3 @@ typedef __pid_t pid_t;
 extern int fcntl(int __fd, int __cmd, ...);
 extern int open(char *__file, int __oflag, ...);
 extern int creat(char *__file, mode_t __mode);
-struct flock {
-	short int l_type;
-	short int l_whence;
-	__off_t l_start;
-	__off_t l_len;
-	__pid_t l_pid;
-};

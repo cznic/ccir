@@ -16,5 +16,3 @@ extern int __sigsetjmp(struct __jmp_buf_tag __env[1], int __savemask);
 extern int _setjmp(struct __jmp_buf_tag __env[1]);
 #define setjmp(env) _setjmp ( env )
 extern void longjmp(struct __jmp_buf_tag __env[1], int __val);
-#define _BITS_SETJMP_H 1
-typedef long int __jmp_buf[8];

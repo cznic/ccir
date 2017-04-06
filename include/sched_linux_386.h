@@ -4,38 +4,6 @@
 
 // source: /usr/include/sched.h
 
-#define SCHED_OTHER 0
-#define SCHED_FIFO 1
-#define SCHED_RR 2
-struct sched_param {
-	int __sched_priority;
-};
-#define __defined_schedparam 1
-struct __sched_param {
-	int __sched_priority;
-};
-#define __cpu_set_t_defined
-#define __CPU_SETSIZE 1024
-#define __NCPUBITS ( 8 * sizeof ( __cpu_mask ) )
-typedef unsigned long int __cpu_mask;
-#define __CPUELT(cpu) ( ( cpu ) / __NCPUBITS )
-#define __CPUMASK(cpu) ( ( __cpu_mask ) 1 << ( ( cpu ) % __NCPUBITS ) )
-typedef struct {
-	__cpu_mask __bits[32u];
-} cpu_set_t;
-#define __CPU_ZERO_S(setsize, cpusetp) do { size_t __i ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; __cpu_mask * __bits = ( cpusetp ) -> __bits ; for ( __i = 0 ; __i < __imax ; ++ __i ) __bits [ __i ] = 0 ; } while ( 0 )
-#define __CPU_SET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] |= __CPUMASK ( __cpu ) ) : 0 ; } ) )
-#define __CPU_CLR_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] &= ~ __CPUMASK ( __cpu ) ) : 0 ; } ) )
-#define __CPU_ISSET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( ( const __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] & __CPUMASK ( __cpu ) ) ) != 0 : 0 ; } ) )
-#define __CPU_COUNT_S(setsize, cpusetp) __sched_cpucount ( setsize , cpusetp )
-#define __CPU_EQUAL_S(setsize, cpusetp1, cpusetp2) ( __extension__ ( { const __cpu_mask * __arr1 = ( cpusetp1 ) -> __bits ; const __cpu_mask * __arr2 = ( cpusetp2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) if ( __arr1 [ __i ] != __arr2 [ __i ] ) break ; __i == __imax ; } ) )
-#define __CPU_OP_S(setsize, destset, srcset1, srcset2, op) ( __extension__ ( { cpu_set_t * __dest = ( destset ) ; const __cpu_mask * __arr1 = ( srcset1 ) -> __bits ; const __cpu_mask * __arr2 = ( srcset2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) ( ( __cpu_mask * ) __dest -> __bits ) [ __i ] = __arr1 [ __i ] op __arr2 [ __i ] ; __dest ; } ) )
-#define __CPU_ALLOC_SIZE(count) ( ( ( ( count ) + __NCPUBITS - 1 ) / __NCPUBITS ) * sizeof ( __cpu_mask ) )
-#define __CPU_ALLOC(count) __sched_cpualloc ( count )
-#define __CPU_FREE(cpuset) __sched_cpufree ( cpuset )
-extern int __sched_cpucount(size_t __setsize, cpu_set_t * __setp);
-extern cpu_set_t *__sched_cpualloc(size_t __count);
-extern void __sched_cpufree(cpu_set_t * __set);
 #define _SCHED_H 1
 typedef __pid_t pid_t;
 #define __pid_t_defined

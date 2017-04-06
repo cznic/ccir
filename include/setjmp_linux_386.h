@@ -4,8 +4,6 @@
 
 // source: /usr/include/setjmp.h
 
-#define _BITS_SETJMP_H 1
-typedef int __jmp_buf[6];
 #define _SETJMP_H 1
 struct __jmp_buf_tag {
 	__jmp_buf __jmpbuf;

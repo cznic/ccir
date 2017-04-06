@@ -7,12 +7,15 @@
 #ifndef _TIME_H_
 #define _TIME_H_
 
-typedef int AAAA;
 #include <sys/types.h>
-typedef int BBBB;
 #include <locale.h>
 #include <signal.h>
 #include <stddef.h>
 #include __header(time)
+
+struct timespec {
+	time_t tv_sec;		// Seconds. 
+	long tv_nsec;		// Nanoseconds. 
+};
 
 #endif				/* _TIME_H_ */

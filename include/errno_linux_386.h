@@ -2,7 +2,7 @@
 
 // +build ignore
 
-// source: /usr/include/i386-linux-gnu/bits/errno.h
+// source: /usr/include/asm-generic/errno.h
 
 #define _ASM_GENERIC_ERRNO_H
 #define EDEADLK 35
@@ -105,6 +105,3 @@
 #define ERFKILL 132
 #define EHWPOISON 133
 #define _ERRNO_H 1
-#define ENOTSUP EOPNOTSUPP
-extern int *__errno_location(void);
-#define errno ( * __errno_location ( ) )

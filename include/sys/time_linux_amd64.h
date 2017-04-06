@@ -6,11 +6,6 @@
 
 #define __time_t_defined 1
 typedef __time_t time_t;
-#define _STRUCT_TIMEVAL 1
-struct timeval {
-	__time_t tv_sec;
-	__suseconds_t tv_usec;
-};
 #define _SYS_TIME_H 1
 typedef void *__timezone_ptr_t;
 extern int gettimeofday(struct timeval *__tv, __timezone_ptr_t __tz);

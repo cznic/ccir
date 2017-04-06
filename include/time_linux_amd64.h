@@ -35,5 +35,3 @@ extern char *__tzname[2];
 extern int __daylight;
 extern long int __timezone;
 #define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
-#define _BITS_TIME_H 1
-#define CLOCKS_PER_SEC ( ( clock_t ) 1000000 )

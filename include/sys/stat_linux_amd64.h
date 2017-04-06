@@ -4,51 +4,6 @@
 
 // source: /usr/include/x86_64-linux-gnu/sys/stat.h
 
-#define _BITS_STAT_H 1
-#define _STAT_VER_KERNEL 0
-#define _STAT_VER_LINUX 1
-#define _MKNOD_VER_LINUX 0
-#define _STAT_VER _STAT_VER_LINUX
-struct stat {
-	__dev_t st_dev;
-	__ino_t st_ino;
-	__nlink_t st_nlink;
-	__mode_t st_mode;
-	__uid_t st_uid;
-	__gid_t st_gid;
-	int __pad0;
-	__dev_t st_rdev;
-	__off_t st_size;
-	__blksize_t st_blksize;
-	__blkcnt_t st_blocks;
-	__time_t st_atime;
-	__syscall_ulong_t st_atimensec;
-	__time_t st_mtime;
-	__syscall_ulong_t st_mtimensec;
-	__time_t st_ctime;
-	__syscall_ulong_t st_ctimensec;
-	__syscall_slong_t __glibc_reserved[3];
-};
-#define _STATBUF_ST_BLKSIZE
-#define _STATBUF_ST_RDEV
-#define _STATBUF_ST_NSEC
-#define __S_IFMT 61440
-#define __S_IFDIR 16384
-#define __S_IFCHR 8192
-#define __S_IFBLK 24576
-#define __S_IFREG 32768
-#define __S_IFIFO 4096
-#define __S_IFLNK 40960
-#define __S_IFSOCK 49152
-#define __S_TYPEISMQ(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-#define __S_TYPEISSEM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-#define __S_TYPEISSHM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-#define __S_ISUID 2048
-#define __S_ISGID 1024
-#define __S_ISVTX 512
-#define __S_IREAD 256
-#define __S_IWRITE 128
-#define __S_IEXEC 64
 #define _SYS_STAT_H 1
 #define __S_ISTYPE(mode, mask) ( ( ( mode ) & __S_IFMT ) == ( mask ) )
 #define S_ISDIR(mode) __S_ISTYPE ( ( mode ) , __S_IFDIR )

@@ -4,8 +4,6 @@
 
 // source: /usr/include/time.h
 
-#define _BITS_TIME_H 1
-#define CLOCKS_PER_SEC ( ( clock_t ) 1000000 )
 #define _TIME_H 1
 #define __clock_t_defined 1
 typedef __clock_t clock_t;

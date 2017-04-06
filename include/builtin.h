@@ -9,9 +9,6 @@
 
 #include <predefined.h>
 
-typedef int __sig_atomic_t;
-typedef long long _G_fpos_t;
-
 #define __FUNCTION__ __func__
 #define __attribute(x)
 #define __attribute__(x)
@@ -32,6 +29,45 @@ typedef long long _G_fpos_t;
 #define __restrict restrict
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
 #define __volatile volatile
+
+typedef int __int32_t;
+typedef int __sig_atomic_t;
+typedef int __uid_t;
+typedef long blksize_t;
+typedef long __gid_t;
+typedef long __pid_t;
+typedef long __ssize_t;
+typedef long __suseconds_t;
+typedef long __time_t;
+typedef long long _G_fpos_t;
+typedef long long __blkcnt_t;
+typedef long long __clock_t;
+typedef long long __loff_t;
+typedef long long __off_t;
+typedef struct pthread_attr_t pthread_attr_t;
+typedef struct pthread_cond_t pthread_cond_t;
+typedef struct pthread_condattr_t pthread_condattr_t;
+typedef struct pthread_key_t pthread_key_t;
+typedef struct pthread_mutex_t pthread_mutex_t;
+typedef struct pthread_mutexattr_t pthread_mutexattr_t;
+typedef struct pthread_once_t pthread_once_t;
+typedef struct pthread_t pthread_t;
+typedef unsigned __mode_t;
+typedef unsigned __nlink_t;
+typedef unsigned long long __dev_t;
+typedef unsigned long long __fsblkcnt_t;
+typedef unsigned long long __fsfilcnt_t;
+typedef unsigned long long __ino_t;
+typedef unsigned long long __sigset_t;
+typedef void *__jmp_buf[7];
+
+struct pthread_mutex_t {
+	int _;
+};
+
+struct pthread_t {
+	int _;
+};
 
 __SIZE_TYPE__ __builtin_strlen(char *__s);
 __UINT64_TYPE__ __builtin_bswap64(__UINT64_TYPE__ x);

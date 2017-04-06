@@ -91,6 +91,3 @@ extern wchar_t *fgetws(wchar_t * __ws, int __n, __FILE * __stream);
 extern int fputws(wchar_t * __ws, __FILE * __stream);
 extern wint_t ungetwc(wint_t __wc, __FILE * __stream);
 extern size_t wcsftime(wchar_t * __s, size_t __maxsize, wchar_t * __format, struct tm *__tp);
-#define _BITS_WCHAR_H 1
-#define __WCHAR_MAX __WCHAR_MAX__
-#define __WCHAR_MIN __WCHAR_MIN__

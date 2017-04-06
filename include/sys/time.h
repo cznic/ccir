@@ -7,6 +7,12 @@
 
 #include <sys/types.h>
 #include <sys/select.h>
-#include __header(time)
+
+struct timeval {
+	__time_t tv_sec;
+	__suseconds_t tv_usec;
+};
+
+#include __header(sys/time)
 
 #endif				/* _SYS_TIME_H_ */

@@ -4,9 +4,6 @@
 
 // source: /usr/include/wchar.h
 
-#define _BITS_WCHAR_H 1
-#define __WCHAR_MAX __WCHAR_MAX__
-#define __WCHAR_MIN __WCHAR_MIN__
 #define _WCHAR_H 1
 #define ____mbstate_t_defined 1
 typedef struct {

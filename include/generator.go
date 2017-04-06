@@ -30,10 +30,13 @@ const (
 )
 
 var (
-	dict       = xc.Dict
-	include    []string
-	predefined string
-	sysInclude []string
+	dict        = xc.Dict
+	include     []string
+	oDebug      = flag.String("debug", "", "")
+	oPos        = flag.Bool("pos", false, "")
+	oPredefined = flag.Bool("predefined", false, "")
+	predefined  string
+	sysInclude  []string
 )
 
 func errStr(err error) string {
@@ -114,7 +117,7 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 	switch {
 	case len(repl) != 0 && m.Value != nil && repl[0].Rune != cc.IDENTIFIER:
 		switch m.Type.Kind() {
-		case cc.Int, cc.Float:
+		case cc.Int, cc.Float, cc.Ptr:
 			s = fmt.Sprintf("%s %v", s, m.Value)
 		case cc.UInt:
 			s = fmt.Sprintf("%s %vu", s, m.Value)
@@ -382,6 +385,8 @@ func constantExpression(b *buffer.Bytes, v interface{}, t cc.Type) {
 		fmt.Fprintf(b, "%v ", v)
 	case cc.UInt:
 		fmt.Fprintf(b, "%vu ", v)
+	case cc.Long:
+		fmt.Fprintf(b, "%vl ", v)
 	case cc.ULong:
 		fmt.Fprintf(b, "%vul ", v)
 	default:
@@ -450,7 +455,7 @@ func typeSpecifier(b *buffer.Bytes, n *cc.TypeSpecifier) {
 	case 9: // "_Bool"                      // Case 9
 		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 10: // "_Complex"                   // Case 10
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+		b.WriteString("_Complex ")
 	case 11: // StructOrUnionSpecifier       // Case 11
 		structOrUnionSpecifier(b, n.StructOrUnionSpecifier)
 	case 12: // EnumSpecifier                // Case 12
@@ -479,7 +484,7 @@ func storageClassSpecifier(b *buffer.Bytes, n *cc.StorageClassSpecifier) {
 	case 1: // "extern"    // Case 1
 		b.WriteString("extern ")
 	case 2: // "static"    // Case 2
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+		b.WriteString("static ")
 	case 3: // "auto"      // Case 3
 		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 4: // "register"  // Case 4
@@ -519,12 +524,26 @@ func declarationSpecifiers(b *buffer.Bytes, n *cc.DeclarationSpecifiers) {
 	}
 }
 
+func initializer(b *buffer.Bytes, n *cc.Initializer) {
+	switch n.Case {
+	case 0: // Expression
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+	case 2: // IDENTIFIER ':' Initializer        // Case 2
+		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+	default:
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
+	}
+}
 func initDeclarator(b *buffer.Bytes, n *cc.InitDeclarator) {
 	switch n.Case {
 	case 0: // Declarator
 		declarator(b, n.Declarator)
 	case 1: // Declarator '=' Initializer  // Case 1
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+		declarator(b, n.Declarator)
+		b.WriteByte('=')
+		initializer(b, n.Initializer)
 	default:
 		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
@@ -560,6 +579,14 @@ func declaration(n *cc.Declaration) (r scanner.ErrorList) {
 	return r
 }
 
+func filter(nm, base, path string) bool {
+	if d := *oDebug; d != "" && d == nm {
+		return false
+	}
+
+	return filepath.Base(path) != base || strings.Contains(filepath.ToSlash(path), "/bits/")
+}
+
 func header(nm string) {
 	m, err := ccir.Model(runtime.GOARCH)
 	if err != nil {
@@ -591,7 +618,7 @@ func header(nm string) {
 	base = fmt.Sprintf("%s.h", base)
 	for _, v := range ast.Macros {
 		pos := v.DefTok.Position()
-		if filepath.Base(pos.Filename) != base {
+		if filter(nm, base, pos.Filename) {
 			continue
 		}
 
@@ -601,7 +628,7 @@ func header(nm string) {
 	for l := ast; l != nil; l = l.TranslationUnit {
 		n := l.ExternalDeclaration
 		pos := position(n)
-		if filepath.Base(pos.Filename) != base {
+		if filter(nm, base, pos.Filename) {
 			continue
 		}
 
@@ -622,6 +649,9 @@ func header(nm string) {
 	out.Sort()
 	var a []string
 	for _, v := range out {
+		if *oPos || *oDebug == nm {
+			v.Msg = fmt.Sprintf("%s // %s", v.Msg, v.Pos)
+		}
 		a = append(a, v.Msg)
 	}
 	emit(nm, src, []byte(strings.Join(a, "\n")))
@@ -644,7 +674,6 @@ func cppMacros() {
 
 func main() {
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile)
-	oPredefined := flag.Bool("predefined", false, "")
 	flag.Parse()
 	var err error
 	if predefined, include, sysInclude, err = cc.HostConfig("-std=c99"); err != nil {
