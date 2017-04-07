@@ -12,13 +12,4 @@
 #include <sched.h>
 #include __header(pthread)
 
-#undef PTHREAD_MUTEX_INITIALIZER
-#define PTHREAD_MUTEX_INITIALIZER 0
-
-enum {
-	PTHREAD_MUTEX_RECURSIVE
-};
-
-int pthread_mutexattr_settype(pthread_mutexattr_t *, int);
-
 #endif				/* _PTHREAD_H_ */

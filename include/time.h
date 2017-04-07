@@ -13,9 +13,4 @@
 #include <stddef.h>
 #include __header(time)
 
-struct timespec {
-	time_t tv_sec;		// Seconds. 
-	long tv_nsec;		// Nanoseconds. 
-};
-
 #endif				/* _TIME_H_ */

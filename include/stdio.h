@@ -10,10 +10,9 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <sys/types.h>
-
-#define EOF (-1)
-#define _IO_getc(x) fgetc(x)
-
 #include __header(stdio)
+
+#undef getc
+#define getc(x) fgetc(x)
 
 #endif				/* _STDIO_H_ */

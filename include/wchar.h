@@ -12,9 +12,9 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include __header(wchar)
+#include <stdio.h>
 
 #endif				/* _WCHAR_H_ */

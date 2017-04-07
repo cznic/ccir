@@ -2,9 +2,27 @@
 
 // +build ignore
 
-// source: /usr/include/locale.h
+// ----------------------------------------------------------------------------
+//      /usr/include/locale.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
-#define _LOCALE_H 1
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
+#define _LOCALE_H (1)
 #define LC_CTYPE __LC_CTYPE
 #define LC_NUMERIC __LC_NUMERIC
 #define LC_TIME __LC_TIME
@@ -46,3 +64,17 @@ struct lconv {
 };
 extern char *setlocale(int __category, char *__locale);
 extern struct lconv *localeconv(void);
+#define _BITS_LOCALE_H (1)
+#define __LC_CTYPE (0)
+#define __LC_NUMERIC (1)
+#define __LC_TIME (2)
+#define __LC_COLLATE (3)
+#define __LC_MONETARY (4)
+#define __LC_MESSAGES (5)
+#define __LC_ALL (6)
+#define __LC_PAPER (7)
+#define __LC_NAME (8)
+#define __LC_ADDRESS (9)
+#define __LC_TELEPHONE (10)
+#define __LC_MEASUREMENT (11)
+#define __LC_IDENTIFICATION (12)

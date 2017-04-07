@@ -2,8 +2,6 @@
 
 // +build ignore
 
-// source: cpp
-
 #define __SSP_STRONG__ 3
 #define __DBL_MIN_EXP__ (-1021)
 #define __pentiumpro__ 1

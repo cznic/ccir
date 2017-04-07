@@ -2,9 +2,389 @@
 
 // +build ignore
 
-// source: /usr/include/math.h
+// ----------------------------------------------------------------------------
+//      /usr/include/x86_64-linux-gnu/bits/mathdef.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 2001-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
-#define _MATH_H 1
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
+#define _MATH_H_MATHDEF (1)
+typedef float float_t;
+typedef double double_t;
+#define FP_ILOGB0 (-2147483648)
+#define FP_ILOGBNAN (-2147483648)
+extern double __acos(double __x);
+extern double acos(double __x);
+extern float __acosf(float __x);
+extern float acosf(float __x);
+extern long double __acosl(long double __x);
+extern long double acosl(long double __x);
+extern double __asin(double __x);
+extern double asin(double __x);
+extern float __asinf(float __x);
+extern float asinf(float __x);
+extern long double __asinl(long double __x);
+extern long double asinl(long double __x);
+extern double __atan(double __x);
+extern double atan(double __x);
+extern float __atanf(float __x);
+extern float atanf(float __x);
+extern long double __atanl(long double __x);
+extern long double atanl(long double __x);
+extern double __atan2(double __y, double __x);
+extern double atan2(double __y, double __x);
+extern float __atan2f(float __y, float __x);
+extern float atan2f(float __y, float __x);
+extern long double __atan2l(long double __y, long double __x);
+extern long double atan2l(long double __y, long double __x);
+extern double __cos(double __x);
+extern double cos(double __x);
+extern float __cosf(float __x);
+extern float cosf(float __x);
+extern long double __cosl(long double __x);
+extern long double cosl(long double __x);
+extern double __sin(double __x);
+extern double sin(double __x);
+extern float __sinf(float __x);
+extern float sinf(float __x);
+extern long double __sinl(long double __x);
+extern long double sinl(long double __x);
+extern double __tan(double __x);
+extern double tan(double __x);
+extern float __tanf(float __x);
+extern float tanf(float __x);
+extern long double __tanl(long double __x);
+extern long double tanl(long double __x);
+extern double __cosh(double __x);
+extern double cosh(double __x);
+extern float __coshf(float __x);
+extern float coshf(float __x);
+extern long double __coshl(long double __x);
+extern long double coshl(long double __x);
+extern double __sinh(double __x);
+extern double sinh(double __x);
+extern float __sinhf(float __x);
+extern float sinhf(float __x);
+extern long double __sinhl(long double __x);
+extern long double sinhl(long double __x);
+extern double __tanh(double __x);
+extern double tanh(double __x);
+extern float __tanhf(float __x);
+extern float tanhf(float __x);
+extern long double __tanhl(long double __x);
+extern long double tanhl(long double __x);
+extern double __acosh(double __x);
+extern double acosh(double __x);
+extern float __acoshf(float __x);
+extern float acoshf(float __x);
+extern long double __acoshl(long double __x);
+extern long double acoshl(long double __x);
+extern double __asinh(double __x);
+extern double asinh(double __x);
+extern float __asinhf(float __x);
+extern float asinhf(float __x);
+extern long double __asinhl(long double __x);
+extern long double asinhl(long double __x);
+extern double __atanh(double __x);
+extern double atanh(double __x);
+extern float __atanhf(float __x);
+extern float atanhf(float __x);
+extern long double __atanhl(long double __x);
+extern long double atanhl(long double __x);
+extern double __exp(double __x);
+extern double exp(double __x);
+extern float __expf(float __x);
+extern float expf(float __x);
+extern long double __expl(long double __x);
+extern long double expl(long double __x);
+extern double __frexp(double __x, int *__exponent);
+extern double frexp(double __x, int *__exponent);
+extern float __frexpf(float __x, int *__exponent);
+extern float frexpf(float __x, int *__exponent);
+extern long double __frexpl(long double __x, int *__exponent);
+extern long double frexpl(long double __x, int *__exponent);
+extern double __ldexp(double __x, int __exponent);
+extern double ldexp(double __x, int __exponent);
+extern float __ldexpf(float __x, int __exponent);
+extern float ldexpf(float __x, int __exponent);
+extern long double __ldexpl(long double __x, int __exponent);
+extern long double ldexpl(long double __x, int __exponent);
+extern double __log(double __x);
+extern double log(double __x);
+extern float __logf(float __x);
+extern float logf(float __x);
+extern long double __logl(long double __x);
+extern long double logl(long double __x);
+extern double __log10(double __x);
+extern double log10(double __x);
+extern float __log10f(float __x);
+extern float log10f(float __x);
+extern long double __log10l(long double __x);
+extern long double log10l(long double __x);
+extern double __modf(double __x, double *__iptr);
+extern double modf(double __x, double *__iptr);
+extern float __modff(float __x, float *__iptr);
+extern float modff(float __x, float *__iptr);
+extern long double __modfl(long double __x, long double *__iptr);
+extern long double modfl(long double __x, long double *__iptr);
+extern double __expm1(double __x);
+extern double expm1(double __x);
+extern float __expm1f(float __x);
+extern float expm1f(float __x);
+extern long double __expm1l(long double __x);
+extern long double expm1l(long double __x);
+extern double __log1p(double __x);
+extern double log1p(double __x);
+extern float __log1pf(float __x);
+extern float log1pf(float __x);
+extern long double __log1pl(long double __x);
+extern long double log1pl(long double __x);
+extern double __logb(double __x);
+extern double logb(double __x);
+extern float __logbf(float __x);
+extern float logbf(float __x);
+extern long double __logbl(long double __x);
+extern long double logbl(long double __x);
+extern double __exp2(double __x);
+extern double exp2(double __x);
+extern float __exp2f(float __x);
+extern float exp2f(float __x);
+extern long double __exp2l(long double __x);
+extern long double exp2l(long double __x);
+extern double __log2(double __x);
+extern double log2(double __x);
+extern float __log2f(float __x);
+extern float log2f(float __x);
+extern long double __log2l(long double __x);
+extern long double log2l(long double __x);
+extern double __pow(double __x, double __y);
+extern double pow(double __x, double __y);
+extern float __powf(float __x, float __y);
+extern float powf(float __x, float __y);
+extern long double __powl(long double __x, long double __y);
+extern long double powl(long double __x, long double __y);
+extern double __sqrt(double __x);
+extern double sqrt(double __x);
+extern float __sqrtf(float __x);
+extern float sqrtf(float __x);
+extern long double __sqrtl(long double __x);
+extern long double sqrtl(long double __x);
+extern double __hypot(double __x, double __y);
+extern double hypot(double __x, double __y);
+extern float __hypotf(float __x, float __y);
+extern float hypotf(float __x, float __y);
+extern long double __hypotl(long double __x, long double __y);
+extern long double hypotl(long double __x, long double __y);
+extern double __cbrt(double __x);
+extern double cbrt(double __x);
+extern float __cbrtf(float __x);
+extern float cbrtf(float __x);
+extern long double __cbrtl(long double __x);
+extern long double cbrtl(long double __x);
+extern double __ceil(double __x);
+extern double ceil(double __x);
+extern float __ceilf(float __x);
+extern float ceilf(float __x);
+extern long double __ceill(long double __x);
+extern long double ceill(long double __x);
+extern double __fabs(double __x);
+extern double fabs(double __x);
+extern float __fabsf(float __x);
+extern float fabsf(float __x);
+extern long double __fabsl(long double __x);
+extern long double fabsl(long double __x);
+extern double __floor(double __x);
+extern double floor(double __x);
+extern float __floorf(float __x);
+extern float floorf(float __x);
+extern long double __floorl(long double __x);
+extern long double floorl(long double __x);
+extern double __fmod(double __x, double __y);
+extern double fmod(double __x, double __y);
+extern float __fmodf(float __x, float __y);
+extern float fmodf(float __x, float __y);
+extern long double __fmodl(long double __x, long double __y);
+extern long double fmodl(long double __x, long double __y);
+extern int __isinf(double __value);
+extern int __isinff(float __value);
+extern int __isinfl(long double __value);
+extern int __finite(double __value);
+extern int __finitef(float __value);
+extern int __finitel(long double __value);
+extern double __copysign(double __x, double __y);
+extern double copysign(double __x, double __y);
+extern float __copysignf(float __x, float __y);
+extern float copysignf(float __x, float __y);
+extern long double __copysignl(long double __x, long double __y);
+extern long double copysignl(long double __x, long double __y);
+extern double __nan(char *__tagb);
+extern double nan(char *__tagb);
+extern float __nanf(char *__tagb);
+extern float nanf(char *__tagb);
+extern long double __nanl(char *__tagb);
+extern long double nanl(char *__tagb);
+extern int __isnan(double __value);
+extern int __isnanf(float __value);
+extern int __isnanl(long double __value);
+extern double __erf(double);
+extern double erf(double);
+extern float __erff(float);
+extern float erff(float);
+extern long double __erfl(long double);
+extern long double erfl(long double);
+extern double __erfc(double);
+extern double erfc(double);
+extern float __erfcf(float);
+extern float erfcf(float);
+extern long double __erfcl(long double);
+extern long double erfcl(long double);
+extern double __lgamma(double);
+extern double lgamma(double);
+extern float __lgammaf(float);
+extern float lgammaf(float);
+extern long double __lgammal(long double);
+extern long double lgammal(long double);
+extern double __tgamma(double);
+extern double tgamma(double);
+extern float __tgammaf(float);
+extern float tgammaf(float);
+extern long double __tgammal(long double);
+extern long double tgammal(long double);
+extern double __rint(double __x);
+extern double rint(double __x);
+extern float __rintf(float __x);
+extern float rintf(float __x);
+extern long double __rintl(long double __x);
+extern long double rintl(long double __x);
+extern double __nextafter(double __x, double __y);
+extern double nextafter(double __x, double __y);
+extern float __nextafterf(float __x, float __y);
+extern float nextafterf(float __x, float __y);
+extern long double __nextafterl(long double __x, long double __y);
+extern long double nextafterl(long double __x, long double __y);
+extern double __nexttoward(double __x, long double __y);
+extern double nexttoward(double __x, long double __y);
+extern float __nexttowardf(float __x, long double __y);
+extern float nexttowardf(float __x, long double __y);
+extern long double __nexttowardl(long double __x, long double __y);
+extern long double nexttowardl(long double __x, long double __y);
+extern double __remainder(double __x, double __y);
+extern double remainder(double __x, double __y);
+extern float __remainderf(float __x, float __y);
+extern float remainderf(float __x, float __y);
+extern long double __remainderl(long double __x, long double __y);
+extern long double remainderl(long double __x, long double __y);
+extern double __scalbn(double __x, int __n);
+extern double scalbn(double __x, int __n);
+extern float __scalbnf(float __x, int __n);
+extern float scalbnf(float __x, int __n);
+extern long double __scalbnl(long double __x, int __n);
+extern long double scalbnl(long double __x, int __n);
+extern int __ilogb(double __x);
+extern int __ilogbf(float __x);
+extern int __ilogbl(long double __x);
+extern int ilogb(double __x);
+extern int ilogbf(float __x);
+extern int ilogbl(long double __x);
+extern double __scalbln(double __x, long int __n);
+extern double scalbln(double __x, long int __n);
+extern float __scalblnf(float __x, long int __n);
+extern float scalblnf(float __x, long int __n);
+extern long double __scalblnl(long double __x, long int __n);
+extern long double scalblnl(long double __x, long int __n);
+extern double __nearbyint(double __x);
+extern double nearbyint(double __x);
+extern float __nearbyintf(float __x);
+extern float nearbyintf(float __x);
+extern long double __nearbyintl(long double __x);
+extern long double nearbyintl(long double __x);
+extern double __round(double __x);
+extern double round(double __x);
+extern float __roundf(float __x);
+extern float roundf(float __x);
+extern long double __roundl(long double __x);
+extern long double roundl(long double __x);
+extern double __trunc(double __x);
+extern double trunc(double __x);
+extern float __truncf(float __x);
+extern float truncf(float __x);
+extern long double __truncl(long double __x);
+extern long double truncl(long double __x);
+extern double __remquo(double __x, double __y, int *__quo);
+extern double remquo(double __x, double __y, int *__quo);
+extern float __remquof(float __x, float __y, int *__quo);
+extern float remquof(float __x, float __y, int *__quo);
+extern long double __remquol(long double __x, long double __y, int *__quo);
+extern long double remquol(long double __x, long double __y, int *__quo);
+extern long int __lrint(double __x);
+extern long int __lrintf(float __x);
+extern long int __lrintl(long double __x);
+extern long int lrint(double __x);
+extern long int lrintf(float __x);
+extern long int lrintl(long double __x);
+extern long long int __llrint(double __x);
+extern long long int __llrintf(float __x);
+extern long long int __llrintl(long double __x);
+extern long long int llrint(double __x);
+extern long long int llrintf(float __x);
+extern long long int llrintl(long double __x);
+extern long int __lround(double __x);
+extern long int __lroundf(float __x);
+extern long int __lroundl(long double __x);
+extern long int lround(double __x);
+extern long int lroundf(float __x);
+extern long int lroundl(long double __x);
+extern long long int __llround(double __x);
+extern long long int __llroundf(float __x);
+extern long long int __llroundl(long double __x);
+extern long long int llround(double __x);
+extern long long int llroundf(float __x);
+extern long long int llroundl(long double __x);
+extern double __fdim(double __x, double __y);
+extern double fdim(double __x, double __y);
+extern float __fdimf(float __x, float __y);
+extern float fdimf(float __x, float __y);
+extern long double __fdiml(long double __x, long double __y);
+extern long double fdiml(long double __x, long double __y);
+extern double __fmax(double __x, double __y);
+extern double fmax(double __x, double __y);
+extern float __fmaxf(float __x, float __y);
+extern float fmaxf(float __x, float __y);
+extern long double __fmaxl(long double __x, long double __y);
+extern long double fmaxl(long double __x, long double __y);
+extern double __fmin(double __x, double __y);
+extern double fmin(double __x, double __y);
+extern float __fminf(float __x, float __y);
+extern float fminf(float __x, float __y);
+extern long double __fminl(long double __x, long double __y);
+extern long double fminl(long double __x, long double __y);
+extern int __fpclassify(double __value);
+extern int __fpclassifyf(float __value);
+extern int __fpclassifyl(long double __value);
+extern int __signbit(double __value);
+extern int __signbitf(float __value);
+extern int __signbitl(long double __value);
+extern double __fma(double __x, double __y, double __z);
+extern double fma(double __x, double __y, double __z);
+extern float __fmaf(float __x, float __y, float __z);
+extern float fmaf(float __x, float __y, float __z);
+extern long double __fmal(long double __x, long double __y, long double __z);
+extern long double fmal(long double __x, long double __y, long double __z);
+#define _MATH_H (1)
 #define __SIMD_DECL(function) __CONCAT ( __DECL_SIMD_ , function )
 #define __MATHCALL_VEC(function, suffix, args) __SIMD_DECL ( __MATH_PRECNAME ( function , suffix ) ) __MATHCALL ( function , suffix , args )
 #define __MATHDECL_VEC(type, function, suffix, args) __SIMD_DECL ( __MATH_PRECNAME ( function , suffix ) ) __MATHDECL ( type , function , suffix , args )
@@ -12,23 +392,23 @@
 #define __MATHDECLX(type, function, suffix, args, attrib) __MATHDECL_1 ( type , function , suffix , args ) __attribute__ ( attrib ) ; __MATHDECL_1 ( type , __CONCAT ( __ , function ) , suffix , args ) __attribute__ ( attrib )
 #define _Mfloat_ float
 #define _Mlong_double_ long double
-#define __MATH_DECLARE_LDOUBLE 1
+#define __MATH_DECLARE_LDOUBLE (1)
 enum { FP_NAN = 0, FP_INFINITE = 1, FP_ZERO = 2, FP_SUBNORMAL = 3, FP_NORMAL = 4 };
-#define FP_NAN 0
-#define FP_INFINITE 1
-#define FP_ZERO 2
-#define FP_SUBNORMAL 3
-#define FP_NORMAL 4
+#define FP_NAN (0)
+#define FP_INFINITE (1)
+#define FP_ZERO (2)
+#define FP_SUBNORMAL (3)
+#define FP_NORMAL (4)
 #define fpclassify(x) ( sizeof ( x ) == sizeof ( float ) ? __fpclassifyf ( x ) : sizeof ( x ) == sizeof ( double ) ? __fpclassify ( x ) : __fpclassifyl ( x ) )
 #define signbit(x) ( sizeof ( x ) == sizeof ( float ) ? __signbitf ( x ) : sizeof ( x ) == sizeof ( double ) ? __signbit ( x ) : __signbitl ( x ) )
 #define isfinite(x) ( sizeof ( x ) == sizeof ( float ) ? __finitef ( x ) : sizeof ( x ) == sizeof ( double ) ? __finite ( x ) : __finitel ( x ) )
 #define isnormal(x) ( fpclassify ( x ) == FP_NORMAL )
 #define isnan(x) ( sizeof ( x ) == sizeof ( float ) ? __isnanf ( x ) : sizeof ( x ) == sizeof ( double ) ? __isnan ( x ) : __isnanl ( x ) )
 #define isinf(x) ( sizeof ( x ) == sizeof ( float ) ? __isinff ( x ) : sizeof ( x ) == sizeof ( double ) ? __isinf ( x ) : __isinfl ( x ) )
-#define MATH_ERRNO 1
-#define MATH_ERREXCEPT 2
-#define math_errhandling 3
-#define __NO_MATH_INLINES 1
+#define MATH_ERRNO (1)
+#define MATH_ERREXCEPT (2)
+#define math_errhandling (3)
+#define __NO_MATH_INLINES (1)
 #define isgreater(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && __x > __y ; } ) )
 #define isgreaterequal(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && __x >= __y ; } ) )
 #define isless(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && __x < __y ; } ) )

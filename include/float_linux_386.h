@@ -2,7 +2,31 @@
 
 // +build ignore
 
-// source: /usr/lib/gcc/i686-linux-gnu/6/include/float.h
+// ----------------------------------------------------------------------------
+//      /usr/lib/gcc/i686-linux-gnu/6/include/float.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 2002-2016 Free Software Foundation, Inc.
+
+This file is part of GCC.
+
+GCC is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3, or (at your option)
+any later version.
+
+GCC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Under Section 7 of GPL version 3, you are granted additional
+permissions described in the GCC Runtime Library Exception, version
+3.1, as published by the Free Software Foundation.
+
+You should have received a copy of the GNU General Public License and
+a copy of the GCC Runtime Library Exception along with this program;
+see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+<http://www.gnu.org/licenses/>.  */
 
 #define _FLOAT_H___
 #define FLT_RADIX __FLT_RADIX__
@@ -33,6 +57,6 @@
 #define FLT_MIN __FLT_MIN__
 #define DBL_MIN __DBL_MIN__
 #define LDBL_MIN __LDBL_MIN__
-#define FLT_ROUNDS 1
+#define FLT_ROUNDS (1)
 #define FLT_EVAL_METHOD __FLT_EVAL_METHOD__
 #define DECIMAL_DIG __DECIMAL_DIG__

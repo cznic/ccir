@@ -2,39 +2,57 @@
 
 // +build ignore
 
-// source: /usr/include/unistd.h
+// ----------------------------------------------------------------------------
+//      /usr/include/unistd.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
-#define _UNISTD_H 1
-#define _POSIX_VERSION 199009l
-#define __POSIX2_THIS_VERSION 199209l
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
+#define _UNISTD_H (1)
+#define _POSIX_VERSION (199009l)
+#define __POSIX2_THIS_VERSION (199209l)
 #define _POSIX2_VERSION __POSIX2_THIS_VERSION
 #define _POSIX2_C_VERSION __POSIX2_THIS_VERSION
 #define _POSIX2_C_BIND __POSIX2_THIS_VERSION
 #define _POSIX2_C_DEV __POSIX2_THIS_VERSION
 #define _POSIX2_SW_DEV __POSIX2_THIS_VERSION
 #define _POSIX2_LOCALEDEF __POSIX2_THIS_VERSION
-#define _XOPEN_VERSION 4
-#define _XOPEN_XCU_VERSION 4
-#define _XOPEN_XPG2 1
-#define _XOPEN_XPG3 1
-#define _XOPEN_XPG4 1
-#define _XOPEN_UNIX 1
-#define _XOPEN_CRYPT 1
-#define _XOPEN_ENH_I18N 1
-#define _XOPEN_LEGACY 1
-#define STDIN_FILENO 0
-#define STDOUT_FILENO 1
-#define STDERR_FILENO 2
+#define _XOPEN_VERSION (4)
+#define _XOPEN_XCU_VERSION (4)
+#define _XOPEN_XPG2 (1)
+#define _XOPEN_XPG3 (1)
+#define _XOPEN_XPG4 (1)
+#define _XOPEN_UNIX (1)
+#define _XOPEN_CRYPT (1)
+#define _XOPEN_ENH_I18N (1)
+#define _XOPEN_LEGACY (1)
+#define STDIN_FILENO (0)
+#define STDOUT_FILENO (1)
+#define STDERR_FILENO (2)
 typedef __ssize_t ssize_t;
 #define __ssize_t_defined
-#define R_OK 4
-#define W_OK 2
-#define X_OK 1
-#define F_OK 0
+#define R_OK (4)
+#define W_OK (2)
+#define X_OK (1)
+#define F_OK (0)
 extern int access(char *__name, int __type);
-#define SEEK_SET 0
-#define SEEK_CUR 1
-#define SEEK_END 2
+#define SEEK_SET (0)
+#define SEEK_CUR (1)
+#define SEEK_END (2)
 extern __off_t lseek(int __fd, __off_t __offset, int __whence);
 extern int close(int __fd);
 extern ssize_t read(int __fd, void *__buf, size_t __nbytes);

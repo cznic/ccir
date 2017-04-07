@@ -2,9 +2,27 @@
 
 // +build ignore
 
-// source: /usr/include/ctype.h
+// ----------------------------------------------------------------------------
+//      /usr/include/ctype.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
-#define _CTYPE_H 1
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
+#define _CTYPE_H (1)
 #define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
 enum { _ISupper = 256, _ISlower = 512, _ISalpha = 1024, _ISdigit = 2048, _ISxdigit = 4096, _ISspace = 8192, _ISprint = 16384, _ISgraph = 32768, _ISblank = 1, _IScntrl = 2, _ISpunct = 4, _ISalnum = 8 };
 extern unsigned short int **__ctype_b_loc(void);

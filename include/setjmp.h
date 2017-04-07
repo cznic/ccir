@@ -7,8 +7,6 @@
 #ifndef _SETJMP_H_
 #define _SETJMP_H_
 
-//TODO wrong size for __386__
-
 #include __header(setjmp)
 
 #endif				/* _SETJMP_H_ */

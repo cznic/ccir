@@ -2,9 +2,27 @@
 
 // +build ignore
 
-// source: /usr/include/stdlib.h
+// ----------------------------------------------------------------------------
+//      /usr/include/stdlib.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
-#define _STDLIB_H 1
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
+#define _STDLIB_H (1)
 typedef struct {
 	int quot;
 	int rem;
@@ -13,15 +31,15 @@ typedef struct {
 	long int quot;
 	long int rem;
 } ldiv_t;
-#define __ldiv_t_defined 1
+#define __ldiv_t_defined (1)
 typedef struct {
 	long long int quot;
 	long long int rem;
 } lldiv_t;
-#define __lldiv_t_defined 1
-#define RAND_MAX 2147483647
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
+#define __lldiv_t_defined (1)
+#define RAND_MAX (2147483647)
+#define EXIT_FAILURE (1)
+#define EXIT_SUCCESS (0)
 #define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
 extern size_t __ctype_get_mb_cur_max(void);
 extern double atof(char *__nptr);

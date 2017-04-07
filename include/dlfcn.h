@@ -7,13 +7,4 @@
 
 #include __header(dlfcn)
 
-#define RTLD_LAZY 1
-#define RTLD_NOW 2
-#define RTLD_BINDING_MASK 3
-#define RTLD_NOLOAD 4
-#define RTLD_DEEPBIND 8
-#define RTLD_GLOBAL 256
-#define RTLD_LOCAL 0
-#define RTLD_NODELETE 4096
-
 #endif				/* _DLFCN_H_ */
