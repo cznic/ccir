@@ -5,8 +5,6 @@
 #ifndef _SIGNAL_H_
 #define _SIGNAL_H_
 
-#include <sys/types.h>
-#include <time.h>
 #include __header(signal)
 
 #endif				/* _SIGNAL_H_ */

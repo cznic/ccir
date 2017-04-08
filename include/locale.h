@@ -7,7 +7,6 @@
 #ifndef _LOCALE_H_
 #define _LOCALE_H_
 
-#include <stddef.h>
 #include __header(locale)
 
 #endif				/* _LOCALE_H_ */

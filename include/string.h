@@ -7,8 +7,6 @@
 #ifndef _STRING_H_
 #define _STRING_H_
 
-#include <stddef.h>
-#include <locale.h>
 #include __header(string)
 
 #endif				/* _STRING_H_ */

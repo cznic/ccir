@@ -7,10 +7,6 @@
 #ifndef _FCNTL_H_
 #define _FCNTL_H_
 
-#include <stdio.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include __header(fcntl)
 
 #endif				/* _FCNTL_H_ */

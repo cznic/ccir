@@ -7,10 +7,6 @@
 #ifndef _TIME_H_
 #define _TIME_H_
 
-#include <sys/types.h>
-#include <locale.h>
-#include <signal.h>
-#include <stddef.h>
 #include __header(time)
 
 #endif				/* _TIME_H_ */

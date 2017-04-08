@@ -150,7 +150,6 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #include <builtin.h>
 
 #define NO_TRAMPOLINES 1
-#define __GNUC__
 `, modelName, runtime.GOOS),
 		src,
 		model,
@@ -988,20 +987,19 @@ exit(0) cycle = 26012`); !bytes.Equal(g, e) {
 	t.Logf("%s\n%s\n%v", args, out, d)
 }
 
-func TestSqlite(t *testing.T) {
-	return //TODO-
-	const repo = "sqlite.org/sqlite-amalgamation-3180000/"
-	pth := findRepo(t, repo)
-	if pth == "" {
-		t.Logf("repository not found, skipping: %v", repo)
-		return
-	}
-
-	_, bin := build(
-		t,
-		"",
-		[]string{"testdata/sqlite/test.c", filepath.Join(pth, "sqlite3.c")},
-		cc.IncludePaths([]string{pth}),
-	)
-	_ = bin
-}
+//TODO func TestSqlite(t *testing.T) {
+//TODO 	const repo = "sqlite.org/sqlite-amalgamation-3180000/"
+//TODO 	pth := findRepo(t, repo)
+//TODO 	if pth == "" {
+//TODO 		t.Logf("repository not found, skipping: %v", repo)
+//TODO 		return
+//TODO 	}
+//TODO
+//TODO 	_, bin := build(
+//TODO 		t,
+//TODO 		"",
+//TODO 		[]string{filepath.Join(pth, "sqlite3.c")},
+//TODO 		cc.IncludePaths([]string{pth}),
+//TODO 	)
+//TODO 	_ = bin
+//TODO }

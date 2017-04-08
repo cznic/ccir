@@ -7,7 +7,6 @@
 #ifndef _MATH_H_
 #define _MATH_H_
 
-#include <float.h>
 #include __header(math)
 
 #endif				/* _MATH_H_ */

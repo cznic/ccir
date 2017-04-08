@@ -7,14 +7,6 @@
 #ifndef _WCHAR_H_
 #define _WCHAR_H_
 
-#include <ctype.h>
-#include <locale.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <string.h>
-#include <time.h>
 #include __header(wchar)
-#include <stdio.h>
 
 #endif				/* _WCHAR_H_ */

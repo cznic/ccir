@@ -5,7 +5,6 @@
 #ifndef _SYS_MMAN_H_
 #define _SYS_MMAN_H_
 
-#include <sys/types.h>
 #include __header(sys/mman)
 
 #endif				/* _SYS_MMAN_H_ */

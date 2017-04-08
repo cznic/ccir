@@ -7,8 +7,6 @@
 #ifndef _SYS_STAT_H_
 #define _SYS_STAT_H_
 
-#include <time.h>
-#include <sys/types.h>
 #include __header(sys/stat)
 
 #endif				/* _SYS_STAT_H_ */

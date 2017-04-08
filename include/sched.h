@@ -7,8 +7,6 @@
 #ifndef _SCHED_H_
 #define _SCHED_H_
 
-#include <sys/types.h>
-#include <time.h>
 #include __header(sched)
 
 #endif				/* _SCHED_H_ */

@@ -5,7 +5,6 @@
 #ifndef _SYS_TIME_H_
 #define _SYS_TIME_H_
 
-#include <sys/types.h>
-#include <sys/select.h>
+#include __header(sys/time)
 
 #endif				/* _SYS_TIME_H_ */

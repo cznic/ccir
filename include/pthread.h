@@ -7,9 +7,6 @@
 #ifndef _PTHREAD_H_
 #define _PTHREAD_H_
 
-#include <sys/types.h>
-#include <time.h>
-#include <sched.h>
 #include __header(pthread)
 
 #endif				/* _PTHREAD_H_ */

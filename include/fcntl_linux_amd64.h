@@ -22,17 +22,6 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#define __O_LARGEFILE (0)
-#define F_GETLK64 (5)
-#define F_SETLK64 (6)
-#define F_SETLKW64 (7)
-struct flock {
-	short int l_type;
-	short int l_whence;
-	__off_t l_start;
-	__off_t l_len;
-	__pid_t l_pid;
-};
 #define _FCNTL_H (1)
 #define __OPEN_NEEDS_MODE(oflag) ( ( ( oflag ) & O_CREAT ) != 0 || ( ( oflag ) & __O_TMPFILE ) == __O_TMPFILE )
 typedef __mode_t mode_t;
@@ -44,47 +33,3 @@ typedef __pid_t pid_t;
 extern int fcntl(int __fd, int __cmd, ...);
 extern int open(char *__file, int __oflag, ...);
 extern int creat(char *__file, mode_t __mode);
-#define O_ACCMODE (3)
-#define O_RDONLY (0)
-#define O_WRONLY (1)
-#define O_RDWR (2)
-#define O_CREAT (64)
-#define O_EXCL (128)
-#define O_NOCTTY (256)
-#define O_TRUNC (512)
-#define O_APPEND (1024)
-#define O_NONBLOCK (2048)
-#define O_NDELAY O_NONBLOCK
-#define O_SYNC (1052672)
-#define O_FSYNC O_SYNC
-#define O_ASYNC (8192)
-#define __O_DIRECTORY (65536)
-#define __O_NOFOLLOW (131072)
-#define __O_CLOEXEC (524288)
-#define __O_DIRECT (16384)
-#define __O_NOATIME (262144)
-#define __O_PATH (2097152)
-#define __O_DSYNC (4096)
-#define __O_TMPFILE (4259840)
-#define F_GETLK (5)
-#define F_SETLK (6)
-#define F_SETLKW (7)
-#define F_DUPFD (0)
-#define F_GETFD (1)
-#define F_SETFD (2)
-#define F_GETFL (3)
-#define F_SETFL (4)
-#define __F_SETOWN (8)
-#define __F_GETOWN (9)
-#define __F_SETSIG (10)
-#define __F_GETSIG (11)
-#define __F_SETOWN_EX (15)
-#define __F_GETOWN_EX (16)
-#define FD_CLOEXEC (1)
-#define F_RDLCK (0)
-#define F_WRLCK (1)
-#define F_UNLCK (2)
-#define F_EXLCK (4)
-#define F_SHLCK (8)
-#define __POSIX_FADV_DONTNEED (4)
-#define __POSIX_FADV_NOREUSE (5)

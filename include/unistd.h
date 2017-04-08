@@ -7,10 +7,6 @@
 #ifndef _UNISTD_H_
 #define _UNISTD_H_
 
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <sys/types.h>
 #include __header(unistd)
 
 #endif				/* _UNISTD_H_ */

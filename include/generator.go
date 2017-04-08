@@ -25,11 +25,6 @@ import (
 	"github.com/cznic/xc"
 )
 
-const (
-	morePredefined = `
-`
-)
-
 var (
 	dict        = xc.Dict
 	include     []string
@@ -497,7 +492,6 @@ func typeQualifier(b *buffer.Bytes, n *cc.TypeQualifier) {
 	switch n.Case {
 	case 0: // "const"
 	case 1: // "restrict"  // Case 1
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	case 2: // "volatile"  // Case 2
 		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
@@ -674,13 +668,16 @@ func header(nm, mre, dre string) {
 		fmt.Sprintf(`
 #define __os__ %s
 #define __arch__ %s
+#define _ISOC99_SOURCE
+
 #include <predefined.h>
-%s
+
 #include <%s.h>
-`, runtime.GOOS, runtime.GOARCH, morePredefined, nm),
+`, runtime.GOOS, runtime.GOARCH, nm),
 		nil,
 		model,
 		cc.EnableAnonymousStructFields(),
+		cc.EnableAsm(),
 		cc.EnableIncludeNext(),
 		cc.IncludePaths(include),
 		cc.SysIncludePaths(sysInclude),
@@ -703,7 +700,7 @@ func header(nm, mre, dre string) {
 
 		switch n.Case {
 		case 0: // FunctionDefinition
-			log.Fatalf("%s: TODO %v", pos, n.Case)
+			// nop
 		case 1: // Declaration                  // Case 1
 			d := declaration(n.Declaration)
 			if dbg || re.MatchString(d) {
@@ -800,36 +797,36 @@ func main() {
 	for _, v := range []struct{ nm, mre, dre string }{
 		//TODO{"alloca", "TODO", "TODO"},
 		//TODO{"complex", "TODO", "TODO"},
-		{"ctype", "isalnum", "isalnum"},
+		{"ctype", "TODO", "tolower|__int32_t"},
 		//TODO{"dlfcn", "TODO", "TODO"},
 		//TODO{"errno", "TODO", "TODO"},
-		{"fcntl", "F_DUPFD", "struct flock|creat"},
-		{"float", "FLT_RADIX", "TODO"},
-		{"limits", "CHAR_BIT", "TODO"},
-		{"locale", "LC_ALL", "struct lconv"},
-		{"math", "fpclassify", "double_t|sin"},
-		{"memory", "MEMORY", "TODO"},
+		{"fcntl", "TODO", "open"},
+		//TODO{"float", "TODO", "TODO"},
+		{"limits", "INT_MAX", "TODO"},
+		//TODO{"locale", "TODO", "TODO"},
+		{"math", "TODO", "sin"},
+		{"memory", "TODO", "TODO"},
 		//TODO{"pthread", "TODO", "TODO"},
 		//TODO{"sched", "TODO", "TODO"},
 		//TODO{"setjmp", "TODO", "TODO"},
-		{"signal", "SIG_DFL", "sig_atomic_t"},
-		{"stdarg", "va_start", "va_list"},
-		{"stdbool", "bool", "TODO"},
-		{"stddef", "NULL", "ptrdiff_t"},
-		{"stdint", "INT[0-9]+MIN", "int8_t"},
-		{"stdio", "BUFSIZ", "FILE|mbstate_t"},
-		{"stdlib", "EXIT_FAILURE", "abort"},
-		{"string", "TODO", "memchr"},
-		{"strings", "ffs", "ffs"},
+		//TODO{"signal", "TODO", "TODO"},
+		{"stdarg", "va_list", "TODO"},
+		{"stdbool", "true", "TODO"},
+		{"stddef", "offsetof", "TODO"},
+		{"stdint", "TODO", "uint32_t"},
+		{"stdio", "TODO", "printf|__off_t|__mbstate_t|size_t"},
+		{"stdlib", "TODO", "qsort|wchar_t"},
+		{"string", "TODO", "strcpy|size_t"},
+		{"strings", "TODO", "index"},
 		//TODO{"sys/mman", "TODO", "TODO"},
 		//TODO{"sys/select", "TODO", "TODO"},
-		{"sys/stat", "TODO", "struct stat"},
+		//TODO{"sys/stat", "TODO", "TODO"},
 		//TODO{"sys/time", "TODO", "TODO"},
-		{"sys/types", "TODO", "blkcnt_t"},
-		{"sys/wait", "WCONTINUED", "wait"},
-		{"time", "CLOCKS_PER_SEC", "struct tm"},
-		{"unistd", "_POSIX_VERSION", "chdir"},
-		{"wchar", "TODO", "mbstate_t|wint_t"},
+		//TODO{"sys/types", "TODO", "TODO"},
+		//TODO{"sys/wait", "TODO", "TODO"},
+		//TODO{"time", "TODO", "TODO"},
+		{"unistd", "TODO", "read"},
+		//TODO{"wchar", "TODO", "TODO"},
 	} {
 		header(v.nm, v.mre, v.dre)
 	}

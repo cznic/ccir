@@ -7,8 +7,6 @@
 #ifndef _CTYPE_H_
 #define _CTYPE_H_
 
-#include <locale.h>
-#include <sys/types.h>
 #include __header(ctype)
 
 #endif				/* _CTYPE_H_ */

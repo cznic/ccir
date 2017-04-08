@@ -7,8 +7,6 @@
 #ifndef _SYS_WAIT_H_
 #define _SYS_WAIT_H_
 
-#include <signal.h>
-#include <sys/types.h>
 #include __header(sys/wait)
 
 #endif				/* _SYS_WAIT_H_ */

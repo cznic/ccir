@@ -30,45 +30,10 @@
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
 #define __volatile volatile
 
-//typedef int __int32_t;
-//typedef int __sig_atomic_t;
-//typedef int __uid_t;
-//typedef long blksize_t;
-//typedef long __gid_t;
-//typedef long __pid_t;
-//typedef long __ssize_t;
-//typedef long __suseconds_t;
-//typedef long __time_t;
-typedef long long _G_fpos_t;
-//typedef long long __blkcnt_t;
-//typedef long long __clock_t;
-//typedef long long __loff_t;
-//typedef long long __off_t;
-//typedef struct pthread_attr_t pthread_attr_t;
-//typedef struct pthread_cond_t pthread_cond_t;
-//typedef struct pthread_condattr_t pthread_condattr_t;
-//typedef struct pthread_key_t pthread_key_t;
-//typedef struct pthread_mutex_t pthread_mutex_t;
-//typedef struct pthread_mutexattr_t pthread_mutexattr_t;
-//typedef struct pthread_once_t pthread_once_t;
-//typedef struct pthread_t pthread_t;
-//typedef unsigned __mode_t;
-//typedef unsigned __nlink_t;
-//typedef unsigned long long __dev_t;
-//typedef unsigned long long __fsblkcnt_t;
-//typedef unsigned long long __fsfilcnt_t;
-//typedef unsigned long long __ino_t;
-//typedef unsigned long long __sigset_t;
-//typedef void *__jmp_buf[7];
-//
-//struct pthread_mutex_t {
-//      int _;
-//};
-//
-//struct pthread_t {
-//      int _;
-//};
+typedef void *__FILE_TYPE__;
+typedef __builtin_va_list __gnuc_va_list;
 
+__FILE_TYPE__ __builtin_fopen(char *__filename, char *__modes);
 __SIZE_TYPE__ __builtin_strlen(char *__s);
 __UINT64_TYPE__ __builtin_bswap64(__UINT64_TYPE__ x);
 char *__builtin_strchr(char *__s, int __c);
@@ -87,6 +52,7 @@ int __builtin_ctzll(unsigned long long x);
 int __builtin_ffs(int i);
 int __builtin_ffsl(long i);
 int __builtin_ffsll(long long i);
+int __builtin_fprintf(__FILE_TYPE__ * __stream, char *__format, ...);
 int __builtin_isprint(int);
 int __builtin_memcmp(void *__s1, void *__s2, __SIZE_TYPE__ __n);
 int __builtin_parity(unsigned x);
@@ -102,7 +68,6 @@ int __builtin_strcmp(char *__s1, char *__s2);
 int __signbit(double x);
 int __signbitf(float x);
 void *__builtin_alloca(__SIZE_TYPE__ __size);
-void *__builtin_fopen(char *__filename, char *__modes);
 void *__builtin_frame_address(unsigned int level);
 void *__builtin_malloc(__SIZE_TYPE__ __size);
 void *__builtin_memcpy(void *dest, const void *src, __SIZE_TYPE__ n);

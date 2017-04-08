@@ -7,9 +7,6 @@
 #ifndef _STDIO_H_
 #define _STDIO_H_
 
-#include <stdarg.h>
-#include <stddef.h>
-#include <sys/types.h>
 #include __header(stdio)
 
 #undef getc

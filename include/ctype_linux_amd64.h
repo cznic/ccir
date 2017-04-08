@@ -22,6 +22,75 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
+#define _BITS_TYPES_H (1)
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+typedef signed long int __int64_t;
+typedef unsigned long int __uint64_t;
+typedef long int __quad_t;
+typedef unsigned long int __u_quad_t;
+#define __S16_TYPE short int
+#define __U16_TYPE unsigned short int
+#define __S32_TYPE int
+#define __U32_TYPE unsigned int
+#define __SLONGWORD_TYPE long int
+#define __ULONGWORD_TYPE unsigned long int
+#define __SQUAD_TYPE long int
+#define __UQUAD_TYPE unsigned long int
+#define __SWORD_TYPE long int
+#define __UWORD_TYPE unsigned long int
+#define __SLONG32_TYPE int
+#define __ULONG32_TYPE unsigned int
+#define __S64_TYPE long int
+#define __U64_TYPE unsigned long int
+typedef unsigned long int __dev_t;
+typedef unsigned int __uid_t;
+typedef unsigned int __gid_t;
+typedef unsigned long int __ino_t;
+typedef unsigned long int __ino64_t;
+typedef unsigned int __mode_t;
+typedef unsigned long int __nlink_t;
+typedef long int __off_t;
+typedef long int __off64_t;
+typedef int __pid_t;
+typedef struct {
+	int __val[2];
+} __fsid_t;
+typedef long int __clock_t;
+typedef unsigned long int __rlim_t;
+typedef unsigned long int __rlim64_t;
+typedef unsigned int __id_t;
+typedef long int __time_t;
+typedef unsigned int __useconds_t;
+typedef long int __suseconds_t;
+typedef int __daddr_t;
+typedef int __key_t;
+typedef int __clockid_t;
+typedef void *__timer_t;
+typedef long int __blksize_t;
+typedef long int __blkcnt_t;
+typedef long int __blkcnt64_t;
+typedef unsigned long int __fsblkcnt_t;
+typedef unsigned long int __fsblkcnt64_t;
+typedef unsigned long int __fsfilcnt_t;
+typedef unsigned long int __fsfilcnt64_t;
+typedef long int __fsword_t;
+typedef long int __ssize_t;
+typedef long int __syscall_slong_t;
+typedef unsigned long int __syscall_ulong_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+typedef long int __intptr_t;
+typedef unsigned int __socklen_t;
 #define _CTYPE_H (1)
 #define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
 enum { _ISupper = 256, _ISlower = 512, _ISalpha = 1024, _ISdigit = 2048, _ISxdigit = 4096, _ISspace = 8192, _ISprint = 16384, _ISgraph = 32768, _ISblank = 1, _IScntrl = 2, _ISpunct = 4, _ISalnum = 8 };

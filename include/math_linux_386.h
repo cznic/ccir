@@ -2,31 +2,6 @@
 
 // +build ignore
 
-// ----------------------------------------------------------------------------
-//      /usr/include/i386-linux-gnu/bits/mathdef.h
-// ----------------------------------------------------------------------------
-/* Copyright (C) 2001-2016 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
-
-#define _MATH_H_MATHDEF (1)
-typedef long double float_t;
-typedef long double double_t;
-#define FP_ILOGB0 (-2147483648)
-#define FP_ILOGBNAN (-2147483648)
 extern double __acos(double __x);
 extern double acos(double __x);
 extern float __acosf(float __x);
@@ -384,34 +359,3 @@ extern float __fmaf(float __x, float __y, float __z);
 extern float fmaf(float __x, float __y, float __z);
 extern long double __fmal(long double __x, long double __y, long double __z);
 extern long double fmal(long double __x, long double __y, long double __z);
-#define _MATH_H (1)
-#define __SIMD_DECL(function) __CONCAT ( __DECL_SIMD_ , function )
-#define __MATHCALL_VEC(function, suffix, args) __SIMD_DECL ( __MATH_PRECNAME ( function , suffix ) ) __MATHCALL ( function , suffix , args )
-#define __MATHDECL_VEC(type, function, suffix, args) __SIMD_DECL ( __MATH_PRECNAME ( function , suffix ) ) __MATHDECL ( type , function , suffix , args )
-#define __MATHCALLX(function, suffix, args, attrib) __MATHDECLX ( _Mdouble_ , function , suffix , args , attrib )
-#define __MATHDECLX(type, function, suffix, args, attrib) __MATHDECL_1 ( type , function , suffix , args ) __attribute__ ( attrib ) ; __MATHDECL_1 ( type , __CONCAT ( __ , function ) , suffix , args ) __attribute__ ( attrib )
-#define _Mfloat_ float
-#define _Mlong_double_ long double
-#define __MATH_DECLARE_LDOUBLE (1)
-enum { FP_NAN = 0, FP_INFINITE = 1, FP_ZERO = 2, FP_SUBNORMAL = 3, FP_NORMAL = 4 };
-#define FP_NAN (0)
-#define FP_INFINITE (1)
-#define FP_ZERO (2)
-#define FP_SUBNORMAL (3)
-#define FP_NORMAL (4)
-#define fpclassify(x) ( sizeof ( x ) == sizeof ( float ) ? __fpclassifyf ( x ) : sizeof ( x ) == sizeof ( double ) ? __fpclassify ( x ) : __fpclassifyl ( x ) )
-#define signbit(x) ( sizeof ( x ) == sizeof ( float ) ? __signbitf ( x ) : sizeof ( x ) == sizeof ( double ) ? __signbit ( x ) : __signbitl ( x ) )
-#define isfinite(x) ( sizeof ( x ) == sizeof ( float ) ? __finitef ( x ) : sizeof ( x ) == sizeof ( double ) ? __finite ( x ) : __finitel ( x ) )
-#define isnormal(x) ( fpclassify ( x ) == FP_NORMAL )
-#define isnan(x) ( sizeof ( x ) == sizeof ( float ) ? __isnanf ( x ) : sizeof ( x ) == sizeof ( double ) ? __isnan ( x ) : __isnanl ( x ) )
-#define isinf(x) ( sizeof ( x ) == sizeof ( float ) ? __isinff ( x ) : sizeof ( x ) == sizeof ( double ) ? __isinf ( x ) : __isinfl ( x ) )
-#define MATH_ERRNO (1)
-#define MATH_ERREXCEPT (2)
-#define math_errhandling (3)
-#define __NO_MATH_INLINES (1)
-#define isgreater(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && __x > __y ; } ) )
-#define isgreaterequal(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && __x >= __y ; } ) )
-#define isless(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && __x < __y ; } ) )
-#define islessequal(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && __x <= __y ; } ) )
-#define islessgreater(x, y) ( __extension__ ( { __typeof__ ( x ) __x = ( x ) ; __typeof__ ( y ) __y = ( y ) ; ! isunordered ( __x , __y ) && ( __x < __y || __y < __x ) ; } ) )
-#define isunordered(u, v) ( __extension__ ( { __typeof__ ( u ) __u = ( u ) ; __typeof__ ( v ) __v = ( v ) ; fpclassify ( __u ) == FP_NAN || fpclassify ( __v ) == FP_NAN ; } ) )

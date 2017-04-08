@@ -7,7 +7,6 @@
 #ifndef _ALLOCA_H_
 #define _ALLOCA_H_
 
-#include <stddef.h>
 #include __header(alloca)
 
 #endif				/* _ALLOCA_H_ */
