@@ -25,7 +25,6 @@ import (
 	"github.com/cznic/cc"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/ir"
-	"github.com/cznic/mathutil"
 	"github.com/cznic/strutil"
 	"github.com/cznic/virtual"
 	"github.com/cznic/xc"
@@ -68,12 +67,10 @@ func init() {
 
 // ============================================================================
 
-const (
-	crt0Path = "include/crt0.c"
-)
-
 var (
 	ccTestdata string
+	crt0Path   string
+	libc       string
 
 	cpp      = flag.Bool("cpp", false, "")
 	errLimit = flag.Int("errlimit", 10, "")
@@ -106,6 +103,24 @@ func init() {
 	if ccTestdata == "" {
 		panic("cannot find cc/testdata/")
 	}
+
+	p, err := strutil.ImportPath()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, v := range strings.Split(strutil.Gopath(), string(os.PathListSeparator)) {
+		p := filepath.Join(v, "src", p, "libc")
+		_, err := os.Stat(p)
+		if err != nil {
+			continue
+		}
+
+		libc = p
+		crt0Path = filepath.Join(p, "crt0.c")
+		return
+	}
+	panic("internal error")
 }
 
 func errStr(err error) string {
@@ -251,8 +266,8 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	}
 
 	s := virtual.DumpCodeStr(bin.Code, 0)
-	fmt.Fprintf(&log, "%s: virtual.LoadMain: code %#05x, text %#05x, data %05x, bss %#05x, functions %v, lines %v\n%s\n",
-		match, len(bin.Code)*2*mathutil.IntBits/8, len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
+	fmt.Fprintf(&log, "%s: virtual.LoadMain: code %#05x, text %#05x, data %#05x, bss %#05x, pc2func %v, pc2line %v\n%s\n",
+		match, len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
 	)
 	s.Close()
 	if len(bin.Text) != 0 {
@@ -302,7 +317,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 		}()
 
 		args := hook(vwd, match)
-		if exitStatus, err = virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<20, 1<<20); exitStatus != 0 || err != nil {
+		if exitStatus, err = virtual.Exec(bin, args, &stdin, &stdout, &stderr, 1<<20, 1<<20, wd); exitStatus != 0 || err != nil {
 			if b := stdout.Bytes(); b != nil {
 				fmt.Fprintf(&log, "stdout:\n%s\n", b)
 			}
@@ -432,7 +447,7 @@ func TestTCC(t *testing.T) {
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableImplicitFuncDef(),
 		cc.ErrLimit(-1),
-		cc.SysIncludePaths([]string{"include/"}),
+		cc.SysIncludePaths([]string{libc}),
 	)
 }
 
@@ -678,7 +693,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableUnsignedEnums(),
 		cc.EnableWideBitFieldTypes(),
 		cc.ErrLimit(-1),
-		cc.SysIncludePaths([]string{"include/"}),
+		cc.SysIncludePaths([]string{libc}),
 	)
 }
 
@@ -720,7 +735,7 @@ func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (
 
 	var stdin, stdout, stderr bytes.Buffer
 	t0 := time.Now()
-	exitStatus, err := virtual.Exec(bin, argv, &stdin, &stdout, &stderr, 1<<27, 1<<20)
+	exitStatus, err := virtual.Exec(bin, argv, &stdin, &stdout, &stderr, 1<<27, 1<<20, cwd)
 	duration = time.Since(t0)
 	if err != nil {
 		var log bytes.Buffer
@@ -797,7 +812,7 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) (string,
 				cc.EnableImplicitFuncDef(),
 				cc.EnableNonConstStaticInitExpressions(),
 				cc.ErrLimit(*errLimit),
-				cc.SysIncludePaths([]string{"include/"}),
+				cc.SysIncludePaths([]string{libc}),
 			}, opts...)...,
 		)
 		if s := log.Bytes(); len(s) != 0 {
@@ -1026,7 +1041,27 @@ func TestSqlite(t *testing.T) {
 		cc.EnableAnonymousStructFields(),
 		cc.IncludePaths([]string{pth}),
 	)
-	_ = bin
-	//TODO args := []string{"./test", "sqlite.db", "select * from t"}
-	//TODO exec(t, bin, args, nil)
+	t.Logf("code %#08x, text %#08x, data %#08x, bss %#08x, pc2func %v, pc2line %v\n",
+		len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines),
+	)
+
+	args := []string{"./test"}
+	out, f, d := exec(t, bin, args, nil)
+	if g, e := out, []byte("Usage: ./test DATABASE SQL-STATEMENT"); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
+	}
+
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
+
+	args = []string{"./test", "foo"}
+	out, f, d = exec(t, bin, args, nil)
+	if g, e := out, []byte("Usage: ./test DATABASE SQL-STATEMENT"); !bytes.Equal(g, e) {
+		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
+	}
+
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
+
+	//args = []string{"./test", "foo", "bar"}
+	//out, f, d = exec(t, bin, args, nil)
+	//t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 }
