@@ -750,13 +750,7 @@ func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (
 	return bytes.TrimSpace(append(stdout.Bytes(), stderr.Bytes()...)), resultFiles, duration
 }
 
-func build(t *testing.T, predef string, src []string, opts ...cc.Opt) (string, *virtual.Binary) {
-	modelName := runtime.GOARCH
-	model, err := Model(modelName)
-	if err != nil {
-		t.Fatal(err)
-	}
-
+func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) (string, *virtual.Binary) {
 	var log buffer.Bytes
 	var lpos token.Position
 	if *cpp {
@@ -779,63 +773,90 @@ func build(t *testing.T, predef string, src []string, opts ...cc.Opt) (string, *
 	if *ndebug {
 		ndbg = "#define NDEBUG 1"
 	}
-	ast, err := cc.Parse(
-		fmt.Sprintf(`
+	var build [][]ir.Object
+	modelName := runtime.GOARCH
+	tus = append(tus, []string{crt0Path})
+	for _, src := range tus {
+		model, err := Model(modelName)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		ast, err := cc.Parse(
+			fmt.Sprintf(`
 %s
 #define __arch__ %s
 #define __os__ %s
 #include <builtin.h>
 %s
 `, ndbg, modelName, runtime.GOOS, predef),
-		append([]string{crt0Path}, src...),
-		model,
-		append([]cc.Opt{
-			cc.AllowCompatibleTypedefRedefinitions(),
-			cc.EnableImplicitFuncDef(),
-			cc.EnableNonConstStaticInitExpressions(),
-			cc.ErrLimit(*errLimit),
-			cc.SysIncludePaths([]string{"include/"}),
-		}, opts...)...,
-	)
-	if s := log.Bytes(); len(s) != 0 {
-		t.Logf("\n%s", s)
-		log.Close()
-	}
-	if err != nil {
-		t.Fatal(errStr(err))
-	}
+			src,
+			model,
+			append([]cc.Opt{
+				cc.AllowCompatibleTypedefRedefinitions(),
+				cc.EnableImplicitFuncDef(),
+				cc.EnableNonConstStaticInitExpressions(),
+				cc.ErrLimit(*errLimit),
+				cc.SysIncludePaths([]string{"include/"}),
+			}, opts...)...,
+		)
+		if s := log.Bytes(); len(s) != 0 {
+			t.Logf("\n%s", s)
+			log.Close()
+		}
+		if err != nil {
+			t.Fatal(errStr(err))
+		}
 
-	objs, err := New(modelName, ast)
-	if err != nil {
-		t.Fatal(err)
-	}
+		objs, err := New(modelName, ast)
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	for i, v := range objs {
-		if err := v.Verify(); err != nil {
-			switch x := v.(type) {
-			case *ir.FunctionDefinition:
-				fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
-				for i, v := range x.Body {
-					fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
+		if *oLog {
+			for i, v := range objs {
+				switch x := v.(type) {
+				case *ir.DataDefinition:
+					fmt.Fprintf(&log, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Value)
+				case *ir.FunctionDefinition:
+					fmt.Fprintf(&log, "# [%v]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+					for i, v := range x.Body {
+						fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
+					}
+				default:
+					t.Fatalf("[%v]: %T %v: %v", i, x, x, err)
 				}
-				t.Fatalf("# [%v]: Verify (A): %v\n%s", i, err, log.Bytes())
-			default:
-				t.Fatalf("[%v]: %T %v: %v", i, x, x, err)
 			}
 		}
+		for i, v := range objs {
+			if err := v.Verify(); err != nil {
+				switch x := v.(type) {
+				case *ir.FunctionDefinition:
+					fmt.Fprintf(&log, "# [%v, err]: %T %v %v\n", i, x, x.ObjectBase, x.Arguments)
+					for i, v := range x.Body {
+						fmt.Fprintf(&log, "%#05x\t%v\n", i, v)
+					}
+					t.Fatalf("# [%v]: Verify (A): %v\n%s", i, err, log.Bytes())
+				default:
+					t.Fatalf("[%v]: %T %v: %v", i, x, x, err)
+				}
+			}
+		}
+		build = append(build, objs)
 	}
 
-	if objs, err = ir.LinkMain(objs); err != nil {
-		t.Fatal(err)
+	linked, err := ir.LinkMain(build...)
+	if err != nil {
+		t.Fatalf("ir.LinkMain: %s\n%s", err, log.Bytes())
 	}
 
-	for _, v := range objs {
+	for _, v := range linked {
 		if err := v.Verify(); err != nil {
 			t.Fatal(err)
 		}
 	}
 
-	bin, err := virtual.LoadMain(modelName, objs)
+	bin, err := virtual.LoadMain(modelName, linked)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -876,7 +897,7 @@ func TestSelfie(t *testing.T) {
 		return
 	}
 
-	_, bin := build(t, "", []string{filepath.Join(pth, "selfie.c")})
+	_, bin := build(t, "", [][]string{{filepath.Join(pth, "selfie.c")}})
 	if m, _ := Model(runtime.GOARCH); m.Items[cc.Ptr].Size != 4 {
 		return
 	}
@@ -943,7 +964,7 @@ hello.c: exiting with exit code 0 and 0.00MB of mallocated memory
 }
 
 func TestC4(t *testing.T) {
-	_, bin := build(t, "", []string{"testdata/github.com/rswier/c4/c4.c"})
+	_, bin := build(t, "", [][]string{{"testdata/github.com/rswier/c4/c4.c"}})
 
 	args := []string{"./c4"}
 	out, _, d := exec(t, bin, args, nil)
@@ -987,19 +1008,25 @@ exit(0) cycle = 26012`); !bytes.Equal(g, e) {
 	t.Logf("%s\n%s\n%v", args, out, d)
 }
 
-//TODO func TestSqlite(t *testing.T) {
-//TODO 	const repo = "sqlite.org/sqlite-amalgamation-3180000/"
-//TODO 	pth := findRepo(t, repo)
-//TODO 	if pth == "" {
-//TODO 		t.Logf("repository not found, skipping: %v", repo)
-//TODO 		return
-//TODO 	}
-//TODO
-//TODO 	_, bin := build(
-//TODO 		t,
-//TODO 		"",
-//TODO 		[]string{filepath.Join(pth, "sqlite3.c")},
-//TODO 		cc.IncludePaths([]string{pth}),
-//TODO 	)
-//TODO 	_ = bin
-//TODO }
+func TestSqlite(t *testing.T) {
+	const repo = "sqlite.org/sqlite-amalgamation-3180000/"
+	pth := findRepo(t, repo)
+	if pth == "" {
+		t.Logf("repository not found, skipping: %v", repo)
+		return
+	}
+
+	_, bin := build(
+		t,
+		"",
+		[][]string{
+			{"testdata/sqlite/test.c"},
+			{filepath.Join(pth, "sqlite3.c")},
+		},
+		cc.EnableAnonymousStructFields(),
+		cc.IncludePaths([]string{pth}),
+	)
+	_ = bin
+	//TODO args := []string{"./test", "sqlite.db", "select * from t"}
+	//TODO exec(t, bin, args, nil)
+}

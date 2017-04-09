@@ -111,7 +111,7 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 	switch {
 	case len(repl) != 0 && m.Value != nil && repl[0].Rune != cc.IDENTIFIER:
 		switch m.Type.Kind() {
-		case cc.Int, cc.Float, cc.Ptr:
+		case cc.Int, cc.Double, cc.Ptr:
 			s = fmt.Sprintf("%s (%v)", s, m.Value)
 		case cc.UInt:
 			s = fmt.Sprintf("%s (%vu)", s, m.Value)
@@ -123,6 +123,8 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 			s = fmt.Sprintf("%s (%vll)", s, m.Value)
 		case cc.ULongLong:
 			s = fmt.Sprintf("%s (%vull)", s, m.Value)
+		case cc.Float:
+			s = fmt.Sprintf("%s (%vf)", s, m.Value)
 		default:
 			log.Fatalf("%s: %v", m.DefTok.Position(), m.Type.Kind())
 		}
@@ -337,7 +339,8 @@ func structDeclaration(b *buffer.Bytes, n *cc.StructDeclaration) {
 		structDeclaratorList(b, n.StructDeclaratorList)
 		b.WriteByte(';')
 	case 1: // SpecifierQualifierList ';'                       // Case 1
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+		specifierQualifierList(b, n.SpecifierQualifierList)
+		b.WriteByte(';')
 	case 2: // StaticAssertDeclaration                          // Case 2
 		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
@@ -669,6 +672,7 @@ func header(nm, mre, dre string) {
 #define __os__ %s
 #define __arch__ %s
 #define _ISOC99_SOURCE
+#define _XOPEN_SOURCE 500
 
 #include <predefined.h>
 
@@ -798,15 +802,15 @@ func main() {
 		//TODO{"alloca", "TODO", "TODO"},
 		//TODO{"complex", "TODO", "TODO"},
 		{"ctype", "TODO", "tolower|__int32_t"},
-		//TODO{"dlfcn", "TODO", "TODO"},
-		//TODO{"errno", "TODO", "TODO"},
-		{"fcntl", "TODO", "open"},
+		{"dlfcn", "RTLD_NOW", "dlsym"},
+		{"errno", "EINTR|ETIMEDOUT", "TODO"},
+		{"fcntl", "F_WRLCK", "open|struct flock"},
 		//TODO{"float", "TODO", "TODO"},
 		{"limits", "INT_MAX", "TODO"},
 		//TODO{"locale", "TODO", "TODO"},
 		{"math", "TODO", "sin"},
 		{"memory", "TODO", "TODO"},
-		//TODO{"pthread", "TODO", "TODO"},
+		{"pthread", "TODO", "pthread_mutex_t"},
 		//TODO{"sched", "TODO", "TODO"},
 		//TODO{"setjmp", "TODO", "TODO"},
 		//TODO{"signal", "TODO", "TODO"},
@@ -818,14 +822,14 @@ func main() {
 		{"stdlib", "TODO", "qsort|wchar_t"},
 		{"string", "TODO", "strcpy|size_t"},
 		{"strings", "TODO", "index"},
-		//TODO{"sys/mman", "TODO", "TODO"},
+		{"sys/mman", "PROT_READ", "mmap"},
 		//TODO{"sys/select", "TODO", "TODO"},
-		//TODO{"sys/stat", "TODO", "TODO"},
-		//TODO{"sys/time", "TODO", "TODO"},
-		//TODO{"sys/types", "TODO", "TODO"},
+		{"sys/stat", "TODO", "stat"},
+		{"sys/time", "TODO", "timeval|sigset_t"},
+		{"sys/types", "TODO", "TODO"},
 		//TODO{"sys/wait", "TODO", "TODO"},
-		//TODO{"time", "TODO", "TODO"},
-		{"unistd", "TODO", "read"},
+		{"time", "TODO", "time_t"},
+		{"unistd", "_SC_PAGESIZE", "read"},
 		//TODO{"wchar", "TODO", "TODO"},
 	} {
 		header(v.nm, v.mre, v.dre)

@@ -83,6 +83,13 @@ typedef long unsigned int size_t;
 typedef int wchar_t;
 #define NULL ( ( void * ) 0 )
 #define _STDLIB_H (1)
+#define WEXITSTATUS(status) __WEXITSTATUS ( status )
+#define WTERMSIG(status) __WTERMSIG ( status )
+#define WSTOPSIG(status) __WSTOPSIG ( status )
+#define WIFEXITED(status) __WIFEXITED ( status )
+#define WIFSIGNALED(status) __WIFSIGNALED ( status )
+#define WIFSTOPPED(status) __WIFSTOPPED ( status )
+#define WIFCONTINUED(status) __WIFCONTINUED ( status )
 typedef struct {
 	int quot;
 	int rem;
@@ -113,19 +120,40 @@ extern long int strtol(char *__nptr, char **__endptr, int __base);
 extern unsigned long int strtoul(char *__nptr, char **__endptr, int __base);
 extern long long int strtoll(char *__nptr, char **__endptr, int __base);
 extern unsigned long long int strtoull(char *__nptr, char **__endptr, int __base);
+extern char *l64a(long int __n);
+extern long int a64l(char *__s);
+extern long int random(void);
+extern void srandom(unsigned int __seed);
+extern char *initstate(unsigned int __seed, char *__statebuf, size_t __statelen);
+extern char *setstate(char *__statebuf);
 extern int rand(void);
 extern void srand(unsigned int __seed);
+extern int rand_r(unsigned int *__seed);
+extern double drand48(void);
+extern double erand48(unsigned short int __xsubi[3]);
+extern long int lrand48(void);
+extern long int nrand48(unsigned short int __xsubi[3]);
+extern long int mrand48(void);
+extern long int jrand48(unsigned short int __xsubi[3]);
+extern void srand48(long int __seedval);
+extern unsigned short int *seed48(unsigned short int __seed16v[3]);
+extern void lcong48(unsigned short int __param[7]);
 #define __malloc_and_calloc_defined
 extern void *malloc(size_t __size);
 extern void *calloc(size_t __nmemb, size_t __size);
 extern void *realloc(void *__ptr, size_t __size);
 extern void free(void *__ptr);
+extern void *valloc(size_t __size);
 extern void abort(void);
 extern int atexit(void (*__func) (void));
 extern void exit(int __status);
 extern void _Exit(int __status);
 extern char *getenv(char *__name);
+extern int putenv(char *__string);
+extern char *mktemp(char *__template);
+extern int mkstemp(char *__template);
 extern int system(char *__command);
+extern char *realpath(char *__name, char *__resolved);
 #define __COMPAR_FN_T
 typedef int (*__compar_fn_t) (void *, void *);
 extern void *bsearch(void *__key, void *__base, size_t __nmemb, size_t __size, __compar_fn_t __compar);
@@ -136,8 +164,17 @@ extern long long int llabs(long long int __x);
 extern div_t div(int __numer, int __denom);
 extern ldiv_t ldiv(long int __numer, long int __denom);
 extern lldiv_t lldiv(long long int __numer, long long int __denom);
+extern char *ecvt(double __value, int __ndigit, int *__decpt, int *__sign);
+extern char *fcvt(double __value, int __ndigit, int *__decpt, int *__sign);
+extern char *gcvt(double __value, int __ndigit, char *__buf);
 extern int mblen(char *__s, size_t __n);
 extern int mbtowc(wchar_t * __pwc, char *__s, size_t __n);
 extern int wctomb(char *__s, wchar_t __wchar);
 extern size_t mbstowcs(wchar_t * __pwcs, char *__s, size_t __n);
 extern size_t wcstombs(char *__s, wchar_t * __pwcs, size_t __n);
+extern int getsubopt(char **__optionp, char **__tokens, char **__valuep);
+extern void setkey(char *__key);
+extern int grantpt(int __fd);
+extern int unlockpt(int __fd);
+extern char *ptsname(int __fd);
+extern int ttyslot(void);

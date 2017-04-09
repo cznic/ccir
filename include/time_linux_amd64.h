@@ -3,7 +3,7 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/include/ctype.h
+//      /usr/include/time.h
 // ----------------------------------------------------------------------------
 /* Copyright (C) 1991-2016 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -91,48 +91,68 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef long int __intptr_t;
 typedef unsigned int __socklen_t;
-#define _CTYPE_H (1)
-#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
-enum { _ISupper = 256, _ISlower = 512, _ISalpha = 1024, _ISdigit = 2048, _ISxdigit = 4096, _ISspace = 8192, _ISprint = 16384, _ISgraph = 32768, _ISblank = 1, _IScntrl = 2, _ISpunct = 4, _ISalnum = 8 };
-extern unsigned short int **__ctype_b_loc(void);
-extern __int32_t **__ctype_tolower_loc(void);
-extern __int32_t **__ctype_toupper_loc(void);
-#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
-#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
-#define __toascii(c) ( ( c ) & 0x7f )
-#define __exctype(name) extern int name ( int ) __THROW
-extern int isalnum(int);
-extern int isalpha(int);
-extern int iscntrl(int);
-extern int isdigit(int);
-extern int islower(int);
-extern int isgraph(int);
-extern int isprint(int);
-extern int ispunct(int);
-extern int isspace(int);
-extern int isupper(int);
-extern int isxdigit(int);
-extern int tolower(int __c);
-extern int toupper(int __c);
-extern int isblank(int);
-extern int isascii(int __c);
-extern int toascii(int __c);
-extern int _toupper(int);
-extern int _tolower(int);
-#define __tobody(c, f, a, args) ( __extension__ ( { int __res ; if ( sizeof ( c ) > 1 ) { if ( __builtin_constant_p ( c ) ) { int __c = ( c ) ; __res = __c < - 128 || __c > 255 ? __c : ( a ) [ __c ] ; } else __res = f args ; } else __res = ( a ) [ ( int ) ( c ) ] ; __res ; } ) )
-#define isalnum(c) __isctype ( ( c ) , _ISalnum )
-#define isalpha(c) __isctype ( ( c ) , _ISalpha )
-#define iscntrl(c) __isctype ( ( c ) , _IScntrl )
-#define isdigit(c) __isctype ( ( c ) , _ISdigit )
-#define islower(c) __isctype ( ( c ) , _ISlower )
-#define isgraph(c) __isctype ( ( c ) , _ISgraph )
-#define isprint(c) __isctype ( ( c ) , _ISprint )
-#define ispunct(c) __isctype ( ( c ) , _ISpunct )
-#define isspace(c) __isctype ( ( c ) , _ISspace )
-#define isupper(c) __isctype ( ( c ) , _ISupper )
-#define isxdigit(c) __isctype ( ( c ) , _ISxdigit )
-#define isblank(c) __isctype ( ( c ) , _ISblank )
-#define isascii(c) __isascii ( c )
-#define toascii(c) __toascii ( c )
-#define _tolower(c) ( ( int ) ( * __ctype_tolower_loc ( ) ) [ ( int ) ( c ) ] )
-#define _toupper(c) ( ( int ) ( * __ctype_toupper_loc ( ) ) [ ( int ) ( c ) ] )
+#define _TIME_H (1)
+#define __clock_t_defined (1)
+typedef __clock_t clock_t;
+#define __time_t_defined (1)
+typedef __time_t time_t;
+#define __clockid_t_defined (1)
+typedef __clockid_t clockid_t;
+#define __timer_t_defined (1)
+typedef __timer_t timer_t;
+#define __timespec_defined (1)
+struct timespec {
+	__time_t tv_sec;
+	__syscall_slong_t tv_nsec;
+};
+struct tm {
+	int tm_sec;
+	int tm_min;
+	int tm_hour;
+	int tm_mday;
+	int tm_mon;
+	int tm_year;
+	int tm_wday;
+	int tm_yday;
+	int tm_isdst;
+	long int __tm_gmtoff;
+	char *__tm_zone;
+};
+struct itimerspec {
+	struct timespec it_interval;
+	struct timespec it_value;
+};
+struct sigevent;
+extern clock_t clock(void);
+extern time_t time(time_t * __timer);
+extern double difftime(time_t __time1, time_t __time0);
+extern time_t mktime(struct tm *__tp);
+extern size_t strftime(char *__s, size_t __maxsize, char *__format, struct tm *__tp);
+extern char *strptime(char *__s, char *__fmt, struct tm *__tp);
+extern struct tm *gmtime(time_t * __timer);
+extern struct tm *localtime(time_t * __timer);
+extern struct tm *gmtime_r(time_t * __timer, struct tm *__tp);
+extern struct tm *localtime_r(time_t * __timer, struct tm *__tp);
+extern char *asctime(struct tm *__tp);
+extern char *ctime(time_t * __timer);
+extern char *asctime_r(struct tm *__tp, char *__buf);
+extern char *ctime_r(time_t * __timer, char *__buf);
+extern char *__tzname[2];
+extern int __daylight;
+extern long int __timezone;
+extern char *tzname[2];
+extern void tzset(void);
+extern int daylight;
+extern long int timezone;
+#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
+extern int nanosleep(struct timespec *__requested_time, struct timespec *__remaining);
+extern int clock_getres(clockid_t __clock_id, struct timespec *__res);
+extern int clock_gettime(clockid_t __clock_id, struct timespec *__tp);
+extern int clock_settime(clockid_t __clock_id, struct timespec *__tp);
+extern int timer_create(clockid_t __clock_id, struct sigevent *__evp, timer_t * __timerid);
+extern int timer_delete(timer_t __timerid);
+extern int timer_settime(timer_t __timerid, int __flags, struct itimerspec *__value, struct itimerspec *__ovalue);
+extern int timer_gettime(timer_t __timerid, struct itimerspec *__value);
+extern int timer_getoverrun(timer_t __timerid);
+extern int getdate_err;
+extern struct tm *getdate(char *__string);

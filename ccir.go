@@ -539,7 +539,7 @@ func (c *c) initializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
 	case cc.Struct, cc.Union:
 		return c.structInitializerList(t, n)
 	default:
-		panic(fmt.Errorf("%s: internal error %v %v", position(n), t, t.Kind()))
+		panic(fmt.Errorf("%s: internal error %v %v %v", position(n), t, t.Kind(), n.Len()))
 	}
 }
 

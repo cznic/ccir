@@ -30,8 +30,9 @@
 #define __roundup(n, mod) ((n + mod - 1) & ~(mod - 1))
 #define __volatile volatile
 
-typedef void *__FILE_TYPE__;
 typedef __builtin_va_list __gnuc_va_list;
+typedef void *__FILE_TYPE__;
+typedef void *__jmp_buf[7];
 
 __FILE_TYPE__ __builtin_fopen(char *__filename, char *__modes);
 __SIZE_TYPE__ __builtin_strlen(char *__s);

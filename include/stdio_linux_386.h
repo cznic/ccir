@@ -344,6 +344,8 @@ typedef struct _IO_FILE FILE;
 typedef struct _IO_FILE __FILE;
 #define ____FILE_defined (1)
 #define _STDIO_USES_IOSTREAM
+typedef __off_t off_t;
+#define __off_t_defined
 typedef _G_fpos_t fpos_t;
 #define _IOFBF (0)
 #define _IOLBF (1)
@@ -352,6 +354,7 @@ typedef _G_fpos_t fpos_t;
 #define SEEK_SET (0)
 #define SEEK_CUR (1)
 #define SEEK_END (2)
+#define P_tmpdir (222856)
 extern struct _IO_FILE *stdin;
 extern struct _IO_FILE *stdout;
 extern struct _IO_FILE *stderr;
@@ -362,10 +365,12 @@ extern int remove(char *__filename);
 extern int rename(char *__old, char *__new);
 extern FILE *tmpfile(void);
 extern char *tmpnam(char *__s);
+extern char *tempnam(char *__dir, char *__pfx);
 extern int fclose(FILE * __stream);
 extern int fflush(FILE * __stream);
 extern FILE *fopen(char *__filename, char *__modes);
 extern FILE *freopen(char *__filename, char *__modes, FILE * __stream);
+extern FILE *fdopen(int __fd, char *__modes);
 extern void setbuf(FILE * __stream, char *__buf);
 extern int setvbuf(FILE * __stream, char *__buf, int __modes, size_t __n);
 extern int fprintf(FILE * __stream, char *__format, ...);
@@ -398,10 +403,16 @@ extern int fgetc(FILE * __stream);
 extern int getc(FILE * __stream);
 extern int getchar(void);
 #define getc(_fp) _IO_getc ( _fp )
+extern int getc_unlocked(FILE * __stream);
+extern int getchar_unlocked(void);
 extern int fputc(int __c, FILE * __stream);
 extern int putc(int __c, FILE * __stream);
 extern int putchar(int __c);
 #define putc(_ch, _fp) _IO_putc ( _ch , _fp )
+extern int putc_unlocked(int __c, FILE * __stream);
+extern int putchar_unlocked(int __c);
+extern int getw(FILE * __stream);
+extern int putw(int __w, FILE * __stream);
 extern char *fgets(char *__s, int __n, FILE * __stream);
 extern char *gets(char *__s);
 extern int fputs(char *__s, FILE * __stream);
@@ -412,9 +423,19 @@ extern size_t fwrite(void *__ptr, size_t __size, size_t __n, FILE * __s);
 extern int fseek(FILE * __stream, long int __off, int __whence);
 extern long int ftell(FILE * __stream);
 extern void rewind(FILE * __stream);
+extern int fseeko(FILE * __stream, __off_t __off, int __whence);
+extern __off_t ftello(FILE * __stream);
 extern int fgetpos(FILE * __stream, fpos_t * __pos);
 extern int fsetpos(FILE * __stream, fpos_t * __pos);
 extern void clearerr(FILE * __stream);
 extern int feof(FILE * __stream);
 extern int ferror(FILE * __stream);
 extern void perror(char *__s);
+extern int fileno(FILE * __stream);
+extern FILE *popen(char *__command, char *__modes);
+extern int pclose(FILE * __stream);
+extern char *ctermid(char *__s);
+extern char *cuserid(char *__s);
+extern void flockfile(FILE * __stream);
+extern int ftrylockfile(FILE * __stream);
+extern void funlockfile(FILE * __stream);
