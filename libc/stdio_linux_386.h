@@ -354,7 +354,7 @@ typedef _G_fpos_t fpos_t;
 #define SEEK_SET (0)
 #define SEEK_CUR (1)
 #define SEEK_END (2)
-#define P_tmpdir (290328)
+#define P_tmpdir "/tmp"
 extern struct _IO_FILE *stdin;
 extern struct _IO_FILE *stdout;
 extern struct _IO_FILE *stderr;

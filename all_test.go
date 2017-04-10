@@ -23,6 +23,7 @@ import (
 	"time"
 
 	"github.com/cznic/cc"
+	"github.com/cznic/ccir/internal/model"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/ir"
 	"github.com/cznic/strutil"
@@ -146,17 +147,16 @@ func errStr(err error) string {
 	}
 }
 
-func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err error) {
+func parse(src []string, opts ...cc.Opt) (_ *cc.TranslationUnit, err error) {
 	defer func() {
 		if e := recover(); e != nil && err == nil {
 			err = fmt.Errorf("cc.Parse: PANIC: %v\n%s", e, debug.Stack())
 		}
 	}()
 
-	modelName := runtime.GOARCH
-	model, err := Model(modelName)
+	model, err := model.New()
 	if err != nil {
-		return "", nil, err
+		return nil, err
 	}
 
 	ast, err := cc.Parse(fmt.Sprintf(`
@@ -165,16 +165,16 @@ func parse(src []string, opts ...cc.Opt) (_ string, _ *cc.TranslationUnit, err e
 #include <builtin.h>
 
 #define NO_TRAMPOLINES 1
-`, modelName, runtime.GOOS),
+`, runtime.GOARCH, runtime.GOOS),
 		src,
 		model,
 		opts...,
 	)
 	if err != nil {
-		return modelName, nil, fmt.Errorf("cc.Parse: %v", errStr(err))
+		return nil, fmt.Errorf("cc.Parse: %v", errStr(err))
 	}
 
-	return modelName, ast, nil
+	return ast, nil
 }
 
 func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Opt) (log buffer.Bytes, exitStatus int, err error) {
@@ -197,12 +197,12 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	if n := *yydebug; n != 0 {
 		opts = append(opts, cc.YyDebug(n))
 	}
-	modelName, ast, err := parse([]string{crt0Path, match}, opts...)
+	ast, err := parse([]string{crt0Path, match}, opts...)
 	if err != nil {
 		return log, -1, err
 	}
 
-	objs, err := New(modelName, ast)
+	objs, err := New(ast)
 	if err != nil {
 		return log, -1, fmt.Errorf("New: %v", err)
 	}
@@ -260,7 +260,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 		}
 	}
 
-	bin, err := virtual.LoadMain(modelName, objs)
+	bin, err := virtual.LoadMain(objs)
 	if err != nil {
 		return log, -1, fmt.Errorf("virtual.LoadMain: %v", err)
 	}
@@ -765,7 +765,7 @@ func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (
 	return bytes.TrimSpace(append(stdout.Bytes(), stderr.Bytes()...)), resultFiles, duration
 }
 
-func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) (string, *virtual.Binary) {
+func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) *virtual.Binary {
 	var log buffer.Bytes
 	var lpos token.Position
 	if *cpp {
@@ -789,10 +789,9 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) (string,
 		ndbg = "#define NDEBUG 1"
 	}
 	var build [][]ir.Object
-	modelName := runtime.GOARCH
 	tus = append(tus, []string{crt0Path})
 	for _, src := range tus {
-		model, err := Model(modelName)
+		model, err := model.New()
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -804,7 +803,7 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) (string,
 #define __os__ %s
 #include <builtin.h>
 %s
-`, ndbg, modelName, runtime.GOOS, predef),
+`, ndbg, runtime.GOARCH, runtime.GOOS, predef),
 			src,
 			model,
 			append([]cc.Opt{
@@ -823,7 +822,7 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) (string,
 			t.Fatal(errStr(err))
 		}
 
-		objs, err := New(modelName, ast)
+		objs, err := New(ast)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -871,12 +870,12 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) (string,
 		}
 	}
 
-	bin, err := virtual.LoadMain(modelName, linked)
+	bin, err := virtual.LoadMain(linked)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	return modelName, bin
+	return bin
 }
 
 func findRepo(t *testing.T, s string) string {
@@ -912,8 +911,8 @@ func TestSelfie(t *testing.T) {
 		return
 	}
 
-	_, bin := build(t, "", [][]string{{filepath.Join(pth, "selfie.c")}})
-	if m, _ := Model(runtime.GOARCH); m.Items[cc.Ptr].Size != 4 {
+	bin := build(t, "", [][]string{{filepath.Join(pth, "selfie.c")}})
+	if m, _ := model.New(); m.Items[cc.Ptr].Size != 4 {
 		return
 	}
 
@@ -979,7 +978,7 @@ hello.c: exiting with exit code 0 and 0.00MB of mallocated memory
 }
 
 func TestC4(t *testing.T) {
-	_, bin := build(t, "", [][]string{{"testdata/github.com/rswier/c4/c4.c"}})
+	bin := build(t, "", [][]string{{"testdata/github.com/rswier/c4/c4.c"}})
 
 	args := []string{"./c4"}
 	out, _, d := exec(t, bin, args, nil)
@@ -1031,7 +1030,7 @@ func TestSqlite(t *testing.T) {
 		return
 	}
 
-	_, bin := build(
+	bin := build(
 		t,
 		"",
 		[][]string{

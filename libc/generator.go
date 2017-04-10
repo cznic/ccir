@@ -22,7 +22,7 @@ import (
 	"strings"
 
 	"github.com/cznic/cc"
-	"github.com/cznic/ccir"
+	"github.com/cznic/ccir/internal/model"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/xc"
 )
@@ -93,7 +93,7 @@ func emit(nm, more string, b []byte) {
 		return
 	}
 
-	model, err := ccir.Model(runtime.GOARCH)
+	model, err := model.New()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -133,18 +133,45 @@ package libc
 	}
 
 	base := filepath.Base(nm)
+	base = strings.ToUpper(base)[:1] + base[1:]
 	var buf buffer.Bytes
 	buf.WriteString("const (\n")
 	var a []string
 	for k, v := range ast.Macros {
-		if v.Value != nil {
-			a = append(a, string(dict.S(k)))
+		if v.Value != nil && v.Type.Kind() != cc.Bool {
+			switch fn := v.DefTok.Position().Filename; {
+			case
+				fn == "builtin.h",
+				fn == "<predefine>",
+				strings.HasPrefix(fn, "predefined_"):
+				// ignore
+			default:
+				a = append(a, string(dict.S(k)))
+			}
 		}
 	}
 	sort.Strings(a)
 	for _, v := range a {
 		m := ast.Macros[dict.SID(v)]
-		fmt.Fprintf(&buf, "X%s_%s = %v\n", base, v, m.Value)
+		if m.Value == nil {
+			log.Fatal("TODO")
+		}
+
+		switch t := m.Type; t.Kind() {
+		case
+			cc.Int, cc.UInt, cc.Long, cc.ULong, cc.LongLong, cc.ULongLong,
+			cc.Float, cc.LongDouble, cc.Bool:
+			fmt.Fprintf(&buf, "%s_%s = %v\n", base, v, m.Value)
+		case cc.Ptr:
+			switch t := t.Element(); t.Kind() {
+			case cc.Char:
+				fmt.Fprintf(&buf, "%s_%s = %q\n", base, v, dict.S(int(m.Value.(cc.StringLitID))))
+			default:
+				log.Fatalf("%v", t.Kind())
+			}
+		default:
+			log.Fatalf("%v", t.Kind())
+		}
 	}
 
 	a = a[:0]
@@ -165,7 +192,7 @@ package libc
 	sort.Strings(a)
 	for _, v := range a {
 		dd := ast.Declarations.Identifiers[dict.SID(v)].Node.(*cc.DirectDeclarator)
-		fmt.Fprintf(&buf, "X%s_%s = %v\n", base, v, dd.EnumVal)
+		fmt.Fprintf(&buf, "%s_%s = %v\n", base, v, dd.EnumVal)
 	}
 
 	buf.WriteString(")\n")
@@ -206,8 +233,8 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 	}
 	switch {
 	case len(repl) != 0 && m.Value != nil && repl[0].Rune != cc.IDENTIFIER:
-		switch m.Type.Kind() {
-		case cc.Int, cc.Double, cc.Ptr:
+		switch t := m.Type; t.Kind() {
+		case cc.Int, cc.Double:
 			s = fmt.Sprintf("%s (%v)", s, m.Value)
 		case cc.UInt:
 			s = fmt.Sprintf("%s (%vu)", s, m.Value)
@@ -221,8 +248,15 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 			s = fmt.Sprintf("%s (%vull)", s, m.Value)
 		case cc.Float:
 			s = fmt.Sprintf("%s (%vf)", s, m.Value)
+		case cc.Ptr:
+			switch t := t.Element(); t.Kind() {
+			case cc.Char:
+				s = fmt.Sprintf("%s %q", s, dict.S(int(m.Value.(cc.StringLitID))))
+			default:
+				log.Fatalf("%s: %v", m.DefTok.Position(), t.Kind())
+			}
 		default:
-			log.Fatalf("%s: %v", m.DefTok.Position(), m.Type.Kind())
+			log.Fatalf("%s: %v", m.DefTok.Position(), t.Kind())
 		}
 	default:
 		var a []string
@@ -749,7 +783,7 @@ func extractCopyright(f string) string {
 }
 
 func skip(f string) bool {
-	return strings.HasPrefix(f, "predefine") || f == "<predefine>"
+	return strings.HasPrefix(f, "predefined_") || f == "<predefine>"
 }
 
 func header(nm, mre, dre string) {
@@ -758,7 +792,7 @@ func header(nm, mre, dre string) {
 		return
 	}
 
-	model, err := ccir.Model(runtime.GOARCH)
+	model, err := model.New()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -899,7 +933,7 @@ func main() {
 		//TODO{"complex", "TODO", "TODO"},
 		{"ctype", "TODO", "tolower|__int32_t"},
 		{"dlfcn", "RTLD_NOW", "dlsym"},
-		{"errno", "EINTR|ETIMEDOUT", "TODO"},
+		{"errno", "EINTR|ETIMEDOUT", "errno"},
 		{"fcntl", "F_WRLCK", "open|struct flock|__off_t"},
 		//TODO{"float", "TODO", "TODO"},
 		{"limits", "INT_MAX", "TODO"},

@@ -2684,15 +2684,8 @@ func (c *c) gen() {
 	}
 }
 
-// New returns ir.Objects generated from ast or an error, if any. The modelName
-// parameter is used to select a named memory model from ir.MemoryModels. The
-// ast must have been produced using a cc.Model provided by the Model function
-// for the same modelName. Scheme/example (error handling elided):
-//
-//	model, _ := ccir.Model(modelName)
-//	ast, _ := cc.Parse(..., model, ...)
-//	objects, ... := ccir.New(modelName, ast)
-func New(modelName string, ast *cc.TranslationUnit) (_ []ir.Object, err error) {
+// New returns ir.Objects generated from ast or an error, if any.  It's the
+func New(ast *cc.TranslationUnit) (_ []ir.Object, err error) {
 	if !Testing {
 		defer func() {
 			switch x := recover().(type) {
@@ -2706,9 +2699,9 @@ func New(modelName string, ast *cc.TranslationUnit) (_ []ir.Object, err error) {
 		}()
 	}
 
-	model, ok := ir.MemoryModels[modelName]
-	if !ok {
-		return nil, fmt.Errorf("unknown memory model %q", modelName)
+	model, err := ir.NewMemoryModel()
+	if err != nil {
+		return nil, err
 	}
 
 	c := newC(model, ast)

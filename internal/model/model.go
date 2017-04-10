@@ -2,21 +2,18 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ccir
+package model
 
 import (
 	"fmt"
+	"runtime"
+
 	"github.com/cznic/cc"
-	"github.com/cznic/ir"
 )
 
-// Model returns a *cc.Model associated with name or an error, if any.
-func Model(name string) (*cc.Model, error) {
-	if _, ok := ir.MemoryModels[name]; !ok {
-		return nil, fmt.Errorf("unknown ir memory model %q", name)
-	}
-
-	switch name {
+// New returns a *cc.Model for the current architecture and platform.
+func New() (*cc.Model, error) {
+	switch arch := runtime.GOARCH; arch {
 	case "386", "arm", "arm64be", "armbe", "mips", "mipsle", "ppc", "ppc64le", "s390", "s390x", "sparc":
 		return &cc.Model{
 			Items: map[cc.Kind]cc.ModelItem{
@@ -96,6 +93,6 @@ func Model(name string) (*cc.Model, error) {
 			},
 		}, nil
 	default:
-		return nil, fmt.Errorf("unknown ccir memory model %q", name)
+		return nil, fmt.Errorf("unknown/unsupported architecture %s", arch)
 	}
 }
