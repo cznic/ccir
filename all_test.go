@@ -648,6 +648,10 @@ func TestGCCExec(t *testing.T) {
 
 		// other
 		"conversion.c": {},
+
+		// un-flatten (wips wrt cc.0506a942f3efa9b7a0a4b98dbe45bf7e8d06a542)
+		"20030714-1.c": {}, // cc.Parse: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/20030714-1.c:102:11: assignment from incompatible type ('unsigned' = '<undefined>')
+		"anon-1.c":     {}, // cc.Parse: ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/anon-1.c:22:7: struct{int; ;} has no member named b
 	}
 	wd, err := os.Getwd()
 	if err != nil {

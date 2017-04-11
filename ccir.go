@@ -200,31 +200,27 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat bool) {
 		fallthrough
 	case cc.Struct:
 		dst.WriteString(sou)
-		switch m, incomplete := t.Members(); {
-		case incomplete:
-			// nop
-		default:
-			for i, v := range m {
-				t := v.Type
-				if c.isVLA(t) != nil {
-					panic(fmt.Errorf("%s: struct/union member cannot be a variable length array", position(t.Declarator())))
+		m := c.members(t, false, true)
+		for i, v := range m {
+			t := v.Type
+			if c.isVLA(t) != nil {
+				panic(fmt.Errorf("%s: struct/union member cannot be a variable length array", position(t.Declarator())))
+			}
+
+			if v.Bits != 0 {
+				if v.BitOffsetOf != 0 {
+					continue
 				}
 
-				if v.Bits != 0 {
-					if v.BitOffsetOf != 0 {
-						continue
-					}
-
-					t = v.BitFieldType
-					if t == nil {
-						t = c.cint
-					}
+				t = v.BitFieldType
+				if t == nil {
+					t = c.cint
 				}
+			}
 
-				c.typ0(dst, t, true)
-				if i+1 < len(m) {
-					dst.WriteByte(',')
-				}
+			c.typ0(dst, t, true)
+			if i+1 < len(m) {
+				dst.WriteByte(',')
 			}
 		}
 		dst.WriteByte('}')
@@ -375,15 +371,19 @@ func (c *c) arrayInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bo
 	return values, complete
 }
 
-func (c *c) members(t cc.Type) []cc.Member {
+func (c *c) members(t cc.Type, skipAnonymousBitFields, acceptIncompleteTypes bool) []cc.Member {
 	members, incomplete := t.Members()
-	if incomplete {
+	if incomplete && !acceptIncompleteTypes {
 		TODO(position(t.Declarator()))
+	}
+
+	if !skipAnonymousBitFields {
+		return members
 	}
 
 	w := 0
 	for _, v := range members {
-		if v.Name == 0 {
+		if v.Name == 0 && v.Bits != 0 && skipAnonymousBitFields {
 			continue
 		}
 
@@ -394,7 +394,7 @@ func (c *c) members(t cc.Type) []cc.Member {
 }
 
 func (c *c) structInitializerList(t cc.Type, n *cc.InitializerList) (ir.Value, bool) {
-	members := c.members(t)
+	members := c.members(t, true, false)
 	if len(members) == 1 && n.Len() > 1 {
 		if t0 := members[0].Type; t0.Kind() == cc.Array {
 			val, complete := c.arrayInitializerList(t0, n)
@@ -669,7 +669,7 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 			panic("internal error")
 		case 1: // '.' IDENTIFIER              // Case 1
 			nm = d.Token2.Val
-			members, _ := t.Members()
+			members := c.members(t, true, false)
 			for j, v := range members {
 				if v.Name == nm {
 					i = j
@@ -747,7 +747,7 @@ func (c *c) exprInitializerListArrayElement(t, et cc.Type, pt ir.Type, i int, n 
 
 func (c *c) exprInitializerStruct(t cc.Type, pt ir.Type, l *cc.InitializerList) {
 	i := 0
-	ma := c.members(t)
+	ma := c.members(t, true, false)
 	for ; l != nil; l = l.InitializerList {
 		c.emit(&ir.Dup{TypeID: pt.ID(), Position: position(l)})
 		i = c.exprInitializerListStructField(t, ma[i].Type, pt, i, ma[i].Name, l)
@@ -1105,10 +1105,7 @@ func (c *c) normalize(n *cc.Expression) (_ *cc.Expression, t cc.Type) {
 }
 
 func (c *c) field(n cc.Node, st cc.Type, nm int) (index, bits, bitoff int, bitFieldType, valueType cc.Type) {
-	ms, incomplete := st.Members()
-	if incomplete {
-		TODO(position(n))
-	}
+	ms := c.members(st, false, false)
 
 	//dbg("==== %s: %v %q", position(n), st, dict.S(nm))
 	//for _, v := range ms {
