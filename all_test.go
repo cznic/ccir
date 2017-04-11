@@ -6,6 +6,8 @@ package ccir
 
 import (
 	"bytes"
+	"compress/gzip"
+	"encoding/gob"
 	"encoding/hex"
 	"flag"
 	"fmt"
@@ -265,9 +267,20 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 		return log, -1, fmt.Errorf("virtual.LoadMain: %v", err)
 	}
 
+	var gz bytes.Buffer
+	zw := gzip.NewWriter(&gz)
+	enc := gob.NewEncoder(zw)
+	if err := enc.Encode(bin); err != nil {
+		return log, -1, fmt.Errorf("gob encode: %v", err)
+	}
+
+	if err := zw.Close(); err != nil {
+		return log, -1, fmt.Errorf("gzip close: %v", err)
+	}
+
 	s := virtual.DumpCodeStr(bin.Code, 0)
-	fmt.Fprintf(&log, "%s: virtual.LoadMain: code %#05x, text %#05x, data %#05x, bss %#05x, pc2func %v, pc2line %v\n%s\n",
-		match, len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), s.Bytes(),
+	fmt.Fprintf(&log, "%s: virtual.LoadMain: code %#05x, text %#05x, data %#05x, bss %#05x, pc2func %v, pc2line %v, gz %v\n%s\n",
+		match, len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), len(gz.Bytes()), s.Bytes(),
 	)
 	s.Close()
 	if len(bin.Text) != 0 {
@@ -1042,8 +1055,19 @@ func TestSqlite(t *testing.T) {
 		cc.EnableAnonymousStructFields(),
 		cc.IncludePaths([]string{pth}),
 	)
-	t.Logf("code %#08x, text %#08x, data %#08x, bss %#08x, pc2func %v, pc2line %v\n",
-		len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines),
+	var gz bytes.Buffer
+	zw := gzip.NewWriter(&gz)
+	enc := gob.NewEncoder(zw)
+	if err := enc.Encode(bin); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := zw.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	t.Logf("code %#08x, text %#08x, data %#08x, bss %#08x, pc2func %v, pc2line %v, gz %v\n",
+		len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), len(gz.Bytes()),
 	)
 
 	args := []string{"./test"}
@@ -1114,13 +1138,9 @@ select * from t order by i desc;
 `}
 	out, f, d = exec(t, bin, args, nil)
 	if g, e := out, []byte(`name = t
-
 i = 42
-
 i = 314
-
 i = 314
-
 i = 42`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
