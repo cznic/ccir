@@ -78,5 +78,6 @@ void __builtin_abort(void);
 void __builtin_exit(int __status);
 void __builtin_longjmp(void *__env, int __val);
 void __builtin_trap(void);
+void __register_stdfiles(void *, void *, void *);
 
 #endif				/* _BUILTIN_H_ */

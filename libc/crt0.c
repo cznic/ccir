@@ -6,13 +6,11 @@
 
 int main();
 
-void *stdin, *stdout, *stderr;
+static void *__stdfiles[3];
+void *stdin = &__stdfiles[0], *stdout = &__stdfiles[1], *stderr = &__stdfiles[2];
 
 void _start(int argc, char **argv)
 {
-	stdin = fopen("/dev/stdin", "r");
-	stdout = fopen("/dev/stdout", "w");
-	stderr = fopen("/dev/stderr", "w");
-
+	__register_stdfiles(stdin, stdout, stderr);
 	exit(((int (*)())main) (argc, argv));
 }

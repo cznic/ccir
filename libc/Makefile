@@ -9,7 +9,6 @@ ngrep='TODOOK\|parser\.go\|scanner\.go\|.*_string\.go'
 
 all: editor
 	go vet 2>&1 | grep -v $(ngrep) || true
-	golint 2>&1 | grep -v $(ngrep) || true
 	make todo
 	unused generator.go || true
 	gosimple generator.go || true
