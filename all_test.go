@@ -1048,7 +1048,7 @@ func TestSqlite(t *testing.T) {
 
 	bin := build(
 		t,
-		"",
+		"#define SQLITE_DEBUG 1",
 		[][]string{
 			{"testdata/sqlite/test.c"},
 			{filepath.Join(pth, "sqlite3.c")},

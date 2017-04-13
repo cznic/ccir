@@ -10,8 +10,11 @@ ngrep='TODOOK\|parser\.go\|scanner\.go\|.*_string\.go'
 all: editor
 	go vet 2>&1 | grep -v $(ngrep) || true
 	make todo
-	unused generator.go || true
-	gosimple generator.go || true
+	unused . || true
+	misspell *.go
+	gosimple || true
+	maligned || true
+	unconvert -apply
 
 clean:
 	go clean

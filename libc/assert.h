@@ -7,7 +7,7 @@
 #undef assert
 
 #ifdef NDEBUG
-#define assert(ignore) ((void)0)
+#define assert(x) ((void)0)
 #else
-#define assert(x) (void)((x) ? 0 : (__builtin_fprintf(stderr, "%s:%s: assertion failure in %s: %s\n", __FILE__, __LINE__, __func__, #x), __builtin_abort(), 0), 0)
+#define assert(x) (void)((x) ? 0 : (__builtin_fprintf(stderr, "%s:%i: assertion failure in %s: %s\n", __FILE__, __LINE__, __func__, #x), __builtin_abort(), 0), 0)
 #endif				/* NDEBUG */

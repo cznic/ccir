@@ -53,7 +53,7 @@ int __builtin_ctzll(unsigned long long x);
 int __builtin_ffs(int i);
 int __builtin_ffsl(long i);
 int __builtin_ffsll(long long i);
-int __builtin_fprintf(__FILE_TYPE__ * __stream, char *__format, ...);
+int __builtin_fprintf(void *__stream, char *__format, ...);
 int __builtin_isprint(int);
 int __builtin_memcmp(void *__s1, void *__s2, __SIZE_TYPE__ __n);
 int __builtin_parity(unsigned x);
