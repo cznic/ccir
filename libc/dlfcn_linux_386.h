@@ -2,11 +2,11 @@
 
 // +build ignore
 
-#define _DLFCN_H (1)
 extern void *dlopen(char *__file, int __mode);
 extern int dlclose(void *__handle);
 extern void *dlsym(void *__handle, char *__name);
 extern char *dlerror(void);
+#define _DLFCN_H (1)
 #define RTLD_LAZY (1)
 #define RTLD_NOW (2)
 #define RTLD_BINDING_MASK (3)

@@ -48,26 +48,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#define __size_t__
-#define __SIZE_T__
-#define _SIZE_T
-#define _SYS_SIZE_T_H
-#define _T_SIZE_
-#define _T_SIZE
-#define __SIZE_T
-#define _SIZE_T_
-#define _BSD_SIZE_T_
-#define _SIZE_T_DEFINED_
-#define _SIZE_T_DEFINED
-#define _BSD_SIZE_T_DEFINED_
-#define _SIZE_T_DECLARED
-#define ___int_size_t_h
-#define _GCC_SIZE_T
-#define _SIZET_
-#define __size_t
 typedef long unsigned int size_t;
-#define NULL ( ( void * ) 0 )
-#define _STRING_H (1)
 extern void *memcpy(void *__dest, void *__src, size_t __n);
 extern void *memmove(void *__dest, void *__src, size_t __n);
 extern void *memccpy(void *__dest, void *__src, int __c, size_t __n);
@@ -95,3 +76,22 @@ extern char *strtok_r(char *__s, char *__delim, char **__save_ptr);
 extern size_t strlen(char *__s);
 extern char *strerror(int __errnum);
 extern void __bzero(void *__s, size_t __n);
+#define __size_t__
+#define __SIZE_T__
+#define _SIZE_T
+#define _SYS_SIZE_T_H
+#define _T_SIZE_
+#define _T_SIZE
+#define __SIZE_T
+#define _SIZE_T_
+#define _BSD_SIZE_T_
+#define _SIZE_T_DEFINED_
+#define _SIZE_T_DEFINED
+#define _BSD_SIZE_T_DEFINED_
+#define _SIZE_T_DECLARED
+#define ___int_size_t_h
+#define _GCC_SIZE_T
+#define _SIZET_
+#define __size_t
+#define NULL ( ( void * ) 0 )
+#define _STRING_H (1)

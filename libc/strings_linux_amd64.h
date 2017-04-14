@@ -48,6 +48,15 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
+typedef long unsigned int size_t;
+extern int bcmp(void *__s1, void *__s2, size_t __n);
+extern void bcopy(void *__src, void *__dest, size_t __n);
+extern void bzero(void *__s, size_t __n);
+extern char *index(char *__s, int __c);
+extern char *rindex(char *__s, int __c);
+extern int ffs(int __i);
+extern int strcasecmp(char *__s1, char *__s2);
+extern int strncasecmp(char *__s1, char *__s2, size_t __n);
 #define __size_t__
 #define __SIZE_T__
 #define _SIZE_T
@@ -65,13 +74,4 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 #define _GCC_SIZE_T
 #define _SIZET_
 #define __size_t
-typedef long unsigned int size_t;
 #define _STRINGS_H (1)
-extern int bcmp(void *__s1, void *__s2, size_t __n);
-extern void bcopy(void *__src, void *__dest, size_t __n);
-extern void bzero(void *__s, size_t __n);
-extern char *index(char *__s, int __c);
-extern char *rindex(char *__s, int __c);
-extern int ffs(int __i);
-extern int strcasecmp(char *__s1, char *__s2);
-extern int strncasecmp(char *__s1, char *__s2, size_t __n);

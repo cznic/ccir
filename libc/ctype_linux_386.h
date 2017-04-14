@@ -22,7 +22,6 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#define _BITS_TYPES_H (1)
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
 typedef unsigned int __u_int;
@@ -37,20 +36,6 @@ typedef signed long long int __int64_t;
 typedef unsigned long long int __uint64_t;
 typedef long long int __quad_t;
 typedef unsigned long long int __u_quad_t;
-#define __S16_TYPE short int
-#define __U16_TYPE unsigned short int
-#define __S32_TYPE int
-#define __U32_TYPE unsigned int
-#define __SLONGWORD_TYPE long int
-#define __ULONGWORD_TYPE unsigned long int
-#define __SQUAD_TYPE __quad_t
-#define __UQUAD_TYPE __u_quad_t
-#define __SWORD_TYPE int
-#define __UWORD_TYPE unsigned int
-#define __SLONG32_TYPE long int
-#define __ULONG32_TYPE unsigned long int
-#define __S64_TYPE __quad_t
-#define __U64_TYPE __u_quad_t
 typedef __u_quad_t __dev_t;
 typedef unsigned int __uid_t;
 typedef unsigned int __gid_t;
@@ -91,16 +76,10 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef int __intptr_t;
 typedef unsigned int __socklen_t;
-#define _CTYPE_H (1)
-#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
 enum { _ISupper = 256, _ISlower = 512, _ISalpha = 1024, _ISdigit = 2048, _ISxdigit = 4096, _ISspace = 8192, _ISprint = 16384, _ISgraph = 32768, _ISblank = 1, _IScntrl = 2, _ISpunct = 4, _ISalnum = 8 };
 extern unsigned short int **__ctype_b_loc(void);
 extern __int32_t **__ctype_tolower_loc(void);
 extern __int32_t **__ctype_toupper_loc(void);
-#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
-#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
-#define __toascii(c) ( ( c ) & 0x7f )
-#define __exctype(name) extern int name ( int ) __THROW
 extern int isalnum(int);
 extern int isalpha(int);
 extern int iscntrl(int);
@@ -119,6 +98,27 @@ extern int isascii(int __c);
 extern int toascii(int __c);
 extern int _toupper(int);
 extern int _tolower(int);
+#define _BITS_TYPES_H (1)
+#define __S16_TYPE short int
+#define __U16_TYPE unsigned short int
+#define __S32_TYPE int
+#define __U32_TYPE unsigned int
+#define __SLONGWORD_TYPE long int
+#define __ULONGWORD_TYPE unsigned long int
+#define __SQUAD_TYPE __quad_t
+#define __UQUAD_TYPE __u_quad_t
+#define __SWORD_TYPE int
+#define __UWORD_TYPE unsigned int
+#define __SLONG32_TYPE long int
+#define __ULONG32_TYPE unsigned long int
+#define __S64_TYPE __quad_t
+#define __U64_TYPE __u_quad_t
+#define _CTYPE_H (1)
+#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
+#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
+#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
+#define __toascii(c) ( ( c ) & 0x7f )
+#define __exctype(name) extern int name ( int ) __THROW
 #define __tobody(c, f, a, args) ( __extension__ ( { int __res ; if ( sizeof ( c ) > 1 ) { if ( __builtin_constant_p ( c ) ) { int __c = ( c ) ; __res = __c < - 128 || __c > 255 ? __c : ( a ) [ __c ] ; } else __res = f args ; } else __res = ( a ) [ ( int ) ( c ) ] ; __res ; } ) )
 #define isalnum(c) __isctype ( ( c ) , _ISalnum )
 #define isalpha(c) __isctype ( ( c ) , _ISalpha )

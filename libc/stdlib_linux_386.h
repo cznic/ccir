@@ -48,48 +48,8 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#define __size_t__
-#define __SIZE_T__
-#define _SIZE_T
-#define _SYS_SIZE_T_H
-#define _T_SIZE_
-#define _T_SIZE
-#define __SIZE_T
-#define _SIZE_T_
-#define _BSD_SIZE_T_
-#define _SIZE_T_DEFINED_
-#define _SIZE_T_DEFINED
-#define _BSD_SIZE_T_DEFINED_
-#define _SIZE_T_DECLARED
-#define ___int_size_t_h
-#define _GCC_SIZE_T
-#define _SIZET_
-#define __size_t
 typedef unsigned int size_t;
-#define __wchar_t__
-#define __WCHAR_T__
-#define _WCHAR_T
-#define _T_WCHAR_
-#define _T_WCHAR
-#define __WCHAR_T
-#define _WCHAR_T_
-#define _WCHAR_T_DEFINED_
-#define _WCHAR_T_DEFINED
-#define _WCHAR_T_H
-#define ___int_wchar_t_h
-#define __INT_WCHAR_T_H
-#define _GCC_WCHAR_T
-#define _WCHAR_T_DECLARED
 typedef long int wchar_t;
-#define NULL ( ( void * ) 0 )
-#define _STDLIB_H (1)
-#define WEXITSTATUS(status) __WEXITSTATUS ( status )
-#define WTERMSIG(status) __WTERMSIG ( status )
-#define WSTOPSIG(status) __WSTOPSIG ( status )
-#define WIFEXITED(status) __WIFEXITED ( status )
-#define WIFSIGNALED(status) __WIFSIGNALED ( status )
-#define WIFSTOPPED(status) __WIFSTOPPED ( status )
-#define WIFCONTINUED(status) __WIFCONTINUED ( status )
 typedef struct {
 	int quot;
 	int rem;
@@ -98,16 +58,10 @@ typedef struct {
 	long int quot;
 	long int rem;
 } ldiv_t;
-#define __ldiv_t_defined (1)
 typedef struct {
 	long long int quot;
 	long long int rem;
 } lldiv_t;
-#define __lldiv_t_defined (1)
-#define RAND_MAX (2147483647)
-#define EXIT_FAILURE (1)
-#define EXIT_SUCCESS (0)
-#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
 extern size_t __ctype_get_mb_cur_max(void);
 extern double atof(char *__nptr);
 extern int atoi(char *__nptr);
@@ -138,7 +92,6 @@ extern long int jrand48(unsigned short int __xsubi[3]);
 extern void srand48(long int __seedval);
 extern unsigned short int *seed48(unsigned short int __seed16v[3]);
 extern void lcong48(unsigned short int __param[7]);
-#define __malloc_and_calloc_defined
 extern void *malloc(size_t __size);
 extern void *calloc(size_t __nmemb, size_t __size);
 extern void *realloc(void *__ptr, size_t __size);
@@ -151,10 +104,9 @@ extern void _Exit(int __status);
 extern char *getenv(char *__name);
 extern int putenv(char *__string);
 extern char *mktemp(char *__template);
-extern int mkstemp(char *__template);
+extern int mkstemp64(char *__template);
 extern int system(char *__command);
 extern char *realpath(char *__name, char *__resolved);
-#define __COMPAR_FN_T
 typedef int (*__compar_fn_t) (void *, void *);
 extern void *bsearch(void *__key, void *__base, size_t __nmemb, size_t __size, __compar_fn_t __compar);
 extern void qsort(void *__base, size_t __nmemb, size_t __size, __compar_fn_t __compar);
@@ -178,3 +130,52 @@ extern int grantpt(int __fd);
 extern int unlockpt(int __fd);
 extern char *ptsname(int __fd);
 extern int ttyslot(void);
+#define __size_t__
+#define __SIZE_T__
+#define _SIZE_T
+#define _SYS_SIZE_T_H
+#define _T_SIZE_
+#define _T_SIZE
+#define __SIZE_T
+#define _SIZE_T_
+#define _BSD_SIZE_T_
+#define _SIZE_T_DEFINED_
+#define _SIZE_T_DEFINED
+#define _BSD_SIZE_T_DEFINED_
+#define _SIZE_T_DECLARED
+#define ___int_size_t_h
+#define _GCC_SIZE_T
+#define _SIZET_
+#define __size_t
+#define __wchar_t__
+#define __WCHAR_T__
+#define _WCHAR_T
+#define _T_WCHAR_
+#define _T_WCHAR
+#define __WCHAR_T
+#define _WCHAR_T_
+#define _WCHAR_T_DEFINED_
+#define _WCHAR_T_DEFINED
+#define _WCHAR_T_H
+#define ___int_wchar_t_h
+#define __INT_WCHAR_T_H
+#define _GCC_WCHAR_T
+#define _WCHAR_T_DECLARED
+#define NULL ( ( void * ) 0 )
+#define _STDLIB_H (1)
+#define WEXITSTATUS(status) __WEXITSTATUS ( status )
+#define WTERMSIG(status) __WTERMSIG ( status )
+#define WSTOPSIG(status) __WSTOPSIG ( status )
+#define WIFEXITED(status) __WIFEXITED ( status )
+#define WIFSIGNALED(status) __WIFSIGNALED ( status )
+#define WIFSTOPPED(status) __WIFSTOPPED ( status )
+#define WIFCONTINUED(status) __WIFCONTINUED ( status )
+#define __ldiv_t_defined (1)
+#define __lldiv_t_defined (1)
+#define RAND_MAX (2147483647)
+#define EXIT_FAILURE (1)
+#define EXIT_SUCCESS (0)
+#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
+#define __malloc_and_calloc_defined
+#define mkstemp mkstemp64
+#define __COMPAR_FN_T

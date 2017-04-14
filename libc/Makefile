@@ -49,7 +49,7 @@ mem: clean
 
 nuke: clean
 	go clean -i
-	rm -f *~
+	rm -f *~ *_amd64.* *_386.* sys/*_amd64.* sys/*_386.*
 
 todo:
 	@grep -nr $(grep) ^[[:space:]]*_[[:space:]]*=[[:space:]][[:alpha:]][[:alnum:]]* * | grep -v $(ngrep) || true

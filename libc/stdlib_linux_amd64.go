@@ -55,4 +55,5 @@ const (
 	Stdlib__STDLIB_H         = 1
 	Stdlib___ldiv_t_defined  = 1
 	Stdlib___lldiv_t_defined = 1
+	Stdlib_mkstemp           = 0
 )

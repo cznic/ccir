@@ -88,6 +88,12 @@ const (
 	Unistd___SWORD_TYPE                        = 0
 	Unistd___U64_TYPE                          = 0
 	Unistd___UQUAD_TYPE                        = 0
+	Unistd_ftruncate                           = 0
+	Unistd_lockf                               = 0
+	Unistd_lseek                               = 0
+	Unistd_pread                               = 0
+	Unistd_pwrite                              = 0
+	Unistd_truncate                            = 0
 	Unistd__CS_GNU_LIBC_VERSION                = 2
 	Unistd__CS_GNU_LIBPTHREAD_VERSION          = 3
 	Unistd__CS_LFS64_CFLAGS                    = 1004

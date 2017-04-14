@@ -102,6 +102,7 @@ func emit(nm, more string, b []byte) {
 		fmt.Sprintf(`
 #define __os__ %s
 #define __arch__ %s
+
 #include <builtin.h>
 #include <%s.h>
 
@@ -801,6 +802,8 @@ func header(nm, mre, dre string) {
 		fmt.Sprintf(`
 #define __os__ %s
 #define __arch__ %s
+
+#define _FILE_OFFSET_BITS 64
 #define _ISOC99_SOURCE
 #define _XOPEN_SOURCE 500
 
@@ -878,8 +881,10 @@ func header(nm, mre, dre string) {
 	}
 
 	var a, more []string
+	cp := map[string]bool{}
 	for _, f := range fo {
 		if s := extractCopyright(f); s != "" {
+			cp[f] = true
 			more = append(more, fmt.Sprintf(`
 // ----------------------------------------------------------------------------
 //      %s
@@ -887,7 +892,27 @@ func header(nm, mre, dre string) {
 %s
 `, f, s))
 		}
-		set := append(mset[f], dset[f]...)
+		set := dset[f]
+		set.Sort()
+		for _, v := range set {
+			if *oPos || *oDebug == nm {
+				v.Msg = fmt.Sprintf("%s // %s", v.Msg, v.Pos)
+			}
+			a = append(a, v.Msg)
+		}
+	}
+	for _, f := range fo {
+		if !cp[f] {
+			if s := extractCopyright(f); s != "" {
+				more = append(more, fmt.Sprintf(`
+// ----------------------------------------------------------------------------
+//      %s
+// ----------------------------------------------------------------------------
+%s
+`, f, s))
+			}
+		}
+		set := mset[f]
 		set.Sort()
 		for _, v := range set {
 			if *oPos || *oDebug == nm {

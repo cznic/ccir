@@ -24,10 +24,15 @@
 // have public domain dedications on file. So the SQLite code base is clean and
 // is uncontaminated with licensed code from other projects.
 
-// Source of this example program: https://sqlite.org/quickstart.html
+// Source of this modified example program: https://sqlite.org/quickstart.html
 
 #include <stdio.h>
 #include <sqlite3.h>
+
+void errorLogCallback(void *pArg, int iErrCode, const char *zMsg){
+	fprintf(stderr, "FAIL (%d) %s\n", iErrCode, zMsg);
+}
+
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
@@ -41,6 +46,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
 int main(int argc, char **argv)
 {
+	sqlite3_config(SQLITE_CONFIG_LOG, errorLogCallback, NULL);
 	sqlite3 *db;
 	char *zErrMsg = 0;
 	int rc;

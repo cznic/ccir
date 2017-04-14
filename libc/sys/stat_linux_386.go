@@ -100,4 +100,10 @@ Stat___S_ISVTX = 512
 Stat___S_IWRITE = 128
 Stat___U64_TYPE = 0
 Stat___UQUAD_TYPE = 0
+Stat___fxstat = 0
+Stat___lxstat = 0
+Stat___xstat = 0
+Stat_fstat = 0
+Stat_lstat = 0
+Stat_stat = 0
 )

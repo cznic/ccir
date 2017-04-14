@@ -88,7 +88,6 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#define _BITS_TYPES_H (1)
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
 typedef unsigned int __u_int;
@@ -103,20 +102,6 @@ typedef signed long long int __int64_t;
 typedef unsigned long long int __uint64_t;
 typedef long long int __quad_t;
 typedef unsigned long long int __u_quad_t;
-#define __S16_TYPE short int
-#define __U16_TYPE unsigned short int
-#define __S32_TYPE int
-#define __U32_TYPE unsigned int
-#define __SLONGWORD_TYPE long int
-#define __ULONGWORD_TYPE unsigned long int
-#define __SQUAD_TYPE __quad_t
-#define __UQUAD_TYPE __u_quad_t
-#define __SWORD_TYPE int
-#define __UWORD_TYPE unsigned int
-#define __SLONG32_TYPE long int
-#define __ULONG32_TYPE unsigned long int
-#define __S64_TYPE __quad_t
-#define __U64_TYPE __u_quad_t
 typedef __u_quad_t __dev_t;
 typedef unsigned int __uid_t;
 typedef unsigned int __gid_t;
@@ -157,35 +142,11 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef int __intptr_t;
 typedef unsigned int __socklen_t;
-#define __size_t__
-#define __SIZE_T__
-#define _SIZE_T
-#define _SYS_SIZE_T_H
-#define _T_SIZE_
-#define _T_SIZE
-#define __SIZE_T
-#define _SIZE_T_
-#define _BSD_SIZE_T_
-#define _SIZE_T_DEFINED_
-#define _SIZE_T_DEFINED
-#define _BSD_SIZE_T_DEFINED_
-#define _SIZE_T_DECLARED
-#define ___int_size_t_h
-#define _GCC_SIZE_T
-#define _SIZET_
-#define __size_t
 typedef unsigned int size_t;
-#define NULL ( ( void * ) 0 )
-#define _TIME_H (1)
-#define __clock_t_defined (1)
 typedef __clock_t clock_t;
-#define __time_t_defined (1)
 typedef __time_t time_t;
-#define __clockid_t_defined (1)
 typedef __clockid_t clockid_t;
-#define __timer_t_defined (1)
 typedef __timer_t timer_t;
-#define __timespec_defined (1)
 struct timespec {
 	__time_t tv_sec;
 	__syscall_slong_t tv_nsec;
@@ -229,7 +190,6 @@ extern char *tzname[2];
 extern void tzset(void);
 extern int daylight;
 extern long int timezone;
-#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
 extern int nanosleep(struct timespec *__requested_time, struct timespec *__remaining);
 extern int clock_getres(clockid_t __clock_id, struct timespec *__res);
 extern int clock_gettime(clockid_t __clock_id, struct timespec *__tp);
@@ -241,55 +201,25 @@ extern int timer_gettime(timer_t __timerid, struct itimerspec *__value);
 extern int timer_getoverrun(timer_t __timerid);
 extern int getdate_err;
 extern struct tm *getdate(char *__string);
-#define SCHED_OTHER (0)
-#define SCHED_FIFO (1)
-#define SCHED_RR (2)
 struct sched_param {
 	int __sched_priority;
 };
-#define __defined_schedparam (1)
 struct __sched_param {
 	int __sched_priority;
 };
-#define __cpu_set_t_defined
-#define __CPU_SETSIZE (1024)
-#define __NCPUBITS ( 8 * sizeof ( __cpu_mask ) )
 typedef unsigned long int __cpu_mask;
-#define __CPUELT(cpu) ( ( cpu ) / __NCPUBITS )
-#define __CPUMASK(cpu) ( ( __cpu_mask ) 1 << ( ( cpu ) % __NCPUBITS ) )
 typedef struct {
 	__cpu_mask __bits[32u];
 } cpu_set_t;
-#define __CPU_ZERO_S(setsize, cpusetp) do { size_t __i ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; __cpu_mask * __bits = ( cpusetp ) -> __bits ; for ( __i = 0 ; __i < __imax ; ++ __i ) __bits [ __i ] = 0 ; } while ( 0 )
-#define __CPU_SET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] |= __CPUMASK ( __cpu ) ) : 0 ; } ) )
-#define __CPU_CLR_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] &= ~ __CPUMASK ( __cpu ) ) : 0 ; } ) )
-#define __CPU_ISSET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( ( const __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] & __CPUMASK ( __cpu ) ) ) != 0 : 0 ; } ) )
-#define __CPU_COUNT_S(setsize, cpusetp) __sched_cpucount ( setsize , cpusetp )
-#define __CPU_EQUAL_S(setsize, cpusetp1, cpusetp2) ( __extension__ ( { const __cpu_mask * __arr1 = ( cpusetp1 ) -> __bits ; const __cpu_mask * __arr2 = ( cpusetp2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) if ( __arr1 [ __i ] != __arr2 [ __i ] ) break ; __i == __imax ; } ) )
-#define __CPU_OP_S(setsize, destset, srcset1, srcset2, op) ( __extension__ ( { cpu_set_t * __dest = ( destset ) ; const __cpu_mask * __arr1 = ( srcset1 ) -> __bits ; const __cpu_mask * __arr2 = ( srcset2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) ( ( __cpu_mask * ) __dest -> __bits ) [ __i ] = __arr1 [ __i ] op __arr2 [ __i ] ; __dest ; } ) )
-#define __CPU_ALLOC_SIZE(count) ( ( ( ( count ) + __NCPUBITS - 1 ) / __NCPUBITS ) * sizeof ( __cpu_mask ) )
-#define __CPU_ALLOC(count) __sched_cpualloc ( count )
-#define __CPU_FREE(cpuset) __sched_cpufree ( cpuset )
 extern int __sched_cpucount(size_t __setsize, cpu_set_t * __setp);
 extern cpu_set_t *__sched_cpualloc(size_t __count);
 extern void __sched_cpufree(cpu_set_t * __set);
-#define _BITS_PTHREADTYPES_H (1)
-#define __SIZEOF_PTHREAD_ATTR_T (36)
-#define __SIZEOF_PTHREAD_MUTEX_T (24)
-#define __SIZEOF_PTHREAD_MUTEXATTR_T (4)
-#define __SIZEOF_PTHREAD_COND_T (48)
-#define __SIZEOF_PTHREAD_CONDATTR_T (4)
-#define __SIZEOF_PTHREAD_RWLOCK_T (32)
-#define __SIZEOF_PTHREAD_RWLOCKATTR_T (8)
-#define __SIZEOF_PTHREAD_BARRIER_T (20)
-#define __SIZEOF_PTHREAD_BARRIERATTR_T (4)
 typedef unsigned long int pthread_t;
 union pthread_attr_t {
 	char __size[36];
 	long int __align;
 };
 typedef union pthread_attr_t pthread_attr_t;
-#define __have_pthread_attr_t (1)
 typedef struct __pthread_internal_slist {
 	struct __pthread_internal_slist *__next;
 } __pthread_slist_t;
@@ -311,9 +241,6 @@ typedef union {
 	char __size[24];
 	long int __align;
 } pthread_mutex_t;
-#define __spins __elision_data . __espins
-#define __elision __elision_data . __elision
-#define __PTHREAD_SPINS { 0 , 0 }
 typedef union {
 	char __size[4];
 	int __align;
@@ -355,31 +282,17 @@ typedef union {
 	char __size[32];
 	long int __align;
 } pthread_rwlock_t;
-#define __PTHREAD_RWLOCK_ELISION_EXTRA (0)
 typedef union {
 	char __size[8];
 	long int __align;
 } pthread_rwlockattr_t;
-#define __cleanup_fct_attribute __attribute__ ( ( __regparm__ ( 1 ) ) )
-#define _PTHREAD_H (1)
 enum { PTHREAD_CREATE_JOINABLE, PTHREAD_CREATE_DETACHED };
-#define PTHREAD_CREATE_JOINABLE PTHREAD_CREATE_JOINABLE
-#define PTHREAD_CREATE_DETACHED PTHREAD_CREATE_DETACHED
 enum { PTHREAD_MUTEX_TIMED_NP, PTHREAD_MUTEX_RECURSIVE_NP, PTHREAD_MUTEX_ERRORCHECK_NP, PTHREAD_MUTEX_ADAPTIVE_NP, PTHREAD_MUTEX_NORMAL = 0, PTHREAD_MUTEX_RECURSIVE = 1, PTHREAD_MUTEX_ERRORCHECK = 2, PTHREAD_MUTEX_DEFAULT = 0 };
 enum { PTHREAD_PRIO_NONE, PTHREAD_PRIO_INHERIT, PTHREAD_PRIO_PROTECT };
-#define PTHREAD_MUTEX_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , { __PTHREAD_SPINS } } }
 enum { PTHREAD_RWLOCK_PREFER_READER_NP, PTHREAD_RWLOCK_PREFER_WRITER_NP, PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP, PTHREAD_RWLOCK_DEFAULT_NP = 0 };
-#define PTHREAD_RWLOCK_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , __PTHREAD_RWLOCK_ELISION_EXTRA , 0 , 0 } }
 enum { PTHREAD_INHERIT_SCHED, PTHREAD_EXPLICIT_SCHED };
-#define PTHREAD_INHERIT_SCHED PTHREAD_INHERIT_SCHED
-#define PTHREAD_EXPLICIT_SCHED PTHREAD_EXPLICIT_SCHED
 enum { PTHREAD_SCOPE_SYSTEM, PTHREAD_SCOPE_PROCESS };
-#define PTHREAD_SCOPE_SYSTEM PTHREAD_SCOPE_SYSTEM
-#define PTHREAD_SCOPE_PROCESS PTHREAD_SCOPE_PROCESS
 enum { PTHREAD_PROCESS_PRIVATE, PTHREAD_PROCESS_SHARED };
-#define PTHREAD_PROCESS_PRIVATE PTHREAD_PROCESS_PRIVATE
-#define PTHREAD_PROCESS_SHARED PTHREAD_PROCESS_SHARED
-#define PTHREAD_COND_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , ( void * ) 0 , 0 , 0 } }
 struct _pthread_cleanup_buffer {
 	void (*__routine) (void *);
 	void *__arg;
@@ -387,13 +300,7 @@ struct _pthread_cleanup_buffer {
 	struct _pthread_cleanup_buffer *__prev;
 };
 enum { PTHREAD_CANCEL_ENABLE, PTHREAD_CANCEL_DISABLE };
-#define PTHREAD_CANCEL_ENABLE PTHREAD_CANCEL_ENABLE
-#define PTHREAD_CANCEL_DISABLE PTHREAD_CANCEL_DISABLE
 enum { PTHREAD_CANCEL_DEFERRED, PTHREAD_CANCEL_ASYNCHRONOUS };
-#define PTHREAD_CANCEL_DEFERRED PTHREAD_CANCEL_DEFERRED
-#define PTHREAD_CANCEL_ASYNCHRONOUS PTHREAD_CANCEL_ASYNCHRONOUS
-#define PTHREAD_CANCELED ( ( void * ) - 1 )
-#define PTHREAD_ONCE_INIT (0)
 extern int pthread_create(pthread_t * __newthread, pthread_attr_t * __attr, void *(*__start_routine) (void *), void *__arg);
 extern void pthread_exit(void *__retval);
 extern int pthread_join(pthread_t __th, void **__thread_return);
@@ -441,9 +348,7 @@ struct __pthread_cleanup_frame {
 	int __do_it;
 	int __cancel_type;
 };
-#define pthread_cleanup_push(routine, arg) do { __pthread_unwind_buf_t __cancel_buf ; void ( * __cancel_routine ) ( void * ) = ( routine ) ; void * __cancel_arg = ( arg ) ; int __not_first_call = __sigsetjmp ( ( struct __jmp_buf_tag * ) ( void * ) __cancel_buf . __cancel_jmp_buf , 0 ) ; if ( __glibc_unlikely ( __not_first_call ) ) { __cancel_routine ( __cancel_arg ) ; __pthread_unwind_next ( & __cancel_buf ) ; } __pthread_register_cancel ( & __cancel_buf ) ; do {
 extern void __pthread_register_cancel(__pthread_unwind_buf_t * __buf);
-#define pthread_cleanup_pop(execute) do { } while ( 0 ) ; } while ( 0 ) ; __pthread_unregister_cancel ( & __cancel_buf ) ; if ( execute ) __cancel_routine ( __cancel_arg ) ; } while ( 0 )
 extern void __pthread_unregister_cancel(__pthread_unwind_buf_t * __buf);
 extern void __pthread_unwind_next(__pthread_unwind_buf_t * __buf);
 struct __jmp_buf_tag;
@@ -493,3 +398,98 @@ extern int pthread_key_delete(pthread_key_t __key);
 extern void *pthread_getspecific(pthread_key_t __key);
 extern int pthread_setspecific(pthread_key_t __key, void *__pointer);
 extern int pthread_atfork(void (*__prepare) (void), void (*__parent) (void), void (*__child) (void));
+#define _BITS_TYPES_H (1)
+#define __S16_TYPE short int
+#define __U16_TYPE unsigned short int
+#define __S32_TYPE int
+#define __U32_TYPE unsigned int
+#define __SLONGWORD_TYPE long int
+#define __ULONGWORD_TYPE unsigned long int
+#define __SQUAD_TYPE __quad_t
+#define __UQUAD_TYPE __u_quad_t
+#define __SWORD_TYPE int
+#define __UWORD_TYPE unsigned int
+#define __SLONG32_TYPE long int
+#define __ULONG32_TYPE unsigned long int
+#define __S64_TYPE __quad_t
+#define __U64_TYPE __u_quad_t
+#define __size_t__
+#define __SIZE_T__
+#define _SIZE_T
+#define _SYS_SIZE_T_H
+#define _T_SIZE_
+#define _T_SIZE
+#define __SIZE_T
+#define _SIZE_T_
+#define _BSD_SIZE_T_
+#define _SIZE_T_DEFINED_
+#define _SIZE_T_DEFINED
+#define _BSD_SIZE_T_DEFINED_
+#define _SIZE_T_DECLARED
+#define ___int_size_t_h
+#define _GCC_SIZE_T
+#define _SIZET_
+#define __size_t
+#define NULL ( ( void * ) 0 )
+#define _TIME_H (1)
+#define __clock_t_defined (1)
+#define __time_t_defined (1)
+#define __clockid_t_defined (1)
+#define __timer_t_defined (1)
+#define __timespec_defined (1)
+#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
+#define SCHED_OTHER (0)
+#define SCHED_FIFO (1)
+#define SCHED_RR (2)
+#define __defined_schedparam (1)
+#define __cpu_set_t_defined
+#define __CPU_SETSIZE (1024)
+#define __NCPUBITS ( 8 * sizeof ( __cpu_mask ) )
+#define __CPUELT(cpu) ( ( cpu ) / __NCPUBITS )
+#define __CPUMASK(cpu) ( ( __cpu_mask ) 1 << ( ( cpu ) % __NCPUBITS ) )
+#define __CPU_ZERO_S(setsize, cpusetp) do { size_t __i ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; __cpu_mask * __bits = ( cpusetp ) -> __bits ; for ( __i = 0 ; __i < __imax ; ++ __i ) __bits [ __i ] = 0 ; } while ( 0 )
+#define __CPU_SET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] |= __CPUMASK ( __cpu ) ) : 0 ; } ) )
+#define __CPU_CLR_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] &= ~ __CPUMASK ( __cpu ) ) : 0 ; } ) )
+#define __CPU_ISSET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( ( const __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] & __CPUMASK ( __cpu ) ) ) != 0 : 0 ; } ) )
+#define __CPU_COUNT_S(setsize, cpusetp) __sched_cpucount ( setsize , cpusetp )
+#define __CPU_EQUAL_S(setsize, cpusetp1, cpusetp2) ( __extension__ ( { const __cpu_mask * __arr1 = ( cpusetp1 ) -> __bits ; const __cpu_mask * __arr2 = ( cpusetp2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) if ( __arr1 [ __i ] != __arr2 [ __i ] ) break ; __i == __imax ; } ) )
+#define __CPU_OP_S(setsize, destset, srcset1, srcset2, op) ( __extension__ ( { cpu_set_t * __dest = ( destset ) ; const __cpu_mask * __arr1 = ( srcset1 ) -> __bits ; const __cpu_mask * __arr2 = ( srcset2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) ( ( __cpu_mask * ) __dest -> __bits ) [ __i ] = __arr1 [ __i ] op __arr2 [ __i ] ; __dest ; } ) )
+#define __CPU_ALLOC_SIZE(count) ( ( ( ( count ) + __NCPUBITS - 1 ) / __NCPUBITS ) * sizeof ( __cpu_mask ) )
+#define __CPU_ALLOC(count) __sched_cpualloc ( count )
+#define __CPU_FREE(cpuset) __sched_cpufree ( cpuset )
+#define _BITS_PTHREADTYPES_H (1)
+#define __SIZEOF_PTHREAD_ATTR_T (36)
+#define __SIZEOF_PTHREAD_MUTEX_T (24)
+#define __SIZEOF_PTHREAD_MUTEXATTR_T (4)
+#define __SIZEOF_PTHREAD_COND_T (48)
+#define __SIZEOF_PTHREAD_CONDATTR_T (4)
+#define __SIZEOF_PTHREAD_RWLOCK_T (32)
+#define __SIZEOF_PTHREAD_RWLOCKATTR_T (8)
+#define __SIZEOF_PTHREAD_BARRIER_T (20)
+#define __SIZEOF_PTHREAD_BARRIERATTR_T (4)
+#define __have_pthread_attr_t (1)
+#define __spins __elision_data . __espins
+#define __elision __elision_data . __elision
+#define __PTHREAD_SPINS { 0 , 0 }
+#define __PTHREAD_RWLOCK_ELISION_EXTRA (0)
+#define __cleanup_fct_attribute __attribute__ ( ( __regparm__ ( 1 ) ) )
+#define _PTHREAD_H (1)
+#define PTHREAD_CREATE_JOINABLE PTHREAD_CREATE_JOINABLE
+#define PTHREAD_CREATE_DETACHED PTHREAD_CREATE_DETACHED
+#define PTHREAD_MUTEX_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , { __PTHREAD_SPINS } } }
+#define PTHREAD_RWLOCK_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , __PTHREAD_RWLOCK_ELISION_EXTRA , 0 , 0 } }
+#define PTHREAD_INHERIT_SCHED PTHREAD_INHERIT_SCHED
+#define PTHREAD_EXPLICIT_SCHED PTHREAD_EXPLICIT_SCHED
+#define PTHREAD_SCOPE_SYSTEM PTHREAD_SCOPE_SYSTEM
+#define PTHREAD_SCOPE_PROCESS PTHREAD_SCOPE_PROCESS
+#define PTHREAD_PROCESS_PRIVATE PTHREAD_PROCESS_PRIVATE
+#define PTHREAD_PROCESS_SHARED PTHREAD_PROCESS_SHARED
+#define PTHREAD_COND_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , ( void * ) 0 , 0 , 0 } }
+#define PTHREAD_CANCEL_ENABLE PTHREAD_CANCEL_ENABLE
+#define PTHREAD_CANCEL_DISABLE PTHREAD_CANCEL_DISABLE
+#define PTHREAD_CANCEL_DEFERRED PTHREAD_CANCEL_DEFERRED
+#define PTHREAD_CANCEL_ASYNCHRONOUS PTHREAD_CANCEL_ASYNCHRONOUS
+#define PTHREAD_CANCELED ( ( void * ) - 1 )
+#define PTHREAD_ONCE_INIT (0)
+#define pthread_cleanup_push(routine, arg) do { __pthread_unwind_buf_t __cancel_buf ; void ( * __cancel_routine ) ( void * ) = ( routine ) ; void * __cancel_arg = ( arg ) ; int __not_first_call = __sigsetjmp ( ( struct __jmp_buf_tag * ) ( void * ) __cancel_buf . __cancel_jmp_buf , 0 ) ; if ( __glibc_unlikely ( __not_first_call ) ) { __cancel_routine ( __cancel_arg ) ; __pthread_unwind_next ( & __cancel_buf ) ; } __pthread_register_cancel ( & __cancel_buf ) ; do {
+#define pthread_cleanup_pop(execute) do { } while ( 0 ) ; } while ( 0 ) ; __pthread_unregister_cancel ( & __cancel_buf ) ; if ( execute ) __cancel_routine ( __cancel_arg ) ; } while ( 0 )

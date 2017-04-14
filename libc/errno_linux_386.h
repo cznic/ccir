@@ -2,8 +2,8 @@
 
 // +build ignore
 
-#define ENOTSUP EOPNOTSUPP
 extern int *__errno_location(void);
+#define ENOTSUP EOPNOTSUPP
 #define errno ( * __errno_location ( ) )
 #define _ASM_GENERIC_ERRNO_BASE_H
 #define EPERM (1)

@@ -1073,71 +1073,67 @@ func TestSqlite(t *testing.T) {
 
 	args := []string{"./test"}
 	out, f, d := exec(t, bin, args, nil)
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 	if g, e := out, []byte("Usage: ./test DATABASE SQL-STATEMENT"); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
-
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 
 	args = []string{"./test", "foo"}
 	out, f, d = exec(t, bin, args, nil)
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 	if g, e := out, []byte("Usage: ./test DATABASE SQL-STATEMENT"); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
 
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
-
 	args = []string{"./test", "foo", "bar"}
 	out, f, d = exec(t, bin, args, nil)
-	if g, e := out, []byte(`SQL error: near "bar": syntax error`); !bytes.Equal(g, e) {
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
+	if g, e := out, []byte(`FAIL (1) near "bar": syntax error
+SQL error: near "bar": syntax error`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
-
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 
 	args = []string{"./test", "foo", "select * from t"}
 	out, f, d = exec(t, bin, args, nil)
-	if g, e := out, []byte("SQL error: no such table: t"); !bytes.Equal(g, e) {
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
+	if g, e := out, []byte(`FAIL (1) no such table: t
+SQL error: no such table: t`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
-
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 
 	args = []string{"./test", "foo", "select name from sqlite_master where type='table'"}
 	out, f, d = exec(t, bin, args, nil)
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 	if g, e := out, []byte(""); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
-
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 
 	args = []string{"./test", "foo", "create table t(i int)"}
 	out, f, d = exec(t, bin, args, nil)
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 	if g, e := out, []byte(""); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
 
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
-
 	args = []string{"./test", "foo", `
-create table t(i int);
-select name from sqlite_master where type='table';
-`}
+	create table t(i int);
+	select name from sqlite_master where type='table';
+	`}
 	out, f, d = exec(t, bin, args, nil)
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 	if g, e := out, []byte("name = t"); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
 
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
-
 	args = []string{"./test", "foo", `
-create table t(i int);
-select name from sqlite_master where type='table';
-insert into t values(42), (314);
-select * from t order by i asc;
-select * from t order by i desc;
-`}
+	create table t(i int);
+	select name from sqlite_master where type='table';
+	insert into t values(42), (314);
+	select * from t order by i asc;
+	select * from t order by i desc;
+	`}
 	out, f, d = exec(t, bin, args, nil)
+	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 	if g, e := out, []byte(`name = t
 i = 42
 i = 314
@@ -1145,6 +1141,4 @@ i = 314
 i = 42`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
-
-	t.Logf("%q\n%s\n%v\n%v", args, out, d, f)
 }

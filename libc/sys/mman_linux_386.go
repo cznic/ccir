@@ -54,4 +54,5 @@ Mman___SQUAD_TYPE = 0
 Mman___SWORD_TYPE = 0
 Mman___U64_TYPE = 0
 Mman___UQUAD_TYPE = 0
+Mman_mmap = 0
 )

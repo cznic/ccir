@@ -168,9 +168,16 @@ const (
 	Stdio___UQUAD_TYPE           = 0
 	Stdio_____FILE_defined       = 1
 	Stdio_____mbstate_t_defined  = 1
+	Stdio_fgetpos                = 0
+	Stdio_fopen                  = 0
+	Stdio_freopen                = 0
 	Stdio_fscanf                 = 0
+	Stdio_fseeko                 = 0
+	Stdio_fsetpos                = 0
+	Stdio_ftello                 = 0
 	Stdio_scanf                  = 0
 	Stdio_sscanf                 = 0
+	Stdio_tmpfile                = 0
 	Stdio_vfscanf                = 0
 	Stdio_vscanf                 = 0
 	Stdio_vsscanf                = 0

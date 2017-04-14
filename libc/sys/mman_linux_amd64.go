@@ -50,4 +50,5 @@ Mman__BITS_TYPES_H = 1
 Mman__SYS_MMAN_H = 1
 Mman___S32_TYPE = 0
 Mman___SLONG32_TYPE = 0
+Mman_mmap = 0
 )

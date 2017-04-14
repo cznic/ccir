@@ -28,6 +28,9 @@ a copy of the GCC Runtime Library Exception along with this program;
 see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 <http://www.gnu.org/licenses/>.  */
 
+typedef long int ptrdiff_t;
+typedef long unsigned int size_t;
+typedef int wchar_t;
 #define _STDDEF_H
 #define _STDDEF_H_
 #define _ANSI_STDDEF_H
@@ -40,7 +43,6 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 #define ___int_ptrdiff_t_h
 #define _GCC_PTRDIFF_T
 #define _PTRDIFF_T_DECLARED
-typedef long int ptrdiff_t;
 #define __size_t__
 #define __SIZE_T__
 #define _SIZE_T
@@ -58,7 +60,6 @@ typedef long int ptrdiff_t;
 #define _GCC_SIZE_T
 #define _SIZET_
 #define __size_t
-typedef long unsigned int size_t;
 #define __wchar_t__
 #define __WCHAR_T__
 #define _WCHAR_T
@@ -73,6 +74,5 @@ typedef long unsigned int size_t;
 #define __INT_WCHAR_T_H
 #define _GCC_WCHAR_T
 #define _WCHAR_T_DECLARED
-typedef int wchar_t;
 #define NULL ( ( void * ) 0 )
 #define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )

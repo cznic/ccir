@@ -20,26 +20,6 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-// ----------------------------------------------------------------------------
-//      /usr/include/i386-linux-gnu/bits/stat.h
-// ----------------------------------------------------------------------------
-/* Copyright (C) 1999-2016 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
-
 package libc
 
 const (
@@ -48,15 +28,15 @@ const (
 	Fcntl_F_EXLCK               = 4
 	Fcntl_F_GETFD               = 1
 	Fcntl_F_GETFL               = 3
-	Fcntl_F_GETLK               = 5
+	Fcntl_F_GETLK               = 12
 	Fcntl_F_GETLK64             = 12
 	Fcntl_F_GETOWN              = 9
 	Fcntl_F_RDLCK               = 0
 	Fcntl_F_SETFD               = 2
 	Fcntl_F_SETFL               = 4
-	Fcntl_F_SETLK               = 6
+	Fcntl_F_SETLK               = 13
 	Fcntl_F_SETLK64             = 13
-	Fcntl_F_SETLKW              = 7
+	Fcntl_F_SETLKW              = 14
 	Fcntl_F_SETLKW64            = 14
 	Fcntl_F_SETOWN              = 8
 	Fcntl_F_SHLCK               = 8
@@ -69,6 +49,7 @@ const (
 	Fcntl_O_DSYNC               = 4096
 	Fcntl_O_EXCL                = 128
 	Fcntl_O_FSYNC               = 1052672
+	Fcntl_O_LARGEFILE           = 32768
 	Fcntl_O_NDELAY              = 2048
 	Fcntl_O_NOCTTY              = 256
 	Fcntl_O_NONBLOCK            = 2048
@@ -81,40 +62,31 @@ const (
 	Fcntl_SEEK_CUR              = 1
 	Fcntl_SEEK_END              = 2
 	Fcntl_SEEK_SET              = 0
-	Fcntl_S_IFBLK               = 24576
-	Fcntl_S_IFCHR               = 8192
-	Fcntl_S_IFDIR               = 16384
-	Fcntl_S_IFIFO               = 4096
-	Fcntl_S_IFLNK               = 40960
-	Fcntl_S_IFMT                = 61440
-	Fcntl_S_IFREG               = 32768
-	Fcntl_S_IFSOCK              = 49152
+	Fcntl_S_IFBLK               = 0
+	Fcntl_S_IFCHR               = 0
+	Fcntl_S_IFDIR               = 0
+	Fcntl_S_IFIFO               = 0
+	Fcntl_S_IFLNK               = 0
+	Fcntl_S_IFMT                = 0
+	Fcntl_S_IFREG               = 0
+	Fcntl_S_IFSOCK              = 0
 	Fcntl_S_IRGRP               = 32
 	Fcntl_S_IROTH               = 4
-	Fcntl_S_IRUSR               = 256
+	Fcntl_S_IRUSR               = 0
 	Fcntl_S_IRWXG               = 56
 	Fcntl_S_IRWXO               = 7
 	Fcntl_S_IRWXU               = 448
-	Fcntl_S_ISGID               = 1024
-	Fcntl_S_ISUID               = 2048
-	Fcntl_S_ISVTX               = 512
+	Fcntl_S_ISGID               = 0
+	Fcntl_S_ISUID               = 0
+	Fcntl_S_ISVTX               = 0
 	Fcntl_S_IWGRP               = 16
 	Fcntl_S_IWOTH               = 2
-	Fcntl_S_IWUSR               = 128
+	Fcntl_S_IWUSR               = 0
 	Fcntl_S_IXGRP               = 8
 	Fcntl_S_IXOTH               = 1
-	Fcntl_S_IXUSR               = 64
-	Fcntl__BITS_STAT_H          = 1
+	Fcntl_S_IXUSR               = 0
 	Fcntl__BITS_TYPES_H         = 1
 	Fcntl__FCNTL_H              = 1
-	Fcntl__MKNOD_VER            = 1
-	Fcntl__MKNOD_VER_LINUX      = 1
-	Fcntl__MKNOD_VER_SVR4       = 2
-	Fcntl__STAT_VER             = 3
-	Fcntl__STAT_VER_KERNEL      = 1
-	Fcntl__STAT_VER_LINUX       = 3
-	Fcntl__STAT_VER_LINUX_OLD   = 1
-	Fcntl__STAT_VER_SVR4        = 2
 	Fcntl___F_GETOWN            = 9
 	Fcntl___F_GETOWN_EX         = 16
 	Fcntl___F_GETSIG            = 11
@@ -136,20 +108,8 @@ const (
 	Fcntl___S64_TYPE            = 0
 	Fcntl___SQUAD_TYPE          = 0
 	Fcntl___SWORD_TYPE          = 0
-	Fcntl___S_IEXEC             = 64
-	Fcntl___S_IFBLK             = 24576
-	Fcntl___S_IFCHR             = 8192
-	Fcntl___S_IFDIR             = 16384
-	Fcntl___S_IFIFO             = 4096
-	Fcntl___S_IFLNK             = 40960
-	Fcntl___S_IFMT              = 61440
-	Fcntl___S_IFREG             = 32768
-	Fcntl___S_IFSOCK            = 49152
-	Fcntl___S_IREAD             = 256
-	Fcntl___S_ISGID             = 1024
-	Fcntl___S_ISUID             = 2048
-	Fcntl___S_ISVTX             = 512
-	Fcntl___S_IWRITE            = 128
 	Fcntl___U64_TYPE            = 0
 	Fcntl___UQUAD_TYPE          = 0
+	Fcntl_creat                 = 0
+	Fcntl_open                  = 0
 )

@@ -48,26 +48,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#define __size_t__
-#define __SIZE_T__
-#define _SIZE_T
-#define _SYS_SIZE_T_H
-#define _T_SIZE_
-#define _T_SIZE
-#define __SIZE_T
-#define _SIZE_T_
-#define _BSD_SIZE_T_
-#define _SIZE_T_DEFINED_
-#define _SIZE_T_DEFINED
-#define _BSD_SIZE_T_DEFINED_
-#define _SIZE_T_DECLARED
-#define ___int_size_t_h
-#define _GCC_SIZE_T
-#define _SIZET_
-#define __size_t
 typedef long unsigned int size_t;
-#define NULL ( ( void * ) 0 )
-#define _BITS_TYPES_H (1)
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
 typedef unsigned int __u_int;
@@ -82,20 +63,6 @@ typedef signed long int __int64_t;
 typedef unsigned long int __uint64_t;
 typedef long int __quad_t;
 typedef unsigned long int __u_quad_t;
-#define __S16_TYPE short int
-#define __U16_TYPE unsigned short int
-#define __S32_TYPE int
-#define __U32_TYPE unsigned int
-#define __SLONGWORD_TYPE long int
-#define __ULONGWORD_TYPE unsigned long int
-#define __SQUAD_TYPE long int
-#define __UQUAD_TYPE unsigned long int
-#define __SWORD_TYPE long int
-#define __UWORD_TYPE unsigned long int
-#define __SLONG32_TYPE int
-#define __ULONG32_TYPE unsigned int
-#define __S64_TYPE long int
-#define __U64_TYPE unsigned long int
 typedef unsigned long int __dev_t;
 typedef unsigned int __uid_t;
 typedef unsigned int __gid_t;
@@ -136,16 +103,10 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef long int __intptr_t;
 typedef unsigned int __socklen_t;
-#define _TIME_H (1)
-#define __clock_t_defined (1)
 typedef __clock_t clock_t;
-#define __time_t_defined (1)
 typedef __time_t time_t;
-#define __clockid_t_defined (1)
 typedef __clockid_t clockid_t;
-#define __timer_t_defined (1)
 typedef __timer_t timer_t;
-#define __timespec_defined (1)
 struct timespec {
 	__time_t tv_sec;
 	__syscall_slong_t tv_nsec;
@@ -189,7 +150,6 @@ extern char *tzname[2];
 extern void tzset(void);
 extern int daylight;
 extern long int timezone;
-#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
 extern int nanosleep(struct timespec *__requested_time, struct timespec *__remaining);
 extern int clock_getres(clockid_t __clock_id, struct timespec *__res);
 extern int clock_gettime(clockid_t __clock_id, struct timespec *__tp);
@@ -201,3 +161,43 @@ extern int timer_gettime(timer_t __timerid, struct itimerspec *__value);
 extern int timer_getoverrun(timer_t __timerid);
 extern int getdate_err;
 extern struct tm *getdate(char *__string);
+#define __size_t__
+#define __SIZE_T__
+#define _SIZE_T
+#define _SYS_SIZE_T_H
+#define _T_SIZE_
+#define _T_SIZE
+#define __SIZE_T
+#define _SIZE_T_
+#define _BSD_SIZE_T_
+#define _SIZE_T_DEFINED_
+#define _SIZE_T_DEFINED
+#define _BSD_SIZE_T_DEFINED_
+#define _SIZE_T_DECLARED
+#define ___int_size_t_h
+#define _GCC_SIZE_T
+#define _SIZET_
+#define __size_t
+#define NULL ( ( void * ) 0 )
+#define _BITS_TYPES_H (1)
+#define __S16_TYPE short int
+#define __U16_TYPE unsigned short int
+#define __S32_TYPE int
+#define __U32_TYPE unsigned int
+#define __SLONGWORD_TYPE long int
+#define __ULONGWORD_TYPE unsigned long int
+#define __SQUAD_TYPE long int
+#define __UQUAD_TYPE unsigned long int
+#define __SWORD_TYPE long int
+#define __UWORD_TYPE unsigned long int
+#define __SLONG32_TYPE int
+#define __ULONG32_TYPE unsigned int
+#define __S64_TYPE long int
+#define __U64_TYPE unsigned long int
+#define _TIME_H (1)
+#define __clock_t_defined (1)
+#define __time_t_defined (1)
+#define __clockid_t_defined (1)
+#define __timer_t_defined (1)
+#define __timespec_defined (1)
+#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
