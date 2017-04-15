@@ -118,7 +118,12 @@ int _;
 		log.Fatalf(errStr(err))
 	}
 
-	f2, err := os.Create(fmt.Sprintf("%s_%s_%s.go", nm, runtime.GOOS, runtime.GOARCH))
+	if err := os.MkdirAll(nm, 0777); err != nil {
+		log.Fatal(err)
+	}
+
+	base := filepath.Base(nm)
+	f2, err := os.Create(fmt.Sprintf("%s/%s_%s_%s.go", nm, base, runtime.GOOS, runtime.GOARCH))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -127,14 +132,12 @@ int _;
 
 %s
 
-package libc
+package %s
 
-`, more); err != nil {
+`, more, base); err != nil {
 		log.Fatal(err)
 	}
 
-	base := filepath.Base(nm)
-	base = strings.ToUpper(base)[:1] + base[1:]
 	var buf buffer.Bytes
 	buf.WriteString("const (\n")
 	var a []string
@@ -162,11 +165,11 @@ package libc
 		case
 			cc.Int, cc.UInt, cc.Long, cc.ULong, cc.LongLong, cc.ULongLong,
 			cc.Float, cc.LongDouble, cc.Bool:
-			fmt.Fprintf(&buf, "%s_%s = %v\n", base, v, m.Value)
+			fmt.Fprintf(&buf, "X%s = %v\n", v, m.Value)
 		case cc.Ptr:
 			switch t := t.Element(); t.Kind() {
 			case cc.Char:
-				fmt.Fprintf(&buf, "%s_%s = %q\n", base, v, dict.S(int(m.Value.(cc.StringLitID))))
+				fmt.Fprintf(&buf, "X%s = %q\n", v, dict.S(int(m.Value.(cc.StringLitID))))
 			default:
 				log.Fatalf("%v", t.Kind())
 			}
@@ -193,7 +196,7 @@ package libc
 	sort.Strings(a)
 	for _, v := range a {
 		dd := ast.Declarations.Identifiers[dict.SID(v)].Node.(*cc.DirectDeclarator)
-		fmt.Fprintf(&buf, "%s_%s = %v\n", base, v, dd.EnumVal)
+		fmt.Fprintf(&buf, "X%s = %v\n", v, dd.EnumVal)
 	}
 
 	buf.WriteString(")\n")

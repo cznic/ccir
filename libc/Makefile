@@ -32,7 +32,7 @@ edit:
 
 editor:
 	go generate 2>&1 | tee log
-	gofmt -s -w *.go
+	gofmt -s -w .
 	indent -linux -l -1 *.c *.h sys/*.h
 	rm -f *.h~ sys/*.h~
 
