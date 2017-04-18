@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package model
+package ccir
 
 import (
 	"fmt"
@@ -11,8 +11,8 @@ import (
 	"github.com/cznic/cc"
 )
 
-// New returns a *cc.Model for the current architecture and platform.
-func New() (*cc.Model, error) {
+// NewModel returns a *cc.Model for the current architecture and platform.
+func NewModel() (*cc.Model, error) {
 	switch arch := runtime.GOARCH; arch {
 	case "386", "arm", "arm64be", "armbe", "mips", "mipsle", "ppc", "ppc64le", "s390", "s390x", "sparc":
 		return &cc.Model{

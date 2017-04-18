@@ -13,12 +13,15 @@ import (
 	"math"
 	"os"
 	"path"
+	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/cznic/cc"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/ir"
 	"github.com/cznic/mathutil"
+	"github.com/cznic/strutil"
 	"github.com/cznic/virtual"
 )
 
@@ -31,9 +34,55 @@ const (
 var (
 	// Testing amends things for tests.
 	Testing bool
+	// CRT0Path points to the C _start function source file. R/O.
+	CRT0Path string
+	// LibcIncludePath can be used as an argument to cc.SysIncludePaths. R/O.
+	LibcIncludePath string
 
-	isTesting bool // Running tests.
+	ccTestdata string
+	isTesting  bool // Running tests.
 )
+
+func init() {
+	ip, err := cc.ImportPath()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, v := range filepath.SplitList(strutil.Gopath()) {
+		p := filepath.Join(v, "src", ip, "testdata")
+		fi, err := os.Stat(p)
+		if err != nil {
+			continue
+		}
+
+		if fi.IsDir() {
+			ccTestdata = p
+			break
+		}
+	}
+	if ccTestdata == "" {
+		panic("cannot find cc/testdata/")
+	}
+
+	p, err := strutil.ImportPath()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, v := range strings.Split(strutil.Gopath(), string(os.PathListSeparator)) {
+		p := filepath.Join(v, "src", p, "libc")
+		_, err := os.Stat(p)
+		if err != nil {
+			continue
+		}
+
+		LibcIncludePath = p
+		CRT0Path = filepath.Join(p, "crt0.c")
+		return
+	}
+	panic("internal error")
+}
 
 //TODO remove me.
 func TODO(more ...interface{}) string { //TODOOK

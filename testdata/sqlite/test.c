@@ -26,8 +26,9 @@
 
 // Source of this modified example program: https://sqlite.org/quickstart.html
 
-#include <stdio.h>
 #include <sqlite3.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void errorLogCallback(void *pArg, int iErrCode, const char *zMsg){
 	fprintf(stderr, "FAIL (%d) %s\n", iErrCode, zMsg);
@@ -40,27 +41,43 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 	for (i = 0; i < argc; i++) {
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 	}
-	//printf("\n");
 	return 0;
 }
 
+#define heapSize (32<<20)
+#define minAlloc (2<<5)
 int main(int argc, char **argv)
 {
-	sqlite3_config(SQLITE_CONFIG_LOG, errorLogCallback, NULL);
 	sqlite3 *db;
-	char *zErrMsg = 0;
+	void *heap = malloc(heapSize);
+	if (heap == 0) {
+		fprintf(stderr, "cannot allocate memory", argv[0]);
+		return 1;
+	}
+
+	if (sqlite3_config(SQLITE_CONFIG_HEAP, heap, heapSize, minAlloc)) {
+		fprintf(stderr, "cannot configure heap", argv[0]);
+		return 1;
+	}
+
+	if (sqlite3_config(SQLITE_CONFIG_LOG, errorLogCallback, NULL)) {
+		fprintf(stderr, "cannot configure error log callback", argv[0]);
+		return 1;
+	}
+
 	int rc;
+	char *zErrMsg = 0;
 
 	if (argc != 3) {
 		fprintf(stderr, "Usage: %s DATABASE SQL-STATEMENT\n", argv[0]);
-		return (1);
+		return 1;
 	}
 	rc = sqlite3_open(argv[1], &db);
 	if (rc) {
 		fprintf(stderr, "Can't open database: %s\n",
 			sqlite3_errmsg(db));
 		sqlite3_close(db);
-		return (1);
+		return 1;
 	}
 	rc = sqlite3_exec(db, argv[2], callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {

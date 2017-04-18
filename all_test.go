@@ -25,7 +25,6 @@ import (
 	"time"
 
 	"github.com/cznic/cc"
-	"github.com/cznic/ccir/internal/model"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/ir"
 	"github.com/cznic/strutil"
@@ -71,10 +70,6 @@ func init() {
 // ============================================================================
 
 var (
-	ccTestdata string
-	crt0Path   string
-	libc       string
-
 	cpp      = flag.Bool("cpp", false, "")
 	errLimit = flag.Int("errlimit", 10, "")
 	filter   = flag.String("re", "", "")
@@ -84,47 +79,6 @@ var (
 	trace    = flag.Bool("trc", false, "")
 	yydebug  = flag.Int("yydebug", 0, "")
 )
-
-func init() {
-	ip, err := cc.ImportPath()
-	if err != nil {
-		panic(err)
-	}
-
-	for _, v := range filepath.SplitList(strutil.Gopath()) {
-		p := filepath.Join(v, "src", ip, "testdata")
-		fi, err := os.Stat(p)
-		if err != nil {
-			continue
-		}
-
-		if fi.IsDir() {
-			ccTestdata = p
-			break
-		}
-	}
-	if ccTestdata == "" {
-		panic("cannot find cc/testdata/")
-	}
-
-	p, err := strutil.ImportPath()
-	if err != nil {
-		panic(err)
-	}
-
-	for _, v := range strings.Split(strutil.Gopath(), string(os.PathListSeparator)) {
-		p := filepath.Join(v, "src", p, "libc")
-		_, err := os.Stat(p)
-		if err != nil {
-			continue
-		}
-
-		libc = p
-		crt0Path = filepath.Join(p, "crt0.c")
-		return
-	}
-	panic("internal error")
-}
 
 func errStr(err error) string {
 	switch x := err.(type) {
@@ -156,7 +110,7 @@ func parse(src []string, opts ...cc.Opt) (_ *cc.TranslationUnit, err error) {
 		}
 	}()
 
-	model, err := model.New()
+	model, err := NewModel()
 	if err != nil {
 		return nil, err
 	}
@@ -199,7 +153,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	if n := *yydebug; n != 0 {
 		opts = append(opts, cc.YyDebug(n))
 	}
-	ast, err := parse([]string{crt0Path, match}, opts...)
+	ast, err := parse([]string{CRT0Path, match}, opts...)
 	if err != nil {
 		return log, -1, err
 	}
@@ -460,7 +414,7 @@ func TestTCC(t *testing.T) {
 		cc.EnableDefineOmitCommaBeforeDDD(),
 		cc.EnableImplicitFuncDef(),
 		cc.ErrLimit(-1),
-		cc.SysIncludePaths([]string{libc}),
+		cc.SysIncludePaths([]string{LibcIncludePath}),
 	)
 }
 
@@ -707,7 +661,7 @@ func TestGCCExec(t *testing.T) {
 		cc.EnableUnsignedEnums(),
 		cc.EnableWideBitFieldTypes(),
 		cc.ErrLimit(-1),
-		cc.SysIncludePaths([]string{libc}),
+		cc.SysIncludePaths([]string{LibcIncludePath}),
 	)
 }
 
@@ -751,7 +705,7 @@ func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (
 
 	var stdin, stdout, stderr bytes.Buffer
 	t0 := time.Now()
-	exitStatus, err := virtual.Exec(bin, argv, &stdin, &stdout, &stderr, 1<<27, 1<<20, cwd)
+	exitStatus, err := virtual.Exec(bin, argv, &stdin, &stdout, &stderr, 1<<25, 1<<20, cwd)
 	duration = time.Since(t0)
 	if err != nil {
 		var log bytes.Buffer
@@ -805,9 +759,9 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) *virtual
 		ndbg = "#define NDEBUG 1"
 	}
 	var build [][]ir.Object
-	tus = append(tus, []string{crt0Path})
+	tus = append(tus, []string{CRT0Path})
 	for _, src := range tus {
-		model, err := model.New()
+		model, err := NewModel()
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -827,7 +781,7 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) *virtual
 				cc.EnableImplicitFuncDef(),
 				cc.EnableNonConstStaticInitExpressions(),
 				cc.ErrLimit(*errLimit),
-				cc.SysIncludePaths([]string{libc}),
+				cc.SysIncludePaths([]string{LibcIncludePath}),
 			}, opts...)...,
 		)
 		if s := log.Bytes(); len(s) != 0 {
@@ -928,7 +882,7 @@ func TestSelfie(t *testing.T) {
 	}
 
 	bin := build(t, "", [][]string{{filepath.Join(pth, "selfie.c")}})
-	if m, _ := model.New(); m.Items[cc.Ptr].Size != 4 {
+	if m, _ := NewModel(); m.Items[cc.Ptr].Size != 4 {
 		return
 	}
 
@@ -1048,7 +1002,8 @@ func TestSqlite(t *testing.T) {
 
 	bin := build(
 		t,
-		"#define SQLITE_DEBUG 1",
+		`#define SQLITE_DEBUG 1
+		#define SQLITE_ENABLE_MEMSYS5 1`,
 		[][]string{
 			{"testdata/sqlite/test.c"},
 			{filepath.Join(pth, "sqlite3.c")},

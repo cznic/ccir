@@ -22,7 +22,7 @@ import (
 	"strings"
 
 	"github.com/cznic/cc"
-	"github.com/cznic/ccir/internal/model"
+	"github.com/cznic/ccir"
 	"github.com/cznic/internal/buffer"
 	"github.com/cznic/xc"
 )
@@ -93,7 +93,7 @@ func emit(nm, more string, b []byte) {
 		return
 	}
 
-	model, err := model.New()
+	model, err := ccir.NewModel()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -796,7 +796,7 @@ func header(nm, mre, dre string) {
 		return
 	}
 
-	model, err := model.New()
+	model, err := ccir.NewModel()
 	if err != nil {
 		log.Fatal(err)
 	}
