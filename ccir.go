@@ -2,7 +2,26 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package ccir translates cc[0] ASTs to intermediate representation. (Work In Progress)
+// Package ccir translates cc[0] ASTs to an intermediate representation. (Work In Progress)
+//
+// Supported platforms and architectures
+//
+// In GOOS_GOARCH form
+//
+//	linux_amd64
+//	linux_386
+//
+// If you can access a machine with a not yet supported os/arch and you would
+// like to contribute to porting this package, you may want to start by trying
+//
+//	$ cd $GOPATH/github.com/cznic/ccir/libc
+//	$ go generate
+//
+// Please fill an issue for the port and let's discuss it there.
+//
+// Links
+//
+// Referenced from elsewhere
 //
 //  [0]: https://github.com/cznic/cc
 package ccir
