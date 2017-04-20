@@ -6,6 +6,8 @@
 
 #undef assert
 
+extern __FILE_TYPE__ stderr;
+
 #ifdef NDEBUG
 #define assert(x) ((void)0)
 #else

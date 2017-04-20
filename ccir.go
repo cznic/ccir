@@ -1760,7 +1760,8 @@ func (c *c) fieldBits(n *cc.Expression, fi, bits, bitoff int, ft, bt cc.Type) cc
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	n, _ = c.normalize(n)
-	if v := n.Value; v != nil && n.Case != 7 { // '(' ExpressionList ')'                             // Case 7
+	if v := n.Value; v != nil && n.Case != 7 && // '(' ExpressionList ')'                             // Case 7
+		n.Case != 44 { // Expression '?' ExpressionList ':' Expression       // Case 44
 		t := n.Type
 		if ot != nil {
 			t = ot

@@ -6,7 +6,7 @@
 
 int main();
 
-static void *__stdfiles[3];
+__FILE_TYPE__ __stdfiles[3];
 void *stdin = &__stdfiles[0], *stdout = &__stdfiles[1], *stderr = &__stdfiles[2];
 
 void _start(int argc, char **argv)
