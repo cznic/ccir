@@ -28,6 +28,7 @@ import (
 )
 
 var (
+	cpp         = flag.Bool("cpp", false, "")
 	dict        = xc.Dict
 	include     []string
 	oDebug      = flag.String("debug", "", "")
@@ -801,6 +802,30 @@ func header(nm, mre, dre string) {
 		log.Fatal(err)
 	}
 
+	opts := []cc.Opt{
+		cc.EnableAnonymousStructFields(),
+		cc.EnableAsm(),
+		cc.EnableIncludeNext(),
+		cc.IncludePaths(include),
+		cc.SysIncludePaths(sysInclude),
+	}
+	var lpos token.Position
+	if *cpp {
+		opts = append(opts, cc.Cpp(func(toks []xc.Token) {
+			if len(toks) != 0 {
+				p := toks[0].Position()
+				if p.Filename != lpos.Filename {
+					fmt.Fprintf(os.Stderr, "# %d %q\n", p.Line, p.Filename)
+				}
+				lpos = p
+			}
+			for _, v := range toks {
+				fmt.Fprintf(os.Stderr, "%s", cc.TokSrc(v))
+			}
+			fmt.Fprintln(os.Stderr)
+		}))
+	}
+
 	ast, err := cc.Parse(
 		fmt.Sprintf(`
 #define __os__ %s
@@ -816,11 +841,7 @@ func header(nm, mre, dre string) {
 `, runtime.GOOS, runtime.GOARCH, nm),
 		nil,
 		model,
-		cc.EnableAnonymousStructFields(),
-		cc.EnableAsm(),
-		cc.EnableIncludeNext(),
-		cc.IncludePaths(include),
-		cc.SysIncludePaths(sysInclude),
+		opts...,
 	)
 	if err != nil {
 		log.Fatal(errStr(err))
