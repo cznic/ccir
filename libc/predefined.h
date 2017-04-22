@@ -14,11 +14,36 @@
 
 #include __header(predefined)
 
+typedef char *__builtin_va_list;
+
+#ifdef _WIN32
+    #define _MSC_VER 1600
+    #define __MINGW_EXTENSION
+    
+    // this is set because we set _MSC_VER, we need to get rid of it though
+    #define __restrict__
+
+    #define __int64 long long
+
+    // prevent _mingw_stdarg.h from doing "#define va_start _crt_va_start" which results in
+    // "cannot redefine an object-like macro __va_copy using a function-like macro"
+    // luckily this header doesn't do anything else besides messing that up
+    #define _INC_STDARG
+
+    // from builtin somehow they are not applied...
+    #define __builtin_va_start(ap, arg) ap = (__builtin_va_list)(&arg)
+    #define __builtin_va_end(ap) ap = 0
+
+    #define _VA_LIST_DEFINED
+    typedef __builtin_va_list va_list;
+
+    #define __inline inline
+    #define __forceinline inline __attribute__((__always_inline__))
+#endif
+
 //TODO int128
 #undef __SIZEOF_INT128__
 
 #undef __ELF__
-
-typedef char *__builtin_va_list;
 
 #endif				/* _PREDEFINED_H_ */
