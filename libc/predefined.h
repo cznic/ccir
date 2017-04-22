@@ -47,6 +47,10 @@ typedef char *__builtin_va_list;
     // missing in MINGW, but used by TCC tests
     #define index(s, c) strchr(s, c)
     #define rindex(s, c) strrchr(s, c)
+
+    // make sure we do not use an unnecessary big FILE type (and be consistent with linux so it actually works)
+    #define _FILE_DEFINED
+    typedef void * FILE;
 #endif
 
 //TODO int128
