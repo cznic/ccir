@@ -797,14 +797,14 @@ func declaration(n *cc.Declaration) (r string) {
 		declarationSpecifiers(&b, n.DeclarationSpecifiers)
 		initDeclaratorListOpt(&b, n.InitDeclaratorListOpt)
 		b.WriteByte(';')
-		r = string(b.Bytes())
 	case 1: // StaticAssertDeclaration                          // Case 1
 		log.Fatalf("%s: TODO: %v", position(n), n.Case)
 	default:
 		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
+	ret := string(b.Bytes())
 	b.Close()
-	return r
+	return ret
 }
 
 func extractCopyright(f string) string {
