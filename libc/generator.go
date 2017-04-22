@@ -782,6 +782,18 @@ func declaration(n *cc.Declaration) (r string) {
 	var b buffer.Bytes
 	switch n.Case {
 	case 0: // DeclarationSpecifiers InitDeclaratorListOpt ';'
+		if n.DeclarationSpecifiers.IsTypedef() {
+			o := n.InitDeclaratorListOpt
+			if o != nil && o.InitDeclaratorList.InitDeclaratorList != nil { // list len != 1
+				// "Expand" the typedef so its InitDeclaratorList has one item only. Attempts to bypass cznic/cc#94 until a proper solution is found.
+				for l := o.InitDeclaratorList; l != nil; l = l.InitDeclaratorList {
+					declarationSpecifiers(&b, n.DeclarationSpecifiers)
+					initDeclarator(&b, l.InitDeclarator)
+					b.WriteString(";\n")
+				}
+				break
+			}
+		}
 		declarationSpecifiers(&b, n.DeclarationSpecifiers)
 		initDeclaratorListOpt(&b, n.InitDeclaratorListOpt)
 		b.WriteByte(';')
