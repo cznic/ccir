@@ -18,6 +18,7 @@ typedef char *__builtin_va_list;
 
 #ifdef _WIN32
     #define _MSC_VER 1600
+    // TODO: not sure if we might want a `#define _MSVCRT_`?
     #define __MINGW_EXTENSION
     
     // this is set because we set _MSC_VER, we need to get rid of it though
@@ -39,6 +40,13 @@ typedef char *__builtin_va_list;
 
     #define __inline inline
     #define __forceinline inline __attribute__((__always_inline__))
+
+    // make sure we can redirect some functions like sprintf (else we do not have a definition of them at all)
+    #define __USE_MINGW_ANSI_STDIO 0
+
+    // missing in MINGW, but used by TCC tests
+    #define index(s, c) strchr(s, c)
+    #define rindex(s, c) strrchr(s, c)
 #endif
 
 //TODO int128
