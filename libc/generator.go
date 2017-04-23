@@ -113,6 +113,7 @@ int _;
 		model,
 		cc.AllowCompatibleTypedefRedefinitions(),
 		cc.EnableAnonymousStructFields(),
+		cc.EnableWideBitFieldTypes(),
 		cc.SysIncludePaths([]string{"."}),
 	)
 	if err != nil {
@@ -626,7 +627,8 @@ func enumSpecifier(b *buffer.Bytes, n *cc.EnumSpecifier) {
 		enumeratorList(b, n.EnumeratorList)
 		b.WriteByte('}')
 	case 1: // "enum" IDENTIFIER                                     // Case 1
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+		b.WriteString("enum ")
+		identifierOpt(b, n.IdentifierOpt)
 	default:
 		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
@@ -817,10 +819,19 @@ func declaration(n *cc.Declaration) (r string) {
 			o := n.InitDeclaratorListOpt
 			if o != nil && o.InitDeclaratorList.InitDeclaratorList != nil { // list len != 1
 				// "Expand" the typedef so its InitDeclaratorList has one item only. Attempts to bypass cznic/cc#94 until a proper solution is found.
+				i := 0
 				for l := o.InitDeclaratorList; l != nil; l = l.InitDeclaratorList {
+					// make sure we do not redefine enums but only define an alias to them (annoying errors)
+					if typeSpec := n.DeclarationSpecifiers.DeclarationSpecifiersOpt.DeclarationSpecifiers.TypeSpecifier; typeSpec != nil && typeSpec.Case == 12 /* ENUM */ {
+						enumSpec := typeSpec.EnumSpecifier
+						if enumSpec != nil && i > 0 && enumSpec.IdentifierOpt != nil {
+							enumSpec.Case = 1 /* ENUM IDENTIFIER */
+						}
+					}
 					declarationSpecifiers(&b, n.DeclarationSpecifiers)
 					initDeclarator(&b, l.InitDeclarator)
 					b.WriteString(";\n")
+					i += 1
 				}
 				break
 			}
@@ -1115,13 +1126,17 @@ func main() {
 		header(v.nm, v.mre, v.dre)
 	}
 
+	// OS-specific headers
 	if runtime.GOOS == "windows" {
-		for _, v := range []struct{ nm, mre, dre string }{
-			{"process", "TODO", "wchar_t"},
-			{"windows", "TODO", "CRITICAL_SECTION|wchar_t|WORD|HANDLE"},
-			{"malloc", "TODO", "TODO"},
+		for _, v := range []struct{ os, nm, mre, dre string }{
+			{"windows", "process", "TODO", "wchar_t"},
+			{"windows", "windows", "TODO", "CRITICAL_SECTION|wchar_t|WORD|HANDLE|GUID|SOCKET|u_int|timeout|_func__|PTIMEVAL|in_addr"},
+			{"windows", "malloc", "TODO", "TODO"},
 		} {
-			header(v.nm, v.mre, v.dre)
+			re := regexp.MustCompile(v.os)
+			if re.MatchString(runtime.GOOS) {
+				header(v.nm, v.mre, v.dre)
+			}
 		}
 	}
 }

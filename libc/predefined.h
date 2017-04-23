@@ -74,7 +74,9 @@ typedef char *__builtin_va_list;
     #define _OLE2_H_
 
     static extern FILE *stderr;
-    #define abort_stubbed(x) (void)((x) ? 0 : (__builtin_fprintf(stderr, "%s:%i.%s STUB %s called!\n", __FILE__, __LINE__, __func__, #x), __builtin_abort(), 0), 0)
+
+    // TODO: __builtin_fprintf(stderr, "%s:%i.%s STUB %s called!\n", __FILE__, __LINE__, __func__, #x), __builtin_abort(), 0)
+    #define abort_stubbed(x) 0
     
     // maybe: `#define __CRT__NO_INLINE` to remove some unnecessary stuff
     // Implementing __readgsqword as macro also prevents an anonymous union access 
