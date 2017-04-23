@@ -17,13 +17,14 @@
 typedef char *__builtin_va_list;
 
 #ifdef _WIN32
-    #define _MSC_VER 1600
+    #define _MSC_VER 1300
     // TODO: not sure if we might want a `#define _MSVCRT_`?
     #define __MINGW_EXTENSION
     
     // this is set because we set _MSC_VER, we need to get rid of it though
     #define __restrict__
 
+    #define __int32 long
     #define __int64 long long
 
     // prevent _mingw_stdarg.h from doing "#define va_start _crt_va_start" which results in
@@ -31,9 +32,11 @@ typedef char *__builtin_va_list;
     // luckily this header doesn't do anything else besides messing that up
     #define _INC_STDARG
 
-    // from builtin somehow they are not applied...
+    // from builtin somehow they are not applied... TODO
     #define __builtin_va_start(ap, arg) ap = (__builtin_va_list)(&arg)
-    #define __builtin_va_end(ap) ap = 0
+    #define __builtin_va_end(ap) ap = 0  
+    #define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
+    int __builtin_fprintf(void *__stream, char *__format, ...);
 
     #define _VA_LIST_DEFINED
     typedef __builtin_va_list va_list;
@@ -51,6 +54,32 @@ typedef char *__builtin_va_list;
     // make sure we do not use an unnecessary big FILE type (and be consistent with linux so it actually works)
     #define _FILE_DEFINED
     typedef void * FILE;
+
+    // TODO: seems like we do not recognize that?
+    #undef __unaligned
+    #define __unaligned
+
+    // TODO: not sure if we need those, for now exclude them (since else we'd need a bunch of __builtin definitions here)
+    #define _X86INTRIN_H_INCLUDED
+    // these seems to use something cznic/cc isn't able to handle
+    #define __RPCASYNC_H__
+    #define _OBJBASE_H_
+    // these seem not necessary but cause some other problems (WINDOWS.h)
+    #define __objidlbase_h__
+    #define _COMBASEAPI_H_
+    #define _OLEAUTO_H_
+    #define __unknwn_h__
+    #define __objidl_h__
+    #define __oleidl_h__
+    #define _OLE2_H_
+
+    static extern FILE *stderr;
+    #define abort_stubbed(x) (void)((x) ? 0 : (__builtin_fprintf(stderr, "%s:%i.%s STUB %s called!\n", __FILE__, __LINE__, __func__, #x), __builtin_abort(), 0), 0)
+    
+    // maybe: `#define __CRT__NO_INLINE` to remove some unnecessary stuff
+    // Implementing __readgsqword as macro also prevents an anonymous union access 
+    // (which isn't supported in C99 actually WTF)
+    #define __readgsqword(x) abort_stubbed("__readgsqword")
 #endif
 
 //TODO int128

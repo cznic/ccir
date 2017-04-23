@@ -258,7 +258,16 @@ func macro(ast *cc.TranslationUnit, m *cc.Macro) string {
 			case cc.Char:
 				s = fmt.Sprintf("%s %q", s, dict.S(int(m.Value.(cc.StringLitID))))
 			case cc.Int:
-				s = fmt.Sprintf("%s %q", s, dict.S(int(m.Value.(cc.LongStringLitID))))
+				// TODO: this seems strange
+				switch v := m.Value.(type) {
+				case int32:
+					s = fmt.Sprintf("%s %q", s, dict.S(int(v)))
+				case cc.LongStringLitID:
+					s = fmt.Sprintf("%s %q", s, dict.S(int(v)))
+				default:
+					log.Fatalf("%s: %v", m.DefTok.Position(), t.Kind())
+				}
+
 			default:
 				log.Fatalf("%s: %v", m.DefTok.Position(), t.Kind())
 			}
@@ -465,7 +474,25 @@ func directDeclarator(b *buffer.Bytes, n *cc.DirectDeclarator) {
 		parameterTypeList(b, n.ParameterTypeList)
 		b.WriteByte(')')
 	case 7: // DirectDeclarator '(' IdentifierListOpt ')'                         // Case 7
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+		directDeclarator(b, n.DirectDeclarator)
+		b.WriteByte('(')
+		identifierListOpt(n.IdentifierListOpt)
+		b.WriteByte(')')
+	default:
+		log.Fatalf("%s: internal error: %v", position(n), n.Case)
+	}
+}
+
+func identifierListOpt(n *cc.IdentifierListOpt) {
+	if n != nil {
+		identifierList(n.IdentifierList)
+	}
+}
+
+func identifierList(n *cc.IdentifierList) {
+	//	        IDENTIFIER
+	//	|       IdentifierList ',' IDENTIFIER  // Case 1
+	switch n.Case {
 	default:
 		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
@@ -560,6 +587,8 @@ func constantExpression(b *buffer.Bytes, v interface{}, t cc.Type) {
 		fmt.Fprintf(b, "%vl ", v)
 	case cc.ULong:
 		fmt.Fprintf(b, "%vul ", v)
+	case cc.ULongLong:
+		fmt.Fprintf(b, "%vull", v)
 	default:
 		log.Fatalf("internal error: %v", t.Kind())
 	}
@@ -668,9 +697,11 @@ func storageClassSpecifier(b *buffer.Bytes, n *cc.StorageClassSpecifier) {
 func typeQualifier(b *buffer.Bytes, n *cc.TypeQualifier) {
 	switch n.Case {
 	case 0: // "const"
+		b.WriteString("const ")
 	case 1: // "restrict"  // Case 1
+		b.WriteString("restrict ")
 	case 2: // "volatile"  // Case 2
-		log.Fatalf("%s: TODO: %v", position(n), n.Case)
+		b.WriteString("volatile ")
 	default:
 		log.Fatalf("%s: internal error: %v", position(n), n.Case)
 	}
@@ -847,7 +878,7 @@ func extractCopyright(f string) string {
 }
 
 func skip(f string) bool {
-	return strings.HasPrefix(f, "predefined_") || f == "<predefine>"
+	return strings.HasPrefix(f, "predefined") || f == "<predefine>"
 }
 
 func header(nm, mre, dre string) {
@@ -863,10 +894,12 @@ func header(nm, mre, dre string) {
 
 	opts := []cc.Opt{
 		cc.EnableAnonymousStructFields(),
+		cc.AllowCompatibleTypedefRedefinitions(),
 		cc.EnableAsm(),
 		cc.EnableIncludeNext(),
 		cc.IncludePaths(include),
 		cc.SysIncludePaths(sysInclude),
+		cc.EnableWideBitFieldTypes(),
 	}
 	var lpos token.Position
 	if *cpp {
@@ -945,11 +978,24 @@ func header(nm, mre, dre string) {
 	//   extern off32_t hello; <--- error here (the real case would be fcntl.h)
 	//   typedef long off32_t ;
 	// we simply include this file first, since that surely fixes this...
+	_files := []string{"_mingw_off_t.h", "crtdefs.h", "rpc.h", "basetsd.h", "rpcdce.h", "wtypesbase.h", "minwindef.h", "winnt.h"}
+	prio := make([]string, len(_files))
 	for _, f := range fo {
-		if strings.HasSuffix(f, "_mingw_off_t.h") {
-			fo = append([]string{f}, fo...)
-			break
+		for i, pf := range _files {
+			if strings.HasSuffix(f, pf) {
+				prio[len(_files)-1-i] = f
+				break
+			}
 		}
+	}
+	for _, f := range prio {
+		if f != "" {
+			fo = append([]string{f}, fo...)
+		}
+	}
+	fmt.Println("FILES: ")
+	for _, f := range fo {
+		fmt.Println("\t", f)
 	}
 
 	re = regexp.MustCompile(mre)
@@ -1084,5 +1130,15 @@ func main() {
 		//TODO{"wchar", "TODO", "TODO"},
 	} {
 		header(v.nm, v.mre, v.dre)
+	}
+
+	if runtime.GOOS == "windows" {
+		for _, v := range []struct{ nm, mre, dre string }{
+			{"process", "TODO", "wchar_t"},
+			{"windows", "TODO", "CRITICAL_SECTION|wchar_t|WORD|UINT_PTR|ULONG_PTR|KSPIN_LOCK|WPARAM"},
+			{"malloc", "TODO", "TODO"},
+		} {
+			header(v.nm, v.mre, v.dre)
+		}
 	}
 }
