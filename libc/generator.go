@@ -941,8 +941,10 @@ func header(nm, mre, dre string) {
 
 	m := map[string]bool{}
 	re := regexp.MustCompile(dre)
-	dset := map[string]scanner.ErrorList{}
+	dset := map[string][]int{}
+	fileinfo := map[int]*scanner.Error{}
 	var fo []string
+	i := 0
 	for l := ast; l != nil; l = l.TranslationUnit {
 		n := l.ExternalDeclaration
 		pos := position(n)
@@ -962,7 +964,11 @@ func header(nm, mre, dre string) {
 					fo = append(fo, f)
 				}
 			}
-			dset[f] = append(dset[f], &scanner.Error{Pos: pos, Msg: d})
+			// we need those to insert/access file information later
+			fileinfo[i] = &scanner.Error{Pos: pos, Msg: d}
+			// insert the value separately so we can filter out files we do not use
+			dset[f] = append(dset[f], i)
+			i += 1
 		case 2: // BasicAssemblerStatement ';'  // Case 2
 			log.Fatalf("%s: TODO %v", pos, n.Case)
 		case 3: // ';'                          // Case 3
@@ -972,58 +978,28 @@ func header(nm, mre, dre string) {
 		}
 	}
 
-	// TODO: this is just a WIN workaround... seems like we pick up the wrong ordering (likely generator bug?)
-	// io.h (uses _off32_t) --> _mingw_off.h (defines _off32_t)
-	// but _mingw_off.h is inserted after io.h, so the type is used before it's typedef'ed:
-	//   extern off32_t hello; <--- error here (the real case would be fcntl.h)
-	//   typedef long off32_t ;
-	// we simply include this file first, since that surely fixes this...
-	_files := []string{"_mingw_off_t.h", "crtdefs.h", "rpc.h", "basetsd.h", "rpcdce.h", "wtypesbase.h", "minwindef.h", "winnt.h"}
-	prio := make([]string, len(_files))
-	for _, f := range fo {
-		for i, pf := range _files {
-			if strings.HasSuffix(f, pf) {
-				prio[len(_files)-1-i] = f
-				break
-			}
-		}
-	}
-	for _, f := range prio {
-		if f != "" {
-			fo = append([]string{f}, fo...)
-		}
-	}
-	fmt.Println("FILES: ")
-	for _, f := range fo {
-		fmt.Println("\t", f)
-	}
-
 	re = regexp.MustCompile(mre)
-	mset := map[string]scanner.ErrorList{}
-	var ml scanner.ErrorList
+	mset := map[string][]int{}
 	for k, v := range ast.Macros {
-		ml.Add(position(v.DefTok), string(dict.S(k)))
-	}
-	ml.Sort()
-	for _, k := range ml {
-		v := ast.Macros[dict.SID(k.Msg)]
-		pos := k.Pos
+		pos := position(v.DefTok)
 		f := pos.Filename
 		if skip(f) {
 			continue
 		}
-
-		if dbg || re.MatchString(k.Msg) {
+		if dbg || re.MatchString(string(dict.S(k))) {
 			if !m[f] {
 				m[f] = true
 				fo = append(fo, f)
 			}
 		}
-		mset[f] = append(mset[f], &scanner.Error{Pos: pos, Msg: macro(ast, v)})
+		fileinfo[i] = &scanner.Error{Pos: pos, Msg: macro(ast, v)}
+		mset[f] = append(mset[f], i)
+		i += 1
 	}
 
 	var a, more []string
 	cp := map[string]bool{}
+	aggregatedDecls := []int{}
 	for _, f := range fo {
 		if s := extractCopyright(f); s != "" {
 			cp[f] = true
@@ -1034,15 +1010,19 @@ func header(nm, mre, dre string) {
 %s
 `, f, s))
 		}
-		set := dset[f]
-		set.Sort()
-		for _, v := range set {
-			if *oPos || *oDebug == nm {
-				v.Msg = fmt.Sprintf("%s // %s", v.Msg, v.Pos)
-			}
-			a = append(a, v.Msg)
-		}
+		aggregatedDecls = append(aggregatedDecls, dset[f]...)
 	}
+	sort.Sort(sort.IntSlice(aggregatedDecls))
+	var lastFile string
+	for _, idx := range aggregatedDecls {
+		entry := fileinfo[idx]
+		if lastFile != entry.Pos.Filename {
+			a = append(a, fmt.Sprintf("// BEGIN OF FILE %s \n", entry.Pos.Filename))
+		}
+		lastFile = entry.Pos.Filename
+		a = append(a, entry.Msg)
+	}
+	aggregatedMacros := []int{}
 	for _, f := range fo {
 		if !cp[f] {
 			if s := extractCopyright(f); s != "" {
@@ -1054,14 +1034,17 @@ func header(nm, mre, dre string) {
 `, f, s))
 			}
 		}
-		set := mset[f]
-		set.Sort()
-		for _, v := range set {
-			if *oPos || *oDebug == nm {
-				v.Msg = fmt.Sprintf("%s // %s", v.Msg, v.Pos)
-			}
-			a = append(a, v.Msg)
+		aggregatedMacros = append(aggregatedMacros, mset[f]...)
+	}
+	sort.Sort(sort.IntSlice(aggregatedMacros))
+	lastFile = ""
+	for _, idx := range aggregatedMacros {
+		entry := fileinfo[idx]
+		if lastFile != entry.Pos.Filename {
+			a = append(a, fmt.Sprintf("// BEGIN OF FILE %s \n", entry.Pos.Filename))
 		}
+		lastFile = entry.Pos.Filename
+		a = append(a, entry.Msg)
 	}
 
 	emit(nm, strings.Join(more, "\n"), []byte(strings.Join(a, "\n")))
@@ -1101,7 +1084,7 @@ func main() {
 		{"ctype", "TODO", "tolower|__int32_t|pthreadlocinfo"},
 		{"dlfcn", "RTLD_NOW", "dlsym"},
 		{"errno", "EINTR|ETIMEDOUT", "errno"},
-		{"fcntl", "F_WRLCK", "open|struct flock|__off_t|__time32_t|_off64_t"},
+		{"fcntl", "F_WRLCK", "_off64_t|__time32_t|open|struct flock|__off_t"},
 		//TODO{"float", "TODO", "TODO"},
 		{"limits", "INT_MAX", "TODO"},
 		//TODO{"locale", "TODO", "TODO"},
@@ -1135,7 +1118,7 @@ func main() {
 	if runtime.GOOS == "windows" {
 		for _, v := range []struct{ nm, mre, dre string }{
 			{"process", "TODO", "wchar_t"},
-			{"windows", "TODO", "CRITICAL_SECTION|wchar_t|WORD|UINT_PTR|ULONG_PTR|KSPIN_LOCK|WPARAM"},
+			{"windows", "TODO", "CRITICAL_SECTION|wchar_t|WORD|HANDLE"},
 			{"malloc", "TODO", "TODO"},
 		} {
 			header(v.nm, v.mre, v.dre)
