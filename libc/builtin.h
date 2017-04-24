@@ -80,4 +80,8 @@ void __builtin_longjmp(void *__env, int __val);
 void __builtin_trap(void);
 void __register_stdfiles(void *, void *, void *);
 
+#ifdef _WIN32
+long _InterlockedCompareExchange(long volatile * Destination,  long Exchange, long Comparand);
+#endif
+
 #endif				/* _BUILTIN_H_ */

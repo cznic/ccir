@@ -17,7 +17,9 @@
 typedef char *__builtin_va_list;
 
 #ifdef _WIN32
-    #define _MSC_VER 1300
+    #define _MSC_VER 1200
+    // needed for nameless unions
+    #define _MSC_EXTENSIONS
     // TODO: not sure if we might want a `#define _MSVCRT_`?
     #define __MINGW_EXTENSION
     
@@ -82,6 +84,9 @@ typedef char *__builtin_va_list;
     // Implementing __readgsqword as macro also prevents an anonymous union access 
     // (which isn't supported in C99 actually WTF)
     #define __readgsqword(x) abort_stubbed("__readgsqword")
+
+    // TODO: ? not relevant for SQLite since we have mutexes
+    #define _mm_mfence() 
 #endif
 
 //TODO int128

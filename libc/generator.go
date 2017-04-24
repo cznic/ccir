@@ -114,6 +114,7 @@ int _;
 		cc.AllowCompatibleTypedefRedefinitions(),
 		cc.EnableAnonymousStructFields(),
 		cc.EnableWideBitFieldTypes(),
+		cc.EnableAnonymousStructFields(),
 		cc.SysIncludePaths([]string{"."}),
 	)
 	if err != nil {
@@ -911,6 +912,7 @@ func header(nm, mre, dre string) {
 		cc.IncludePaths(include),
 		cc.SysIncludePaths(sysInclude),
 		cc.EnableWideBitFieldTypes(),
+		cc.EnableAnonymousStructFields(),
 	}
 	var lpos token.Position
 	if *cpp {
@@ -1093,15 +1095,12 @@ func main() {
 		//TODO{"alloca", "TODO", "TODO"},
 		//TODO{"complex", "TODO", "TODO"},
 		{"ctype", "TODO", "tolower|__int32_t|pthreadlocinfo"},
-		{"dlfcn", "RTLD_NOW", "dlsym"},
 		{"errno", "EINTR|ETIMEDOUT", "errno"},
 		{"fcntl", "F_WRLCK", "_off64_t|__time32_t|open|struct flock|__off_t"},
 		//TODO{"float", "TODO", "TODO"},
 		{"limits", "INT_MAX", "TODO"},
 		//TODO{"locale", "TODO", "TODO"},
 		{"math", "TODO", "sin|_locale_t"},
-		{"memory", "TODO", "TODO"},
-		{"pthread", "TODO", "pthread_mutex_t|size_t"},
 		//TODO{"sched", "TODO", "TODO"},
 		//TODO{"setjmp", "TODO", "TODO"},
 		//TODO{"signal", "TODO", "TODO"},
@@ -1113,11 +1112,9 @@ func main() {
 		{"stdlib", "TODO", "qsort|wchar_t"},
 		{"string", "TODO", "strcpy|size_t"},
 		{"strings", "TODO", "index|size_t"},
-		{"sys/mman", "PROT_READ", "mmap|size_t"},
 		//TODO{"sys/select", "TODO", "TODO"},
 		{"sys/stat", "TODO", "stat|__dev_t|_dev_t|time_t|_off_t"},
 		{"sys/time", "TODO", "timeval|sigset_t|__time_t|errno_t"},
-		{"sys/types", "TODO", "TODO"},
 		//TODO{"sys/wait", "TODO", "TODO"},
 		{"time", "TODO", "time_t|size_t"},
 		{"unistd", "_SC_PAGESIZE", "read|size_t|_off64_t"},
@@ -1127,16 +1124,19 @@ func main() {
 	}
 
 	// OS-specific headers
-	if runtime.GOOS == "windows" {
-		for _, v := range []struct{ os, nm, mre, dre string }{
-			{"windows", "process", "TODO", "wchar_t"},
-			{"windows", "windows", "TODO", "CRITICAL_SECTION|wchar_t|WORD|HANDLE|GUID|SOCKET|u_int|timeout|_func__|PTIMEVAL|in_addr"},
-			{"windows", "malloc", "TODO", "TODO"},
-		} {
-			re := regexp.MustCompile(v.os)
-			if re.MatchString(runtime.GOOS) {
-				header(v.nm, v.mre, v.dre)
-			}
+	for _, v := range []struct{ os, nm, mre, dre string }{
+		{"windows", "process", "TODO", "wchar_t"},
+		{"windows", "windows", "ERROR_ACCESS_DENIED|__MSABI_LONG", "CRITICAL_SECTION|wchar_t|WORD|HANDLE|GUID|SOCKET|u_int|timeout|_func__|PTIMEVAL|in_addr|QueryPerformanceCounter"},
+		{"windows", "malloc", "TODO", "_msize|size_t"},
+		{"linux", "dlfcn", "RTLD_NOW", "dlsym"},
+		{"linux", "sys/mman", "PROT_READ", "mmap|size_t"},
+		{"linux", "sys/types", "TODO", "TODO"},
+		{"linux", "pthread", "TODO", "pthread_mutex_t|size_t"},
+		{"linux", "memory", "TODO", "TODO"},
+	} {
+		re := regexp.MustCompile(v.os)
+		if re.MatchString(runtime.GOOS) {
+			header(v.nm, v.mre, v.dre)
 		}
 	}
 }
