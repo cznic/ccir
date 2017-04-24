@@ -1554,7 +1554,7 @@ func (c *c) binopType(n *cc.Expression) cc.Type {
 		}
 
 		if a.Kind() == cc.Ptr && b.Kind() == cc.Ptr && n.Case == 30 { // Expression '-' Expression                          // Case 30
-			return c.ast.Model.LongType
+			return n.Type
 		}
 
 		return t
