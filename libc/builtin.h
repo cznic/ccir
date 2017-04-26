@@ -81,6 +81,10 @@ void __builtin_trap(void);
 void __register_stdfiles(void *, void *, void *);
 
 #ifdef _WIN32
+#ifndef _WIN64
+#define InterlockedCompareExchange(d,e,c) _InterlockedCompareExchange(d,e,c)
+#endif
+
 long _InterlockedCompareExchange(long volatile * Destination,  long Exchange, long Comparand);
 #endif
 

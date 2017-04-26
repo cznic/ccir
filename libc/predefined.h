@@ -75,7 +75,11 @@ typedef char *__builtin_va_list;
     #define __oleidl_h__
     #define _OLE2_H_
 
-    static extern FILE *stderr;
+    // prevent annoying _iob stuff (and better to do it directly)
+    extern FILE stdin;
+    extern FILE stdout;
+    extern FILE stderr;
+    #define _STDSTREAM_DEFINED
 
     // TODO: __builtin_fprintf(stderr, "%s:%i.%s STUB %s called!\n", __FILE__, __LINE__, __func__, #x), __builtin_abort(), 0)
     #define abort_stubbed(x) 0
@@ -83,6 +87,7 @@ typedef char *__builtin_va_list;
     // maybe: `#define __CRT__NO_INLINE` to remove some unnecessary stuff
     // Implementing __readgsqword as macro also prevents an anonymous union access 
     // (which isn't supported in C99 actually WTF)
+    #define __readfsdword(x) abort_stubbed("__readfsdword")
     #define __readgsqword(x) abort_stubbed("__readgsqword")
 
     // TODO: ? not relevant for SQLite since we have mutexes
