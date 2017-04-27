@@ -8,7 +8,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef _WIN32
 #include <memory.h>
+#endif
 #include <unistd.h>
 #include <fcntl.h>
 
