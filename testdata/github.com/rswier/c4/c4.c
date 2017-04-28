@@ -8,11 +8,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef _WIN32
 #include <memory.h>
+#endif
 #include <unistd.h>
 #include <fcntl.h>
 
-#define int long
+#ifdef _WIN64
+  #define HACKED_INT __PTRDIFF_TYPE__
+#else
+  #define HACKED_INT long
+#endif
+#define int HACKED_INT
 
 char *p, *lp, // current position in source code
      *data;   // data/bss pointer
@@ -335,7 +342,7 @@ void stmt()
 
 int main(int argc, char **argv)
 
-#define int long
+#define int HACKED_INT
 
 {
   int fd, bt, ty, poolsz, *idmain;

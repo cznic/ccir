@@ -18,7 +18,7 @@
 #define __builtin_prefetch(addr, ...) (void)(addr)
 #define __builtin_signbit(x) (sizeof(x) == sizeof(float) ? __signbitf(x) : sizeof (x) == sizeof(double) ? __signbit(x) : __signbitl(x))
 #define __builtin_types_compatible_p(type1, type2) __builtin_types_compatible__((type1){}, (type2){})
-#define __builtin_va_arg(ap, type) *(type*)(ap -= __roundup(sizeof(type), __SIZEOF_POINTER__))
+#define __builtin_va_arg(ap, type) *(type*)(ap -= (__UINTPTR_TYPE__)(__roundup(sizeof(type), __SIZEOF_POINTER__)))
 #define __builtin_va_copy(dest, src) dest = src
 #define __builtin_va_end(ap) ap = 0
 #define __builtin_va_start(ap, arg) ap = (__builtin_va_list)(&arg)
@@ -79,5 +79,13 @@ void __builtin_exit(int __status);
 void __builtin_longjmp(void *__env, int __val);
 void __builtin_trap(void);
 void __register_stdfiles(void *, void *, void *);
+
+#ifdef _WIN32
+#ifndef _WIN64
+#define InterlockedCompareExchange(d,e,c) _InterlockedCompareExchange(d,e,c)
+#endif
+
+long _InterlockedCompareExchange(long volatile * Destination,  long Exchange, long Comparand);
+#endif
 
 #endif				/* _BUILTIN_H_ */

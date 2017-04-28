@@ -7,7 +7,10 @@
 #ifndef _UNISTD_H_
 #define _UNISTD_H_
 
+#ifndef _WIN32
 #include <stddef.h>
+#endif
+
 #include __header(unistd)
 
 #endif				/* _UNISTD_H_ */

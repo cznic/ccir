@@ -6,7 +6,9 @@
 
 #undef assert
 
+#ifndef _WIN32
 extern __FILE_TYPE__ stderr;
+#endif
 
 #ifdef NDEBUG
 #define assert(x) ((void)0)

@@ -11,6 +11,14 @@ import (
 	"github.com/cznic/cc"
 )
 
+func longSize() cc.ModelItem {
+	s := 8
+	if runtime.GOOS == "windows" {
+		s = 4
+	}
+	return cc.ModelItem{Size: s, Align: s, StructAlign: s}
+}
+
 // NewModel returns a *cc.Model for the current architecture and platform.
 func NewModel() (*cc.Model, error) {
 	switch arch := runtime.GOARCH; arch {
@@ -79,8 +87,8 @@ func NewModel() (*cc.Model, error) {
 				cc.UShort:            {Size: 2, Align: 2, StructAlign: 2},
 				cc.Int:               {Size: 4, Align: 4, StructAlign: 4},
 				cc.UInt:              {Size: 4, Align: 4, StructAlign: 4},
-				cc.Long:              {Size: 8, Align: 8, StructAlign: 8},
-				cc.ULong:             {Size: 8, Align: 8, StructAlign: 8},
+				cc.Long:              longSize(),
+				cc.ULong:             longSize(),
 				cc.LongLong:          {Size: 8, Align: 8, StructAlign: 8},
 				cc.ULongLong:         {Size: 8, Align: 8, StructAlign: 8},
 				cc.Float:             {Size: 4, Align: 4, StructAlign: 4},
