@@ -232,7 +232,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 		return log, -1, fmt.Errorf("gzip close: %v", err)
 	}
 
-	s := virtual.DumpCodeStr(bin.Code, 0)
+	s := virtual.DumpCodeStr(bin.Code, 0, bin.Functions, bin.Lines)
 	fmt.Fprintf(&log, "%s: virtual.LoadMain: code %#05x, text %#05x, data %#05x, bss %#05x, pc2func %v, pc2line %v, gz %v\n%s\n",
 		match, len(bin.Code), len(bin.Text), len(bin.Data), bin.BSS, len(bin.Functions), len(bin.Lines), len(gz.Bytes()), s.Bytes(),
 	)
