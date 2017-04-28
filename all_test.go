@@ -1009,6 +1009,7 @@ func TestSqlite(t *testing.T) {
 			{filepath.Join(pth, "sqlite3.c")},
 		},
 		cc.EnableAnonymousStructFields(),
+		cc.EnableWideBitFieldTypes(),
 		cc.IncludePaths([]string{pth}),
 	)
 	var gz bytes.Buffer
