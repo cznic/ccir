@@ -117,240 +117,250 @@ int _iswcsym_l (wint_t _C ,_locale_t _Locale );
 int is_wctype (wint_t _C ,wctype_t _Type );
 int iswblank (wint_t _C );
 extern int *__imp___mb_cur_max ;
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _THREADLOCALEINFO 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define iswdigit(_c) ( iswctype ( _c , _DIGIT ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _INTPTR_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _tolower(_Char) ( ( _Char ) - 'A' + 'a' )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __intptr_t_defined 
-#define __crt_typefix(ctype) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _chvalidchk_l(_Char, _Flag, _Locale) ( ! _Locale ? __chvalidchk ( _Char , _Flag ) : ( ( _locale_t ) _Locale ) -> locinfo -> pctype [ _Char ] & ( _Flag ) )
-#define _WCTYPE_INLINE_DEFINED 
-#define iswspace(_c) ( iswctype ( _c , _SPACE ) )
-#define _isgraph_l(_Char, _Locale) _ischartype_l ( _Char , _PUNCT | _ALPHA | _DIGIT , _Locale )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _iswgraph_l(_c, _p) ( _iswctype_l ( _c , _PUNCT | _ALPHA | _DIGIT , _p ) )
-#define _isprint_l(_Char, _Locale) _ischartype_l ( _Char , _BLANK | _PUNCT | _ALPHA | _DIGIT , _Locale )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
-#define _WCTYPE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define iscsymf __iscsymf
-#define WEOF ( wint_t ) ( 0xFFFF )
-#define _isalpha_l(_Char, _Locale) _ischartype_l ( _Char , _ALPHA , _Locale )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _RSIZE_T_DEFINED 
-#define _INC_CRTDEFS 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define iswupper(_c) ( iswctype ( _c , _UPPER ) )
-#define _iscsym_l(_c, _p) ( _isalnum_l ( _c , _p ) || ( ( _c ) == '_' ) )
-#define _iswcsym_l(_c, _p) ( _iswalnum_l ( _c , _p ) || ( ( _c ) == '_' ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRTRESTRICT 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _iswalnum_l(_c, _p) ( _iswctype_l ( _c , _ALPHA | _DIGIT , _p ) )
-#define iswalnum(_c) ( iswctype ( _c , _ALPHA | _DIGIT ) )
-#define _iswpunct_l(_c, _p) ( _iswctype_l ( _c , _PUNCT , _p ) )
-#define _iswprint_l(_c, _p) ( _iswctype_l ( _c , _BLANK | _PUNCT | _ALPHA | _DIGIT , _p ) )
-#define _isxdigit_l(_Char, _Locale) _ischartype_l ( _Char , _HEX , _Locale )
-#define iswcntrl(_c) ( iswctype ( _c , _CONTROL ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define __pwctype_func() ( * __MINGW_IMP_SYMBOL ( _pwctype ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRT_PACKING (8)
-#define _PTRDIFF_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define __pctype_func() ( * __MINGW_IMP_SYMBOL ( _pctype ) )
-#define _islower_l(_Char, _Locale) _ischartype_l ( _Char , _LOWER , _Locale )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _PTRDIFF_T_ 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _iswdigit_l(_c, _p) ( _iswctype_l ( _c , _DIGIT , _p ) )
-#define __isascii(_Char) ( ( unsigned ) ( _Char ) < 0x80 )
-#define _pctype ( * __MINGW_IMP_SYMBOL ( _pctype ) )
-#define toascii __toascii
-#define _iscsymf_l(_c, _p) ( _isalpha_l ( _c , _p ) || ( ( _c ) == '_' ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _wctype ( * __MINGW_IMP_SYMBOL ( _wctype ) )
-#define _iswupper_l(_c, _p) ( _iswctype_l ( _c , _UPPER , _p ) )
-#define _HEX (128)
-#define __PCTYPE_FUNC __pctype_func ( )
-#define __iscsymf(_c) ( isalpha ( _c ) || ( ( _c ) == '_' ) )
-#define iswgraph(_c) ( iswctype ( _c , _PUNCT | _ALPHA | _DIGIT ) )
-#define __iswcsymf(_c) ( iswalpha ( _c ) || ( ( _c ) == '_' ) )
-#define MB_CUR_MAX ___mb_cur_max_func ( )
-#define _CTYPE_DEFINED 
-#define iswalpha(_c) ( iswctype ( _c , _ALPHA ) )
-#define _CRT_CTYPEDATA_DEFINED 
-#define _ispunct_l(_Char, _Locale) _ischartype_l ( _Char , _PUNCT , _Locale )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRT_SECURE_CPP_NOTHROW throw ( )
-#define _CRTNOALIAS 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define iswpunct(_c) ( iswctype ( _c , _PUNCT ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define ___mb_cur_max_func() ( __mb_cur_max )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _SSIZE_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _iswxdigit_l(_c, _p) ( _iswctype_l ( _c , _HEX , _p ) )
-#define _pwctype ( * __MINGW_IMP_SYMBOL ( _pwctype ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _ERRCODE_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _INC_CTYPE 
-#define __iswcsym(_c) ( iswalnum ( _c ) || ( ( _c ) == '_' ) )
-#define _isupper_l(_Char, _Locale) _ischartype_l ( _Char , _UPPER , _Locale )
+#define _BLANK (64)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define _LOWER (2)
-#define _SPACE (8)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-#define _TIME_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _PUNCT (16)
-#define _isdigit_l(_Char, _Locale) _ischartype_l ( _Char , _DIGIT , _Locale )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _UINTPTR_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _iscntrl_l(_Char, _Locale) _ischartype_l ( _Char , _CONTROL , _Locale )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
-#define _TIME64_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define iswascii(_c) ( ( unsigned ) ( _c ) < 0x80 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME32_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
-
-#define _CONTROL (32)
-#define __chvalidchk(a, b) ( __PCTYPE_FUNC [ ( a ) ] & ( b ) )
-#define _iswalpha_l(_c, _p) ( _iswctype_l ( _c , _ALPHA , _p ) )
-#define _ALPHA (259)
-#define _DIGIT (4)
-#define __mb_cur_max ( * __MINGW_IMP_SYMBOL ( __mb_cur_max ) )
-#define _CRT_WCTYPEDATA_DEFINED 
-#define iswlower(_c) ( iswctype ( _c , _LOWER ) )
+#define iswpunct(_c) ( iswctype ( _c , _PUNCT ) )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
+#define iswcntrl(_c) ( iswctype ( _c , _CONTROL ) )
+#define iswgraph(_c) ( iswctype ( _c , _PUNCT | _ALPHA | _DIGIT ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _isxdigit_l(_Char, _Locale) _ischartype_l ( _Char , _HEX , _Locale )
+#define _iswdigit_l(_c, _p) ( _iswctype_l ( _c , _DIGIT , _p ) )
 #define _iswlower_l(_c, _p) ( _iswctype_l ( _c , _LOWER , _p ) )
-#define _LEADBYTE (32768)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _PTRDIFF_T_DEFINED 
+#define _UINTPTR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define iswxdigit(_c) ( iswctype ( _c , _HEX ) )
+#define _HEX (128)
+#define _iswxdigit_l(_c, _p) ( _iswctype_l ( _c , _HEX , _p ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRTNOALIAS 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define iscsym __iscsym
+#define _ALPHA (259)
+#define _LOWER (2)
+#define _WCTYPE_INLINE_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _iscsymf_l(_c, _p) ( _isalpha_l ( _c , _p ) || ( ( _c ) == '_' ) )
+#define iswspace(_c) ( iswctype ( _c , _SPACE ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _wctype ( * __MINGW_IMP_SYMBOL ( _wctype ) )
+#define _chvalidchk_l(_Char, _Flag, _Locale) ( ! _Locale ? __chvalidchk ( _Char , _Flag ) : ( ( _locale_t ) _Locale ) -> locinfo -> pctype [ _Char ] & ( _Flag ) )
+#define __pwctype_func() ( * __MINGW_IMP_SYMBOL ( _pwctype ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define _WINT_T 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define iswalnum(_c) ( iswctype ( _c , _ALPHA | _DIGIT ) )
+#define __iswcsym(_c) ( iswalnum ( _c ) || ( ( _c ) == '_' ) )
+#define _INC_CTYPE 
+#define _ispunct_l(_Char, _Locale) _ischartype_l ( _Char , _PUNCT , _Locale )
+#define _CRT_CTYPEDATA_DEFINED 
+#define __isascii(_Char) ( ( unsigned ) ( _Char ) < 0x80 )
+#define _ischartype_l(_Char, _Flag, _Locale) ( ( ( _Locale ) != NULL && ( ( ( _locale_t ) ( _Locale ) ) -> locinfo -> mb_cur_max ) > 1 ) ? _isctype_l ( _Char , ( _Flag ) , _Locale ) : _chvalidchk_l ( _Char , _Flag , _Locale ) )
+#define _isdigit_l(_Char, _Locale) _ischartype_l ( _Char , _DIGIT , _Locale )
+#define toascii __toascii
+#define _iswpunct_l(_c, _p) ( _iswctype_l ( _c , _PUNCT , _p ) )
+#define __iscsym(_c) ( isalnum ( _c ) || ( ( _c ) == '_' ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
+#define _INC_CRTDEFS 
+#define _SIZE_T_DEFINED 
+#define _TIME64_T_DEFINED 
+#define _TIME32_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _DIGIT (4)
+#define __chvalidchk(a, b) ( __PCTYPE_FUNC [ ( a ) ] & ( b ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _INTPTR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _iswalpha_l(_c, _p) ( _iswctype_l ( _c , _ALPHA , _p ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
+#define _WCHAR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define __iswcsymf(_c) ( iswalpha ( _c ) || ( ( _c ) == '_' ) )
+#define _iscsym_l(_c, _p) ( _isalnum_l ( _c , _p ) || ( ( _c ) == '_' ) )
+#define iswalpha(_c) ( iswctype ( _c , _ALPHA ) )
+#define iswdigit(_c) ( iswctype ( _c , _DIGIT ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _SSIZE_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _SPACE (8)
+#define _iswalnum_l(_c, _p) ( _iswctype_l ( _c , _ALPHA | _DIGIT , _p ) )
+#define _isgraph_l(_Char, _Locale) _ischartype_l ( _Char , _PUNCT | _ALPHA | _DIGIT , _Locale )
+#define __toascii(_Char) ( ( _Char ) & 0x7f )
+#define _isalnum_l(_Char, _Locale) _ischartype_l ( _Char , _ALPHA | _DIGIT , _Locale )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __uintptr_t_defined 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _isalpha_l(_Char, _Locale) _ischartype_l ( _Char , _ALPHA , _Locale )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _iswupper_l(_c, _p) ( _iswctype_l ( _c , _UPPER , _p ) )
+#define iswascii(_c) ( ( unsigned ) ( _c ) < 0x80 )
+#define ___mb_cur_max_func() ( __mb_cur_max )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _WCTYPE_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _iswcsym_l(_c, _p) ( _iswalnum_l ( _c , _p ) || ( ( _c ) == '_' ) )
+#define __iscsymf(_c) ( isalpha ( _c ) || ( ( _c ) == '_' ) )
+#define _iswgraph_l(_c, _p) ( _iswctype_l ( _c , _PUNCT | _ALPHA | _DIGIT , _p ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _isprint_l(_Char, _Locale) _ischartype_l ( _Char , _BLANK | _PUNCT | _ALPHA | _DIGIT , _Locale )
+#define iswprint(_c) ( iswctype ( _c , _BLANK | _PUNCT | _ALPHA | _DIGIT ) )
+#define iswlower(_c) ( iswctype ( _c , _LOWER ) )
+#define _pwctype ( * __MINGW_IMP_SYMBOL ( _pwctype ) )
+#define _iswprint_l(_c, _p) ( _iswctype_l ( _c , _BLANK | _PUNCT | _ALPHA | _DIGIT , _p ) )
+#define _iscntrl_l(_Char, _Locale) _ischartype_l ( _Char , _CONTROL , _Locale )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define isascii __isascii
-#define _iswcntrl_l(_c, _p) ( _iswctype_l ( _c , _CONTROL , _p ) )
-#define _BLANK (64)
+#define _islower_l(_Char, _Locale) _ischartype_l ( _Char , _LOWER , _Locale )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __uintptr_t_defined 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _CONTROL (32)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRT_SECURE_CPP_NOTHROW throw ( )
+#define _TAGLC_ID_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _WCTYPE_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRT_PACKING (8)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define __mb_cur_max ( * __MINGW_IMP_SYMBOL ( __mb_cur_max ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
 #define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define iswxdigit(_c) ( iswctype ( _c , _HEX ) )
+#define _PUNCT (16)
+#define _LEADBYTE (32768)
+#define _iswcntrl_l(_c, _p) ( _iswctype_l ( _c , _CONTROL , _p ) )
+#define _CRT_WCTYPEDATA_DEFINED 
+#define _iswcsymf_l(_c, _p) ( _iswalpha_l ( _c , _p ) || ( ( _c ) == '_' ) )
+#define _tolower(_Char) ( ( _Char ) - 'A' + 'a' )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
+#define _THREADLOCALEINFO 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define __iscsym(_c) ( isalnum ( _c ) || ( ( _c ) == '_' ) )
-#define _toupper(_Char) ( ( _Char ) - 'a' + 'A' )
-#define _UPPER (1)
+#define WEOF ( wint_t ) ( 0xFFFF )
+#define iscsymf __iscsymf
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
-#define _SIZE_T_DEFINED 
+#define _ERRCODE_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define _iswspace_l(_c, _p) ( _iswctype_l ( _c , _SPACE , _p ) )
-#define _WCTYPE_DEFINED 
+#define _isupper_l(_Char, _Locale) _ischartype_l ( _Char , _UPPER , _Locale )
+#define iswupper(_c) ( iswctype ( _c , _UPPER ) )
+#define isascii __isascii
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __crt_typefix(ctype) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define MB_CUR_MAX ___mb_cur_max_func ( )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _pctype ( * __MINGW_IMP_SYMBOL ( _pctype ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
 #define _isspace_l(_Char, _Locale) _ischartype_l ( _Char , _SPACE , _Locale )
+#define __PCTYPE_FUNC __pctype_func ( )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _WINT_T 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
+#define _PTRDIFF_T_ 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define __toascii(_Char) ( ( _Char ) & 0x7f )
-#define _iswcsymf_l(_c, _p) ( _iswalpha_l ( _c , _p ) || ( ( _c ) == '_' ) )
+#define _toupper(_Char) ( ( _Char ) - 'a' + 'A' )
+#define _iswspace_l(_c, _p) ( _iswctype_l ( _c , _SPACE , _p ) )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _WCHAR_T_DEFINED 
+#define __intptr_t_defined 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define iswprint(_c) ( iswctype ( _c , _BLANK | _PUNCT | _ALPHA | _DIGIT ) )
-#define _isalnum_l(_Char, _Locale) _ischartype_l ( _Char , _ALPHA | _DIGIT , _Locale )
+#define __pctype_func() ( * __MINGW_IMP_SYMBOL ( _pctype ) )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _TAGLC_ID_DEFINED 
+#define _RSIZE_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
 
-#define iscsym __iscsym
-#define _ischartype_l(_Char, _Flag, _Locale) ( ( ( _Locale ) != NULL && ( ( ( _locale_t ) ( _Locale ) ) -> locinfo -> mb_cur_max ) > 1 ) ? _isctype_l ( _Char , ( _Flag ) , _Locale ) : _chvalidchk_l ( _Char , _Flag , _Locale ) )
+#define _UPPER (1)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRTRESTRICT 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\ctype.h 
+
+#define _CTYPE_DEFINED

@@ -238,228 +238,228 @@ unsigned long long strtoull (const char *,char **,int );
 long long atoll (const char *);
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
-#define RAND_MAX (32767)
-#define __argv ( * __MINGW_IMP_SYMBOL ( __argv ) )
-#define __wargv ( * __MINGW_IMP_SYMBOL ( __wargv ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
-#define _THREADLOCALEINFO 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define onexit_t _onexit_t
-#define _PTR_LD(x) ( ( unsigned char * ) ( & ( x ) -> ld ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRTRESTRICT 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _INC_STDLIB 
-#define _environ ( * __MINGW_IMP_SYMBOL ( _environ ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
+#define _CVTBUFSIZE (349)
 #define _countof(_Array) ( sizeof ( _Array ) / sizeof ( _Array [ 0 ] ) )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _WCHAR_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _WRITE_ABORT_MSG (1)
-#define _CRT_SYSTEM_DEFINED 
-#define _CRT_SWAB_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TAGLC_ID_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _wpgmptr ( * __MINGW_IMP_SYMBOL ( _wpgmptr ) )
-#define _CRT_DOUBLE_DEC 
-#define EXIT_SUCCESS (0)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
 #define _CRT_PERROR_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _RSIZE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define __min(a, b) ( ( ( a ) < ( b ) ) ? ( a ) : ( b ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-#define _WINT_T 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _winmajor ( * __MINGW_IMP_SYMBOL ( _winmajor ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define ___mb_cur_max_func() ( __mb_cur_max )
-#define _CRT_ABS_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _SSIZE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _MAX_EXT (256)
-#define _OUT_TO_DEFAULT (0)
-#define _ONEXIT_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _PTRDIFF_T_ 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _CRT_ATOF_DEFINED 
-#define _winminor ( * __MINGW_IMP_SYMBOL ( _winminor ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define __max(a, b) ( ( ( a ) > ( b ) ) ? ( a ) : ( b ) )
-#define _pgmptr ( * __MINGW_IMP_SYMBOL ( _pgmptr ) )
-#define _CVTBUFSIZE (349)
-#define _CRT_WPERROR_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __uintptr_t_defined 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _OUT_TO_STDERR (1)
-#define errno ( * _errno ( ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _SIZE_T_DEFINED 
+#define _CRTNOALIAS 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
 #define _wenviron ( * __MINGW_IMP_SYMBOL ( _wenviron ) )
-#define sys_errlist _sys_errlist
+#define errno ( * _errno ( ) )
 #define _MAX_PATH (260)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME32_T_DEFINED 
-#define _TIME64_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _WSTDLIB_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _UINTPTR_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _CALL_REPORTFAULT (2)
+#define _WRITE_ABORT_MSG (1)
+#define _CRT_WPERROR_DEFINED 
+#define __argv ( * __MINGW_IMP_SYMBOL ( __argv ) )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _INC_CRTDEFS 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
-#define environ _environ
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define __argc ( * __MINGW_IMP_SYMBOL ( __argc ) )
-#define _MAX_DRIVE (3)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRT_PACKING (8)
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define MB_CUR_MAX ___mb_cur_max_func ( )
-#define _osplatform ( * __MINGW_IMP_SYMBOL ( _osplatform ) )
-#define EXIT_FAILURE (1)
-#define _CRT_ALLOCATION_DEFINED 
-#define NULL ( ( void * ) 0 )
-#define _CRT_ALGO_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define _PTRDIFF_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
-#define __crt_typefix(ctype) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
 #define _MAX_DIR (256)
-#define _REPORT_ERRMODE (3)
-#define __mb_cur_max ( * __MINGW_IMP_SYMBOL ( __mb_cur_max ) )
+#define onexit_t _onexit_t
 #define _OUT_TO_MSGBOX (2)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _OUT_TO_DEFAULT (0)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _CALL_REPORTFAULT (2)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRTRESTRICT 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _CRT_ALLOCATION_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _THREADLOCALEINFO 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
 #define _CRT_WSYSTEM_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _WSTDLIBP_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
+#define environ _environ
 #define _DIV_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _ERRCODE_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
-#define _doserrno ( * __doserrno ( ) )
+#define _CRT_SWAB_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
 #define strtod __strtod
+#define _OUT_TO_STDERR (1)
+#define EXIT_FAILURE (1)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _WCTYPE_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
-#define _CRT_TERMINATE_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRT_SECURE_CPP_NOTHROW throw ( )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _MAX_ENV (32767)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
-#define _CRTNOALIAS 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _winver ( * __MINGW_IMP_SYMBOL ( _winver ) )
-#define sys_nerr _sys_nerr
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __intptr_t_defined 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
-
-#define _osver ( * __MINGW_IMP_SYMBOL ( _osver ) )
+#define _wpgmptr ( * __MINGW_IMP_SYMBOL ( _wpgmptr ) )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define _INTPTR_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
-#define _CRT_ERRNO_DEFINED 
+#define __min(a, b) ( ( ( a ) < ( b ) ) ? ( a ) : ( b ) )
+#define _pgmptr ( * __MINGW_IMP_SYMBOL ( _pgmptr ) )
+#define _CRT_ATOF_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _SSIZE_T_DEFINED 
+#define _CRT_PACKING (8)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _osplatform ( * __MINGW_IMP_SYMBOL ( _osplatform ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME64_T_DEFINED 
+#define _RSIZE_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _CRT_DOUBLE_DEC 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define ___mb_cur_max_func() ( __mb_cur_max )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define MB_CUR_MAX ___mb_cur_max_func ( )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define __crt_typefix(ctype) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _MAX_DRIVE (3)
+#define RAND_MAX (32767)
+#define sys_nerr _sys_nerr
+#define _CRT_ALGO_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _TIME_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
 
+#define _MAX_EXT (256)
+#define _environ ( * __MINGW_IMP_SYMBOL ( _environ ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _MAX_ENV (32767)
+#define _CRT_ABS_DEFINED 
 #define _MAX_FNAME (256)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _CRT_SYSTEM_DEFINED 
+#define __wargv ( * __MINGW_IMP_SYMBOL ( __wargv ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
+#define _WCHAR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define sys_errlist _sys_errlist
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _WINT_T 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define __max(a, b) ( ( ( a ) > ( b ) ) ? ( a ) : ( b ) )
+#define EXIT_SUCCESS (0)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
+#define _PTRDIFF_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _WSTDLIB_DEFINED 
+#define _winmajor ( * __MINGW_IMP_SYMBOL ( _winmajor ) )
+#define _CRT_TERMINATE_DEFINED 
+#define _winminor ( * __MINGW_IMP_SYMBOL ( _winminor ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME32_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define __mb_cur_max ( * __MINGW_IMP_SYMBOL ( __mb_cur_max ) )
+#define _REPORT_ERRMODE (3)
+#define _osver ( * __MINGW_IMP_SYMBOL ( _osver ) )
+#define _PTR_LD(x) ( ( unsigned char * ) ( & ( x ) -> ld ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _ONEXIT_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
+#define _PTRDIFF_T_ 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
 #define _fmode ( * __MINGW_IMP_SYMBOL ( _fmode ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRT_SECURE_CPP_NOTHROW throw ( )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _INC_STDLIB 
+#define _doserrno ( * __doserrno ( ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _INTPTR_T_DEFINED 
+#define _TAGLC_ID_DEFINED 
+#define __intptr_t_defined 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _CRT_ERRNO_DEFINED 
+#define _WSTDLIBP_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __uintptr_t_defined 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
+#define _WCTYPE_T_DEFINED 
+#define _SIZE_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define __argc ( * __MINGW_IMP_SYMBOL ( __argc ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _UINTPTR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\stdlib.h 
+
+#define _winver ( * __MINGW_IMP_SYMBOL ( _winver ) )
+#define NULL ( ( void * ) 0 )

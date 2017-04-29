@@ -76,269 +76,253 @@ int fstat (int _Desc ,struct stat *_Stat );
 int wstat (const wchar_t *_Filename ,struct stat *_Stat );
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
 
-#define S_IFREG _S_IFREG
-#define S_IWUSR _S_IWUSR
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_off_t.h 
-
-#define _FILE_OFFSET_BITS_SET_OFFT 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME_T_DEFINED 
-#define _UINTPTR_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_ISBLK(m) ( ( ( m ) & S_IFMT ) == S_IFBLK )
 #define _S_IFCHR (8192)
-#define S_IRGRP (32)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define _wstat32i64 _wstati64
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IFIFO _S_IFIFO
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define _SIZE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _S_IFDIR (16384)
+#define _PTRDIFF_T_ 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
 
-#define _INO_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
-#define _WCTYPE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IRWXO (7)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRT_PACKING (8)
-#define _WCHAR_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IXUSR _S_IXUSR
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
-
-#define _TIMESPEC_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _S_IWRITE (128)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
-#define _CRT_SECURE_CPP_NOTHROW throw ( )
-#define _WINT_T 
-#define __intptr_t_defined 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _WSTAT_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME32_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IFCHR _S_IFCHR
-#define _INC_STAT 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IFBLK _S_IFBLK
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define _stat32 _stat
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IWRITE _S_IWRITE
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _INTPTR_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define fstat _fstat32i64
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
-#define _RSIZE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_ISDIR(m) ( ( ( m ) & S_IFMT ) == S_IFDIR )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _INC_CRTDEFS 
-#define _CRTRESTRICT 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _S_IRUSR _S_IREAD
-#define _S_IXUSR _S_IEXEC
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
-
-#define _PID_T_ 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _S_IEXEC (64)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
-
-#define _SIGSET_T_ 
 #define _MODE_T_ 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __uintptr_t_defined 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_off_t.h 
+
+#define _OFF64_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
+#define _RSIZE_T_DEFINED 
+#define _INC_CRTDEFS 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
 
-#define S_IFMT _S_IFMT
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define fstat64 _fstat64
+#define _S_IFIFO (4096)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
 
-#define S_IROTH (4)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define _wstat32 _wstat
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IEXEC _S_IEXEC
-#define _S_IWUSR _S_IWRITE
+#define _S_IRWXU (448)
+#define S_ISDIR(m) ( ( ( m ) & S_IFMT ) == S_IFDIR )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _ERRCODE_DEFINED 
+#define __uintptr_t_defined 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
+
+#define _INC_TYPES 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
+
+#define stat64 _stat64
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
 
-#define _S_IREAD (256)
-#define _S_IFIFO (4096)
+#define S_IRWXO (7)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRT_SECURE_CPP_NOTHROW throw ( )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
+
+#define _stat32 _stat
+#define _wstat32i64 _wstati64
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IFDIR _S_IFDIR
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+#define _WCTYPE_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_off_t.h 
+
+#define _FILE_OFFSET_BITS_SET_OFFT 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _CRTNOALIAS 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
 
 #define S_IWOTH (2)
-#define S_IREAD _S_IREAD
-#define stat _stat32i64
-#define S_IRUSR _S_IRUSR
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IFDIR _S_IFDIR
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define _stat32i64 _stati64
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _THREADLOCALEINFO 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _S_IFMT (61440)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_ISFIFO(m) ( ( ( m ) & S_IFMT ) == S_IFIFO )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TAGLC_ID_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_ISREG(m) ( ( ( m ) & S_IFMT ) == S_IFREG )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __crt_typefix(ctype) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _S_IFBLK (12288)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _PTRDIFF_T_ 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define _fstat32i64 _fstati64
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _SSIZE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_off_t.h 
-
-#define _OFF_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
-#define _PTRDIFF_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
-
-#define _DEV_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_off_t.h 
-
-#define _OFF64_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define _S_IFREG (32768)
-#define S_ISCHR(m) ( ( ( m ) & S_IFMT ) == S_IFCHR )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME64_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define _STAT_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IXGRP (8)
-#define _S_IRWXU (448)
+#define fstat _fstat32i64
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_off_t.h 
 
 #define _OFF_T_ 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
 
-#define S_IRWXU _S_IRWXU
-#define S_IRWXG (56)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
-
-#define _INC_TYPES 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define stat64 _stat64
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IXOTH (1)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
-
-#define __stat64 _stat64
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
-
-#define S_IWGRP (16)
+#define S_IWRITE _S_IWRITE
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
 
 #define _fstat32 _fstat
+#define __stat64 _stat64
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IFCHR _S_IFCHR
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
+#define _CRTRESTRICT 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
+#define __crt_typefix(ctype) 
+#define _TIME64_T_DEFINED 
+#define _UINTPTR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
+
+#define _PID_T_ 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+#define _WINT_T 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_ISCHR(m) ( ( ( m ) & S_IFMT ) == S_IFCHR )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _SSIZE_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IXGRP (8)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define _S_IRUSR _S_IREAD
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
+
+#define fstat64 _fstat64
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IXOTH (1)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _SIZE_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IWUSR _S_IWUSR
+#define S_IRWXG (56)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
+
+#define _SIGSET_T_ 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define _S_IFREG (32768)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _THREADLOCALEINFO 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
+
+#define _STAT_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_ISBLK(m) ( ( ( m ) & S_IFMT ) == S_IFBLK )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _WCHAR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IRGRP (32)
+#define _WSTAT_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME32_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IRUSR _S_IRUSR
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
+
+#define _INO_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IRWXU _S_IRWXU
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
+
+#define _DEV_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define _S_IFDIR (16384)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRT_PACKING (8)
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IFIFO _S_IFIFO
+#define _INC_STAT 
+#define S_IROTH (4)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_off_t.h 
+
+#define _OFF_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define _INTPTR_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define _S_IXUSR _S_IEXEC
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
+
+#define _stat32i64 _stati64
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IFBLK _S_IFBLK
+#define _S_IWRITE (128)
+#define S_ISREG(m) ( ( ( m ) & S_IFMT ) == S_IFREG )
+#define _S_IWUSR _S_IWRITE
+#define S_IWGRP (16)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define _TAGLC_ID_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IFREG _S_IFREG
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __intptr_t_defined 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IXUSR _S_IXUSR
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define _S_IFMT (61440)
+#define S_ISFIFO(m) ( ( ( m ) & S_IFMT ) == S_IFIFO )
+#define stat _stat32i64
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
+#define _ERRCODE_DEFINED 
+#define _PTRDIFF_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define _S_IFBLK (12288)
+#define _S_IREAD (256)
+#define S_IREAD _S_IREAD
+#define S_IEXEC _S_IEXEC
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\types.h 
+
+#define _TIMESPEC_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define _S_IEXEC (64)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\_mingw_stat64.h 
+
+#define _wstat32 _wstat
+#define _fstat32i64 _fstati64
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\sys\stat.h 
+
+#define S_IFMT _S_IFMT
