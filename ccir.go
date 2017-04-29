@@ -2432,6 +2432,7 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	c.expressionList(t, n.ExpressionList)
 	firstCase := -1
 	defaultCase := -1
+	_ = c.label()
 	var defaultPosition token.Position
 	var cases []*cc.ConstantExpression
 	var f func(*cc.Statement)
@@ -2450,7 +2451,6 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 				f(n.Statement)
 			case 2: // "default" ':' Statement                  // Case 2
 				defaultPosition = position(n)
-				dbg("", defaultPosition)
 				label := c.label()
 				if defaultCase >= 0 {
 					panic("internal error")
@@ -2526,25 +2526,29 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 			continue
 		}
 
-		switch x := v.Value.(type) {
-		case int32:
-			sw.Values = append(sw.Values, &ir.Int32Value{Value: x})
+		switch typ {
+		case idInt32, idUint32:
+			switch x := v.Value.(type) {
+			case int32:
+				sw.Values = append(sw.Values, &ir.Int32Value{Value: x})
+			case uint32:
+				sw.Values = append(sw.Values, &ir.Int32Value{Value: int32(x)})
+			default:
+				TODO(position(n), fmt.Sprintf(" %T", x))
+			}
+		case idInt64, idUint64:
+			switch x := v.Value.(type) {
+			case int32:
+				sw.Values = append(sw.Values, &ir.Int64Value{Value: int64(x)})
+			default:
+				TODO(position(n), fmt.Sprintf(" %T", x))
+			}
 		default:
-			TODO(position(n), fmt.Sprintf(" %T", x))
+			TODO(position(n), fmt.Sprintf(" %v", typ))
 		}
 		sw.Labels = append(sw.Labels, ir.Label{Number: i + firstCase, Position: position(v)})
 
-		//TODO- c.emit(&ir.Dup{TypeID: typ, Position: position(n.ExpressionList)})
-		//TODO- c.constant(t, v.Value, v)
-		//TODO- c.emit(&ir.Eq{TypeID: typ, Position: position(n.ExpressionList)})
-		//TODO- drop := c.label()
-		//TODO- c.emit(&ir.Jz{Number: drop, Position: position(n.ExpressionList)})
-		//TODO- c.emit(&ir.Drop{TypeID: typ, Position: position(n.ExpressionList)})
-		//TODO- c.emit(&ir.Jmp{Number: firstCase + i, Position: position(n.ExpressionList)})
-		//TODO- c.emit(&ir.Label{Number: drop, Position: position(n.ExpressionList)})
-
 	}
-	//TODO- c.emit(&ir.Drop{TypeID: typ, Position: position(n.ExpressionList)})
 	labels := labels{
 		breakLabel:    -1,
 		caseLabel:     firstCase,
@@ -2554,10 +2558,8 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	case defaultCase < 0:
 		labels.breakLabel = c.label()
 		sw.Default = ir.Label{Number: labels.breakLabel}
-		//TODO- c.emit(&ir.Jmp{Number: labels.breakLabel, Position: position(n)})
 	default:
 		sw.Default = ir.Label{Number: defaultCase, Position: defaultPosition}
-		//TODO- c.emit(&ir.Jmp{Number: defaultCase, Position: position(n)})
 	}
 	c.emit(sw)
 	c.statement(&labels, n.Statement, 0)
