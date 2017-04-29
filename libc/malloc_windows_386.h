@@ -65,149 +65,129 @@ int _heapset (unsigned int _Fill );
 int _heapwalk (_HEAPINFO *_EntryInfo );
 size_t _heapused (size_t *_Used ,size_t *_Commit );
 intptr_t _get_heap_handle (void );
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME32_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
 
-#define _FREEENTRY (0)
-#define _HEAP_MAXREQ (4294967264u)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-#define _CRT_PACKING (8)
-#define _UINTPTR_T_DEFINED 
-#define _INC_CRTDEFS 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _HEAPEMPTY (-1)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
-#define _SIZE_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _STATIC_ASSERT(expr) typedef char __static_assert_t [ ( expr ) ]
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRT_SECURE_CPP_NOTHROW throw ( )
-#define _CRTNOALIAS 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _USEDENTRY (1)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __uintptr_t_defined 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
+#define _MAX_WAIT_MALLOC_CRT (60000)
 #define _HEAPBADPTR (-6)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _TAGLC_ID_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _CRT_ALLOCATION_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
+#define __crt_typefix(ctype) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define _THREADLOCALEINFO 
 #define __intptr_t_defined 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
 
 #define _HEAPEND (-5)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-#define _PTRDIFF_T_ 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _malloca(size) ( ( ( ( size ) + _ALLOCA_S_MARKER_SIZE ) <= _ALLOCA_S_THRESHOLD ) ? _MarkAllocaS ( _alloca ( ( size ) + _ALLOCA_S_MARKER_SIZE ) , _ALLOCA_S_STACK_MARKER ) : _MarkAllocaS ( malloc ( ( size ) + _ALLOCA_S_MARKER_SIZE ) , _ALLOCA_S_HEAP_MARKER ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _RSIZE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _ALLOCA_S_MARKER_SIZE (8)
-#define _HEAPOK (-2)
-#define _MM_MALLOC_H_INCLUDED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _CRTRESTRICT 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define _TIME64_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
-#define _INTPTR_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
 #define _FREEA_INLINE 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define _ALLOCA_S_MARKER_SIZE (8)
+#define _FREEENTRY (0)
+#define _ALLOCA_S_STACK_MARKER (52428)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define _mm_malloc(a, b) _aligned_malloc ( a , b )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
-#define _ERRCODE_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
 
 #define _HEAPBADBEGIN (-3)
+#define _ALLOCA_S_HEAP_MARKER (56797)
+#define _CRT_ALLOCATION_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __crt_typefix(ctype) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define _malloca(size) ( ( ( ( size ) + _ALLOCA_S_MARKER_SIZE ) <= _ALLOCA_S_THRESHOLD ) ? _MarkAllocaS ( _alloca ( ( size ) + _ALLOCA_S_MARKER_SIZE ) , _ALLOCA_S_STACK_MARKER ) : _MarkAllocaS ( malloc ( ( size ) + _ALLOCA_S_MARKER_SIZE ) , _ALLOCA_S_HEAP_MARKER ) )
+#define _HEAPOK (-2)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+#define _TIME_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define _ALLOCA_S_THRESHOLD (1024)
+#define _STATIC_ASSERT(expr) typedef char __static_assert_t [ ( expr ) ]
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRTRESTRICT 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define alloca _alloca
+#define _mm_free(a) _aligned_free ( a )
+#define _HEAPINFO_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRT_PACKING (8)
+#define _WINT_T 
+#define _SIZE_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
+#define _UINTPTR_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
 
 #define _HEAPBADNODE (-4)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define _WCTYPE_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define _ERRCODE_DEFINED 
 #define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
-#define _SSIZE_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _HEAPINFO_DEFINED 
-#define _mm_free(a) _aligned_free ( a )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _ALLOCA_S_STACK_MARKER (52428)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _THREADLOCALEINFO 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _ALLOCA_S_THRESHOLD (1024)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _WINT_T 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _ALLOCA_S_HEAP_MARKER (56797)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
+#define _CRTNOALIAS 
 #define _WCHAR_T_DEFINED 
-#define _PTRDIFF_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
 
-#define _mm_malloc(a, b) _aligned_malloc ( a , b )
-#define alloca _alloca
+#define _HEAPEMPTY (-1)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define _INC_CRTDEFS 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define _MALLOC_H_ 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define _MM_MALLOC_H_INCLUDED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __uintptr_t_defined 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
+#define _TIME32_T_DEFINED 
+#define _RSIZE_T_DEFINED 
+#define _PTRDIFF_T_DEFINED 
+#define _INTPTR_T_DEFINED 
+#define _CRT_SECURE_CPP_NOTHROW throw ( )
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
+#define _TAGLC_ID_DEFINED 
+#define _PTRDIFF_T_ 
+#define _TIME64_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
+
+#define _HEAP_MAXREQ (4294967264u)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _WCTYPE_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
 
-#define _MAX_WAIT_MALLOC_CRT (60000)
+#define _USEDENTRY (1)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\malloc.h 
-
-#define _MALLOC_H_
+#define _SSIZE_T_DEFINED

@@ -244,225 +244,205 @@ int _isnanf (float _X );
 int _fpclassf (float _X );
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define M_LOG10E (0.4342944819032518)
-#define isgreaterequal(x, y) ( ( __fp_unordered_compare ( x , y ) & FP_INFINITE ) == 0 )
-#define M_LN2 (0.6931471805599453)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _PTRDIFF_T_ 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define signbit(x) __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , double ) , __signbit ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , float ) , __signbitf ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , long double ) , __signbitl ( x ) , __dfp_expansion ( __signbit , ( __builtin_trap ( ) , x ) , x ) ) ) )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _INC_CRTDEFS 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define M_PI_4 (0.7853981633974483)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TAGLC_ID_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define _OVERFLOW (3)
-#define _CRT_ATOF_DEFINED 
-#define FP_SUBNORMAL (17408)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
-#define _TIME32_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define isgreater(x, y) ( ( __fp_unordered_compare ( x , y ) & 0x4500 ) == 0 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __intptr_t_defined 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define INFINITY HUGE_VALF
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define FP_NAN (256)
-#define FP_ILOGBNAN ( ( int ) 0x80000000 )
-#define M_LN10 (2.302585092994046)
-#define __dfp_expansion(__call, __fin, x) __fin
-#define _TLOSS (5)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define _SING (2)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
+#define _UNDERFLOW (4)
 #define _PLOSS (6)
-#define __mingw_types_compatible_p(type1, type2) __builtin_types_compatible_p ( type1 , type2 )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
-#define _WCHAR_T_DEFINED 
-#define _CRTRESTRICT 
+#define _CRT_SECURE_CPP_NOTHROW throw ( )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define M_SQRT2 (1.4142135623730951)
+#define M_LOG10E (0.4342944819032518)
+#define FP_NORMAL (1024)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _ERRCODE_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define M_PI (3.141592653589793)
-#define HUGE _HUGE
-#define _DOMAIN (1)
+#define HUGE_VALF __INFF
+#define matherr _matherr
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define _CRT_ABS_DEFINED 
-#define __setusermatherr __mingw_setusermatherr
+#define isunordered(x, y) ( ( __fp_unordered_compare ( x , y ) & 0x4500 ) == 0x4500 )
+#define NAN __QNAN
+#define _hypotl hypotl
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __crt_typefix(ctype) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define NAN __QNAN
-#define __mingw_choose_expr __builtin_choose_expr
-#define M_SQRT1_2 (0.7071067811865476)
-#define M_LOG2E (1.4426950408889634)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _RSIZE_T_DEFINED 
-#define _CRTNOALIAS 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define HUGE_VAL _HUGE
 #define _MATH_H_ 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define HUGE_VALL __INFL
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define M_1_PI (0.3183098861837907)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) 
-#define _CRT_PACKING (8)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define M_2_SQRTPI (1.1283791670955126)
-#define isnan(x) __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , double ) , __isnan ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , float ) , __isnanf ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , long double ) , __isnanl ( x ) , __dfp_expansion ( __isnan , ( __builtin_trap ( ) , x ) , x ) ) ) )
-#define ERANGE (34)
-#define FP_ZERO (16384)
-#define M_2_PI (0.6366197723675814)
-#define isless(x, y) ( ( __fp_unordered_compare ( y , x ) & 0x4500 ) == 0 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _SSIZE_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define M_E (2.718281828459045)
+#define HUGE _HUGE
+#define _CRT_ABS_DEFINED 
+#define isgreaterequal(x, y) ( ( __fp_unordered_compare ( x , y ) & FP_INFINITE ) == 0 )
+#define M_SQRT1_2 (0.7071067811865476)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define _CRTRESTRICT 
+#define __uintptr_t_defined 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define isunordered(x, y) ( ( __fp_unordered_compare ( x , y ) & 0x4500 ) == 0x4500 )
+#define _OVERFLOW (3)
+#define ERANGE (34)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_2_0(__ret, __func, __type1, __arg1, __type2, __arg2, __dsttype, __dst) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define M_1_PI (0.3183098861837907)
+#define M_LOG2E (1.4426950408889634)
+#define FP_INFINITE (1280)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TAGLC_ID_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define __setusermatherr __mingw_setusermatherr
+#define isinf(x) ( fpclassify ( x ) == FP_INFINITE )
+#define isless(x, y) ( ( __fp_unordered_compare ( y , x ) & 0x4500 ) == 0 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME32_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst) 
+#define _UINTPTR_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_0_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst )
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define M_LN2 (0.6931471805599453)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRT_PACKING (8)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define FP_NAN (256)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
+#define _INC_CRTDEFS 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define FP_SUBNORMAL (17408)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME64_T_DEFINED 
+#define __intptr_t_defined 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define __mingw_choose_expr __builtin_choose_expr
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _SIZE_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define _UNDERFLOW (4)
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define _TIME64_T_DEFINED 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define isnormal(x) ( fpclassify ( x ) == FP_NORMAL )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _UINTPTR_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_3(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
-#define __uintptr_t_defined 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define FP_INFINITE (1280)
+#define HUGE_VAL _HUGE
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _WCTYPE_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) 
+#define _THREADLOCALEINFO 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define M_PI_2 (1.5707963267948966)
+#define signbit(x) __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , double ) , __signbit ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , float ) , __signbitf ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , long double ) , __signbitl ( x ) , __dfp_expansion ( __signbit , ( __builtin_trap ( ) , x ) , x ) ) ) )
+#define INFINITY HUGE_VALF
+#define __mingw_types_compatible_p(type1, type2) __builtin_types_compatible_p ( type1 , type2 )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define _WINT_T 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define FP_NORMAL (1024)
-#define islessequal(x, y) ( ( __fp_unordered_compare ( y , x ) & FP_INFINITE ) == 0 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _TIME_T_DEFINED 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
+#define _PTRDIFF_T_ 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
 #define FP_ILOGB0 ( ( int ) 0x80000000 )
+#define M_E (2.718281828459045)
+#define isnormal(x) ( fpclassify ( x ) == FP_NORMAL )
+#define __dfp_expansion(__call, __fin, x) __fin
+#define islessequal(x, y) ( ( __fp_unordered_compare ( y , x ) & FP_INFINITE ) == 0 )
+#define _HUGE ( * __MINGW_IMP_SYMBOL ( _HUGE ) )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _WCHAR_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define _SING (2)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_2(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define M_PI (3.141592653589793)
+#define HUGE_VALL __INFL
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _TIME_T_DEFINED 
+#define _SSIZE_T_DEFINED 
+#define _WINT_T 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define fpclassify(x) __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , double ) , __fpclassify ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , float ) , __fpclassifyf ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , long double ) , __fpclassifyl ( x ) , __dfp_expansion ( __fpclassify , ( __builtin_trap ( ) , 0 ) , x ) ) ) )
+#define _EXCEPTION_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_3_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 )
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define __MINGW_SOFTMATH 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_SPLITPATH(__ret, __func, __dsttype, __src) 
+#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_1(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_2_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 )
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_2(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2) 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define FP_ILOGBNAN ( ( int ) 0x80000000 )
+#define isgreater(x, y) ( ( __fp_unordered_compare ( x , y ) & 0x4500 ) == 0 )
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _INTPTR_T_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define fpclassify(x) __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , double ) , __fpclassify ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , float ) , __fpclassifyf ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , long double ) , __fpclassifyl ( x ) , __dfp_expansion ( __fpclassify , ( __builtin_trap ( ) , 0 ) , x ) ) ) )
+#define _CRT_ATOF_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_1_1(__ret, __func, __type0, __arg0, __dsttype, __dst, __type1, __arg1) 
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
+#define _ERRCODE_DEFINED 
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
 #define EDOM (33)
-#define isinf(x) ( fpclassify ( x ) == FP_INFINITE )
-#define isfinite(x) ( ( fpclassify ( x ) & FP_NAN ) == 0 )
-#define _hypotl hypotl
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _THREADLOCALEINFO 
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define matherr _matherr
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define _PTRDIFF_T_DEFINED 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_4(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3, __type4, __arg4) 
-#define _CRT_SECURE_CPP_NOTHROW throw ( )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define __MINGW_SOFTMATH 
-#define _HUGE ( * __MINGW_IMP_SYMBOL ( _HUGE ) )
-#define HUGE_VALF __INFF
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
-
-#define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4(__ret_type, __ret_policy, __decl_spec, __name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX ( __ret_type , __ret_policy , __decl_spec , __func_name , __func_name ## _s , __dst_attr , __dst_type , __dst , __arg1_type , __arg1 , __arg2_type , __arg2 , __arg3_type , __arg3 , __arg4_type , __arg4 )
-// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
-
-#define _EXCEPTION_DEFINED 
+#define _DOMAIN (1)
+#define M_SQRT2 (1.4142135623730951)
 #define islessgreater(x, y) ( ( __fp_unordered_compare ( x , y ) & FP_SUBNORMAL ) == 0 )
+#define isnan(x) __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , double ) , __isnan ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , float ) , __isnanf ( x ) , __mingw_choose_expr ( __mingw_types_compatible_p ( __typeof__ ( x ) , long double ) , __isnanl ( x ) , __dfp_expansion ( __isnan , ( __builtin_trap ( ) , x ) , x ) ) ) )
+#define M_2_SQRTPI (1.1283791670955126)
+#define _TLOSS (5)
+#define M_PI_2 (1.5707963267948966)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
-#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst)
+#define _RSIZE_T_DEFINED 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define M_2_PI (0.6366197723675814)
+#define M_PI_4 (0.7853981633974483)
+#define isfinite(x) ( ( fpclassify ( x ) & FP_NAN ) == 0 )
+#define M_LN10 (2.302585092994046)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define _CRTNOALIAS 
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
+
+#define FP_ZERO (16384)
+// BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
+
+#define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_3(__ret, __func, __dsttype, __dst, __type1, __arg1, __type2, __arg2, __type3, __arg3) 
+#define _PTRDIFF_T_DEFINED

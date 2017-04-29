@@ -30,8 +30,8 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 	// BEGIN OF FILE m:\mingw\lib\gcc\x86_64-w64-mingw32\6.3.0\include\stdbool.h 
 
-#define false (0)
 #define __bool_true_false_are_defined (1)
 #define _STDBOOL_H 
+#define false (0)
 #define true (1)
 #define bool _Bool
