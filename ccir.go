@@ -8,8 +8,10 @@
 //
 // In GOOS_GOARCH form
 //
-//	linux_amd64
 //	linux_386
+//	linux_amd64
+//	windows_386
+//	windows_amd64
 //
 // If you can access a machine with a not yet supported os/arch and you would
 // like to contribute to porting this package, you may want to start by trying
