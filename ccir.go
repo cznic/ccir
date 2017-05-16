@@ -1709,21 +1709,22 @@ func (c *c) condExpr(n *cc.Expression) {
 	case nil:
 		// eval expr
 		// convert to bool if necessary
-		// jz 0
+		// jz 0					nop
 		// eval exprlist
-		// jmp 1
-		// 0: eval expr2
-		// 1:
+		// jmp 1				nop
+		// 0:					nop
+		// eval expr2
+		// 1:					cond
 		c.expression(nil, n.Expression)
 		c.bool(n, n.Expression.Type)
 		l0 := c.label()
-		c.emit(&ir.Jz{Number: l0, Position: position(n.Expression)})
+		c.emit(&ir.Jz{Number: l0, Position: position(n.Expression), LOp: true})
 		c.expressionList(n.Type, n.ExpressionList)
 		l1 := c.label()
-		c.emit(&ir.Jmp{Number: l1, Position: position(n)})
-		c.emit(&ir.Label{Number: l0, Position: position(n)})
+		c.emit(&ir.Jmp{Number: l1, Position: position(n), Cond: true})
+		c.emit(&ir.Label{Number: l0, Position: position(n), Nop: true})
 		c.expression(n.Type, n.Expression2)
-		c.emit(&ir.Label{Number: l1, Position: position(n)})
+		c.emit(&ir.Label{Number: l1, Position: position(n), Cond: true})
 	default:
 		TODO(position(n), fmt.Sprintf(" %T", v))
 	}
@@ -2160,49 +2161,49 @@ out:
 	case 41: // Expression '|' Expression                          // Case 41
 		return c.binop(ot, n, &ir.Or{TypeID: c.typ(c.binopType(n)).ID(), Position: position(n)})
 	case 42: // Expression "&&" Expression                         // Case 42
-		// push 0
+		// push 0				nop
 		// eval expr
 		// convert to bool if necessary
-		// jz A
+		// jz A					nop
 		// eval expr2
 		// convert to bool if necessary
-		// jz A
-		// drop
-		// push 1
-		// A:
-		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
+		// jz A					nop
+		// drop					nop
+		// push 1				nop
+		// A:					land
+		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n), LOp: true})
 		c.expression(nil, n.Expression)
 		c.bool(n, n.Expression.Type)
 		a := c.label()
-		c.emit(&ir.Jz{Number: a, Position: position(n.Expression)})
+		c.emit(&ir.Jz{Number: a, Position: position(n.Expression), LOp: true})
 		c.expression(nil, n.Expression2)
 		c.bool(n, n.Expression2.Type)
-		c.emit(&ir.Jz{Number: a, Position: position(n.Expression)})
-		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n)})
-		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n)})
-		c.emit(&ir.Label{Number: a, Position: position(n)})
+		c.emit(&ir.Jz{Number: a, Position: position(n.Expression), LOp: true})
+		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n), LOp: true})
+		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n), LOp: true})
+		c.emit(&ir.Label{Number: a, Position: position(n), LAnd: true})
 	case 43: // Expression "||" Expression                         // Case 43
-		// push 1
+		// push 1				nop
 		// eval expr
 		// convert to bool if necessary
-		// jnz A
+		// jnz A				nop
 		// eval expr2
 		// convert to bool if necessary
-		// jnz A
-		// drop
-		// push 0
-		// A:
-		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n)})
+		// jnz A				nop
+		// drop					nop
+		// push 0				nop
+		// A:					lor
+		c.emit(&ir.Const32{TypeID: idInt32, Value: 1, Position: position(n), LOp: true})
 		c.expression(nil, n.Expression)
 		c.bool(n, n.Expression.Type)
 		a := c.label()
-		c.emit(&ir.Jnz{Number: a, Position: position(n.Expression)})
+		c.emit(&ir.Jnz{Number: a, Position: position(n.Expression), LOp: true})
 		c.expression(nil, n.Expression2)
 		c.bool(n, n.Expression2.Type)
-		c.emit(&ir.Jnz{Number: a, Position: position(n.Expression)})
-		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n)})
-		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n)})
-		c.emit(&ir.Label{Number: a, Position: position(n)})
+		c.emit(&ir.Jnz{Number: a, Position: position(n.Expression), LOp: true})
+		c.emit(&ir.Drop{TypeID: idInt32, Position: position(n), LOp: true})
+		c.emit(&ir.Const32{TypeID: idInt32, Position: position(n), LOp: true})
+		c.emit(&ir.Label{Number: a, Position: position(n), LOr: true})
 	case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
 		c.condExpr(n)
 	case 45: // Expression '=' Expression                          // Case 45
