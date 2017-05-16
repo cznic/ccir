@@ -726,7 +726,7 @@ func (c *c) initializer(t cc.Type, n *cc.Initializer, ok bool) (ir.Value, *cc.In
 	panic("internal error")
 }
 
-func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int, n *cc.InitializerList) int {
+func (c *c) exprInitializerListStructField(v []ir.Operation, t, ft cc.Type, pt ir.Type, i, nm int, n *cc.InitializerList) int {
 	if o := n.DesignationOpt; o != nil {
 		l := o.Designation.DesignatorList
 		if l.DesignatorList != nil {
@@ -755,10 +755,13 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 	}
 
 	fi, bits, bitoff, ft2, _ := c.field(n, t, nm)
-	c.emit(&ir.Field{Address: true, TypeID: pt.ID(), Index: fi, Position: position(n)})
+	v = append(v, &ir.Field{Address: true, TypeID: pt.ID(), Index: fi, Position: position(n)})
 
 	switch init := n.Initializer; init.Case {
 	case 0: // Expression
+		for _, v := range v {
+			c.emit(v)
+		}
 		if bits != 0 {
 			c.expression(ft2, init.Expression)
 			ftid := c.typ(ft2).ID()
@@ -774,10 +777,9 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 		switch ft.Kind() {
 		case cc.Array:
 			pt := c.typ(ft.Element().Pointer())
-			c.exprInitializerArray(ft, pt, init.InitializerList)
-			c.emit(&ir.Drop{TypeID: pt.ID(), Position: position(init)})
+			c.exprInitializerArray(v, ft, pt, init.InitializerList)
 		case cc.Struct:
-			c.exprInitializerStruct(t, c.typ(t).Pointer(), init.InitializerList)
+			c.exprInitializerStruct(v, t, c.typ(t).Pointer(), init.InitializerList)
 		default:
 			panic(fmt.Errorf("%s: %v:%v", position(n.Initializer), ft, ft.Kind()))
 		}
@@ -788,23 +790,28 @@ func (c *c) exprInitializerListStructField(t, ft cc.Type, pt ir.Type, i, nm int,
 	return i
 }
 
-func (c *c) exprInitializerListArrayElement(t, et cc.Type, pt ir.Type, i int, n *cc.InitializerList) int {
+func (c *c) exprInitializerListArrayElement(v []ir.Operation, t, et cc.Type, pt ir.Type, i int, n *cc.InitializerList) int {
 	if o := n.DesignationOpt; o != nil {
 		TODO(position(n))
 	}
 
-	c.emit(&ir.Const32{TypeID: idInt32, Value: int32(i), Position: position(n)})
-	c.emit(&ir.Element{Address: true, IndexType: idInt32, TypeID: c.typ(et.Pointer()).ID(), Position: position(n)})
+	v = append(
+		v,
+		&ir.Const32{TypeID: idInt32, Value: int32(i), Position: position(n)},
+		&ir.Element{Address: true, IndexType: idInt32, TypeID: c.typ(et.Pointer()).ID(), Position: position(n)},
+	)
 	switch init := n.Initializer; init.Case {
 	case 0: // Expression
+		for _, v := range v {
+			c.emit(v)
+		}
 		c.expression(et, init.Expression)
 		c.emit(&ir.Store{TypeID: c.typ(et).ID(), Position: position(init)})
 		c.emit(&ir.Drop{TypeID: c.typ(et).ID(), Position: position(init)})
 	case 1: // '{' InitializerList CommaOpt '}'  // Case 1
 		switch et.Kind() {
 		case cc.Struct:
-			c.exprInitializerStruct(et, pt, init.InitializerList)
-			c.emit(&ir.Drop{TypeID: pt.ID(), Position: position(init)})
+			c.exprInitializerStruct(v, et, pt, init.InitializerList)
 		default:
 			panic(fmt.Errorf("%s: %v, %v, %v", position(n.Initializer), t, et, pt))
 		}
@@ -815,21 +822,19 @@ func (c *c) exprInitializerListArrayElement(t, et cc.Type, pt ir.Type, i int, n 
 	return i
 }
 
-func (c *c) exprInitializerStruct(t cc.Type, pt ir.Type, l *cc.InitializerList) {
+func (c *c) exprInitializerStruct(v []ir.Operation, t cc.Type, pt ir.Type, l *cc.InitializerList) {
 	i := 0
 	ma := c.members(t, true, false)
 	for ; l != nil; l = l.InitializerList {
-		c.emit(&ir.Dup{TypeID: pt.ID(), Position: position(l)})
-		i = c.exprInitializerListStructField(t, ma[i].Type, pt, i, ma[i].Name, l)
+		i = c.exprInitializerListStructField(v, t, ma[i].Type, pt, i, ma[i].Name, l)
 	}
 }
 
-func (c *c) exprInitializerArray(t cc.Type, pt ir.Type, l *cc.InitializerList) {
+func (c *c) exprInitializerArray(v []ir.Operation, t cc.Type, pt ir.Type, l *cc.InitializerList) {
 	e := t.Element()
 	i := 0
 	for ; l != nil; l = l.InitializerList {
-		c.emit(&ir.Dup{TypeID: pt.ID(), Position: position(l)})
-		i = c.exprInitializerListArrayElement(t, e, pt, i, l)
+		i = c.exprInitializerListArrayElement(v, t, e, pt, i, l)
 	}
 }
 
@@ -838,16 +843,15 @@ func (c *c) exprInitializerList(t cc.Type, vi int, vp token.Position, l *cc.Init
 	switch t.Kind() {
 	case cc.Struct, cc.Union:
 		pt = c.typ(t).Pointer()
-		c.emit(&ir.Variable{Address: true, Index: vi, TypeID: pt.ID(), Position: vp})
-		c.exprInitializerStruct(t, pt, l)
+		v := &ir.Variable{Address: true, Index: vi, TypeID: pt.ID(), Position: vp}
+		c.exprInitializerStruct([]ir.Operation{v}, t, pt, l)
 	case cc.Array:
 		pt = c.typ(t.Element().Pointer())
-		c.emit(&ir.Variable{Address: true, Index: vi, TypeID: pt.ID(), Position: vp})
-		c.exprInitializerArray(t, pt, l)
+		v := &ir.Variable{Address: true, Index: vi, TypeID: pt.ID(), Position: vp}
+		c.exprInitializerArray([]ir.Operation{v}, t, pt, l)
 	default:
 		TODO(position(l.Initializer), t.Kind())
 	}
-	c.emit(&ir.Drop{TypeID: pt.ID(), Position: vp})
 }
 
 func (c *c) staticDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList) {
