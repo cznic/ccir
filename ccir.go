@@ -2271,10 +2271,16 @@ out:
 func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) (r cc.Type) {
 	t := c.ast.Model.VoidType
 	for l := n; l != nil; l = l.ExpressionList {
+		comma := true
 		if l.ExpressionList == nil {
 			t = ot
+			comma = false
 		}
 		r = c.expression(t, l.Expression)
+		p := &c.f.f.Body[len(c.f.f.Body)-1]
+		if x, ok := (*p).(*ir.Drop); ok {
+			x.Comma = comma
+		}
 	}
 	return r
 }
