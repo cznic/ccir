@@ -2279,7 +2279,12 @@ func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) (r cc.Type) {
 		}
 		r = c.expression(t, l.Expression)
 		p := &c.f.f.Body[len(c.f.f.Body)-1]
-		if x, ok := (*p).(*ir.Drop); ok {
+		switch x := (*p).(type) {
+		case *ir.Drop:
+			x.Comma = comma
+		case *ir.Call:
+			x.Comma = comma
+		case *ir.CallFP:
 			x.Comma = comma
 		}
 	}
