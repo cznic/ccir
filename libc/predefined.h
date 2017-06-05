@@ -14,7 +14,11 @@
 
 #include __header(predefined)
 
+#ifdef _CCGO
+typedef struct{struct{} _;} *__builtin_va_list;
+#else
 typedef char *__builtin_va_list;
+#endif
 
 #ifdef _WIN32
     #define _MSC_VER 1200

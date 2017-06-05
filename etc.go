@@ -34,7 +34,13 @@ var (
 	idVoidPtr       = ir.TypeID(dict.SID("*struct{}"))
 )
 
-func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }
+func position(n cc.Node) token.Position {
+	if n != nil {
+		return xc.FileSet.Position(n.Pos())
+	}
+
+	return token.Position{}
+}
 
 func isUnsigned(t cc.Type) bool {
 	switch t.Kind() {
@@ -43,4 +49,24 @@ func isUnsigned(t cc.Type) bool {
 	default:
 		return false
 	}
+}
+
+func isOpenMDArray(t cc.Type) bool {
+	if t.Kind() != cc.Ptr {
+		return false
+	}
+
+	et := t.Element()
+	if et.Kind() != cc.Array {
+		return false
+	}
+
+	ts := t.String()
+	es := et.String()
+	r := 1
+	for ts[len(ts)-r] == es[len(es)-r] {
+		r++
+	}
+	n := len(es) - r + 1
+	return ts[n:n+2] == "[]"
 }
