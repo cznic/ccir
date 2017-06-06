@@ -39,9 +39,12 @@ typedef char *__builtin_va_list;
     #define _INC_STDARG
 
     // from builtin somehow they are not applied... TODO
+    #ifndef _CCGO
     #define __builtin_va_start(ap, arg) ap = (__builtin_va_list)(&arg)
     #define __builtin_va_end(ap) ap = 0  
+    #endif
     #define __builtin_offsetof(st, m) ((__SIZE_TYPE__)(&((st *)0)->m))
+
     int __builtin_fprintf(void *__stream, char *__format, ...);
 
     #define _VA_LIST_DEFINED
