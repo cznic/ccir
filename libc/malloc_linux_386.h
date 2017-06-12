@@ -7,8 +7,4 @@
 #ifndef _MALLOC_H_
 #define _MALLOC_H_
 
-#include __header(malloc)
-
-__SIZE_TYPE__ malloc_usable_size(void *);
-
 #endif				/* _MALLOC_H_ */
