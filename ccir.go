@@ -219,14 +219,35 @@ func (c *c) tnm(d *cc.Declarator) ir.NameID {
 	defer b.Close()
 
 	t := d.Type
-	for t.Kind() == cc.Ptr {
-		t = t.Element()
-		b.WriteByte('*')
+	for {
+		done := true
+		switch t.Kind() {
+		case cc.Array:
+			fmt.Fprintf(&b, "[%v]", t.Elements())
+			t = t.Element()
+			done = false
+		case cc.Ptr:
+			b.WriteByte('*')
+			t = t.Element()
+			done = false
+		}
+		if done {
+			break
+		}
 	}
 	if nm := t.RawDeclarator().RawSpecifier().TypedefName(); nm != 0 {
 		b.WriteByte('X')
 		b.Write(dict.S(nm))
 		return ir.NameID(dict.ID(b.Bytes()))
+	}
+
+	switch t.Kind() {
+	case cc.Struct, cc.UChar:
+		if nm := t.Tag(); nm != 0 {
+			b.WriteByte('T')
+			b.Write(dict.S(nm))
+			return ir.NameID(dict.ID(b.Bytes()))
+		}
 	}
 
 	return 0
@@ -1201,7 +1222,6 @@ func (c *c) normalize(n *cc.Expression) (_ *cc.Expression, t cc.Type) {
 				}
 				t = t.Result()
 				n.Type = t
-				break
 			case 10: // Expression '.' IDENTIFIER                          // Case 10
 				_, bits, _, _, t = c.field(n, n.Expression.Type, n.Token2.Val)
 				t = c.promoteBitfield(t, bits).SetBits(bits)
