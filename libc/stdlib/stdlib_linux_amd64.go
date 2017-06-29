@@ -52,8 +52,24 @@ const (
 	XEXIT_FAILURE      = 1
 	XEXIT_SUCCESS      = 0
 	XRAND_MAX          = 2147483647
+	X_BITS_TYPES_H     = 1
+	X_CTYPE_H          = 1
 	X_STDLIB_H         = 1
+	X__S32_TYPE        = 0
+	X__SLONG32_TYPE    = 0
 	X__ldiv_t_defined  = 1
 	X__lldiv_t_defined = 1
 	Xmkstemp           = 0
+	X_ISalnum          = 8
+	X_ISalpha          = 1024
+	X_ISblank          = 1
+	X_IScntrl          = 2
+	X_ISdigit          = 2048
+	X_ISgraph          = 32768
+	X_ISlower          = 512
+	X_ISprint          = 16384
+	X_ISpunct          = 4
+	X_ISspace          = 8192
+	X_ISupper          = 256
+	X_ISxdigit         = 4096
 )

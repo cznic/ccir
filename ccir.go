@@ -1103,50 +1103,48 @@ func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 	if n != nil {
 		i := 0
 		for l := n.ArgumentExpressionList; l != nil; l = l.ArgumentExpressionList {
-			var t cc.Type
+			var pt cc.Type
 			if i < len(p) {
-				t = p[i].Type
-				if isOpenMDArray(t) {
-					t := c.typ(c.expression(nil, l.Expression))
-					u := t.(*ir.PointerType).Element
-					u = c.types.MustType(ir.TypeID(dict.ID(append([]byte("[0]"), dict.S(int(u.ID()))...))))
-					c.convert2(l.Expression, t, u.Pointer())
+				pt = p[i].Type
+				if isOpenMDArray(pt) {
+					et := c.typ(c.expression(nil, l.Expression))
+					eet := et.(*ir.PointerType).Element
+					eet = c.types.MustType(ir.TypeID(dict.ID(append([]byte("[0]"), dict.S(int(eet.ID()))...))))
+					c.convert2(l.Expression, et, eet.Pointer())
 					i++
 					continue
 				}
 
-				if u := c.typ(t); u.Kind() == ir.Array {
-					t := c.expression(nil, l.Expression)
-					c.convert2(l.Expression, c.typ(t), u.Pointer())
+				if pt := c.typ(pt); pt.Kind() == ir.Array {
+					et := c.expression(nil, l.Expression)
+					c.convert2(l.Expression, c.typ(et), pt.Pointer())
 					i++
 					continue
 				}
 			}
 
-			if t == nil { // 6.5.2.2/6
+			if pt == nil { // 6.5.2.2/6
 				switch l.Expression.Type.Kind() {
 				case cc.Char, cc.SChar, cc.UChar, cc.Short, cc.UShort:
-					t = c.cint
+					pt = c.cint
 				case cc.Float:
-					t = c.ast.Model.DoubleType
+					pt = c.ast.Model.DoubleType
 				}
 			}
 			c.expression(nil, l.Expression)
-			u := c.typ(l.Expression.Type)
+			et := c.typ(l.Expression.Type)
 			switch {
-			case u.Kind() == ir.Function:
-				u = u.Pointer()
-			case u.Kind() == ir.Array:
-				u = u.(*ir.ArrayType).Item.Pointer()
-			case u.Kind() == ir.Pointer:
-				if v := u.(*ir.PointerType).Element; v.Kind() == ir.Array {
-					u = v.(*ir.ArrayType).Item.Pointer()
+			case et.Kind() == ir.Function:
+				et = et.Pointer()
+			case et.Kind() == ir.Array:
+				et = et.(*ir.ArrayType).Item.Pointer()
+			case et.Kind() == ir.Pointer:
+				if v := et.(*ir.PointerType).Element; v.Kind() == ir.Array {
+					et = v.(*ir.ArrayType).Item.Pointer()
 				}
 			}
-			if t != nil {
-				if g, e := u, c.typ(t); g != e {
-					c.convert2(l.Expression, g, e)
-				}
+			if pt != nil {
+				c.convert2(l.Expression, et, c.typ(pt))
 			}
 			i++
 		}

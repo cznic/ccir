@@ -940,7 +940,7 @@ func header(nm, mre, dre string) {
 #define _ISOC99_SOURCE
 #define _XOPEN_SOURCE 500
 
-#include <predefined.h>
+#include "predefined.h"
 
 #include <%s.h>
 `, runtime.GOOS, runtime.GOARCH, nm),
@@ -1094,7 +1094,7 @@ func main() {
 	for _, v := range []struct{ nm, mre, dre string }{
 		//TODO{"alloca", "TODO", "TODO"},
 		//TODO{"complex", "TODO", "TODO"},
-		{"ctype", "TODO", "tolower|__int32_t|pthreadlocinfo"},
+		{"ctype", "TODO", "tolower|__int32_t|pthreadlocinfo|__ctype_b_loc"},
 		{"errno", "EINTR|ETIMEDOUT", "errno"},
 		{"fcntl", "F_WRLCK", "_off64_t|__time32_t|open|struct flock|__off_t"},
 		//TODO{"float", "TODO", "TODO"},

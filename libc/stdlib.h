@@ -8,5 +8,6 @@
 #define _STDLIB_H_
 
 #include __header(stdlib)
+#include "atoi.c"
 
 #endif				/* _STDLIB_H_ */
