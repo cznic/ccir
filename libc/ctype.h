@@ -8,6 +8,5 @@
 #define _CTYPE_H_
 
 #include __header(ctype)
-#include "__ctype_b_loc.c"
 
 #endif				/* _CTYPE_H_ */
