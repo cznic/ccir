@@ -134,104 +134,94 @@ extern int grantpt(int __fd);
 extern int unlockpt(int __fd);
 extern char *ptsname(int __fd);
 extern int ttyslot(void);
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define __lldiv_t_defined (1)
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-#define _WCHAR_T_DECLARED
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define __ldiv_t_defined (1)
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_H
-#define _WCHAR_T_DEFINED
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define WIFEXITED(status) __WIFEXITED ( status )
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_WCHAR_
-#define _SIZE_T_
-#define _SIZE_T
-#define __size_t__
-#define _GCC_SIZE_T
-#define _SYS_SIZE_T_H
-#define _WCHAR_T
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define WTERMSIG(status) __WTERMSIG ( status )
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __WCHAR_T
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define EXIT_FAILURE (1)
-#define __COMPAR_FN_T
-#define WEXITSTATUS(status) __WEXITSTATUS ( status )
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_WCHAR
-#define _BSD_SIZE_T_DEFINED_
-#define _WCHAR_T_DEFINED_
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define RAND_MAX (2147483647)
-#define EXIT_SUCCESS (0)
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define NULL ( ( void * ) 0 )
-// BEGIN OF FILE /usr/include/stdlib.h 
-
-#define WIFCONTINUED(status) __WIFCONTINUED ( status )
-#define WIFSIGNALED(status) __WIFSIGNALED ( status )
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-#define __size_t
-#define _SIZE_T_DEFINED
-#define _WCHAR_T_
-#define __SIZE_T__
 // BEGIN OF FILE /usr/include/stdlib.h 
 
 #define mkstemp mkstemp64
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZET_
+#define _T_SIZE
+#define _SIZE_T_DEFINED_
+// BEGIN OF FILE /usr/include/stdlib.h 
+
+#define WIFSIGNALED(status) __WIFSIGNALED ( status )
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
+// BEGIN OF FILE /usr/include/stdlib.h 
+
+#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T__
+#define _SYS_SIZE_T_H
+#define _WCHAR_T_DECLARED
+#define __size_t__
+#define _BSD_SIZE_T_
+#define _BSD_SIZE_T_DEFINED_
+// BEGIN OF FILE /usr/include/stdlib.h 
+
+#define WTERMSIG(status) __WTERMSIG ( status )
+#define WEXITSTATUS(status) __WEXITSTATUS ( status )
+#define __ldiv_t_defined (1)
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_WCHAR_
+// BEGIN OF FILE /usr/include/stdlib.h 
+
+#define EXIT_SUCCESS (0)
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_H
+#define __WCHAR_T__
 // BEGIN OF FILE /usr/include/stdlib.h 
 
 #define WSTOPSIG(status) __WSTOPSIG ( status )
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __WCHAR_T__
+#define _SIZE_T_
+#define __SIZE_T
+#define _T_WCHAR
+#define _WCHAR_T_DEFINED_
+#define _SIZET_
+#define __wchar_t__
 // BEGIN OF FILE /usr/include/stdlib.h 
 
+#define __COMPAR_FN_T
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_SIZE_T
+#define NULL ( ( void * ) 0 )
+// BEGIN OF FILE /usr/include/stdlib.h 
+
+#define EXIT_FAILURE (1)
 #define __malloc_and_calloc_defined
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __wchar_t__
-#define _BSD_SIZE_T_
-#define ___int_wchar_t_h
-#define _SIZE_T_DECLARED
+#define __WCHAR_T
 // BEGIN OF FILE /usr/include/stdlib.h 
 
+#define __lldiv_t_defined (1)
+#define WIFEXITED(status) __WIFEXITED ( status )
 #define _STDLIB_H (1)
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _T_SIZE
-#define __INT_WCHAR_T_H
 #define _GCC_WCHAR_T
+#define ___int_wchar_t_h
+#define _WCHAR_T
+#define _SIZE_T_DEFINED
+#define _WCHAR_T_
+#define ___int_size_t_h
+#define _WCHAR_T_DEFINED
 // BEGIN OF FILE /usr/include/stdlib.h 
 
+#define WIFCONTINUED(status) __WIFCONTINUED ( status )
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t
+#define _SIZE_T
+#define __INT_WCHAR_T_H
+#define _SIZE_T_DECLARED
+// BEGIN OF FILE /usr/include/stdlib.h 
+
+#define RAND_MAX (2147483647)
 #define WIFSTOPPED(status) __WIFSTOPPED ( status )

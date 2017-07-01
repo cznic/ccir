@@ -909,7 +909,7 @@ func (c *c) exprInitializerList(t cc.Type, vi int, vp token.Position, l *cc.Init
 	}
 }
 
-func (c *c) staticDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList) {
+func (c *c) staticDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList, doc ir.NameID) {
 	typ := c.typ(d.Type).ID()
 	val, init := c.initializer(l.InitDeclarator.Declarator.Type, l.InitDeclarator.Initializer, false)
 	var b buffer.Bytes
@@ -923,7 +923,9 @@ func (c *c) staticDeclaration(d *cc.Declarator, l *cc.InitDeclaratorList) {
 	c.f.statics[c.nm(d)] = snm
 	b.Close()
 	c.f.variables[d] = varInfo{index: c.f.static, static: true, typ: typ, staticName: snm}
-	c.out = append(c.out, ir.NewDataDefinition(position(d), snm, c.tnm(d), typ, ir.InternalLinkage, val))
+	dd := ir.NewDataDefinition(position(d), snm, c.tnm(d), typ, ir.InternalLinkage, val)
+	dd.Comment = doc
+	c.out = append(c.out, dd)
 	c.f.static++
 	if init != nil {
 		TODO(position(init))
@@ -1014,6 +1016,7 @@ func (c *c) declaration(n *cc.Declaration, alwaysEvalInitializers bool) {
 			break
 		}
 
+		doc := c.comment(n.Pos(), n.DeclarationSpecifiers.Pos())
 		for l := o.InitDeclaratorList; l != nil; l = l.InitDeclaratorList {
 			d := l.InitDeclarator.Declarator
 			id, _ := d.Identifier()
@@ -1024,6 +1027,7 @@ func (c *c) declaration(n *cc.Declaration, alwaysEvalInitializers bool) {
 				}
 
 				f := ir.NewFunctionDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), c.linkage(d.Linkage), c.fnArgNames(d), nil)
+				f.Comment = doc
 				f.Body = []ir.Operation{&ir.Panic{Position: position(d)}}
 				c.out = append(c.out, f)
 				c.builtins[ir.NameID(id)] = struct{}{}
@@ -1037,7 +1041,7 @@ func (c *c) declaration(n *cc.Declaration, alwaysEvalInitializers bool) {
 			switch ln := c.linkage(d.Linkage); {
 			case ln < 0: // linkage none
 				if d.RawSpecifier().IsStatic() {
-					c.staticDeclaration(d, l)
+					c.staticDeclaration(d, l, doc)
 					break
 				}
 
@@ -1048,7 +1052,9 @@ func (c *c) declaration(n *cc.Declaration, alwaysEvalInitializers bool) {
 					TODO(position(init), val, c.typ(d.Type))
 				}
 
-				c.out = append(c.out, ir.NewDataDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), ln, val))
+				dd := ir.NewDataDefinition(position(d), c.nm(d), c.tnm(d), c.typ(d.Type).ID(), ln, val)
+				dd.Comment = doc
+				c.out = append(c.out, dd)
 			}
 		}
 	case 1: // StaticAssertDeclaration                          // Case 1
@@ -2645,7 +2651,7 @@ func (c *c) switchStatement(n *cc.SelectionStatement) {
 	c.expressionList(t, n.ExpressionList)
 	firstCase := -1
 	defaultCase := -1
-	_ = c.label()
+	c.label()
 	var defaultPosition token.Position
 	var cases []*cc.ConstantExpression
 	var f func(*cc.Statement)
@@ -2937,7 +2943,16 @@ func (c *c) fnArgNames(d *cc.Declarator) []ir.NameID {
 	return args
 }
 
-func (c *c) functionDefinition(n *cc.FunctionDefinition) {
+func (c *c) comment(p ...token.Pos) ir.NameID {
+	for _, v := range p {
+		if n := c.ast.Comments[v]; n != 0 {
+			return ir.NameID(dict.SID(tidyComments(dict.S(n))))
+		}
+	}
+	return 0
+}
+
+func (c *c) functionDefinition(n *cc.FunctionDefinition, doc ir.NameID) {
 	switch n.Case {
 	case
 		0, // DeclarationSpecifiers Declarator DeclarationListOpt FunctionBody
@@ -2950,7 +2965,9 @@ func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 		if ln == ir.ExternalLinkage && nm == idMain && len(t.(*ir.FunctionType).Results) == 0 {
 			t = c.types.MustType(ir.TypeID(dict.SID(string(dict.S(int(t.ID()))) + "int32")))
 		}
-		c.newFData(d.Type, ir.NewFunctionDefinition(position(n), nm, c.tnm(d), t.ID(), ln, c.fnArgNames(d), nil))
+		fd := ir.NewFunctionDefinition(position(n), nm, c.tnm(d), t.ID(), ln, c.fnArgNames(d), nil)
+		fd.Comment = doc
+		c.newFData(d.Type, fd)
 		c.f.index = len(c.out)
 		c.out = append(c.out, c.f.f)
 		c.functionBody(n.FunctionBody)
@@ -2963,7 +2980,9 @@ func (c *c) functionDefinition(n *cc.FunctionDefinition) {
 func (c *c) externalDeclaration(n *cc.ExternalDeclaration) {
 	switch n.Case {
 	case 0: // FunctionDefinition
-		c.functionDefinition(n.FunctionDefinition)
+		fd := n.FunctionDefinition
+		doc := c.comment(n.Pos(), fd.Pos(), fd.Declarator.Pos(), fd.Pos()-(token.Pos(position(fd).Column-1)))
+		c.functionDefinition(fd, doc)
 	case 1: // Declaration                  // Case 1
 		c.declaration(n.Declaration, false)
 	case 2: // BasicAssemblerStatement ';'  // Case 2

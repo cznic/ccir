@@ -5,7 +5,9 @@
 package ccir
 
 import (
+	"go/scanner"
 	"go/token"
+	"strings"
 
 	"github.com/cznic/cc"
 	"github.com/cznic/ir"
@@ -69,4 +71,39 @@ func isOpenMDArray(t cc.Type) bool {
 	}
 	n := len(es) - r + 1
 	return ts[n:n+2] == "[]"
+}
+
+func tidyComment(s string) string {
+	if strings.HasPrefix(s, "/*") {
+		s = s[len("/*") : len(s)-len("*/")]
+	}
+	a := strings.Split(strings.TrimSpace(s), "\n")
+	for i, v := range a {
+		if strings.HasPrefix(v, "** ") {
+			a[i] = a[i][len("** "):]
+			continue
+		}
+
+		if v == "**" {
+			a[i] = ""
+		}
+	}
+	for i, v := range a {
+		a[i] = strings.TrimSpace(v)
+	}
+	return "// " + strings.Join(a, "\n// ") + "\n"
+}
+
+func tidyComments(b []byte) string {
+	var s scanner.Scanner
+	s.Init(token.NewFileSet().AddFile("", -1, len(b)), b, nil, scanner.ScanComments)
+	var a []string
+	for {
+		_, tok, lit := s.Scan()
+		if tok == token.EOF {
+			return strings.Join(a, "\n")
+		}
+
+		a = append(a, tidyComment(lit))
+	}
 }

@@ -61,25 +61,25 @@ extern char *rindex(const char *__s, int __c);
 extern int ffs(int __i);
 extern int strcasecmp(const char *__s1, const char *__s2);
 extern int strncasecmp(const char *__s1, const char *__s2, size_t __n);
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t__
-#define ___int_size_t_h
-#define _T_SIZE
-#define _BSD_SIZE_T_DEFINED_
-#define _SYS_SIZE_T_H
-#define _SIZE_T_DECLARED
-#define _GCC_SIZE_T
-#define _SIZET_
-#define _T_SIZE_
-#define _SIZE_T
-#define _SIZE_T_DEFINED_
-#define _BSD_SIZE_T_
-#define __SIZE_T
-#define _SIZE_T_
-#define __SIZE_T__
-#define _SIZE_T_DEFINED
-#define __size_t
 // BEGIN OF FILE /usr/include/strings.h 
 
 #define _STRINGS_H (1)
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+#define __SIZE_T__
+#define _T_SIZE
+#define _SIZE_T
+#define __SIZE_T
+#define _SIZE_T_DEFINED_
+#define _BSD_SIZE_T_DEFINED_
+#define _SIZE_T_
+#define _SIZET_
+#define _BSD_SIZE_T_
+#define __size_t
+#define _T_SIZE_
+#define __size_t__
+#define _SIZE_T_DEFINED
+#define _SIZE_T_DECLARED
+#define ___int_size_t_h
+#define _GCC_SIZE_T

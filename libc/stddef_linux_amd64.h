@@ -35,48 +35,48 @@ typedef long unsigned int size_t;
 typedef int wchar_t;
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define NULL ( ( void * ) 0 )
-#define _BSD_SIZE_T_DEFINED_
-#define _BSD_SIZE_T_
-#define _SIZE_T_
-#define _T_SIZE_
-#define _ANSI_STDDEF_H
-#define __size_t__
-#define __PTRDIFF_T
-#define __INT_WCHAR_T_H
-#define _T_WCHAR
-#define _WCHAR_T_DEFINED_
-#define _T_SIZE
-#define __size_t
-#define _WCHAR_T_DECLARED
-#define _PTRDIFF_T_
-#define __wchar_t__
-#define _SIZE_T_DEFINED_
-#define _SYS_SIZE_T_H
-#define _GCC_PTRDIFF_T
-#define _SIZET_
-#define _WCHAR_T
 #define _T_WCHAR_
+#define _BSD_SIZE_T_
+#define _SIZE_T
 #define __WCHAR_T__
-#define _GCC_SIZE_T
-#define _GCC_WCHAR_T
-#define _PTRDIFF_T_DECLARED
-#define _STDDEF_H
-#define ___int_size_t_h
-#define _T_PTRDIFF
-#define _WCHAR_T_H
-#define ___int_wchar_t_h
-#define _BSD_PTRDIFF_T_
-#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
-#define _PTRDIFF_T
-#define _T_PTRDIFF_
 #define _SIZE_T_DEFINED
+#define __wchar_t__
+#define _BSD_PTRDIFF_T_
+#define _ANSI_STDDEF_H
+#define _T_SIZE
+#define ___int_wchar_t_h
+#define __WCHAR_T
+#define ___int_size_t_h
+#define _PTRDIFF_T_DECLARED
 #define _WCHAR_T_DEFINED
-#define _WCHAR_T_
-#define __SIZE_T__
-#define ___int_ptrdiff_t_h
+#define _WCHAR_T_DECLARED
+#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
+#define _T_PTRDIFF
+#define NULL ( ( void * ) 0 )
+#define __PTRDIFF_T
+#define _BSD_SIZE_T_DEFINED_
 #define __SIZE_T
 #define _SIZE_T_DECLARED
+#define ___int_ptrdiff_t_h
+#define __size_t
+#define _T_SIZE_
+#define _SYS_SIZE_T_H
+#define _T_WCHAR
+#define _WCHAR_T_
+#define _SIZET_
+#define _GCC_PTRDIFF_T
+#define __SIZE_T__
 #define _STDDEF_H_
-#define _SIZE_T
-#define __WCHAR_T
+#define _WCHAR_T_H
+#define _T_PTRDIFF_
+#define _GCC_WCHAR_T
+#define _PTRDIFF_T
+#define _PTRDIFF_T_
+#define _SIZE_T_DEFINED_
+#define _SIZE_T_
+#define _WCHAR_T
+#define __size_t__
+#define _STDDEF_H
+#define __INT_WCHAR_T_H
+#define _WCHAR_T_DEFINED_
+#define _GCC_SIZE_T

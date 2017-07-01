@@ -9,4 +9,6 @@
 
 #include __header(string)
 
+int strerror_r(int errnum, char *buf, __SIZE_TYPE__ buflen);
+
 #endif				/* _STRING_H_ */

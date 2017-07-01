@@ -1101,7 +1101,7 @@ func main() {
 		{"limits", "INT_MAX", "TODO"},
 		//TODO{"locale", "TODO", "TODO"},
 		{"math", "TODO", "sin|_locale_t"},
-		//TODO{"sched", "TODO", "TODO"},
+		{"sched", "TODO", "sched_yield|__pid_t"},
 		//TODO{"setjmp", "TODO", "TODO"},
 		//TODO{"signal", "TODO", "TODO"},
 		{"stdarg", "va_list", "TODO"},
