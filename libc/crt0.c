@@ -12,5 +12,5 @@ void *stdin = &__stdfiles[0], *stdout = &__stdfiles[1], *stderr = &__stdfiles[2]
 void _start(int argc, char **argv)
 {
 	__register_stdfiles(stdin, stdout, stderr);
-	exit(((int (*)())main) (argc, argv));
+	__builtin_exit(((int (*)())main) (argc, argv));
 }
