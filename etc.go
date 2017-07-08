@@ -74,24 +74,18 @@ func isOpenMDArray(t cc.Type) bool {
 }
 
 func tidyComment(s string) string {
-	if strings.HasPrefix(s, "/*") {
-		s = s[len("/*") : len(s)-len("*/")]
-	}
-	a := strings.Split(strings.TrimSpace(s), "\n")
-	for i, v := range a {
-		if strings.HasPrefix(v, "** ") {
-			a[i] = a[i][len("** "):]
-			continue
+	switch {
+	case strings.HasPrefix(s, "/*"):
+		a := strings.Split(" "+s[1:len(s)-1], "\n")
+		for i, v := range a {
+			a[i] = "//  " + v
 		}
-
-		if v == "**" {
-			a[i] = ""
-		}
+		return "// C comment\n" + strings.Join(a, "\n") + "\n"
+	case strings.HasPrefix(s, "//"):
+		return "//  " + s[2:] + "\n"
+	default:
+		panic("internal error")
 	}
-	for i, v := range a {
-		a[i] = strings.TrimSpace(v)
-	}
-	return "// " + strings.Join(a, "\n// ") + "\n"
 }
 
 func tidyComments(b []byte) string {
