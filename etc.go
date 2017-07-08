@@ -76,11 +76,11 @@ func isOpenMDArray(t cc.Type) bool {
 func tidyComment(s string) string {
 	switch {
 	case strings.HasPrefix(s, "/*"):
-		a := strings.Split(" "+s[1:len(s)-1], "\n")
+		a := strings.Split("/"+s[1:len(s)-1], "\n")
 		for i, v := range a {
 			a[i] = "//  " + v
 		}
-		return "// C comment\n" + strings.Join(a, "\n") + "\n"
+		return "// C comment\n" + strings.Join(a, "\n") + "/\n"
 	case strings.HasPrefix(s, "//"):
 		return "//  " + s[2:] + "\n"
 	default:
