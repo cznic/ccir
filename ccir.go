@@ -44,6 +44,7 @@ import (
 	"github.com/cznic/mathutil"
 	"github.com/cznic/strutil"
 	"github.com/cznic/virtual"
+	"github.com/cznic/xc"
 )
 
 const (
@@ -2945,6 +2946,11 @@ func (c *c) fnArgNames(d *cc.Declarator) []ir.NameID {
 
 func (c *c) comment(p ...token.Pos) ir.NameID {
 	for _, v := range p {
+		if n := c.ast.Comments[v]; n != 0 {
+			return ir.NameID(dict.SID(tidyComments(dict.S(n))))
+		}
+
+		v -= token.Pos(xc.FileSet.Position(v).Column - 1)
 		if n := c.ast.Comments[v]; n != 0 {
 			return ir.NameID(dict.SID(tidyComments(dict.S(n))))
 		}
