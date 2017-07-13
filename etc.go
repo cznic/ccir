@@ -80,7 +80,7 @@ func tidyComment(s string) string {
 		for i, v := range a {
 			a[i] = "//  " + v
 		}
-		return "// C comment\n" + strings.Join(a, "\n") + "/\n"
+		return strings.Join(a, "\n") + "/\n"
 	case strings.HasPrefix(s, "//"):
 		return "//  " + s[2:] + "\n"
 	default:
@@ -95,7 +95,7 @@ func tidyComments(b []byte) string {
 	for {
 		_, tok, lit := s.Scan()
 		if tok == token.EOF {
-			return strings.Join(a, "\n")
+			return "// C comment\n" + strings.Join(a, "")
 		}
 
 		a = append(a, tidyComment(lit))
