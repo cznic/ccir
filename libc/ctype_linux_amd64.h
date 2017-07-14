@@ -102,77 +102,75 @@ extern int isascii(int __c);
 extern int toascii(int __c);
 extern int _toupper(int);
 extern int _tolower(int);
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define isascii(c) __isascii ( c )
+#define ispunct(c) __isctype ( ( c ) , _ISpunct )
+#define islower(c) __isctype ( ( c ) , _ISlower )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+#define _BITS_TYPES_H (1)
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define __toascii(c) ( ( c ) & 0x7f )
+#define _CTYPE_H (1)
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SWORD_TYPE long int
+#define __UQUAD_TYPE unsigned long int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
 // BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __U64_TYPE unsigned long int
 // BEGIN OF FILE /usr/include/ctype.h 
 
-#define isxdigit(c) __isctype ( ( c ) , _ISxdigit )
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-#define __U16_TYPE unsigned short int
-// BEGIN OF FILE /usr/include/ctype.h 
-
-#define isspace(c) __isctype ( ( c ) , _ISspace )
-#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
-#define ispunct(c) __isctype ( ( c ) , _ISpunct )
-#define isgraph(c) __isctype ( ( c ) , _ISgraph )
-#define toascii(c) __toascii ( c )
-#define __toascii(c) ( ( c ) & 0x7f )
-#define _tolower(c) ( ( int ) ( * __ctype_tolower_loc ( ) ) [ ( int ) ( c ) ] )
-#define isalpha(c) __isctype ( ( c ) , _ISalpha )
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONG32_TYPE int
-#define __SWORD_TYPE long int
-#define __ULONGWORD_TYPE unsigned long int
-#define __ULONG32_TYPE unsigned int
-// BEGIN OF FILE /usr/include/ctype.h 
-
+#define isalnum(c) __isctype ( ( c ) , _ISalnum )
 #define isprint(c) __isctype ( ( c ) , _ISprint )
 #define iscntrl(c) __isctype ( ( c ) , _IScntrl )
-#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
-#define isupper(c) __isctype ( ( c ) , _ISupper )
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S32_TYPE int
-// BEGIN OF FILE /usr/include/ctype.h 
-
-#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
-#define islower(c) __isctype ( ( c ) , _ISlower )
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-// BEGIN OF FILE /usr/include/ctype.h 
-
-#define __tobody(c, f, a, args) ( __extension__ ( { int __res ; if ( sizeof ( c ) > 1 ) { if ( __builtin_constant_p ( c ) ) { int __c = ( c ) ; __res = __c < - 128 || __c > 255 ? __c : ( a ) [ __c ] ; } else __res = f args ; } else __res = ( a ) [ ( int ) ( c ) ] ; __res ; } ) )
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
-// BEGIN OF FILE /usr/include/ctype.h 
-
-#define isdigit(c) __isctype ( ( c ) , _ISdigit )
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S16_TYPE short int
-#define __SLONGWORD_TYPE long int
-// BEGIN OF FILE /usr/include/ctype.h 
-
 #define isblank(c) __isctype ( ( c ) , _ISblank )
 // BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define _BITS_TYPES_H (1)
+#define __SLONG32_TYPE int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define isupper(c) __isctype ( ( c ) , _ISupper )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S16_TYPE short int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define isxdigit(c) __isctype ( ( c ) , _ISxdigit )
+#define _tolower(c) ( ( int ) ( * __ctype_tolower_loc ( ) ) [ ( int ) ( c ) ] )
+#define isalpha(c) __isctype ( ( c ) , _ISalpha )
+#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
+#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+#define __S64_TYPE long int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define __tobody(c, f, a, args) ( __extension__ ( { int __res ; if ( sizeof ( c ) > 1 ) { if ( __builtin_constant_p ( c ) ) { int __c = ( c ) ; __res = __c < - 128 || __c > 255 ? __c : ( a ) [ __c ] ; } else __res = f args ; } else __res = ( a ) [ ( int ) ( c ) ] ; __res ; } ) )
+#define __exctype(name) extern int name ( int ) __THROW
+#define toascii(c) __toascii ( c )
+#define isdigit(c) __isctype ( ( c ) , _ISdigit )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
 #define __UWORD_TYPE unsigned long int
 // BEGIN OF FILE /usr/include/ctype.h 
 
-#define isalnum(c) __isctype ( ( c ) , _ISalnum )
-#define _toupper(c) ( ( int ) ( * __ctype_toupper_loc ( ) ) [ ( int ) ( c ) ] )
-#define _CTYPE_H (1)
+#define isspace(c) __isctype ( ( c ) , _ISspace )
+#define isgraph(c) __isctype ( ( c ) , _ISgraph )
 // BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
+#define __U16_TYPE unsigned short int
+#define __S32_TYPE int
+#define __SLONGWORD_TYPE long int
+#define __U32_TYPE unsigned int
 #define __SQUAD_TYPE long int
 // BEGIN OF FILE /usr/include/ctype.h 
 
-#define __exctype(name) extern int name ( int ) __THROW
-#define isascii(c) __isascii ( c )
+#define _toupper(c) ( ( int ) ( * __ctype_toupper_loc ( ) ) [ ( int ) ( c ) ] )

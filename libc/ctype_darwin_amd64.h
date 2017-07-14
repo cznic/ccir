@@ -2,111 +2,181 @@
 
 	// +build ignore
 	
-	// BEGIN OF FILE /usr/include/i386/_types.h 
+// ----------------------------------------------------------------------------
+//      /usr/include/ctype.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
-typedef char __int8_t ;
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
+	// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+typedef unsigned char __u_char ;
+typedef unsigned short int __u_short ;
+typedef unsigned int __u_int ;
+typedef unsigned long int __u_long ;
+typedef signed char __int8_t ;
 typedef unsigned char __uint8_t ;
-typedef short __int16_t ;
-typedef unsigned short __uint16_t ;
-typedef int __int32_t ;
+typedef signed short int __int16_t ;
+typedef unsigned short int __uint16_t ;
+typedef signed int __int32_t ;
 typedef unsigned int __uint32_t ;
-typedef long long __int64_t ;
-typedef unsigned long long __uint64_t ;
-typedef long __darwin_intptr_t ;
-typedef unsigned int __darwin_natural_t ;
-typedef int __darwin_ct_rune_t ;
-typedef union {char __mbstate8 [128 ];long long _mbstateL ;}__mbstate_t ;
-typedef __mbstate_t __darwin_mbstate_t ;
-typedef long int __darwin_ptrdiff_t ;
-typedef long unsigned int __darwin_size_t ;
-typedef void *__darwin_va_list ;
-typedef int __darwin_wchar_t ;
-typedef __darwin_wchar_t __darwin_rune_t ;
-typedef int __darwin_wint_t ;
-typedef unsigned long __darwin_clock_t ;
-typedef __uint32_t __darwin_socklen_t ;
-typedef long __darwin_ssize_t ;
-typedef long __darwin_time_t ;
-// BEGIN OF FILE /usr/include/sys/_types.h 
-
-typedef __int64_t __darwin_blkcnt_t ;
-typedef __int32_t __darwin_blksize_t ;
-typedef __int32_t __darwin_dev_t ;
-typedef unsigned int __darwin_fsblkcnt_t ;
-typedef unsigned int __darwin_fsfilcnt_t ;
-typedef __uint32_t __darwin_gid_t ;
-typedef __uint32_t __darwin_id_t ;
-typedef __uint64_t __darwin_ino64_t ;
-typedef __darwin_ino64_t __darwin_ino_t ;
-typedef __darwin_natural_t __darwin_mach_port_name_t ;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t ;
-typedef __uint16_t __darwin_mode_t ;
-typedef __int64_t __darwin_off_t ;
-typedef __int32_t __darwin_pid_t ;
-typedef __uint32_t __darwin_sigset_t ;
-typedef __int32_t __darwin_suseconds_t ;
-typedef __uint32_t __darwin_uid_t ;
-typedef __uint32_t __darwin_useconds_t ;
-typedef unsigned char __darwin_uuid_t [16 ];
-typedef char __darwin_uuid_string_t [37 ];
+typedef signed long int __int64_t ;
+typedef unsigned long int __uint64_t ;
+typedef long int __quad_t ;
+typedef unsigned long int __u_quad_t ;
+typedef unsigned long int __dev_t ;
+typedef unsigned int __uid_t ;
+typedef unsigned int __gid_t ;
+typedef unsigned long int __ino_t ;
+typedef unsigned long int __ino64_t ;
+typedef unsigned int __mode_t ;
+typedef unsigned long int __nlink_t ;
+typedef long int __off_t ;
+typedef long int __off64_t ;
+typedef int __pid_t ;
+typedef struct {int __val [2 ];}__fsid_t ;
+typedef long int __clock_t ;
+typedef unsigned long int __rlim_t ;
+typedef unsigned long int __rlim64_t ;
+typedef unsigned int __id_t ;
+typedef long int __time_t ;
+typedef unsigned int __useconds_t ;
+typedef long int __suseconds_t ;
+typedef int __daddr_t ;
+typedef int __key_t ;
+typedef int __clockid_t ;
+typedef void *__timer_t ;
+typedef long int __blksize_t ;
+typedef long int __blkcnt_t ;
+typedef long int __blkcnt64_t ;
+typedef unsigned long int __fsblkcnt_t ;
+typedef unsigned long int __fsblkcnt64_t ;
+typedef unsigned long int __fsfilcnt_t ;
+typedef unsigned long int __fsfilcnt64_t ;
+typedef long int __fsword_t ;
+typedef long int __ssize_t ;
+typedef long int __syscall_slong_t ;
+typedef unsigned long int __syscall_ulong_t ;
+typedef __off64_t __loff_t ;
+typedef __quad_t *__qaddr_t ;
+typedef char *__caddr_t ;
+typedef long int __intptr_t ;
+typedef unsigned int __socklen_t ;
 // BEGIN OF FILE /usr/include/ctype.h 
 
-int isalnum (int );
-int isalpha (int );
-int isblank (int );
-int iscntrl (int );
-int isdigit (int );
-int isgraph (int );
-int islower (int );
-int isprint (int );
-int ispunct (int );
-int isspace (int );
-int isupper (int );
-int isxdigit (int );
-int tolower (int );
-int toupper (int );
-int isascii (int );
-int toascii (int );
-// BEGIN OF FILE /usr/include/i386/_types.h 
-
-#define _BSD_I386__TYPES_H_ 
+enum {_ISupper =256 ,_ISlower =512 ,_ISalpha =1024 ,_ISdigit =2048 ,_ISxdigit =4096 ,_ISspace =8192 ,_ISprint =16384 ,_ISgraph =32768 ,_ISblank =1 ,_IScntrl =2 ,_ISpunct =4 ,_ISalnum =8 };
+extern const unsigned short int **__ctype_b_loc (void );
+extern const __int32_t **__ctype_tolower_loc (void );
+extern const __int32_t **__ctype_toupper_loc (void );
+extern int isalnum (int );
+extern int isalpha (int );
+extern int iscntrl (int );
+extern int isdigit (int );
+extern int islower (int );
+extern int isgraph (int );
+extern int isprint (int );
+extern int ispunct (int );
+extern int isspace (int );
+extern int isupper (int );
+extern int isxdigit (int );
+extern int tolower (int __c );
+extern int toupper (int __c );
+extern int isblank (int );
+extern int isascii (int __c );
+extern int toascii (int __c );
+extern int _toupper (int );
+extern int _tolower (int );
 // BEGIN OF FILE /usr/include/ctype.h 
 
-#define _CTYPE_G (2048l)
-#define _CTYPE_SW2 (2147483648l)
-// BEGIN OF FILE /usr/include/sys/_types.h 
+#define __toascii(c) ( ( c ) & 0x7f )
+#define isupper(c) __isctype ( ( c ) , _ISupper )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __offsetof(type, field) ( ( size_t ) ( & ( ( type * ) 0 ) -> field ) )
+#define __U32_TYPE unsigned int
+#define __SLONGWORD_TYPE long int
 // BEGIN OF FILE /usr/include/ctype.h 
 
-#define _CTYPE_U (32768l)
-#define _CTYPE_S (16384l)
-#define _CTYPE_I (524288l)
-#define _CTYPE_X (65536l)
-#define _CTYPE_H_ 
-#define _CTYPE_R (262144l)
-#define _CTYPE_SW1 (1073741824l)
-#define _CTYPE_L (4096l)
-#define _CTYPE_SW0 (536870912l)
-// BEGIN OF FILE /usr/include/sys/_types.h 
+#define isalnum(c) __isctype ( ( c ) , _ISalnum )
+#define isalpha(c) __isctype ( ( c ) , _ISalpha )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define _SYS__TYPES_H_ 
+#define __S64_TYPE long int
 // BEGIN OF FILE /usr/include/ctype.h 
 
-#define _CTYPE_Q (2097152l)
-#define __DARWIN_CTYPE_inline __header_inline
-#define _CTYPE_B (131072l)
-#define _CTYPE_SWM (3758096384l)
-#define _CTYPE_D (1024l)
-#define _CTYPE_T (1048576l)
-#define _CTYPE_A (256l)
-// BEGIN OF FILE /usr/include/sys/_types.h 
+#define ispunct(c) __isctype ( ( c ) , _ISpunct )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __DARWIN_NULL ( ( void * ) 0 )
+#define __ULONGWORD_TYPE unsigned long int
+#define __S32_TYPE int
 // BEGIN OF FILE /usr/include/ctype.h 
 
-#define _CTYPE_SW3 (3221225472l)
-#define _CTYPE_P (8192l)
-#define _CTYPE_SWS (30)
-#define _CTYPE_C (512l)
-#define __DARWIN_CTYPE_TOP_inline __header_inline
+#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
+#define __tobody(c, f, a, args) ( __extension__ ( { int __res ; if ( sizeof ( c ) > 1 ) { if ( __builtin_constant_p ( c ) ) { int __c = ( c ) ; __res = __c < - 128 || __c > 255 ? __c : ( a ) [ __c ] ; } else __res = f args ; } else __res = ( a ) [ ( int ) ( c ) ] ; __res ; } ) )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SWORD_TYPE long int
+#define __S16_TYPE short int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
+#define _toupper(c) ( ( int ) ( * __ctype_toupper_loc ( ) ) [ ( int ) ( c ) ] )
+#define isspace(c) __isctype ( ( c ) , _ISspace )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+#define __SQUAD_TYPE long int
+#define __U16_TYPE unsigned short int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define toascii(c) __toascii ( c )
+#define isblank(c) __isctype ( ( c ) , _ISblank )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define __exctype(name) extern int name ( int ) __THROW
+#define _tolower(c) ( ( int ) ( * __ctype_tolower_loc ( ) ) [ ( int ) ( c ) ] )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define isprint(c) __isctype ( ( c ) , _ISprint )
+#define isgraph(c) __isctype ( ( c ) , _ISgraph )
+#define iscntrl(c) __isctype ( ( c ) , _IScntrl )
+#define isxdigit(c) __isctype ( ( c ) , _ISxdigit )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONG32_TYPE int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define isdigit(c) __isctype ( ( c ) , _ISdigit )
+#define islower(c) __isctype ( ( c ) , _ISlower )
+#define isascii(c) __isascii ( c )
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U64_TYPE unsigned long int
+// BEGIN OF FILE /usr/include/ctype.h 
+
+#define _CTYPE_H (1)

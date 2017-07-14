@@ -167,44 +167,6 @@ extern int timer_gettime(timer_t __timerid, struct itimerspec *__value);
 extern int timer_getoverrun(timer_t __timerid);
 extern int getdate_err;
 extern struct tm *getdate(const char *__string);
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U64_TYPE unsigned long int
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _GCC_SIZE_T
-// BEGIN OF FILE /usr/include/time.h 
-
-#define __timespec_defined (1)
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S16_TYPE short int
-#define __SLONG32_TYPE int
-#define __SQUAD_TYPE long int
-#define __U16_TYPE unsigned short int
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_
-// BEGIN OF FILE /usr/include/time.h 
-
-#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-#define _SIZE_T_DEFINED
-#define __SIZE_T
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define _BITS_TYPES_H (1)
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_
-// BEGIN OF FILE /usr/include/time.h 
-
-#define __time_t_defined (1)
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S32_TYPE int
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define __size_t
@@ -216,54 +178,94 @@ extern struct tm *getdate(const char *__string);
 #define _SYS_SIZE_T_H
 // BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __UQUAD_TYPE unsigned long int
-// BEGIN OF FILE /usr/include/time.h 
-
-#define __clock_t_defined (1)
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t__
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-#define _BSD_SIZE_T_DEFINED_
-#define __SIZE_T__
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
-// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
-
 #define __UWORD_TYPE unsigned long int
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define NULL ( ( void * ) 0 )
+#define _SIZE_T_
 // BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __SLONGWORD_TYPE long int
 // BEGIN OF FILE /usr/include/time.h 
 
-#define _TIME_H (1)
 #define __timer_t_defined (1)
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+// BEGIN OF FILE /usr/include/time.h 
+
+#define __clockid_t_defined (1)
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONG32_TYPE int
+#define __SQUAD_TYPE long int
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T
+#define _SIZE_T
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S32_TYPE int
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _SIZET_
 #define _T_SIZE
-#define _SIZE_T
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
 // BEGIN OF FILE /usr/include/time.h 
 
-#define __clockid_t_defined (1)
+#define __clock_t_defined (1)
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t__
+#define _SIZE_T_DECLARED
+#define __SIZE_T__
+#define _SIZE_T_DEFINED
+// BEGIN OF FILE /usr/include/time.h 
+
+#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_size_t_h
+// BEGIN OF FILE /usr/include/time.h 
+
+#define __timespec_defined (1)
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
+// BEGIN OF FILE /usr/include/time.h 
+
+#define _TIME_H (1)
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_SIZE_T
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S64_TYPE long int
+#define __S16_TYPE short int
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+#define _BSD_SIZE_T_
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+// BEGIN OF FILE /usr/include/time.h 
+
+#define __time_t_defined (1)
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U32_TYPE unsigned int
+// BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+// BEGIN OF FILE /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+#define __U64_TYPE unsigned long int

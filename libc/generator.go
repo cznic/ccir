@@ -64,7 +64,7 @@ func errStr(err error) string {
 func position(n cc.Node) token.Position { return xc.FileSet.Position(n.Pos()) }
 
 func emit(nm, more string, b []byte) {
-	f, err := os.Create(fmt.Sprintf("%s_%s_%s.h", nm, runtime.GOOS, runtime.GOARCH))
+	f, err := os.Create(fmt.Sprintf("%s_%s_%s.h", nm, goOs(), goArch()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -108,7 +108,7 @@ func emit(nm, more string, b []byte) {
 #include <%s.h>
 
 int _;
-`, runtime.GOOS, runtime.GOARCH, nm),
+`, goOs(), goArch(), nm),
 		nil,
 		model,
 		cc.AllowCompatibleTypedefRedefinitions(),
@@ -126,7 +126,7 @@ int _;
 	}
 
 	base := filepath.Base(nm)
-	f2, err := os.Create(fmt.Sprintf("%s/%s_%s_%s.go", nm, base, runtime.GOOS, runtime.GOARCH))
+	f2, err := os.Create(fmt.Sprintf("%s/%s_%s_%s.go", nm, base, goOs(), goArch()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -943,7 +943,7 @@ func header(nm, mre, dre string) {
 #include "predefined.h"
 
 #include <%s.h>
-`, runtime.GOOS, runtime.GOARCH, nm),
+`, goOs(), goArch(), nm),
 		nil,
 		model,
 		opts...,
@@ -1135,8 +1135,24 @@ func main() {
 		{"linux", "memory", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)
-		if re.MatchString(runtime.GOOS) {
+		if re.MatchString(goOs()) {
 			header(v.nm, v.mre, v.dre)
 		}
 	}
+}
+
+func goArch() string {
+	if s := os.Getenv("GOARCH"); s != "" {
+		return s
+	}
+
+	return runtime.GOARCH
+}
+
+func goOs() string {
+	if s := os.Getenv("GOOS"); s != "" {
+		return s
+	}
+
+	return runtime.GOOS
 }

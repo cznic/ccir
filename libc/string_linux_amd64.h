@@ -82,7 +82,20 @@ extern char *strerror(int __errnum);
 extern void __bzero(void *__s, size_t __n);
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __SIZE_T
+#define _T_SIZE
+#define __SIZE_T__
+#define _SYS_SIZE_T_H
+#define _T_SIZE_
+#define _BSD_SIZE_T_DEFINED_
+#define _SIZE_T_
+#define _SIZE_T_DECLARED
+#define _SIZE_T
+#define _SIZET_
+#define _GCC_SIZE_T
+#define ___int_size_t_h
+#define NULL ( ( void * ) 0 )
+#define __size_t__
+#define __size_t
 #define _SIZE_T_DEFINED_
 // BEGIN OF FILE /usr/include/string.h 
 
@@ -90,18 +103,5 @@ extern void __bzero(void *__s, size_t __n);
 // BEGIN OF FILE /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _SIZE_T_DEFINED
+#define __SIZE_T
 #define _BSD_SIZE_T_
-#define _SIZE_T
-#define _SYS_SIZE_T_H
-#define _T_SIZE_
-#define __size_t
-#define _BSD_SIZE_T_DEFINED_
-#define ___int_size_t_h
-#define NULL ( ( void * ) 0 )
-#define __size_t__
-#define _SIZE_T_
-#define _SIZE_T_DECLARED
-#define _GCC_SIZE_T
-#define __SIZE_T__
-#define _T_SIZE
-#define _SIZET_
