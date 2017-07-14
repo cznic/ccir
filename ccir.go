@@ -167,14 +167,14 @@ type c struct {
 	types    ir.TypeCache
 }
 
-func newC(model ir.MemoryModel, ast *cc.TranslationUnit) *c {
+func newC(model ir.MemoryModel, ast *cc.TranslationUnit, o *options) *c {
 	return &c{
 		ast:      ast,
 		builtins: map[ir.NameID]struct{}{},
 		cint:     ast.Model.IntType,
 		ctypes:   map[cc.Type]ir.Type{},
 		model:    model,
-		types:    ir.TypeCache{},
+		types:    o.tc,
 	}
 }
 
@@ -254,7 +254,7 @@ func (c *c) tnm(d *cc.Declarator) ir.NameID {
 	return 0
 }
 
-func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) {
+func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) (r []ir.NameID) {
 	sou := "struct{"
 	switch k := t.Kind(); k {
 	case cc.Ptr:
@@ -262,14 +262,14 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) {
 		if arrayDecay && t.Element().Kind() == cc.Array && isOpenMDArray(t) {
 			fmt.Fprintf(dst, "[0]")
 			c.typ0(dst, t.Element(), false, false)
-			return
+			return nil
 		}
 
 		if flat {
 			switch t.Element().Kind() {
 			case cc.Struct, cc.Union, cc.Array:
 				dst.WriteString("struct{}")
-				return
+				return nil
 			}
 		}
 
@@ -319,7 +319,9 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) {
 	case cc.Struct:
 		dst.WriteString(sou)
 		m := c.members(t, false, true)
+		r = make([]ir.NameID, len(m))
 		for i, v := range m {
+			r[i] = ir.NameID(v.Name)
 			t := v.Type
 			if c.isVLA(t) != nil {
 				panic(fmt.Errorf("%s: struct/union member cannot be a variable length array", position(t.Declarator())))
@@ -342,11 +344,13 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) {
 			}
 		}
 		dst.WriteByte('}')
+		return r
 	case cc.Void:
 		dst.WriteString("struct{}")
 	default:
 		panic(fmt.Errorf("internal error %v:%v", t, k))
 	}
+	return nil
 }
 
 func (c *c) typ(in cc.Type) ir.Type {
@@ -355,14 +359,19 @@ func (c *c) typ(in cc.Type) ir.Type {
 	}
 
 	var dst buffer.Bytes
-	c.typ0(&dst, in, false, false)
+	f := c.typ0(&dst, in, false, false)
 	out, err := c.types.Type(ir.TypeID(dict.ID(dst.Bytes())))
 	if err != nil {
 		dst.Close()
 		panic(fmt.Errorf("%s: type %q:%q, type specifier %q: internal error: %v", position(in.Declarator()), in, in.Kind(), dst.Bytes(), err))
 	}
 
+	switch out.Kind() {
+	case ir.Struct, ir.Union:
+		c.types.Fields(out.ID(), f)
+	}
 	dst.Close()
+	c.ctypes[in] = out
 	return out
 }
 
@@ -3006,8 +3015,24 @@ func (c *c) gen() {
 	}
 }
 
+type options struct {
+	tc ir.TypeCache
+}
+
+// Option is a configuration/setup function that can be passed to the New
+// function.
+type Option func(*options) error
+
+// TypeCache option requests to use a shared type cache tc.
+func TypeCache(tc ir.TypeCache) Option {
+	return func(o *options) error {
+		o.tc = tc
+		return nil
+	}
+}
+
 // New returns ir.Objects generated from ast or an error, if any.  It's the
-func New(ast *cc.TranslationUnit) (_ []ir.Object, err error) {
+func New(ast *cc.TranslationUnit, opts ...Option) (_ []ir.Object, err error) {
 	if !Testing {
 		defer func() {
 			switch x := recover().(type) {
@@ -3026,7 +3051,16 @@ func New(ast *cc.TranslationUnit) (_ []ir.Object, err error) {
 		return nil, err
 	}
 
-	c := newC(model, ast)
+	var o options
+	for _, v := range opts {
+		if err = v(&o); err != nil {
+			return nil, err
+		}
+	}
+	if o.tc == nil {
+		o.tc = ir.TypeCache{}
+	}
+	c := newC(model, ast, &o)
 	c.gen()
 	return c.out, nil
 }
