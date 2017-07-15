@@ -319,7 +319,8 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) {
 	case cc.Struct:
 		dst.WriteString(sou)
 		m := c.members(t, false, true)
-		for i, v := range m {
+		n := 0
+		for _, v := range m {
 			t := v.Type
 			if c.isVLA(t) != nil {
 				panic(fmt.Errorf("%s: struct/union member cannot be a variable length array", position(t.Declarator())))
@@ -336,10 +337,13 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) {
 				}
 			}
 
-			c.typ0(dst, t, true, false)
-			if i+1 < len(m) {
+			if n != 0 {
 				dst.WriteByte(',')
 			}
+			n++
+			dst.Write(dict.S(v.Name))
+			dst.WriteByte(' ')
+			c.typ0(dst, t, true, false)
 		}
 		dst.WriteByte('}')
 		return
@@ -360,25 +364,9 @@ func (c *c) typ(n cc.Node, in cc.Type) ir.Type {
 	c.typ0(&dst, in, false, false)
 	out, err := c.types.Type(ir.TypeID(dict.ID(dst.Bytes())))
 	if err != nil {
-		dst.Close()
 		panic(fmt.Errorf("%s: type %q:%q, type specifier %q: internal error: %v", position(in.Declarator()), in, in.Kind(), dst.Bytes(), err))
 	}
 
-	t := out
-	u := in
-	for t.Kind() == ir.Pointer {
-		t = t.(*ir.PointerType).Element
-		u = u.Element()
-	}
-	switch t.Kind() {
-	case ir.Struct, ir.Union:
-		m := c.members(u, false, true)
-		f := make([]ir.NameID, len(m))
-		for i, v := range m {
-			f[i] = ir.NameID(v.Name)
-		}
-		c.types.Fields(t.ID(), f)
-	}
 	dst.Close()
 	c.ctypes[in] = out
 	return out
