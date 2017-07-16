@@ -583,10 +583,6 @@ func TestGCCExec(t *testing.T) {
 		// signal.h
 		"20101011-1.c": {},
 
-		// mmap.h
-		"loop-2f.c": {},
-		"loop-2g.c": {},
-
 		// &&label expr
 		"comp-goto-1.c": {}, // # [100]: Verify (A): mismatched operand type, got int32, expected uint32; simulator_kernel:0x64: 	lsh             	uint32	; ../cc/testdata/gcc-6.3.0/gcc/testsuite/gcc.c-torture/execute/comp-goto-1.c:83:40
 
@@ -606,7 +602,6 @@ func TestGCCExec(t *testing.T) {
 
 		//TODO
 		"zero-struct-1.c": {}, // New: ccir.New: PANIC: 2
-		"stdarg-3.c":      {},
 	}
 
 	wd, err := os.Getwd()
