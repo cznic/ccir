@@ -19,6 +19,7 @@ typedef struct {
 	struct {
 	} _;
 } *__builtin_va_list;
+void __builtin_assert_fail(char *file, int line, char *func, char *msg);
 #else
 typedef char *__builtin_va_list;
 #endif

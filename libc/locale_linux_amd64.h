@@ -51,34 +51,13 @@ struct lconv {
 extern char *setlocale(int __category, const char *__locale);
 extern struct lconv *localeconv(void);
 
-// /usr/include/locale.h 
-
-#define LC_NAME __LC_NAME
-#define LC_ADDRESS __LC_ADDRESS
-
-// /usr/include/x86_64-linux-gnu/bits/locale.h 
-
-#define __LC_TIME (2)
-
-// /usr/include/locale.h 
-
-#define LC_TELEPHONE __LC_TELEPHONE
-#define LC_MEASUREMENT __LC_MEASUREMENT
-
 // /usr/include/x86_64-linux-gnu/bits/locale.h 
 
 #define __LC_IDENTIFICATION (12)
-#define _BITS_LOCALE_H (1)
-#define __LC_ADDRESS (9)
-
-// /usr/include/locale.h 
-
-#define LC_PAPER __LC_PAPER
-
-// /usr/include/x86_64-linux-gnu/bits/locale.h 
-
-#define __LC_MESSAGES (5)
 #define __LC_MONETARY (4)
+#define __LC_COLLATE (3)
+#define __LC_TIME (2)
+#define _BITS_LOCALE_H (1)
 
 // /usr/include/locale.h 
 
@@ -86,37 +65,58 @@ extern struct lconv *localeconv(void);
 
 // /usr/include/x86_64-linux-gnu/bits/locale.h 
 
-#define __LC_PAPER (7)
 #define __LC_MEASUREMENT (11)
-#define __LC_TELEPHONE (10)
 
 // /usr/include/locale.h 
 
+#define LC_PAPER __LC_PAPER
+#define LC_NAME __LC_NAME
+#define LC_IDENTIFICATION __LC_IDENTIFICATION
 #define _LOCALE_H (1)
 
 // /usr/include/x86_64-linux-gnu/bits/locale.h 
 
+#define __LC_ADDRESS (9)
+#define __LC_TELEPHONE (10)
+
+// /usr/include/locale.h 
+
+#define LC_CTYPE __LC_CTYPE
+#define LC_ADDRESS __LC_ADDRESS
+
+// /usr/include/x86_64-linux-gnu/bits/locale.h 
+
+#define __LC_PAPER (7)
+#define __LC_CTYPE (0)
+
+// /usr/include/locale.h 
+
+#define LC_MESSAGES __LC_MESSAGES
+
+// /usr/include/x86_64-linux-gnu/bits/locale.h 
+
+#define __LC_MESSAGES (5)
 #define __LC_NAME (8)
 
 // /usr/include/locale.h 
 
-#define LC_COLLATE __LC_COLLATE
-
-// /usr/include/x86_64-linux-gnu/bits/locale.h 
-
-#define __LC_CTYPE (0)
-#define __LC_NUMERIC (1)
-
-// /usr/include/locale.h 
-
-#define LC_IDENTIFICATION __LC_IDENTIFICATION
-#define LC_CTYPE __LC_CTYPE
 #define LC_ALL __LC_ALL
-#define LC_TIME __LC_TIME
-#define LC_MESSAGES __LC_MESSAGES
 #define LC_NUMERIC __LC_NUMERIC
+#define LC_TIME __LC_TIME
 
 // /usr/include/x86_64-linux-gnu/bits/locale.h 
 
 #define __LC_ALL (6)
-#define __LC_COLLATE (3)
+
+// /usr/include/locale.h 
+
+#define LC_MEASUREMENT __LC_MEASUREMENT
+
+// /usr/include/x86_64-linux-gnu/bits/locale.h 
+
+#define __LC_NUMERIC (1)
+
+// /usr/include/locale.h 
+
+#define LC_TELEPHONE __LC_TELEPHONE
+#define LC_COLLATE __LC_COLLATE

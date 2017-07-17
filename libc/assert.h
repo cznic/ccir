@@ -13,5 +13,9 @@ extern __FILE_TYPE__ stderr;
 #ifdef NDEBUG
 #define assert(x) ((void)0)
 #else
+#ifdef _CCGO
+#define assert(x) ((void)((x) ? 0 : (__builtin_assert_fail( __FILE__, __LINE__, __func__, #x), 0)))
+#else
 #define assert(x) ((void)((x) ? 0 : (__builtin_fprintf(stderr, "%s:%i: assertion failure in %s: %s\n", __FILE__, __LINE__, __func__, #x), __builtin_abort(), 0)))
+#endif				/* _CCGO */
 #endif				/* NDEBUG */
