@@ -1322,6 +1322,10 @@ func (c *c) compoundLiteral(n *cc.Expression) varInfo {
 }
 
 func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
+	return c.addr2(n, false)
+}
+
+func (c *c) addr2(n *cc.Expression, f bool) (bits, bitoff int, bfType, vtype cc.Type) {
 	n, _ = c.normalize(n)
 	if n.Value != nil {
 		TODO(position(n))
@@ -1363,7 +1367,7 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 				at := c.f.arguments[vi.index]
 				t := c.types.MustType(at)
 				if t.Kind() == ir.Pointer {
-					if u := t.(*ir.PointerType).Element; u.Kind() == ir.Array {
+					if u := t.(*ir.PointerType).Element; u.Kind() == ir.Array && !f {
 						c.emit(&ir.Argument{Index: vi.index, TypeID: t.ID(), Position: position(n)})
 						c.convert2(n, t, u.(*ir.ArrayType).Item.Pointer())
 						break
@@ -1948,6 +1952,27 @@ func (c *c) fieldBits(n *cc.Expression, fi, bits, bitoff int, ft, bt cc.Type) cc
 	return c.bitField(n, bits, bitoff, ft, bt)
 }
 
+func (c *c) dbg(n cc.Node, s string, a ...interface{}) {
+	c.emit(&ir.StringConst{Value: ir.StringID(dict.SID(fmt.Sprintf(s, a...))), TypeID: idInt8Ptr, Position: position(n)})
+	c.emit(&ir.Drop{TypeID: idInt8Ptr, Position: position(n)})
+}
+
+func (c *c) isArg(n *cc.Expression) bool {
+	n, _ = c.normalize(n)
+	switch n.Case {
+	case 0: // IDENTIFIER
+		id := n.Token.Val
+		b, s := n.IdentResolutionScope().Lookup2(cc.NSIdentifiers, id)
+		d := b.Node.(*cc.DirectDeclarator).TopDeclarator()
+		switch s.Scope() {
+		case cc.ScopeBlock:
+			vi, ok := c.f.variables[d]
+			return ok && vi.arg
+		}
+	}
+	return false
+}
+
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 	n, _ = c.normalize(n)
 	if v := n.Value; v != nil && n.Case != 7 && // '(' ExpressionList ')'                             // Case 7
@@ -1991,7 +2016,10 @@ out:
 			case ot.Kind() == cc.Ptr && cc.IsIntType(t) || cc.IsIntType(ot) && t.Kind() == cc.Ptr:
 				c.expression(nil, n)
 				c.convert(n, t, ot)
-			case ot.Kind() == cc.Array && t.Kind() == cc.Ptr && t.Element().Kind() == cc.Void:
+			case ot.Kind() == cc.Array && t.Kind() == cc.Ptr:
+				c.expression(nil, n)
+				return ot
+
 				TODO("", position(n))
 				c.expression(nil, n)
 				c.convert(n, t, ot)
@@ -2412,6 +2440,23 @@ out:
 	case 44: // Expression '?' ExpressionList ':' Expression       // Case 44
 		c.condExpr(n)
 	case 45: // Expression '=' Expression                          // Case 45
+		lt := n.Expression.Type
+		rt := n.Expression2.Type
+		if lt.Kind() == cc.Array && rt.Kind() == cc.Array && c.isArg(n.Expression) && c.isArg(n.Expression2) {
+			c.addr2(n.Expression, true)
+			x := c.expression(nil, n.Expression2)
+			c.convert(n, x, n.Expression2.Type.Pointer())
+			c.emit(&ir.Store{TypeID: c.typ(n, n.Expression2.Type.Pointer()).ID(), Position: position(n.Token)})
+			return lt.Pointer()
+		}
+
+		if lt.Kind() == cc.Array && rt.Kind() == cc.Ptr && c.isArg(n.Expression) {
+			c.addr2(n.Expression, true)
+			c.expression(nil, n.Expression2)
+			c.emit(&ir.Store{TypeID: c.typ(n, n.Expression2.Type).ID(), Position: position(n.Token)})
+			return rt
+		}
+
 		bits, bitoff, ft, bt := c.addr(n.Expression)
 		if bits != 0 {
 			t := c.expression(nil, n.Expression2)
@@ -2420,13 +2465,13 @@ out:
 			return c.bitField(n, bits, bitoff, ft, bt)
 		}
 
-		switch t := n.Expression.Type; t.Kind() {
-		case cc.Array:
-			c.convert(n, t.Element().Pointer(), t.Pointer())
+		switch {
+		case lt.Kind() == cc.Array && rt.Kind() == cc.Array:
+			c.convert(n, lt.Element().Pointer(), lt.Pointer())
 			u := c.expression(n.Expression.Type, n.Expression2)
 			c.convert(n, u, n.Expression.Type.Pointer())
 			c.emit(&ir.Copy{TypeID: c.typ(n, n.Expression2.Type).ID(), Position: position(n)})
-			return t.Pointer()
+			return lt.Pointer()
 		default:
 			u := c.expression(n.Expression.Type, n.Expression2)
 			c.convert(n, u, n.Expression.Type)
@@ -2802,7 +2847,6 @@ func (c *c) bool(n cc.Node, from cc.Type) {
 			from = t.Element().Pointer()
 		}
 	case cc.Array:
-		TODO("", position(n))
 		from = from.Element().Pointer()
 	}
 	if from.Kind() != cc.Int {

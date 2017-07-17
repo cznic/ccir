@@ -27,6 +27,7 @@ var (
 	idInt32         = ir.TypeID(dict.SID("int32"))
 	idInt64         = ir.TypeID(dict.SID("int64"))
 	idInt8          = ir.TypeID(dict.SID("int8"))
+	idInt8Ptr       = ir.TypeID(dict.SID("*int8"))
 	idMain          = ir.NameID(dict.SID("main"))
 	idPInt32        = ir.TypeID(dict.SID("*int32"))
 	idUint16        = ir.TypeID(dict.SID("uint16"))
