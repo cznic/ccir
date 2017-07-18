@@ -1103,7 +1103,34 @@ func (c *c) newFData(t cc.Type, f *ir.FunctionDefinition) {
 	}
 }
 
-func (c *c) emit(op ir.Operation) { c.f.f.Body = append(c.f.f.Body, op) }
+func (c *c) emit(op ir.Operation) {
+	switch y := op.(type) {
+	case *ir.Convert:
+		if y.TypeID == y.Result {
+			return
+		}
+
+		n := len(c.f.f.Body)
+		switch x := c.f.f.Body[n-1].(type) {
+		case *ir.Convert:
+			switch from := c.types.MustType(x.TypeID); from.Kind() {
+			case ir.Pointer:
+				switch y.Result {
+				default:
+					switch to := c.types.MustType(y.Result); to.Kind() {
+					case ir.Pointer:
+						x.Result = y.Result
+						if x.Result == x.TypeID {
+							c.f.f.Body = c.f.f.Body[:n-1]
+						}
+						return
+					}
+				}
+			}
+		}
+	}
+	c.f.f.Body = append(c.f.f.Body, op)
+}
 
 func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 	args := 0
