@@ -265,7 +265,7 @@ func expect1(wd, match string, hook func(string, string) []string, opts ...cc.Op
 	if err := func() (err error) {
 		defer func() {
 			if e := recover(); e != nil && err == nil {
-				err = fmt.Errorf("virtual.Exec: PANIC: %v", e)
+				err = fmt.Errorf("virtual.Exec: PANIC: %v\n%s", e, debug.Stack())
 			}
 		}()
 
@@ -699,7 +699,7 @@ func exec(t *testing.T, bin *virtual.Binary, argv []string, inputFiles []file) (
 
 	defer func() {
 		if e := recover(); e != nil && err == nil {
-			t.Fatal(fmt.Errorf("virtual.Exec: PANIC: %v", e))
+			t.Fatal(fmt.Errorf("virtual.Exec: PANIC: %v\n%s", e, debug.Stack()))
 		}
 	}()
 

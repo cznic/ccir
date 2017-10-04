@@ -352,7 +352,6 @@ func (c *c) typ0(dst *buffer.Bytes, t cc.Type, flat, arrayDecay bool) {
 	default:
 		panic(fmt.Errorf("internal error %v:%v", t, k))
 	}
-	return
 }
 
 func (c *c) typ(n cc.Node, in cc.Type) ir.Type {
