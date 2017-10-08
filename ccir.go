@@ -16,7 +16,7 @@
 // If you can access a machine with a not yet supported os/arch and you would
 // like to contribute to porting this package, you may want to start by trying
 //
-//	$ cd $GOPATH/github.com/cznic/ccir/libc
+//	$ cd $GOPATH/src/github.com/cznic/ccir/libc
 //	$ go generate
 //
 // Please fill an issue for the port and let's discuss it there.
