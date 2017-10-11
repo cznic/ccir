@@ -1157,7 +1157,8 @@ func main() {
 		{"linux", "sys/un", "TODO", "sockaddr_un|sa_family_t"},
 		{"linux", "netinet/tcp", "TCP_NODELAY", "TODO"},
 		{"linux", "netdb", "TODO", "gethostbyname|__socklen_t|sa_family_t|size_t|uint32_t"},
-		{"linux", "X11/Xauth", "TODO", "TODO"},
+		{"linux", "X11/Xauth", "TODO", "memcpy|size_t|fpos_t|__mbstate_t|Xauth"},
+		{"linux", "sys/param", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {
