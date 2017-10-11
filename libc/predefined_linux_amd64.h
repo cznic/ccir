@@ -55,7 +55,7 @@
 #define __INT32_MAX__ 0x7fffffff
 #define __SIZEOF_LONG__ 8
 #define __STDC_IEC_559__ 1
-#define __STDC_ISO_10646__ 201505L
+#define __STDC_ISO_10646__ 201605L
 #define __UINT16_C(c) c
 #define __DECIMAL_DIG__ 21
 #define __has_include_next(STR) __has_include_next__(STR)
@@ -100,7 +100,7 @@
 #define __UINT8_TYPE__ unsigned char
 #define __NO_INLINE__ 1
 #define __FLT_MANT_DIG__ 24
-#define __VERSION__ "6.2.0 20161005"
+#define __VERSION__ "6.3.0 20170406"
 #define __UINT64_C(c) c ## UL
 #define _STDC_PREDEF_H 1
 #define __FLOAT_WORD_ORDER__ __ORDER_LITTLE_ENDIAN__

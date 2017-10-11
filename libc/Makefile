@@ -32,8 +32,9 @@ edit:
 
 editor:
 	go generate 2>&1 | tee log
-	gofmt -s -w .
+	gofmt -l -s -w .
 	indent -linux -l -1 *.c *.h sys/*.h
+	rm -f *.c~ *.h~ sys/*.h~
 	rm -f *.h~ sys/*.h~
 
 internalError:

@@ -1099,13 +1099,12 @@ func main() {
 		{"ctype", "TODO", "tolower|__int32_t|pthreadlocinfo|__ctype_b_loc"},
 		{"errno", "EINTR|ETIMEDOUT", "errno"},
 		{"fcntl", "F_WRLCK", "_off64_t|__time32_t|open|struct flock|__off_t"},
-		//TODO{"float", "TODO", "TODO"},
+		{"float", "TODO", "TODO"},
 		{"limits", "INT_MAX", "TODO"},
 		{"locale", "__LC_ALL", "setlocale"},
 		{"math", "TODO", "sin|_locale_t"},
 		{"sched", "TODO", "sched_yield|__pid_t"},
 		//TODO{"setjmp", "TODO", "TODO"},
-		//TODO{"signal", "TODO", "TODO"},
 		{"stdarg", "va_list", "TODO"},
 		{"stdbool", "true", "TODO"},
 		{"stddef", "offsetof", "errno_t"},
@@ -1135,6 +1134,9 @@ func main() {
 		{"linux", "sys/types", "TODO", "TODO"},
 		{"linux", "pthread", "TODO", "pthread_mutex_t|size_t"},
 		{"linux", "memory", "TODO", "TODO"},
+		{"linux", "alloca", "TODO", "alloca|size_t"},
+		{"linux", "signal", "TODO", "TODO"},
+		{"linux", "dirent", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {

@@ -756,7 +756,7 @@ func build(t *testing.T, predef string, tus [][]string, opts ...cc.Opt) *virtual
 
 	ndbg := ""
 	if *ndebug {
-		ndbg = "#define NDEBUG 1"
+		ndbg = "#define NDEBUG 1" //TODOOK
 	}
 	var build [][]ir.Object
 	tus = append(tus, []string{CRT0Path})
@@ -1002,7 +1002,7 @@ func TestSQLite(t *testing.T) {
 
 	bin := build(
 		t,
-		`#define SQLITE_DEBUG 1
+		`#define SQLITE_DEBUG 1 //TODOOK
 		#define SQLITE_ENABLE_MEMSYS5 1`,
 		[][]string{
 			{"testdata/sqlite/test.c"},

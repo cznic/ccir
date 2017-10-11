@@ -32,7 +32,7 @@ edit:
 	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.go
 
 editor:
-	gofmt -l -s -w *.go
+	gofmt -l -s -w .
 	go test -i
 	go test 2>&1 | tee log
 	go install
@@ -53,6 +53,6 @@ nuke: clean
 
 todo:
 	@grep -nr $(grep) ^[[:space:]]*_[[:space:]]*=[[:space:]][[:alpha:]][[:alnum:]]* * | grep -v $(ngrep) || true
-	@grep -nr $(grep) TODO * | grep -v $(ngrep) || true
-	@grep -nr $(grep) BUG * | grep -v $(ngrep) || true
+	@grep -n $(grep) TODO * | grep -v $(ngrep) || true
+	@grep -n $(grep) BUG * | grep -v $(ngrep) || true
 	@grep -nr $(grep) [^[:alpha:]]println * | grep -v $(ngrep) || true

@@ -70,18 +70,14 @@ extern int sched_rr_get_interval(__pid_t __pid, struct timespec *__t);
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __S64_TYPE long int
-#define __UWORD_TYPE unsigned long int
-#define __UQUAD_TYPE unsigned long int
 #define __U64_TYPE unsigned long int
-
-// /usr/include/sched.h 
-
-#define _SCHED_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
+#define __SWORD_TYPE long int
+#define __S32_TYPE int
+#define _BITS_TYPES_H (1)
+#define __U16_TYPE unsigned short int
+#define __SLONG32_TYPE int
+#define __SQUAD_TYPE long int
+#define __S16_TYPE short int
 
 // /usr/include/sched.h 
 
@@ -89,20 +85,18 @@ extern int sched_rr_get_interval(__pid_t __pid, struct timespec *__t);
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define _BITS_TYPES_H (1)
-#define __S32_TYPE int
+#define __U32_TYPE unsigned int
+#define __S64_TYPE long int
+#define __UWORD_TYPE unsigned long int
+#define __ULONGWORD_TYPE unsigned long int
+#define __UQUAD_TYPE unsigned long int
 
 // /usr/include/sched.h 
 
+#define _SCHED_H (1)
 #define __pid_t_defined
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __U16_TYPE unsigned short int
-#define __SWORD_TYPE long int
 #define __ULONG32_TYPE unsigned int
 #define __SLONGWORD_TYPE long int
-#define __S16_TYPE short int
-#define __SQUAD_TYPE long int
-#define __ULONGWORD_TYPE unsigned long int
-#define __SLONG32_TYPE int
