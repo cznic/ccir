@@ -36,7 +36,19 @@ var (
 	oPredefined = flag.Bool("predefined", false, "")
 	predefined  string
 	sysInclude  []string
+
+	renames = map[string]string{
+		"select": "select_",
+	}
 )
+
+func rename(s string) string {
+	if r, ok := renames[s]; ok {
+		return r
+	}
+
+	return s
+}
 
 func errStr(err error) string {
 	switch x := err.(type) {
@@ -137,7 +149,7 @@ int _;
 
 package %s
 
-`, more, base); err != nil {
+`, more, rename(base)); err != nil {
 		log.Fatal(err)
 	}
 
@@ -913,6 +925,7 @@ func header(nm, mre, dre string) {
 		cc.SysIncludePaths(sysInclude),
 		cc.EnableWideBitFieldTypes(),
 		cc.EnableAnonymousStructFields(),
+		cc.EnableDefineOmitCommaBeforeDDD(),
 	}
 	var lpos token.Position
 	if *cpp {
@@ -1113,7 +1126,6 @@ func main() {
 		{"stdlib", "TODO", "qsort|wchar_t"},
 		{"string", "TODO", "strcpy|size_t"},
 		{"strings", "TODO", "index|size_t"},
-		//TODO{"sys/select", "TODO", "TODO"},
 		{"sys/stat", "TODO", "stat|__dev_t|_dev_t|time_t|_off_t"},
 		{"sys/time", "TODO", "timeval|sigset_t|__time_t|errno_t"},
 		//TODO{"sys/wait", "TODO", "TODO"},
@@ -1137,6 +1149,15 @@ func main() {
 		{"linux", "alloca", "TODO", "alloca|size_t"},
 		{"linux", "signal", "TODO", "TODO"},
 		{"linux", "dirent", "TODO", "TODO"},
+		{"linux", "sys/uio", "TODO", "iovec|size_t"},
+		{"linux", "sys/select", "FD_SETSIZE", "sigset_t|suseconds_t|FD_ZERO"},
+		{"linux", "arpa/inet", "TODO", "htonl|in_addr_t|sa_family_t|size_t|uint32_t"},
+		{"linux", "netinet/in", "TODO", "htonl|sa_family_t|size_t|uint32_t"},
+		{"linux", "sys/socket", "SOL_SOCKET|SOCK_STREAM", "recv|socklen_t|sa_family_t|size_t"},
+		{"linux", "sys/un", "TODO", "sockaddr_un|sa_family_t"},
+		{"linux", "netinet/tcp", "TCP_NODELAY", "TODO"},
+		{"linux", "netdb", "TODO", "gethostbyname|__socklen_t|sa_family_t|size_t|uint32_t"},
+		{"linux", "X11/Xauth", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {

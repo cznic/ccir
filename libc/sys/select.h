@@ -7,4 +7,8 @@
 
 #include __header(sys/select)
 
+int __FD_ISSET(int, fd_set *);
+void __FD_SET(int, fd_set *);
+void __FD_ZERO(fd_set *);
+
 #endif				/* _SYS_SELECT_H_ */

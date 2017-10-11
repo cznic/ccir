@@ -30,23 +30,23 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 	// /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/limits.h 
 
-#define SCHAR_MIN (-128)
-#define SCHAR_MAX __SCHAR_MAX__
-#define INT_MAX __INT_MAX__
-#define INT_MIN (-2147483648)
+#define SHRT_MAX __SHRT_MAX__
+#define LONG_MIN (-9223372036854775808l)
+#define UCHAR_MAX (255)
+#define USHRT_MAX (65535)
 #define CHAR_MAX SCHAR_MAX
 #define CHAR_BIT __CHAR_BIT__
+#define LLONG_MIN (-9223372036854775808ll)
+#define SCHAR_MAX __SCHAR_MAX__
+#define _LIMITS_H___
+#define INT_MIN (-2147483648)
+#define UINT_MAX (4294967295u)
+#define SHRT_MIN (-32768)
 #define LLONG_MAX __LONG_LONG_MAX__
-#define UCHAR_MAX (255)
 #define ULONG_MAX (18446744073709551615ul)
+#define ULLONG_MAX (18446744073709551615ull)
 #define CHAR_MIN SCHAR_MIN
 #define _GCC_LIMITS_H_
-#define LLONG_MIN (-9223372036854775808ll)
-#define SHRT_MIN (-32768)
-#define SHRT_MAX __SHRT_MAX__
-#define ULLONG_MAX (18446744073709551615ull)
-#define UINT_MAX (4294967295u)
-#define USHRT_MAX (65535)
-#define _LIMITS_H___
-#define LONG_MIN (-9223372036854775808l)
+#define SCHAR_MIN (-128)
+#define INT_MAX __INT_MAX__
 #define LONG_MAX __LONG_MAX__

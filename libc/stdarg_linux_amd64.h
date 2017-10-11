@@ -33,16 +33,16 @@ typedef __gnuc_va_list va_list;
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stdarg.h 
 
-#define va_copy(d, s) __builtin_va_copy ( d , s )
-#define __va_copy(d, s) __builtin_va_copy ( d , s )
-#define _VA_LIST
-#define __GNUC_VA_LIST
 #define _VA_LIST_T_H
-#define __va_list__
+#define _STDARG_H
+#define va_start(v, l) __builtin_va_start ( v , l )
+#define _VA_LIST
+#define _VA_LIST_DEFINED
 #define va_end(v) __builtin_va_end ( v )
 #define _VA_LIST_
-#define va_start(v, l) __builtin_va_start ( v , l )
-#define _STDARG_H
-#define va_arg(v, l) __builtin_va_arg ( v , l )
-#define _VA_LIST_DEFINED
+#define __va_list__
 #define _ANSI_STDARG_H_
+#define va_copy(d, s) __builtin_va_copy ( d , s )
+#define __GNUC_VA_LIST
+#define __va_copy(d, s) __builtin_va_copy ( d , s )
+#define va_arg(v, l) __builtin_va_arg ( v , l )

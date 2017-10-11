@@ -308,118 +308,18 @@ extern void flockfile(FILE * __stream);
 extern int ftrylockfile(FILE * __stream);
 extern void funlockfile(FILE * __stream);
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T
-
-// /usr/include/stdio.h 
-
-#define fseeko fseeko64
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t
-
 // /usr/include/libio.h 
 
-#define _IO_SHOWPOINT (256)
-
-// /usr/include/stdio.h 
-
-#define __off_t_defined
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SYS_SIZE_T_H
-
-// /usr/include/stdio.h 
-
-#define fscanf __isoc99_fscanf
-
-// /usr/include/libio.h 
-
-#define _IO_MAGIC_MASK (4294901760u)
-
-// /usr/include/stdio.h 
-
-#define stdin stdin
-#define _STDIO_H (1)
-
-// /usr/include/libio.h 
-
-#define _IO_SKIPWS (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _GCC_SIZE_T
-
-// /usr/include/libio.h 
-
-#define _IOS_ATEND (4)
-#define _IO_stderr ( ( _IO_FILE * ) ( & _IO_2_1_stderr_ ) )
-#define _IO_iconv_t _G_iconv_t
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/_G_config.h 
-
-#define _G_HAVE_MMAP (1)
-
-// /usr/include/libio.h 
-
-#define _IO_size_t size_t
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-#define __U16_TYPE unsigned short int
-
-// /usr/include/libio.h 
-
-#define _IO_DELETE_DONT_CLOSE (64)
-#define _IO_ferror_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_ERR_SEEN ) != 0 )
-
-// /usr/include/stdio.h 
-
-#define freopen freopen64
-
-// /usr/include/libio.h 
-
-#define _IO_FIXED (4096)
-#define _IO_ssize_t __ssize_t
-#define _IO_DEC (16)
-#define _IO_LEFT (2)
+#define _IO_UNIFIED_JUMPTABLES (1)
 
 // /usr/include/stdio.h 
 
 #define BUFSIZ _IO_BUFSIZ
+#define ftello ftello64
 
 // /usr/include/libio.h 
 
-#define _IOS_NOCREATE (32)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONG32_TYPE int
-
-// /usr/include/libio.h 
-
-#define _IO_PENDING_OUTPUT_COUNT(_fp) ( ( _fp ) -> _IO_write_ptr - ( _fp ) -> _IO_write_base )
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/libio.h 
-
-#define _OLD_STDIO_MAGIC (4206624768u)
-#define _IO_RIGHT (4)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED
+#define _IO_off64_t __off64_t
 
 // /usr/include/stdio.h 
 
@@ -427,7 +327,88 @@ extern void funlockfile(FILE * __stream);
 
 // /usr/include/libio.h 
 
-#define _IO_MAGIC (4222418944u)
+#define _IO_feof_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_EOF_SEEN ) != 0 )
+#define _IO_cleanup_region_start(_fct, _fp)
+
+// /usr/include/stdio.h 
+
+#define vscanf __isoc99_vscanf
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+
+// /usr/include/stdio.h 
+
+#define fgetpos fgetpos64
+
+// /usr/include/libio.h 
+
+#define _IO_NO_WRITES (8)
+
+// /usr/include/stdio.h 
+
+#define fopen fopen64
+
+// /usr/include/libio.h 
+
+#define _IO_HAVE_ST_BLKSIZE _G_HAVE_ST_BLKSIZE
+#define _IO_stdin ( ( _IO_FILE * ) ( & _IO_2_1_stdin_ ) )
+#define _IO_peekc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) && __underflow ( _fp ) == EOF ? EOF : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr )
+
+// /usr/include/stdio.h 
+
+#define _STDIO_H (1)
+#define scanf __isoc99_scanf
+
+// /usr/include/libio.h 
+
+#define _IO_off_t __off_t
+#define _IO_ssize_t __ssize_t
+#define _IO_LINE_BUF (512)
+#define _IO_PENDING_OUTPUT_COUNT(_fp) ( ( _fp ) -> _IO_write_ptr - ( _fp ) -> _IO_write_base )
+
+// /usr/include/stdio.h 
+
+#define P_tmpdir "/tmp"
+#define stdin stdin
+
+// /usr/include/libio.h 
+
+#define _IO_stderr ( ( _IO_FILE * ) ( & _IO_2_1_stderr_ ) )
+
+// /usr/include/stdio.h 
+
+#define putc(_ch, _fp) _IO_putc ( _ch , _fp )
+
+// /usr/include/libio.h 
+
+#define _IO_ferror_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_ERR_SEEN ) != 0 )
+
+// /usr/include/stdio.h 
+
+#define vfscanf __isoc99_vfscanf
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/include/libio.h 
+
+#define _IOS_ATEND (4)
+#define _IO_DELETE_DONT_CLOSE (64)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/include/stdio.h 
+
+#define SEEK_CUR (1)
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
@@ -435,74 +416,65 @@ extern void funlockfile(FILE * __stream);
 
 // /usr/include/libio.h 
 
-#define _IO_UPPERCASE (512)
-#define _IO_UNBUFFERED (2)
+#define _IO_BOOLALPHA (65536)
+
+// /usr/include/stdio.h 
+
+#define _IOFBF (0)
+#define stdout stdout
+#define _IOLBF (1)
+
+// /usr/include/libio.h 
+
+#define _IO_TIED_PUT_GET (1024)
+#define _IO_FIXED (4096)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define NULL ( ( void * ) 0 )
+#define ___int_size_t_h
+
+// /usr/include/_G_config.h 
+
+#define _G_va_list __gnuc_va_list
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U32_TYPE unsigned int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T
+#define _SIZE_T_
+#define _GCC_SIZE_T
 
 // /usr/include/libio.h 
 
-#define _IO_ftrylockfile(_fp)
-#define _IO_stdout ( ( _IO_FILE * ) ( & _IO_2_1_stdout_ ) )
-
-// /usr/include/stdio.h 
-
-#define P_tmpdir "/tmp"
-
-// /usr/include/libio.h 
-
-#define _IO_feof_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_EOF_SEEN ) != 0 )
-
-// /usr/include/stdio.h 
-
-#define ____FILE_defined (1)
-#define _IONBF (2)
-
-// /usr/include/libio.h 
-
-#define _IO_SHOWBASE (128)
+#define _IO_STDIO_H
+#define _IO_pid_t __pid_t
+#define _IO_BE(expr, res) ( expr )
+#define _IO_va_list __gnuc_va_list
+#define EOF (-1)
+#define _IO_UNITBUF (8192)
+#define _IO_uid_t __uid_t
 #define _IO_IS_FILEBUF (8192)
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/include/stdio.h 
 
-#define _T_SIZE
-#define __size_t__
-
-// /usr/include/libio.h 
-
-#define _IOS_NOREPLACE (64)
-#define _IO_LINE_BUF (512)
-#define _IO_getc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) ? __uflow ( _fp ) : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr ++ )
-#define _IO_file_flags _flags
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define _BITS_TYPES_H (1)
+#define __FILE_defined (1)
 
 // /usr/include/libio.h 
 
-#define _IO_fpos64_t _G_fpos64_t
-#define _IO_OCT (32)
-#define _IO_peekc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) && __underflow ( _fp ) == EOF ? EOF : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr )
-#define _IOS_TRUNC (16)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/libio.h 
-
-#define _IO_USER_LOCK (32768)
+#define _IO_USER_BUF (1)
 
 // /usr/include/stdio.h 
 
-#define vsscanf __isoc99_vsscanf
+#define __off64_t_defined
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/include/libio.h 
 
-#define _SIZE_T_
+#define _IO_UPPERCASE (512)
+#define _IO_BAD_SEEN (16384)
+#define _IOS_NOREPLACE (64)
 
 // /usr/include/stdio.h 
 
@@ -511,16 +483,24 @@ extern void funlockfile(FILE * __stream);
 // /usr/include/libio.h 
 
 #define _IO_HEX (64)
-#define _IO_FLAGS2_MMAP (1)
-#define _IO_off_t __off_t
 
-// /usr/include/stdio.h 
+// /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define tmpfile tmpfile64
+#define __ULONG32_TYPE unsigned int
 
 // /usr/include/libio.h 
 
-#define _IO_IS_APPENDING (4096)
+#define _IO_STDIO (16384)
+#define _IO_flockfile(_fp)
+
+// /usr/include/stdio.h 
+
+#define getc(_fp) _IO_getc ( _fp )
+
+// /usr/include/libio.h 
+
+#define _IO_SHOWPOS (1024)
+#define _IO_LINKED (128)
 
 // /usr/include/stdio.h 
 
@@ -528,41 +508,30 @@ extern void funlockfile(FILE * __stream);
 
 // /usr/include/libio.h 
 
-#define _IOS_APPEND (8)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-
-// /usr/include/_G_config.h 
-
-#define _G_IO_IO_FILE_VERSION (131073)
-
-// /usr/include/libio.h 
-
-#define _IO_HAVE_ST_BLKSIZE _G_HAVE_ST_BLKSIZE
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/libio.h 
-
-#define _IO_putc_unlocked(_ch, _fp) ( _IO_BE ( ( _fp ) -> _IO_write_ptr >= ( _fp ) -> _IO_write_end , 0 ) ? __overflow ( _fp , ( unsigned char ) ( _ch ) ) : ( unsigned char ) ( * ( _fp ) -> _IO_write_ptr ++ = ( _ch ) ) )
-#define _IO_va_list __gnuc_va_list
+#define _IO_DEC (16)
+#define _IO_EOF_SEEN (16)
 
 // /usr/include/stdio.h 
 
-#define _IOLBF (1)
+#define fseeko fseeko64
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+#define _BITS_TYPES_H (1)
 
 // /usr/include/libio.h 
 
-#define _IOS_BIN (128)
-#define _IO_flockfile(_fp)
+#define _IO_size_t size_t
+#define _IO_file_flags _flags
 
 // /usr/include/stdio.h 
 
 #define SEEK_END (2)
+
+// /usr/include/libio.h 
+
+#define _IOS_INPUT (1)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -570,172 +539,115 @@ extern void funlockfile(FILE * __stream);
 
 // /usr/include/stdio.h 
 
-#define ftello ftello64
-
-// /usr/include/_G_config.h 
-
-#define _G_HAVE_MREMAP (1)
-
-// /usr/include/stdio.h 
-
-#define _IOFBF (0)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-
-// /usr/include/libio.h 
-
-#define _IO_fpos_t _G_fpos_t
-#define _IO_cleanup_region_start(_fct, _fp)
-#define _IO_NO_WRITES (8)
-#define _IO_NO_READS (4)
-#define _IO_DONT_CLOSE (32768)
-#define _IO_SHOWPOS (1024)
-#define EOF (-1)
-
-// /usr/include/stdio.h 
-
-#define vscanf __isoc99_vscanf
-#define __off64_t_defined
-
-// /usr/include/libio.h 
-
-#define _IOS_OUTPUT (2)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-#define __SWORD_TYPE long int
-
-// /usr/include/libio.h 
-
-#define _IO_FLAGS2_NOTCANCEL (2)
-#define _IO_off64_t __off64_t
-#define _IO_funlockfile(_fp)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S32_TYPE int
-
-// /usr/include/stdio.h 
-
-#define fgetpos fgetpos64
-
-// /usr/include/libio.h 
-
-#define _IO_USER_BUF (1)
-#define _IO_ERR_SEEN (32)
-#define _IO_IN_BACKUP (256)
-
-// /usr/include/_G_config.h 
-
-#define _G_config_h (1)
-
-// /usr/include/stdio.h 
-
-#define scanf __isoc99_scanf
-#define stdout stdout
-
-// /usr/include/libio.h 
-
-#define _IO_BAD_SEEN (16384)
-
-// /usr/include/stdio.h 
-
-#define putc(_ch, _fp) _IO_putc ( _ch , _fp )
-#define getc(_fp) _IO_getc ( _fp )
+#define ____FILE_defined (1)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZET_
-#define _SIZE_T_DEFINED_
-#define __SIZE_T__
+#define __size_t
+
+// /usr/include/_G_config.h 
+
+#define _G_IO_IO_FILE_VERSION (131073)
 
 // /usr/include/libio.h 
 
-#define _IOS_INPUT (1)
+#define _IO_stdout ( ( _IO_FILE * ) ( & _IO_2_1_stdout_ ) )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+#define _T_SIZE_
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U64_TYPE unsigned long int
+
+// /usr/include/stdio.h 
+
+#define freopen freopen64
+
+// /usr/include/libio.h 
+
+#define _IO_SKIPWS (1)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/libio.h 
+
+#define _IO_SHOWPOINT (256)
+
+// /usr/include/stdio.h 
+
+#define tmpfile tmpfile64
+#define vsscanf __isoc99_vsscanf
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONG32_TYPE int
+
+// /usr/include/libio.h 
+
+#define _IO_ftrylockfile(_fp)
+#define _IO_wint_t wint_t
+#define _IO_BUFSIZ _G_BUFSIZ
 
 // /usr/include/stdio.h 
 
 #define SEEK_SET (0)
-#define __FILE_defined (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZET_
 
 // /usr/include/libio.h 
 
-#define _IO_TIED_PUT_GET (1024)
+#define _IO_MAGIC_MASK (4294901760u)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/stdio.h 
 
-#define SEEK_CUR (1)
+#define __off_t_defined
 
 // /usr/include/libio.h 
 
-#define _IO_uid_t __uid_t
-#define _IO_BE(expr, res) ( expr )
-#define _IO_STDIO_H
+#define _IO_peekc(_fp) _IO_peekc_unlocked ( _fp )
+#define _IO_MAGIC (4222418944u)
+#define _IO_cleanup_region_end(_Doit)
+#define _IOS_BIN (128)
+#define _IO_SHOWBASE (128)
+#define _IO_FLAGS2_NOTCANCEL (2)
+#define _IOS_APPEND (8)
+#define _IO_getc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) ? __uflow ( _fp ) : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr ++ )
+
+// /usr/include/stdio.h 
+
+#define fscanf __isoc99_fscanf
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE
+
+// /usr/include/libio.h 
+
+#define _IO_CURRENTLY_PUTTING (2048)
+#define _IO_FLAGS2_USER_WBUF (8)
+#define _IO_IN_BACKUP (256)
+#define _IO_INTERNAL (8)
+#define _IOS_OUTPUT (2)
+#define _IO_fpos_t _G_fpos_t
 
 // /usr/include/_G_config.h 
 
 #define _G_HAVE_ST_BLKSIZE defined ( _STATBUF_ST_BLKSIZE )
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
-
-// /usr/include/libio.h 
-
-#define _IO_BUFSIZ _G_BUFSIZ
-
-// /usr/include/wchar.h 
-
-#define ____mbstate_t_defined (1)
-
 // /usr/include/libio.h 
 
 #define __HAVE_COLUMN
-#define _IO_SCIENTIFIC (2048)
-#define _IO_pid_t __pid_t
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T
-#define _SIZE_T_DEFINED
-
-// /usr/include/libio.h 
-
-#define _IO_UNITBUF (8192)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-#define __U64_TYPE unsigned long int
-
-// /usr/include/stdio.h 
-
-#define fsetpos fsetpos64
-#define vfscanf __isoc99_vfscanf
-
-// /usr/include/libio.h 
-
-#define _IO_cleanup_region_end(_Doit)
-
-// /usr/include/stdio.h 
-
-#define fopen fopen64
-
-// /usr/include/libio.h 
-
-#define _IO_EOF_SEEN (16)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/include/libio.h 
-
-#define _IO_STDIO (16384)
-#define _IO_BOOLALPHA (65536)
 
 // /usr/include/_G_config.h 
 
@@ -743,18 +655,109 @@ extern void funlockfile(FILE * __stream);
 
 // /usr/include/libio.h 
 
-#define _IO_CURRENTLY_PUTTING (2048)
-#define _IO_stdin ( ( _IO_FILE * ) ( & _IO_2_1_stdin_ ) )
-#define _IO_INTERNAL (8)
-#define _IO_FLAGS2_USER_WBUF (8)
-#define _IO_peekc(_fp) _IO_peekc_unlocked ( _fp )
-#define _IO_LINKED (128)
+#define _IO_RIGHT (4)
 
-// /usr/include/_G_config.h 
+// /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define _G_va_list __gnuc_va_list
+#define __SQUAD_TYPE long int
 
 // /usr/include/libio.h 
 
-#define _IO_wint_t wint_t
-#define _IO_UNIFIED_JUMPTABLES (1)
+#define _IO_putc_unlocked(_ch, _fp) ( _IO_BE ( ( _fp ) -> _IO_write_ptr >= ( _fp ) -> _IO_write_end , 0 ) ? __overflow ( _fp , ( unsigned char ) ( _ch ) ) : ( unsigned char ) ( * ( _fp ) -> _IO_write_ptr ++ = ( _ch ) ) )
+#define _IO_USER_LOCK (32768)
+
+// /usr/include/stdio.h 
+
+#define fsetpos fsetpos64
+
+// /usr/include/libio.h 
+
+#define _IO_DONT_CLOSE (32768)
+#define _IOS_TRUNC (16)
+#define _IO_IS_APPENDING (4096)
+#define _IO_UNBUFFERED (2)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+
+// /usr/include/libio.h 
+
+#define _IO_funlockfile(_fp)
+#define _IO_FLAGS2_MMAP (1)
+#define _IO_ERR_SEEN (32)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T
+
+// /usr/include/stdio.h 
+
+#define _IONBF (2)
+
+// /usr/include/libio.h 
+
+#define _IO_LEFT (2)
+
+// /usr/include/wchar.h 
+
+#define ____mbstate_t_defined (1)
+
+// /usr/include/libio.h 
+
+#define _IO_NO_READS (4)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/libio.h 
+
+#define _IO_SCIENTIFIC (2048)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+#define __SIZE_T__
+
+// /usr/include/_G_config.h 
+
+#define _G_HAVE_MREMAP (1)
+
+// /usr/include/libio.h 
+
+#define _IOS_NOCREATE (32)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/include/_G_config.h 
+
+#define _G_HAVE_MMAP (1)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SWORD_TYPE long int
+
+// /usr/include/libio.h 
+
+#define _IO_OCT (32)
+#define _IO_fpos64_t _G_fpos64_t
+#define _IO_iconv_t _G_iconv_t
+
+// /usr/include/_G_config.h 
+
+#define _G_config_h (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t__
+
+// /usr/include/libio.h 
+
+#define _OLD_STDIO_MAGIC (4206624768u)
