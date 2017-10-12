@@ -1171,7 +1171,8 @@ func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 					pt = c.ast.Model.DoubleType
 				}
 			}
-			c.expression(nil, l.Expression)
+
+			c.expression2(nil, l.Expression, l.Expression.Case == 0)
 			et := c.typ(n, l.Expression.Type)
 			switch {
 			case et.Kind() == ir.Function:
@@ -1180,7 +1181,10 @@ func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 				et = et.(*ir.ArrayType).Item.Pointer()
 			case et.Kind() == ir.Pointer:
 				if v := et.(*ir.PointerType).Element; v.Kind() == ir.Array {
-					et = v.(*ir.ArrayType).Item.Pointer()
+					if l.Expression.Case != 0 {
+						et = v.(*ir.ArrayType).Item.Pointer()
+						break
+					}
 				}
 			}
 			if pt != nil {
@@ -2003,6 +2007,10 @@ func (c *c) isArg(n *cc.Expression) bool {
 }
 
 func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
+	return c.expression2(ot, n, false)
+}
+
+func (c *c) expression2(ot cc.Type, n *cc.Expression, isEvaluatingFnArg bool) cc.Type { // rvalue
 	n, _ = c.normalize(n)
 	if v := n.Value; v != nil && n.Case != 7 && // '(' ExpressionList ')'                             // Case 7
 		n.Case != 44 { // Expression '?' ExpressionList ':' Expression       // Case 44
@@ -2123,7 +2131,7 @@ out:
 				at := c.f.arguments[vi.index]
 				t := c.types.MustType(at)
 				if t.Kind() == ir.Pointer {
-					if u := t.(*ir.PointerType).Element; u.Kind() == ir.Array {
+					if u := t.(*ir.PointerType).Element; !isEvaluatingFnArg && u.Kind() == ir.Array {
 						c.emit(&ir.Argument{Index: vi.index, TypeID: t.ID(), Position: position(n)})
 						c.convert2(n, t, u.(*ir.ArrayType).Item.Pointer())
 						break
