@@ -1452,7 +1452,6 @@ func (c *c) addr3(n *cc.Expression, f, isEvaluatingFnArg bool) (bits, bitoff int
 		case t.Kind() == cc.Array:
 			t = t.Element().Pointer()
 		case t.Kind() == cc.Ptr && t.Element().Kind() == cc.Array && t.Element().Element().Kind() == cc.Ptr:
-			//TODO- fmt.Println("1455: ", position(n), isEvaluatingFnArg)
 			if !isEvaluatingFnArg {
 				t = t.Element().Element().Pointer()
 			}
@@ -2178,7 +2177,7 @@ out:
 			if t.Kind() == cc.Array {
 				t = t.Element().Pointer()
 			}
-			c.expression(nil, n.Expression)
+			c.expression2(nil, n.Expression, isEvaluatingFnArg)
 			c.expressionList(nil, n.ExpressionList)
 			c.emit(&ir.Element{IndexType: c.typ(n, u).ID(), TypeID: c.typ(n, t).ID(), Position: position(n)})
 		case (u.Kind() == cc.Ptr || u.Kind() == cc.Array) && cc.IsIntType(t):
