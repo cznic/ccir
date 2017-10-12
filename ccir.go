@@ -1440,8 +1440,11 @@ func (c *c) addr2(n *cc.Expression, f bool) (bits, bitoff int, bfType, vtype cc.
 		TODO(position(n))
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
 		t := n.Expression.Type
-		if t.Kind() == cc.Array {
+		switch {
+		case t.Kind() == cc.Array:
 			t = t.Element().Pointer()
+		case t.Kind() == cc.Ptr && t.Element().Kind() == cc.Array && t.Element().Element().Kind() == cc.Ptr:
+			t = t.Element().Element().Pointer()
 		}
 		c.expression(nil, n.Expression)
 		c.expressionList(nil, n.ExpressionList)

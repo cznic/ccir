@@ -31,8 +31,8 @@ int main() { // https://github.com/cznic/99c/issues/5
 //    Go: lists *[2]*Node
 
 // Node**lists[2];
-// cdecl: declare lists as array 2 of pointer to pointer to int
-//    Go: lists [2]**int
+// cdecl: declare lists as array 2 of pointer to pointer to Node
+//    Go: lists [2]**Node
 
 // $ 99c -c 99c_issue5.c && 99dump 99c_issue5.o
 // ir.Objects 99c_issue5.o:
