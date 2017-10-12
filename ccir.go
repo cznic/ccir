@@ -1172,7 +1172,7 @@ func (c *c) arguments(f cc.Type, n *cc.ArgumentExpressionListOpt) int {
 				}
 			}
 
-			c.expression2(nil, l.Expression, l.Expression.Case == 0)
+			c.expression2(nil, l.Expression, l.Expression.Case == 0 || l.Expression.Case == 8)
 			et := c.typ(n, l.Expression.Type)
 			switch {
 			case et.Kind() == ir.Function:
@@ -1356,6 +1356,10 @@ func (c *c) addr(n *cc.Expression) (bits, bitoff int, bfType, vtype cc.Type) {
 }
 
 func (c *c) addr2(n *cc.Expression, f bool) (bits, bitoff int, bfType, vtype cc.Type) {
+	return c.addr3(n, false, false)
+}
+
+func (c *c) addr3(n *cc.Expression, f, isEvaluatingFnArg bool) (bits, bitoff int, bfType, vtype cc.Type) {
 	n, _ = c.normalize(n)
 	if n.Value != nil {
 		TODO(position(n))
@@ -1448,7 +1452,10 @@ func (c *c) addr2(n *cc.Expression, f bool) (bits, bitoff int, bfType, vtype cc.
 		case t.Kind() == cc.Array:
 			t = t.Element().Pointer()
 		case t.Kind() == cc.Ptr && t.Element().Kind() == cc.Array && t.Element().Element().Kind() == cc.Ptr:
-			t = t.Element().Element().Pointer()
+			//TODO- fmt.Println("1455: ", position(n), isEvaluatingFnArg)
+			if !isEvaluatingFnArg {
+				t = t.Element().Element().Pointer()
+			}
 		}
 		c.expression(nil, n.Expression)
 		c.expressionList(nil, n.ExpressionList)
@@ -2057,9 +2064,9 @@ out:
 				c.expression(nil, n)
 				return ot
 
-				TODO("", position(n))
-				c.expression(nil, n)
-				c.convert(n, t, ot)
+				// TODO("", position(n))
+				// c.expression(nil, n)
+				// c.convert(n, t, ot)
 			default:
 				TODO(fmt.Sprint(position(n), ot, ot.Kind(), t, t.Kind()))
 			}
@@ -2078,7 +2085,7 @@ out:
 	switch t.Kind() {
 	case cc.Array:
 		if n.Case != 45 { // Expression '=' Expression                          // Case 45
-			c.addr(n)
+			c.addr3(n, false, isEvaluatingFnArg)
 			t2 := ot
 			if t2 != nil && t2.Kind() == cc.Ptr {
 				t2 = t2.Element()
