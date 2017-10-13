@@ -1447,19 +1447,10 @@ func (c *c) addr3(n *cc.Expression, f, isEvaluatingFnArg bool) (bits, bitoff int
 	case 7: // '(' ExpressionList ')'                             // Case 7
 		TODO(position(n))
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
-		t := n.Expression.Type
-		switch {
-		case t.Kind() == cc.Array:
-			t = t.Element().Pointer()
-		case t.Kind() == cc.Ptr && t.Element().Kind() == cc.Array && t.Element().Element().Kind() == cc.Ptr:
-			if !isEvaluatingFnArg {
-				t = t.Element().Element().Pointer()
-			}
-		}
-		c.expression(nil, n.Expression)
+		_, t := c.expression3(nil, n.Expression, false)
 		c.expressionList(nil, n.ExpressionList)
-		c.emit(&ir.Element{Address: true, IndexType: c.typ(n, n.ExpressionList.Type).ID(), TypeID: c.typ(n, t).ID(), Position: position(n)})
-		if t := c.typ(n, t).(*ir.PointerType); t.Element.Kind() == ir.Array {
+		c.emit(&ir.Element{Address: true, IndexType: c.typ(n, n.ExpressionList.Type).ID(), TypeID: t.ID(), Position: position(n)})
+		if t := t.(*ir.PointerType); t.Element.Kind() == ir.Array {
 			c.convert2(n, t, t.Element.(*ir.ArrayType).Item.Pointer())
 		}
 		return 0, 0, nil, nil
@@ -2017,6 +2008,17 @@ func (c *c) expression(ot cc.Type, n *cc.Expression) cc.Type { // rvalue
 }
 
 func (c *c) expression2(ot cc.Type, n *cc.Expression, isEvaluatingFnArg bool) cc.Type { // rvalue
+	cct, _ := c.expression3(ot, n, isEvaluatingFnArg)
+	return cct
+}
+
+func (c *c) expression3(ot cc.Type, n *cc.Expression, isEvaluatingFnArg bool) (cct cc.Type, irt ir.Type) { // rvalue
+	defer func() {
+		if irt == nil && cct != nil {
+			irt = c.typ(n, cct)
+		}
+	}()
+
 	n, _ = c.normalize(n)
 	if v := n.Value; v != nil && n.Case != 7 && // '(' ExpressionList ')'                             // Case 7
 		n.Case != 44 { // Expression '?' ExpressionList ':' Expression       // Case 44
@@ -2025,7 +2027,7 @@ func (c *c) expression2(ot cc.Type, n *cc.Expression, isEvaluatingFnArg bool) cc
 			t = ot
 		}
 		c.constant(t, v, n)
-		return t
+		return t, nil
 	}
 
 	t := n.Type
@@ -2039,7 +2041,7 @@ func (c *c) expression2(ot cc.Type, n *cc.Expression, isEvaluatingFnArg bool) cc
 		if ot != nil {
 			c.convert2(n, c.typ(n, t).Pointer(), c.typ(n, ot))
 		}
-		return t.Pointer()
+		return t.Pointer(), nil
 	}
 
 out:
@@ -2061,7 +2063,7 @@ out:
 				c.convert(n, t, ot)
 			case ot.Kind() == cc.Array && t.Kind() == cc.Ptr:
 				c.expression(nil, n)
-				return ot
+				return ot, nil
 
 				// TODO("", position(n))
 				// c.expression(nil, n)
@@ -2070,7 +2072,7 @@ out:
 				TODO(fmt.Sprint(position(n), ot, ot.Kind(), t, t.Kind()))
 			}
 		}
-		return ot
+		return ot, nil
 	}
 
 	if ot != nil && ot.Kind() == cc.Ptr && t.Kind() == cc.Ptr {
@@ -2078,7 +2080,7 @@ out:
 		y := c.typ(n, ot)
 		c.expression(nil, n)
 		c.convert2(n, x, y)
-		return ot
+		return ot, nil
 	}
 
 	switch t.Kind() {
@@ -2090,11 +2092,11 @@ out:
 				t2 = t2.Element()
 			}
 			if ot == nil || t2.Kind() == cc.Array {
-				return t.Element().Pointer()
+				return t.Element().Pointer(), nil
 			}
 
 			c.convert(n, t.Element().Pointer(), ot)
-			return ot
+			return ot, nil
 		}
 	}
 
@@ -2139,8 +2141,9 @@ out:
 				if t.Kind() == ir.Pointer {
 					if u := t.(*ir.PointerType).Element; !isEvaluatingFnArg && u.Kind() == ir.Array {
 						c.emit(&ir.Argument{Index: vi.index, TypeID: t.ID(), Position: position(n)})
-						c.convert2(n, t, u.(*ir.ArrayType).Item.Pointer())
-						break
+						u := u.(*ir.ArrayType).Item.Pointer()
+						c.convert2(n, t, u)
+						return n.Type.Element().Pointer(), u
 					}
 				}
 
@@ -2168,7 +2171,7 @@ out:
 
 		panic("internal error")
 	case 7: // '(' ExpressionList ')'                             // Case 7
-		return c.expressionList(n.Type, n.ExpressionList)
+		return c.expressionList(n.Type, n.ExpressionList), nil
 	case 8: // Expression '[' ExpressionList ']'                  // Case 8
 		t := n.Expression.Type
 		u := n.ExpressionList.Type
@@ -2192,7 +2195,7 @@ out:
 			panic("internal error")
 		}
 	case 9: // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
-		return c.call(n)
+		return c.call(n), nil
 	case 10: // Expression '.' IDENTIFIER                          // Case 10
 		fi, bits, bitoff, ft, vt := c.field(n, n.Expression.Type, n.Token2.Val)
 		if e, _ := c.normalize(n.Expression); e.Case == 9 { // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
@@ -2203,7 +2206,7 @@ out:
 
 		c.addr(n.Expression)
 		if bits != 0 {
-			return c.fieldBits(n, fi, bits, bitoff, ft, vt)
+			return c.fieldBits(n, fi, bits, bitoff, ft, vt), nil
 		}
 
 		c.emit(&ir.Field{Index: fi, TypeID: c.typ(n, n.Expression.Type.Pointer()).ID(), Position: position(n.Token2)})
@@ -2219,7 +2222,7 @@ out:
 		}
 		fi, bits, bitoff, ft, vt := c.field(n, n.Expression.Type.Element(), n.Token2.Val)
 		if bits != 0 {
-			return c.fieldBits(n, fi, bits, bitoff, ft, vt)
+			return c.fieldBits(n, fi, bits, bitoff, ft, vt), nil
 		}
 
 		c.emit(&ir.Field{Index: fi, TypeID: c.typ(n, t).ID(), Position: position(n.Token2)})
@@ -2341,11 +2344,11 @@ out:
 			c.convert(n, t, n.TypeName.Type)
 		}
 	case 26: // Expression '*' Expression                          // Case 26
-		return c.binop(ot, n, &ir.Mul{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.Mul{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 27: // Expression '/' Expression                          // Case 27
-		return c.binop(ot, n, &ir.Div{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.Div{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 28: // Expression '%' Expression                          // Case 28
-		return c.binop(ot, n, &ir.Rem{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.Rem{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 29: // Expression '+' Expression                          // Case 29
 		switch n.Expression.Type.Kind() {
 		case cc.Ptr, cc.Array:
@@ -2357,7 +2360,7 @@ out:
 				c.emit(&ir.Mul{TypeID: tid, Position: position(n)})
 			}
 			c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
-			return t
+			return t, nil
 		}
 
 		switch n.Expression2.Type.Kind() {
@@ -2371,10 +2374,10 @@ out:
 			}
 			c.expression(nil, n.Expression2)
 			c.emit(&ir.Add{TypeID: tid, Position: position(n.Token)})
-			return t
+			return t, nil
 		}
 
-		return c.binop(ot, n, &ir.Add{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.Add{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 30: // Expression '-' Expression                          // Case 30
 		switch n.Expression.Type.Kind() {
 		case cc.Ptr, cc.Array:
@@ -2397,13 +2400,13 @@ out:
 				}
 				c.emit(&ir.Sub{TypeID: tid, Position: position(n.Token)})
 			}
-			return n.Type
+			return n.Type, nil
 		}
 
 		switch n.Expression2.Type.Kind() {
 		case cc.Ptr, cc.Array:
 			TODO(position(n))
-			return n.Type
+			return n.Type, nil
 		}
 
 		//TODO if n.Expression.Type.Kind() == cc.Ptr || n.Expression2.Type.Kind() == cc.Ptr {
@@ -2413,29 +2416,29 @@ out:
 		//TODO 	break
 		//TODO }
 
-		return c.binop(ot, n, &ir.Sub{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.Sub{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 31: // Expression "<<" Expression                         // Case 31
-		return c.shift(n, &ir.Lsh{TypeID: c.typ(n, n.Type).ID(), Position: position(n.Token)})
+		return c.shift(n, &ir.Lsh{TypeID: c.typ(n, n.Type).ID(), Position: position(n.Token)}), nil
 	case 32: // Expression ">>" Expression                         // Case 32
-		return c.shift(n, &ir.Rsh{TypeID: c.typ(n, n.Type).ID(), Position: position(n.Token)})
+		return c.shift(n, &ir.Rsh{TypeID: c.typ(n, n.Type).ID(), Position: position(n.Token)}), nil
 	case 33: // Expression '<' Expression                          // Case 33
-		return c.relop(nil, n, &ir.Lt{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.relop(nil, n, &ir.Lt{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 34: // Expression '>' Expression                          // Case 34
-		return c.relop(nil, n, &ir.Gt{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.relop(nil, n, &ir.Gt{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 35: // Expression "<=" Expression                         // Case 35
-		return c.relop(nil, n, &ir.Leq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.relop(nil, n, &ir.Leq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 36: // Expression ">=" Expression                         // Case 36
-		return c.relop(nil, n, &ir.Geq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.relop(nil, n, &ir.Geq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 37: // Expression "==" Expression                         // Case 37
-		return c.relop(nil, n, &ir.Eq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.relop(nil, n, &ir.Eq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 38: // Expression "!=" Expression                         // Case 38
-		return c.relop(nil, n, &ir.Neq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.relop(nil, n, &ir.Neq{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 39: // Expression '&' Expression                          // Case 39
-		return c.binop(ot, n, &ir.And{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.And{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 40: // Expression '^' Expression                          // Case 40
-		return c.binop(ot, n, &ir.Xor{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.Xor{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 41: // Expression '|' Expression                          // Case 41
-		return c.binop(ot, n, &ir.Or{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)})
+		return c.binop(ot, n, &ir.Or{TypeID: c.typ(n, c.binopType(n)).ID(), Position: position(n.Token)}), nil
 	case 42: // Expression "&&" Expression                         // Case 42
 		// push 0				nop
 		// eval expr
@@ -2490,14 +2493,14 @@ out:
 			x := c.expression(nil, n.Expression2)
 			c.convert(n, x, n.Expression2.Type.Pointer())
 			c.emit(&ir.Store{TypeID: c.typ(n, n.Expression2.Type.Pointer()).ID(), Position: position(n.Token)})
-			return lt.Pointer()
+			return lt.Pointer(), nil
 		}
 
 		if lt.Kind() == cc.Array && rt.Kind() == cc.Ptr && c.isArg(n.Expression) {
 			c.addr2(n.Expression, true)
 			c.expression(nil, n.Expression2)
 			c.emit(&ir.Store{TypeID: c.typ(n, n.Expression2.Type).ID(), Position: position(n.Token)})
-			return rt
+			return rt, nil
 		}
 
 		bits, bitoff, ft, bt := c.addr(n.Expression)
@@ -2505,7 +2508,7 @@ out:
 			t := c.expression(nil, n.Expression2)
 			c.convert(n, t, ft)
 			c.emit(&ir.Store{Bits: bits, BitOffset: bitoff, TypeID: c.typ(n, ft).ID(), Position: position(n)})
-			return c.bitField(n, bits, bitoff, ft, bt)
+			return c.bitField(n, bits, bitoff, ft, bt), nil
 		}
 
 		switch {
@@ -2514,40 +2517,40 @@ out:
 			u := c.expression(n.Expression.Type, n.Expression2)
 			c.convert(n, u, n.Expression.Type.Pointer())
 			c.emit(&ir.Copy{TypeID: c.typ(n, n.Expression2.Type).ID(), Position: position(n)})
-			return lt.Pointer()
+			return lt.Pointer(), nil
 		default:
 			u := c.expression(n.Expression.Type, n.Expression2)
 			c.convert(n, u, n.Expression.Type)
 			c.emit(&ir.Store{TypeID: c.typ(n, n.Expression.Type).ID(), Position: position(n.Token)})
 		}
 	case 46: // Expression "*=" Expression                         // Case 46
-		return c.asop(n, &ir.Mul{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Mul{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 47: // Expression "/=" Expression                         // Case 47
-		return c.asop(n, &ir.Div{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Div{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 48: // Expression "%=" Expression                         // Case 48
-		return c.asop(n, &ir.Rem{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Rem{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 49: // Expression "+=" Expression                         // Case 49
 		if t := n.Expression.Type; t.Kind() == cc.Ptr {
-			return c.asop(n, &ir.Element{Address: true, TypeID: c.typ(n, t).ID(), IndexType: c.typ(n, n.Expression2.Type).ID(), Position: position(n)})
+			return c.asop(n, &ir.Element{Address: true, TypeID: c.typ(n, t).ID(), IndexType: c.typ(n, n.Expression2.Type).ID(), Position: position(n)}), nil
 		}
 
-		return c.asop(n, &ir.Add{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Add{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 50: // Expression "-=" Expression                         // Case 50
 		if n.Expression.Type.Kind() == cc.Ptr {
-			return c.asop(n, &ir.Element{Address: true, Neg: true, TypeID: c.typ(n, t).ID(), IndexType: c.typ(n, n.Expression2.Type).ID(), Position: position(n)})
+			return c.asop(n, &ir.Element{Address: true, Neg: true, TypeID: c.typ(n, t).ID(), IndexType: c.typ(n, n.Expression2.Type).ID(), Position: position(n)}), nil
 		}
 
-		return c.asop(n, &ir.Sub{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Sub{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 51: // Expression "<<=" Expression                        // Case 51
-		return c.asop(n, &ir.Lsh{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}, c.cint)
+		return c.asop(n, &ir.Lsh{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}, c.cint), nil
 	case 52: // Expression ">>=" Expression                        // Case 52
-		return c.asop(n, &ir.Rsh{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}, c.cint)
+		return c.asop(n, &ir.Rsh{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}, c.cint), nil
 	case 53: // Expression "&=" Expression                         // Case 53
-		return c.asop(n, &ir.And{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.And{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 54: // Expression "^=" Expression                         // Case 54
-		return c.asop(n, &ir.Xor{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Xor{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 55: // Expression "|=" Expression                         // Case 55
-		return c.asop(n, &ir.Or{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)})
+		return c.asop(n, &ir.Or{TypeID: c.typ(n, c.asopType(n)).ID(), Position: position(n)}), nil
 	case 56: // "_Alignof" '(' TypeName ')'                        // Case 56
 		TODO(position(n))
 	case 57: // '(' CompoundStatement ')'                          // Case 57
@@ -2562,7 +2565,7 @@ out:
 		panic(fmt.Errorf("%s: internal error: Expression.Case %v", position(n), n.Case))
 	}
 
-	return t
+	return t, nil
 }
 
 func (c *c) expressionList(ot cc.Type, n *cc.ExpressionList) (r cc.Type) {
