@@ -30,10 +30,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void errorLogCallback(void *pArg, int iErrCode, const char *zMsg){
+void errorLogCallback(void *pArg, int iErrCode, const char *zMsg)
+{
 	fprintf(stderr, "FAIL (%d) %s\n", iErrCode, zMsg);
 }
-
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
@@ -74,8 +74,7 @@ int main(int argc, char **argv)
 	}
 	rc = sqlite3_open(argv[1], &db);
 	if (rc) {
-		fprintf(stderr, "Can't open database: %s\n",
-			sqlite3_errmsg(db));
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
 		sqlite3_close(db);
 		return 1;
 	}

@@ -1,4 +1,5 @@
-int main() {
+int main()
+{
 	void *p;
 	char *q;
 	p = 0;

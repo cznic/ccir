@@ -31,6 +31,8 @@ edit:
 	@ 1>/dev/null 2>/dev/null gvim -p Makefile generator.go
 
 editor:
+	find -name \*.c -or -name \*.h | xargs -n1 indent -linux -l -1
+	find -name \*.c~ -or -name \*.h~ | xargs rm
 	go generate 2>&1 | tee log
 	gofmt -l -s -w .
 	indent -linux -l -1 *.c *.h sys/*.h

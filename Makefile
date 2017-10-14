@@ -32,6 +32,8 @@ edit:
 	@ 1>/dev/null 2>/dev/null gvim -p Makefile *.go
 
 editor:
+	find -name \*.c -or -name \*.h | xargs -n1 indent -linux -l -1
+	find -name \*.c~ -or -name \*.h~ | xargs rm
 	gofmt -l -s -w .
 	go test -i
 	go test 2>&1 | tee log

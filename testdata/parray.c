@@ -1,6 +1,9 @@
-void f(char*){}
+void f(char *)
+{
+}
 
-int main() {
+int main()
+{
 	char a[10], b[20][30];
 	f(a);
 	f(b);

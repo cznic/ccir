@@ -1,4 +1,5 @@
-int main() {
+int main()
+{
 	int i = 42;
 	switch (i) {
 	default:

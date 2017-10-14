@@ -985,7 +985,7 @@ exit(0) cycle = 9`); !bytes.Equal(g, e) {
 	out, _, d = exec(t, bin, args, []file{{"c4.c", c4}, {"hello.c", hello}})
 	if g, e := out, []byte(`hello, world
 exit(0) cycle = 9
-exit(0) cycle = 26012`); !bytes.Equal(g, e) {
+exit(0) cycle = 25604`); !bytes.Equal(g, e) {
 		t.Fatalf("\ngot\n%s\nexp\n%s", g, e)
 	}
 
@@ -1121,5 +1121,6 @@ func TestOther(t *testing.T) {
 		cc.EnableImplicitFuncDef(),
 		cc.ErrLimit(-1),
 		cc.SysIncludePaths([]string{LibcIncludePath}),
+		cc.AllowCompatibleTypedefRedefinitions(),
 	)
 }

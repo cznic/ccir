@@ -12,4 +12,6 @@
 #undef getc
 #define getc(x) fgetc(x)
 
+#include "strtoul.c"
+
 #endif				/* _STDIO_H_ */

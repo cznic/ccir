@@ -9,4 +9,13 @@
 
 #include __header(ctype)
 
+#include "__ctype_b_loc_tab.c"
+
+static unsigned short *__ctype_b_loc_tablep = &__ctype_b_table[128];
+
+unsigned short **__ctype_b_loc(void)
+{
+	return &__ctype_b_loc_tablep;
+}
+
 #endif				/* _CTYPE_H_ */
