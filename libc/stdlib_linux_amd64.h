@@ -133,21 +133,10 @@ extern int unlockpt(int __fd);
 extern char *ptsname(int __fd);
 extern int ttyslot(void);
 
-// /usr/include/stdlib.h 
-
-#define _STDLIB_H (1)
-
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define __size_t__
-
-// /usr/include/stdlib.h 
-
-#define WIFSTOPPED(status) __WIFSTOPPED ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/stdlib.h 
 
@@ -155,100 +144,61 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define NULL ( ( void * ) 0 )
-#define _SIZE_T
-
-// /usr/include/stdlib.h 
-
-#define mkstemp mkstemp64
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __wchar_t__
-#define __WCHAR_T__
-#define _GCC_WCHAR_T
-#define _GCC_SIZE_T
-#define __SIZE_T__
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/stdlib.h 
-
-#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T
-#define _T_WCHAR
-
-// /usr/include/stdlib.h 
-
-#define __COMPAR_FN_T
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
 #define _SIZE_T_DECLARED
+#define __WCHAR_T__
+#define __wchar_t__
+#define _SIZE_T_DEFINED
+#define _SYS_SIZE_T_H
+
+// /usr/include/stdlib.h 
+
+#define EXIT_SUCCESS (0)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
 #define __INT_WCHAR_T_H
+#define __size_t
 
 // /usr/include/stdlib.h 
 
-#define __malloc_and_calloc_defined
+#define WIFCONTINUED(status) __WIFCONTINUED ( status )
+#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
+#define _STDLIB_H (1)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZE_T_DEFINED_
-#define _T_SIZE_
-#define _WCHAR_T_DECLARED
-
-// /usr/include/stdlib.h 
-
-#define EXIT_FAILURE (1)
-#define WTERMSIG(status) __WTERMSIG ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_wchar_t_h
-#define _T_WCHAR_
 #define __WCHAR_T
 
 // /usr/include/stdlib.h 
 
-#define __ldiv_t_defined (1)
+#define WIFSTOPPED(status) __WIFSTOPPED ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_DECLARED
+#define _WCHAR_T_H
+
+// /usr/include/stdlib.h 
+
+#define RAND_MAX (2147483647)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _SIZET_
 #define _SIZE_T_
+#define __SIZE_T
 
 // /usr/include/stdlib.h 
 
-#define WIFCONTINUED(status) __WIFCONTINUED ( status )
-#define RAND_MAX (2147483647)
+#define WTERMSIG(status) __WTERMSIG ( status )
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
+#define _SIZE_T
+#define __SIZE_T__
+#define ___int_wchar_t_h
+#define _T_WCHAR_
 #define _T_SIZE
-#define _WCHAR_T_
-#define _SIZE_T_DEFINED
-#define _WCHAR_T_DEFINED
-
-// /usr/include/stdlib.h 
-
-#define WIFSIGNALED(status) __WIFSIGNALED ( status )
-#define EXIT_SUCCESS (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/stdlib.h 
-
-#define WEXITSTATUS(status) __WEXITSTATUS ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SYS_SIZE_T_H
-#define __size_t
-#define _WCHAR_T_DEFINED_
 
 // /usr/include/stdlib.h 
 
@@ -256,7 +206,44 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _WCHAR_T_H
+#define _WCHAR_T_
+
+// /usr/include/stdlib.h 
+
+#define WEXITSTATUS(status) __WEXITSTATUS ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_DEFINED
+
+// /usr/include/stdlib.h 
+
+#define EXIT_FAILURE (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/stdlib.h 
+
+#define __malloc_and_calloc_defined
+#define mkstemp mkstemp64
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
+#define _GCC_SIZE_T
+#define ___int_size_t_h
+
+// /usr/include/stdlib.h 
+
+#define __COMPAR_FN_T
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T
+#define _BSD_SIZE_T_
+#define _GCC_WCHAR_T
 
 // /usr/include/stdlib.h 
 
@@ -264,4 +251,17 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _BSD_SIZE_T_
+#define _T_WCHAR
+#define _WCHAR_T_DEFINED_
+
+// /usr/include/stdlib.h 
+
+#define __ldiv_t_defined (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+
+// /usr/include/stdlib.h 
+
+#define WIFSIGNALED(status) __WIFSIGNALED ( status )

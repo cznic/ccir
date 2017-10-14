@@ -7,16 +7,19 @@
 
 #include __header(sys/select)
 
-int __FD_ISSET(int n, fd_set *s) {
-	return (s->fds_bits[n/__NFDBITS] & (1<<(n&(__NFDBITS-1)))) != 0;
+int __FD_ISSET(int n, fd_set * s)
+{
+	return (s->fds_bits[n / __NFDBITS] & (1 << (n & (__NFDBITS - 1)))) != 0;
 }
 
-void __FD_SET(int n, fd_set *s) {
-	s->fds_bits[n/__NFDBITS] |= 1<<(n&(__NFDBITS-1));
+void __FD_SET(int n, fd_set * s)
+{
+	s->fds_bits[n / __NFDBITS] |= 1 << (n & (__NFDBITS - 1));
 }
 
-void __FD_ZERO(fd_set *s) {
-	for (int i = 0; i < FD_SETSIZE/__NFDBITS; i++) {
+void __FD_ZERO(fd_set * s)
+{
+	for (int i = 0; i < FD_SETSIZE / __NFDBITS; i++) {
 		s->fds_bits[i] = 0;
 	}
 }

@@ -137,33 +137,29 @@ extern int utimes(const char *__file, const struct timeval __tvp[2]);
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __SQUAD_TYPE long int
-#define _BITS_TYPES_H (1)
+#define __S64_TYPE long int
+
+// /usr/include/x86_64-linux-gnu/sys/select.h 
+
+#define __FD_ELT(d) ( ( d ) / __NFDBITS )
+#define __NFDBITS ( 8 * ( int ) sizeof ( __fd_mask ) )
 
 // /usr/include/time.h 
 
 #define __time_t_defined (1)
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define _SYS_SELECT_H (1)
-
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __U32_TYPE unsigned int
+#define __SWORD_TYPE long int
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
+// /usr/include/x86_64-linux-gnu/bits/sigset.h 
 
-#define __FDS_BITS(set) ( ( set ) -> fds_bits )
-#define FD_SET(fd, fdsetp) __FD_SET ( fd , fdsetp )
+#define _SIGSET_NWORDS ( 1024 / ( 8 * sizeof ( unsigned long int ) ) )
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __SWORD_TYPE long int
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __sigset_t_defined
+#define __UWORD_TYPE unsigned long int
 
 // /usr/include/x86_64-linux-gnu/bits/time.h 
 
@@ -171,55 +167,37 @@ extern int utimes(const char *__file, const struct timeval __tvp[2]);
 
 // /usr/include/x86_64-linux-gnu/sys/select.h 
 
-#define FD_ISSET(fd, fdsetp) __FD_ISSET ( fd , fdsetp )
-#define __FD_MASK(d) ( ( __fd_mask ) ( 1UL << ( ( d ) % __NFDBITS ) ) )
+#define __sigset_t_defined
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __U16_TYPE unsigned short int
-#define __S32_TYPE int
-#define __S64_TYPE long int
-#define __UWORD_TYPE unsigned long int
-#define __S16_TYPE short int
-#define __ULONGWORD_TYPE unsigned long int
-#define __U64_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _SIGSET_NWORDS ( 1024 / ( 8 * sizeof ( unsigned long int ) ) )
-#define _SIGSET_H_types (1)
 
 // /usr/include/x86_64-linux-gnu/sys/select.h 
 
+#define __FDS_BITS(set) ( ( set ) -> fds_bits )
 #define FD_ZERO(fdsetp) __FD_ZERO ( fdsetp )
 
-// /usr/include/x86_64-linux-gnu/sys/time.h 
+// /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define ITIMER_VIRTUAL ITIMER_VIRTUAL
-#define _SYS_TIME_H (1)
+#define __U64_TYPE unsigned long int
 
 // /usr/include/x86_64-linux-gnu/sys/select.h 
 
-#define __FD_ELT(d) ( ( d ) / __NFDBITS )
-#define __suseconds_t_defined
-#define __NFDBITS ( 8 * ( int ) sizeof ( __fd_mask ) )
+#define FD_SETSIZE __FD_SETSIZE
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define _BITS_TYPES_H (1)
 
 // /usr/include/x86_64-linux-gnu/sys/time.h 
 
 #define ITIMER_PROF ITIMER_PROF
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define FD_CLR(fd, fdsetp) __FD_CLR ( fd , fdsetp )
-
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __SLONG32_TYPE int
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define FD_SETSIZE __FD_SETSIZE
+#define __S32_TYPE int
+#define __ULONG32_TYPE unsigned int
 
 // /usr/include/x86_64-linux-gnu/sys/time.h 
 
@@ -227,4 +205,44 @@ extern int utimes(const char *__file, const struct timeval __tvp[2]);
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
+#define __SLONG32_TYPE int
+#define __ULONGWORD_TYPE unsigned long int
+#define __S16_TYPE short int
+
+// /usr/include/x86_64-linux-gnu/bits/sigset.h 
+
+#define _SIGSET_H_types (1)
+
+// /usr/include/x86_64-linux-gnu/sys/time.h 
+
+#define ITIMER_VIRTUAL ITIMER_VIRTUAL
+
+// /usr/include/x86_64-linux-gnu/sys/select.h 
+
+#define __FD_MASK(d) ( ( __fd_mask ) ( 1UL << ( ( d ) % __NFDBITS ) ) )
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
 #define __UQUAD_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/sys/select.h 
+
+#define _SYS_SELECT_H (1)
+
+// /usr/include/x86_64-linux-gnu/sys/time.h 
+
+#define _SYS_TIME_H (1)
+
+// /usr/include/x86_64-linux-gnu/sys/select.h 
+
+#define FD_SET(fd, fdsetp) __FD_SET ( fd , fdsetp )
+#define FD_ISSET(fd, fdsetp) __FD_ISSET ( fd , fdsetp )
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+
+// /usr/include/x86_64-linux-gnu/sys/select.h 
+
+#define FD_CLR(fd, fdsetp) __FD_CLR ( fd , fdsetp )
+#define __suseconds_t_defined

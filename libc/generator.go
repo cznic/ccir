@@ -1113,6 +1113,7 @@ func main() {
 		{"errno", "EINTR|ETIMEDOUT", "errno"},
 		{"fcntl", "F_WRLCK", "_off64_t|__time32_t|open|struct flock|__off_t"},
 		{"float", "TODO", "TODO"},
+		{"inttypes", "PRI", "TODO"},
 		{"limits", "INT_MAX", "TODO"},
 		{"locale", "__LC_ALL", "setlocale"},
 		{"math", "TODO", "sin|_locale_t"},

@@ -30,13 +30,16 @@ struct sockaddr_un {
 	char sun_path[108];
 };
 
+// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
+
+#define _BITS_SOCKADDR_H (1)
+#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
+#define _SS_SIZE (128)
+
 // /usr/include/x86_64-linux-gnu/sys/un.h 
 
 #define _SYS_UN_H (1)
 
 // /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
 
-#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
-#define _SS_SIZE (128)
-#define _BITS_SOCKADDR_H (1)
 #define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )

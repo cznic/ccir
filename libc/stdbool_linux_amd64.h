@@ -30,8 +30,8 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 	// /usr/lib/gcc/x86_64-linux-gnu/6/include/stdbool.h 
 
-#define _STDBOOL_H
+#define true (1)
 #define bool _Bool
 #define __bool_true_false_are_defined (1)
+#define _STDBOOL_H
 #define false (0)
-#define true (1)

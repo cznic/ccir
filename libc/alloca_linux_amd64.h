@@ -55,8 +55,13 @@ extern void *alloca(size_t __size);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
+#define _GCC_SIZE_T
 #define __SIZE_T
-#define _SYS_SIZE_T_H
+#define __SIZE_T__
+#define __size_t__
+#define _BSD_SIZE_T_
+#define _SIZE_T_
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/alloca.h 
 
@@ -64,18 +69,13 @@ extern void *alloca(size_t __size);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZET_
-#define _BSD_SIZE_T_
-#define _GCC_SIZE_T
-#define _SIZE_T_
-#define _SIZE_T_DECLARED
-#define _BSD_SIZE_T_DEFINED_
 #define _SIZE_T_DEFINED
-#define _SIZE_T
-#define __size_t__
-#define _T_SIZE
-#define __SIZE_T__
-#define __size_t
-#define _T_SIZE_
 #define _SIZE_T_DEFINED_
+#define _SIZET_
 #define ___int_size_t_h
+#define _SIZE_T_DECLARED
+#define _T_SIZE_
+#define _T_SIZE
+#define __size_t
+#define _SYS_SIZE_T_H
+#define _SIZE_T

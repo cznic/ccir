@@ -166,13 +166,18 @@ extern int timer_getoverrun(timer_t __timerid);
 extern int getdate_err;
 extern struct tm *getdate(const char *__string);
 
-// /usr/include/time.h 
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _TIME_H (1)
+#define _SIZE_T
+#define _T_SIZE_
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __SLONG32_TYPE int
+#define _BITS_TYPES_H (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
 
 // /usr/include/time.h 
 
@@ -180,61 +185,11 @@ extern struct tm *getdate(const char *__string);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZE_T_
-#define __size_t__
-
-// /usr/include/time.h 
-
-#define __clockid_t_defined (1)
-#define __timer_t_defined (1)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-#define __S32_TYPE int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
-#define __UQUAD_TYPE unsigned long int
-#define __ULONG32_TYPE unsigned int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-#define _SIZE_T
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_
-#define _SIZE_T_DECLARED
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
 #define __size_t
-#define NULL ( ( void * ) 0 )
-#define _GCC_SIZE_T
-#define __SIZE_T__
-
-// /usr/include/time.h 
-
-#define __clock_t_defined (1)
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __U64_TYPE unsigned long int
+#define __ULONGWORD_TYPE unsigned long int
 
 // /usr/include/time.h 
 
@@ -244,42 +199,87 @@ extern struct tm *getdate(const char *__string);
 
 #define __SWORD_TYPE long int
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/include/time.h 
 
-#define __SIZE_T
+#define __clock_t_defined (1)
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __ULONGWORD_TYPE unsigned long int
+#define __S64_TYPE long int
+#define __U64_TYPE unsigned long int
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _SIZE_T_DEFINED
-#define _SIZET_
-#define _T_SIZE_
-#define _BSD_SIZE_T_DEFINED_
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/time.h 
 
-#define __U32_TYPE unsigned int
+#define __timer_t_defined (1)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
+#define _SIZE_T_
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+#define __SLONGWORD_TYPE long int
+#define __SQUAD_TYPE long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+#define __size_t__
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T__
 #define _SYS_SIZE_T_H
+
+// /usr/include/time.h 
+
+#define _TIME_H (1)
+#define __clockid_t_defined (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE
+#define _BSD_SIZE_T_
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+#define __U32_TYPE unsigned int
+#define __ULONG32_TYPE unsigned int
+#define __UQUAD_TYPE unsigned long int
 
 // /usr/include/time.h 
 
 #define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
 
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+#define ___int_size_t_h
+#define _SIZET_
+
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __SLONGWORD_TYPE long int
+#define __S16_TYPE short int
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _T_SIZE
+#define __SIZE_T
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define _BITS_TYPES_H (1)
-#define __S16_TYPE short int
+#define __SLONG32_TYPE int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_SIZE_T
