@@ -1401,9 +1401,15 @@ func (c *c) addr3(n *cc.Expression, f, isEvaluatingFnArg bool) (bits, bitoff int
 				at := c.f.arguments[vi.index]
 				t := c.types.MustType(at)
 				if t.Kind() == ir.Pointer {
-					if u := t.(*ir.PointerType).Element; u.Kind() == ir.Array && !f {
+					u := t.(*ir.PointerType).Element
+					if u.Kind() == ir.Array && !f {
 						c.emit(&ir.Argument{Index: vi.index, TypeID: t.ID(), Position: position(n)})
 						c.convert2(n, t, u.(*ir.ArrayType).Item.Pointer())
+						break
+					}
+
+					if u.Kind() == ir.Function {
+						c.emit(&ir.Argument{Index: vi.index, TypeID: t.ID(), Position: position(n)})
 						break
 					}
 				}
