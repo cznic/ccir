@@ -2336,7 +2336,9 @@ out:
 				}
 			}
 
-			c.emit(&ir.Drop{TypeID: c.typ(n, t).ID(), Position: position(n)})
+			if id := c.typ(n, t).ID(); id != idVoid {
+				c.emit(&ir.Drop{TypeID: id, Position: position(n)})
+			}
 		default:
 			u := c.typ(n, t)
 			if u.Kind() == ir.Pointer {
