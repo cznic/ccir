@@ -53,6 +53,8 @@ const (
 	XEXIT_SUCCESS      = 0
 	XRAND_MAX          = 2147483647
 	X_STDLIB_H         = 1
+	X_STRINGS_H        = 1
+	X_STRING_H         = 1
 	X__ldiv_t_defined  = 1
 	X__lldiv_t_defined = 1
 	Xmkstemp           = 0

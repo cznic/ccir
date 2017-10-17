@@ -1,3 +1,5 @@
+// +build ignore
+
 // src: https://android.googlesource.com/platform/bionic/+/fe6338d/libc/stdlib/strtoul.c
 
 /*	$OpenBSD: strtoul.c,v 1.7 2005/08/08 08:05:37 espie Exp $ */

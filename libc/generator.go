@@ -1159,6 +1159,10 @@ func main() {
 		{"linux", "netinet/tcp", "TCP_NODELAY", "TODO"},
 		{"linux", "netdb", "TODO", "gethostbyname|__socklen_t|sa_family_t|size_t|uint32_t"},
 		{"linux", "X11/Xauth", "TODO", "memcpy|size_t|fpos_t|__mbstate_t|Xauth"},
+		{"linux", "X11/Xfuncproto", "_Xconst", "TODO"},
+		{"linux", "X11/Xfuncs", "TODO", "TODO"},
+		{"linux", "X11/Xos", "O_WRONLY", "access|__intptr_t|ssize_t|size_t|open"},
+		{"linux", "X11/Xthreads", "TODO", "TODO"},
 		{"linux", "sys/param", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)

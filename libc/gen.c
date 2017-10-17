@@ -1,3 +1,5 @@
+// +build ignore
+
 // gcc gen.c && ./a.out > __ctype_b_loc_tab.c
 
 #include <stdio.h>

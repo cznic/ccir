@@ -4,11 +4,9 @@
 
 // +build ignore
 
-#ifndef _STDLIB_H_
-#define _STDLIB_H_
+#ifndef _X11_XFUNCS_H_
+#define _X11_XFUNCS_H_
 
-#include __header(stdlib)
-#include <string.h>
-#include <strings.h>
+#include __header(X11/Xfuncs)
 
-#endif				/* _STDLIB_H_ */
+#endif				/* _X11_XFUNCS_H_ */
