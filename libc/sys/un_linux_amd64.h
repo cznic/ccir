@@ -32,7 +32,7 @@ struct sockaddr_un {
 
 // /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
 
-#define _BITS_SOCKADDR_H (1)
+#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
 #define _SS_SIZE (128)
 #define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )
 
@@ -42,4 +42,4 @@ struct sockaddr_un {
 
 // /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
 
-#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
+#define _BITS_SOCKADDR_H (1)

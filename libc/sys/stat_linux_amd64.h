@@ -190,75 +190,48 @@ extern int __fxstatat64(int __ver, int __fildes, const char *__filename, struct 
 extern int __xmknod(int __ver, const char *__path, __mode_t __mode, __dev_t * __dev);
 extern int __xmknodat(int __ver, int __fd, const char *__path, __mode_t __mode, __dev_t * __dev);
 
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _MKNOD_VER_LINUX (0)
-
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_IFIFO __S_IFIFO
-#define _SYS_STAT_H (1)
-#define S_IRWXU (448)
-#define __fxstat __fxstat64
+#define __S_ISTYPE(mode, mask) ( ( ( mode ) & __S_IFMT ) == ( mask ) )
+#define S_TYPEISSHM(buf) __S_TYPEISSHM ( buf )
+#define __blkcnt_t_defined
+#define __xstat __xstat64
+#define S_IFREG __S_IFREG
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_IFCHR (8192)
+#define __S_ISVTX (512)
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_IRWXO (7)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_ISDIR(mode) __S_ISTYPE ( ( mode ) , __S_IFDIR )
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _STATBUF_ST_BLKSIZE
-#define _STATBUF_ST_NSEC
-#define _STAT_VER_LINUX (1)
-
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_TYPEISSEM(buf) __S_TYPEISSEM ( buf )
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IFIFO (4096)
-
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_IFDIR __S_IFDIR
-#define lstat lstat64
+#define S_IFSOCK __S_IFSOCK
+#define __dev_t_defined
+#define __nlink_t_defined
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __SLONG32_TYPE int
 
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IFDIR (16384)
-
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_IRUSR __S_IREAD
-#define __dev_t_defined
-#define __blkcnt_t_defined
-#define S_IFREG __S_IFREG
+#define __lxstat __lxstat64
+#define __blksize_t_defined
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_ISGID (1024)
+#define _STATBUF_ST_NSEC
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define __nlink_t_defined
-#define S_TYPEISMQ(buf) __S_TYPEISMQ ( buf )
+#define S_ISVTX __S_ISVTX
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_TYPEISSEM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
+
+// /usr/include/x86_64-linux-gnu/sys/stat.h 
+
+#define S_IRWXG (56)
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
@@ -266,49 +239,86 @@ extern int __xmknodat(int __ver, int __fd, const char *__path, __mode_t __mode, 
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define __gid_t_defined
+#define S_IFMT __S_IFMT
+#define S_IFBLK __S_IFBLK
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
 #define __S_IFMT (61440)
 
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_IWGRP (16)
-#define __off_t_defined
 #define S_ISLNK(mode) __S_ISTYPE ( ( mode ) , __S_IFLNK )
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_IFREG (32768)
+#define __S_IFBLK (24576)
+#define __S_IFLNK (40960)
+#define __S_IFIFO (4096)
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_IFMT __S_IFMT
+#define S_TYPEISMQ(buf) __S_TYPEISMQ ( buf )
+#define S_IRWXU (448)
+#define __mode_t_defined
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_ISVTX (512)
+#define __S_IFCHR (8192)
 
-// /usr/include/time.h 
+// /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __time_t_defined (1)
-
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_IFCHR __S_IFCHR
+#define __ULONGWORD_TYPE unsigned long int
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
 #define __S_IFSOCK (49152)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
+#define __S_IWRITE (128)
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define stat stat64
+#define S_IROTH (4)
+#define S_IRWXO (7)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IREAD (256)
+
+// /usr/include/x86_64-linux-gnu/sys/stat.h 
+
+#define __gid_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U32_TYPE unsigned int
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_TYPEISSHM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S64_TYPE long int
+#define __U16_TYPE unsigned short int
+
+// /usr/include/x86_64-linux-gnu/sys/stat.h 
+
+#define S_ISBLK(mode) __S_ISTYPE ( ( mode ) , __S_IFBLK )
+#define __ino_t_defined
+#define S_IXOTH (1)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _MKNOD_VER_LINUX (0)
+
+// /usr/include/x86_64-linux-gnu/sys/stat.h 
+
+#define S_IFCHR __S_IFCHR
+#define __off_t_defined
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
@@ -317,37 +327,79 @@ extern int __xmknodat(int __ver, int __fd, const char *__path, __mode_t __mode, 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
 #define __uid_t_defined
-#define S_ISFIFO(mode) __S_ISTYPE ( ( mode ) , __S_IFIFO )
+
+// /usr/include/time.h 
+
+#define __time_t_defined (1)
+
+// /usr/include/x86_64-linux-gnu/sys/stat.h 
+
+#define S_IFLNK __S_IFLNK
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __UQUAD_TYPE unsigned long int
 
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_TYPEISSEM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
+#define S_IFDIR __S_IFDIR
+#define stat stat64
+#define S_ISUID __S_ISUID
+#define S_IRUSR __S_IREAD
+#define S_ISREG(mode) __S_ISTYPE ( ( mode ) , __S_IFREG )
+#define S_ISFIFO(mode) __S_ISTYPE ( ( mode ) , __S_IFIFO )
 #define S_IWUSR __S_IWRITE
-#define S_ISCHR(mode) __S_ISTYPE ( ( mode ) , __S_IFCHR )
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define _BITS_TYPES_H (1)
+#define __SWORD_TYPE long int
+#define __ULONG32_TYPE unsigned int
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_IXGRP (8)
-#define S_IWOTH (2)
+#define S_ISCHR(mode) __S_ISTYPE ( ( mode ) , __S_IFCHR )
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_IFLNK (40960)
+#define __S_IEXEC (64)
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_ISSOCK(mode) __S_ISTYPE ( ( mode ) , __S_IFSOCK )
+#define S_TYPEISSEM(buf) __S_TYPEISSEM ( buf )
+#define S_IRGRP (32)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_ISGID (1024)
+
+// /usr/include/x86_64-linux-gnu/sys/stat.h 
+
+#define lstat lstat64
+#define S_IXUSR __S_IEXEC
+#define S_IWGRP (16)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_TYPEISMQ(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
+#define __S_ISUID (2048)
+
+// /usr/include/x86_64-linux-gnu/sys/stat.h 
+
+#define S_IFIFO __S_IFIFO
+#define S_ISDIR(mode) __S_ISTYPE ( ( mode ) , __S_IFDIR )
+#define __fxstat __fxstat64
+#define S_IXGRP (8)
+#define fstat fstat64
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SQUAD_TYPE long int
+#define __UWORD_TYPE unsigned long int
+#define __U64_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _BITS_STAT_H (1)
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
@@ -355,109 +407,39 @@ extern int __xmknodat(int __ver, int __fd, const char *__path, __mode_t __mode, 
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_ISUID (2048)
+#define _STAT_VER_LINUX (1)
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define __ino_t_defined
-#define __mode_t_defined
-#define S_IXOTH (1)
-#define S_IFLNK __S_IFLNK
-#define __lxstat __lxstat64
-#define fstat fstat64
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _BITS_STAT_H (1)
-#define __S_TYPEISMQ(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_ISBLK(mode) __S_ISTYPE ( ( mode ) , __S_IFBLK )
-#define S_TYPEISSHM(buf) __S_TYPEISSHM ( buf )
-#define S_ISGID __S_ISGID
-#define _MKNOD_VER (0)
+#define S_ISSOCK(mode) __S_ISTYPE ( ( mode ) , __S_IFSOCK )
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
 #define _STATBUF_ST_RDEV
 
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_IROTH (4)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IFBLK (24576)
-
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_ISVTX __S_ISVTX
-#define S_IRGRP (32)
-#define S_ISUID __S_ISUID
-#define S_IFSOCK __S_IFSOCK
-#define S_IXUSR __S_IEXEC
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IEXEC (64)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-
-// /usr/include/x86_64-linux-gnu/sys/stat.h 
-
-#define S_IRWXG (56)
-#define __xstat __xstat64
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IREAD (256)
-
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __S32_TYPE int
 
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_TYPEISSHM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_IFBLK __S_IFBLK
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
+#define S_IWOTH (2)
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
+#define __S_IFDIR (16384)
 #define _STAT_VER _STAT_VER_LINUX
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SWORD_TYPE long int
-#define __U64_TYPE unsigned long int
-#define __S64_TYPE long int
-
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define S_ISREG(mode) __S_ISTYPE ( ( mode ) , __S_IFREG )
+#define _SYS_STAT_H (1)
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_IWRITE (128)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
+#define _STATBUF_ST_BLKSIZE
+#define __S_IFREG (32768)
 
 // /usr/include/x86_64-linux-gnu/sys/stat.h 
 
-#define __blksize_t_defined
-#define __S_ISTYPE(mode, mask) ( ( ( mode ) & __S_IFMT ) == ( mask ) )
+#define _MKNOD_VER (0)
+#define S_ISGID __S_ISGID

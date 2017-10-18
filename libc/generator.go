@@ -1164,6 +1164,9 @@ func main() {
 		{"linux", "X11/Xos", "O_WRONLY", "access|__intptr_t|ssize_t|size_t|open"},
 		{"linux", "X11/Xthreads", "TODO", "TODO"},
 		{"linux", "sys/param", "TODO", "TODO"},
+		{"linux", "iconv", "TODO", "iconv|size_t"},
+		{"linux", "ffi", "TODO", "TODO"},
+		{"linux", "libintl", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {
