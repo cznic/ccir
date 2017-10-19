@@ -2206,7 +2206,14 @@ out:
 		fi, bits, bitoff, ft, vt := c.field(n, n.Expression.Type, n.Token2.Val)
 		if e, _ := c.normalize(n.Expression); e.Case == 9 { // Expression '(' ArgumentExpressionListOpt ')'       // Case 9
 			c.call(e)
-			c.emit(&ir.FieldValue{Index: fi, TypeID: c.typ(n, n.Expression.Type).ID(), Position: position(n.Token2)})
+			ct := c.typ(n, n.Expression.Type)
+			c.emit(&ir.FieldValue{Index: fi, TypeID: ct.ID(), Position: position(n.Token2)})
+			cft := ct.(*ir.StructOrUnionType).Fields[fi]
+			if cft.Kind() == ir.Pointer {
+				if t := cft.(*ir.PointerType).Element; t.Kind() == ir.Struct || t.Kind() == ir.Union {
+					c.convert2(n, cft, c.typ(n, vt))
+				}
+			}
 			break
 		}
 
