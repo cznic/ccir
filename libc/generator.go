@@ -372,12 +372,18 @@ func pointerOpt(b *buffer.Bytes, n *cc.PointerOpt) {
 }
 
 func directAbstractDeclarator(b *buffer.Bytes, n *cc.DirectAbstractDeclarator) {
-
 	switch n.Case {
 	case 0: // '(' AbstractDeclarator ')'
 		b.WriteByte('(')
 		abstractDeclarator(b, n.AbstractDeclarator)
 		b.WriteByte(')')
+	case 1: // DirectAbstractDeclaratorOpt '[' ExpressionOpt ']'                             // Case 1
+		if d := n.DirectAbstractDeclaratorOpt; d != nil {
+			panic("TODO")
+		}
+		b.WriteByte('[')
+		expressionOpt(b, n.ExpressionOpt)
+		b.WriteByte(']')
 	case 7: // DirectAbstractDeclarator '(' ParameterTypeListOpt ')'
 		directAbstractDeclarator(b, n.DirectAbstractDeclarator)
 		b.WriteByte('(')
@@ -944,6 +950,13 @@ func header(nm, mre, dre string) {
 		}))
 	}
 
+	inc := ""
+	if nm == "X11/extensions/Xdbe" {
+		inc = `
+#include <X11/X.h>
+#include <X11/Xlib.h>
+`
+	}
 	ast, err := cc.Parse(
 		fmt.Sprintf(`
 #define __os__ %s
@@ -955,8 +968,9 @@ func header(nm, mre, dre string) {
 
 #include "predefined.h"
 
+%s
 #include <%s.h>
-`, runtime.GOOS, runtime.GOARCH, nm),
+`, runtime.GOOS, runtime.GOARCH, inc, nm),
 		nil,
 		model,
 		opts...,
@@ -1148,7 +1162,7 @@ func main() {
 		{"linux", "pthread", "TODO", "pthread_mutex_t|size_t"},
 		{"linux", "memory", "TODO", "TODO"},
 		{"linux", "alloca", "TODO", "alloca|size_t"},
-		{"linux", "signal", "TODO", "TODO"},
+		{"linux", "signal", "SIGINT", "signal|sig_atomic_t|pid_t"},
 		{"linux", "dirent", "TODO", "TODO"},
 		{"linux", "sys/uio", "TODO", "iovec|size_t"},
 		{"linux", "sys/select", "FD_SETSIZE", "sigset_t|suseconds_t|FD_ZERO"},
@@ -1167,6 +1181,9 @@ func main() {
 		{"linux", "iconv", "TODO", "iconv|size_t"},
 		{"linux", "ffi", "TODO", "TODO"},
 		{"linux", "libintl", "TODO", "TODO"},
+		{"linux", "X11/Xlib", "TODO", "XPoint|Pixmap|wchar_t"},
+		{"linux", "X11/X", "TODO", "VisualID"},
+		{"linux", "X11/extensions/Xdbe", "XdbeUntouched", "XdbeBackBuffer|VisualID|wchar_t"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {
