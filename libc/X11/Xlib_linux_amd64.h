@@ -1328,388 +1328,22 @@ extern int _Xwctomb(char *, wchar_t);
 extern int XGetEventData(Display *, XGenericEventCookie *);
 extern void XFreeEventData(Display *, XGenericEventCookie *);
 
-// /usr/include/X11/X.h 
-
-#define VisibilityUnobscured (0)
-
 // /usr/include/X11/Xlib.h 
 
-#define XNBaseFontName "baseFontName"
+#define XAllocID(dpy) ( ( * ( ( _XPrivDisplay ) ( dpy ) ) -> resource_alloc ) ( ( dpy ) ) )
 
 // /usr/include/X11/X.h 
 
-#define BadDrawable (9)
-#define GCTileStipXOrigin (4096l)
-#define NotifyDetailNone (7)
-#define ResizeRedirectMask (262144l)
+#define DisableScreenInterval (0)
 
 // /usr/include/X11/Xlib.h 
 
-#define XNGeometryCallback "geometryCallback"
+#define X_HAVE_UTF8_STRING (1)
+#define XNFontSet "fontSet"
 
 // /usr/include/X11/X.h 
 
-#define PropertyChangeMask (4194304l)
-#define GXor (7)
-#define StaticColor (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStatusDrawCallback "statusDrawCallback"
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __wchar_t__
-
-// /usr/include/X11/X.h 
-
-#define KeyPress (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define ImageByteOrder(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> byte_order )
-
-// /usr/include/X11/X.h 
-
-#define Opposite (4)
-#define KeyReleaseMask (2l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNHotKey "hotKey"
-#define XNDefaultString "defaultString"
-
-// /usr/include/X11/X.h 
-
-#define StaticGravity (10)
-#define Button3 (3)
-#define CWColormap (8192l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMVisibleToForward (256l)
-
-// /usr/include/X11/X.h 
-
-#define FontLeftToRight (0)
-#define NotifyAncestor (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditDisable (2l)
-
-// /usr/include/X11/X.h 
-
-#define AnyModifier (32768)
-#define GenericEvent (35)
-#define PointerMotionHintMask (128l)
-#define IsUnmapped (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultScreenOfDisplay(dpy) ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) )
-
-// /usr/include/X11/X.h 
-
-#define AllocNone (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditState "preeditState"
-
-// /usr/include/X11/X.h 
-
-#define SelectionRequest (30)
-#define FirstExtensionError (128)
-
-// /usr/include/X11/Xlib.h 
-
-#define EventMaskOfScreen(s) ( ( s ) -> root_input_mask )
-#define DefaultColormap(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> cmap )
-
-// /usr/include/X11/X.h 
-
-#define ButtonRelease (5)
-
-// /usr/include/X11/Xlib.h 
-
-#define XLookupChars (2)
-
-// /usr/include/X11/X.h 
-
-#define AnyKey (0l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNClientWindow "clientWindow"
-
-// /usr/include/X11/X.h 
-
-#define ShiftMapIndex (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define MinCmapsOfScreen(s) ( ( s ) -> min_maps )
-#define XNHotKeyState "hotKeyState"
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_ptrdiff_t_h
-
-// /usr/include/X11/Xlib.h 
-
-#define XNAreaNeeded "areaNeeded"
-#define Status int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/X11/Xlib.h 
-
-#define QueuedAfterReading (1)
-#define XIMInitialState (1l)
-
-// /usr/include/X11/X.h 
-
-#define CWOverrideRedirect (512l)
-#define PlaceOnTop (0)
-#define XYPixmap (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditCallbacks (2l)
-
-// /usr/include/X11/X.h 
-
-#define GCArcMode (4194304l)
-#define FamilyServerInterpreted (5)
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayString(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> display_name )
-
-// /usr/include/X11/X.h 
-
-#define Expose (12)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMHotKeyStateOFF (2l)
-
-// /usr/include/X11/X.h 
-
-#define DoGreen (2)
-#define KBKey (64l)
-#define ColormapChangeMask (8388608l)
-#define Mod4Mask (64)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNResetState "resetState"
-
-// /usr/include/X11/X.h 
-
-#define KBBellPercent (2l)
-#define WindingRule (1)
-#define CoordModePrevious (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultVisualOfScreen(s) ( ( s ) -> root_visual )
-
-// /usr/include/X11/X.h 
-
-#define NoEventMask (0l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditCaretCallback "preeditCaretCallback"
-
-// /usr/include/X11/X.h 
-
-#define CWSibling (32)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStatusStartCallback "statusStartCallback"
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_DEFINED_
-
-// /usr/include/X11/X.h 
-
-#define Mod1Mask (8)
-#define TopIf (2)
-#define AnyButton (0l)
-#define DoBlue (4)
-#define GrabModeSync (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T
-
-// /usr/include/X11/X.h 
-
-#define SyncBoth (7)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionConcealed (16)
-
-// /usr/include/X11/X.h 
-
-#define GCSubwindowMode (32768l)
-#define LedModeOff (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define ProtocolVersion(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> proto_major_version )
-
-// /usr/include/X11/X.h 
-
-#define MappingFailed (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNBackground "background"
-#define XNStringConversion "stringConversion"
-
-// /usr/include/X11/X.h 
-
-#define NotifyGrab (1)
-#define PropModeAppend (2)
 #define SubstructureRedirectMask (1048576l)
-#define Mod1MapIndex (3)
-#define GCFillStyle (256l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStatusCallbacks (512l)
-
-// /usr/include/X11/X.h 
-
-#define GCTileStipYOrigin (8192l)
-
-// /usr/include/X11/Xlib.h 
-
-#define BitmapPad(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_pad )
-#define XNPreeditDrawCallback "preeditDrawCallback"
-
-// /usr/include/X11/X.h 
-
-#define GXset (15)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNR6PreeditCallback "r6PreeditCallback"
-#define XNContextualDrawing "contextualDrawing"
-
-// /usr/include/X11/X.h 
-
-#define None (0l)
-#define AsyncKeyboard (3)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_
-
-// /usr/include/X11/X.h 
-
-#define LineDoubleDash (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define ServerVendor(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> vendor )
-
-// /usr/include/X11/X.h 
-
-#define Always (2)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _ANSI_STDDEF_H
-
-// /usr/include/X11/X.h 
-
-#define StaticGray (0)
-#define SubstructureNotifyMask (524288l)
-#define NotifyInferior (2)
-#define NotifyNonlinearVirtual (4)
-#define ResizeRequest (25)
-#define DefaultBlanking (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionRightEdge (2)
-#define DefaultDepth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
-#define XBufferOverflow (-1)
-
-// /usr/include/X11/X.h 
-
-#define LowerHighest (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMVisibleToBackword (512l)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_WCHAR_
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayWidth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> width )
-#define XNVisiblePosition "visiblePosition"
-
-// /usr/include/X11/X.h 
-
-#define CapNotLast (0)
-#define _XTYPEDEF_FONT
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStatusNothing (1024l)
-
-// /usr/include/X11/X.h 
-
-#define LASTEvent (36)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditAttributes "preeditAttributes"
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-
-// /usr/include/X11/Xlib.h 
-
-#define XNOrientation "orientation"
-
-// /usr/include/X11/X.h 
-
-#define MapRequest (20)
-#define CWEventMask (2048l)
-#define MotionNotify (6)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionChar (4)
-
-// /usr/include/X11/X.h 
-
-#define BadAccess (10)
-#define _XTYPEDEF_MASK
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-
-// /usr/include/X11/X.h 
-
-#define BottomIf (3)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -1717,78 +1351,17 @@ extern void XFreeEventData(Display *, XGenericEventCookie *);
 
 // /usr/include/X11/X.h 
 
-#define KeyRelease (3)
+#define StaticColor (2)
 
 // /usr/include/X11/Xlib.h 
 
-#define DoesSaveUnders(s) ( ( s ) -> save_unders )
+#define XIMVisibleToBackword (512l)
 
 // /usr/include/X11/X.h 
 
-#define KeyPressMask (1l)
-
-// /usr/include/X11/Xlib.h 
-
-#define WhitePixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> white_pixel )
-
-// /usr/include/X11/X.h 
-
-#define PropModePrepend (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionBuffer (1)
-
-// /usr/include/X11/X.h 
-
-#define KBLed (16l)
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultVisual(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_visual )
-#define XNPreeditDoneCallback "preeditDoneCallback"
-
-// /usr/include/X11/X.h 
-
-#define _XTYPEDEF_ATOM
-
-// /usr/include/X11/Xlib.h 
-
-#define WhitePixelOfScreen(s) ( ( s ) -> white_pixel )
-
-// /usr/include/X11/X.h 
-
-#define CWBackPixel (2l)
-#define BadColor (12)
-#define GXcopy (3)
-#define CapRound (2)
-#define AllocAll (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMHotKeyStateON (1l)
-#define MaxCmapsOfScreen(s) ( ( s ) -> max_maps )
-
-// /usr/include/X11/X.h 
-
-#define GravityNotify (24)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_
-
-// /usr/include/X11/X.h 
-
-#define KBBellPitch (4l)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __WCHAR_T
-
-// /usr/include/X11/X.h 
-
-#define GXand (1)
-#define NotifyWhileGrabbed (3)
+#define ParentRelative (1l)
+#define NorthWestGravity (1)
+#define ExposureMask (32768l)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -1796,198 +1369,30 @@ extern void XFreeEventData(Display *, XGenericEventCookie *);
 
 // /usr/include/X11/X.h 
 
-#define ExposureMask (32768l)
-#define NotifyPointerRoot (6)
-#define GXcopyInverted (12)
-#define GXandReverse (2)
-#define GrabSuccess (0)
-#define HostInsert (0)
-#define PointerRoot (1l)
-#define ConfigureRequest (23)
-#define BadAtom (5)
-#define DontAllowExposures (0)
+#define BadCursor (6)
+
+// /usr/include/X11/Xlib.h 
+
+#define QueuedAfterReading (1)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __WCHAR_T__
+#define _WCHAR_T_DEFINED_
 
 // /usr/include/X11/X.h 
 
-#define MapNotify (19)
-#define GXinvert (10)
+#define MappingBusy (1)
+#define Button5Mask (4096)
 
 // /usr/include/X11/Xlib.h 
 
-#define XNDirectionalDependentDrawing "directionalDependentDrawing"
+#define Status int
 
 // /usr/include/X11/X.h 
 
-#define Mod4MapIndex (6)
-#define BadAlloc (11)
-
-// /usr/include/X11/Xlib.h 
-
-#define BitmapBitOrder(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_bit_order )
-
-// /usr/include/X11/X.h 
-
-#define EastGravity (6)
-#define Mod5Mask (128)
-#define CapButt (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define BitmapUnit(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_unit )
-
-// /usr/include/X11/X.h 
-
-#define NoSymbol (0l)
-#define CWBorderWidth (16)
-
-// /usr/include/X11/Xlib.h 
-
-#define RootWindowOfScreen(s) ( ( s ) -> root )
-
-// /usr/include/X11/X.h 
-
-#define GCFillRule (512l)
-#define NotUseful (0)
-#define NotifyHint (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStatusArea (256l)
-
-// /usr/include/X11/X.h 
-
-#define Button5MotionMask (4096l)
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayPlanes(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
-
-// /usr/include/X11/X.h 
-
-#define PlaceOnBottom (1)
-#define ShiftMask (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define ProtocolRevision(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> proto_minor_version )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _STDDEF_H_
-
-// /usr/include/X11/X.h 
-
-#define KBLedMode (32l)
-#define CWWinGravity (32l)
-
-// /usr/include/X11/Xlib.h 
-
-#define QLength(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> qlen )
-#define RootWindow(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root )
-
-// /usr/include/X11/X.h 
-
+#define RetainTemporary (2)
+#define GCTile (1024l)
 #define Unsorted (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _GCC_WCHAR_T
-
-// /usr/include/X11/X.h 
-
-#define EnableAccess (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionRetrieval (2)
-#define DisplayWidthMM(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> mwidth )
-
-// /usr/include/X11/X.h 
-
-#define ReparentNotify (21)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __INT_WCHAR_T_H
-
-// /usr/include/X11/X.h 
-
-#define ButtonMotionMask (8192l)
-#define CWBorderPixmap (4l)
-#define StructureNotifyMask (131072l)
-#define AlreadyGrabbed (1)
-#define CWBorderPixel (8l)
-#define ColormapUninstalled (0)
-#define LeaveNotify (8)
-#define CWBackingPlanes (128l)
-#define NorthGravity (2)
-#define CopyFromParent (0l)
-#define CWBitGravity (16l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNSeparatorofNestedList "separatorofNestedList"
-#define XNFilterEvents "filterEvents"
-#define XNArea "area"
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
-#define __SIZE_T__
-
-// /usr/include/X11/X.h 
-
-#define HostDelete (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-
-// /usr/include/X11/X.h 
-
-#define InputFocus (1l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStatusNone (2048l)
-#define NextRequest(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> request + 1 )
-#define XIMPreeditUnKnown (0l)
-
-// /usr/include/X11/X.h 
-
-#define TileShape (1)
-#define GCGraphicsExposures (65536l)
-#define AutoRepeatModeOff (0)
-#define SouthWestGravity (7)
-#define Button4Mask (2048)
-#define AutoRepeatModeDefault (2)
-#define ColormapInstalled (1)
-#define Button2Mask (512)
-#define KeymapNotify (11)
-
-// /usr/include/X11/Xlib.h 
-
-#define HeightOfScreen(s) ( ( s ) -> height )
-
-// /usr/include/X11/X.h 
-
-#define X_PROTOCOL (11)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_wchar_t_h
-
-// /usr/include/X11/X.h 
-
-#define Mod3MapIndex (5)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define NULL ( ( void * ) 0 )
 
 // /usr/include/X11/Xlib.h 
 
@@ -1995,295 +1400,77 @@ extern void XFreeEventData(Display *, XGenericEventCookie *);
 
 // /usr/include/X11/X.h 
 
-#define GXequiv (9)
-#define BadValue (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define BlackPixelOfScreen(s) ( ( s ) -> black_pixel )
-
-// /usr/include/X11/X.h 
-
-#define DisableScreenInterval (0)
-#define CWSaveUnder (1024l)
-#define GCClipMask (524288l)
-
-// /usr/include/X11/Xlib.h 
-
-#define Bool int
-
-// /usr/include/X11/X.h 
-
-#define KBKeyClickPercent (1l)
-#define MappingKeyboard (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionLine (2)
-
-// /usr/include/X11/X.h 
-
-#define GrabFrozen (4)
-#define YXBanded (3)
-#define CirculateRequest (27)
-#define UnmapGravity (0)
-#define FillOpaqueStippled (3)
-#define GCTile (1024l)
-#define RetainPermanent (1)
-#define Button3Mask (1024)
-#define DisableScreenSaver (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNForeground "foreground"
-
-// /usr/include/X11/X.h 
-
-#define PointerMotionMask (64l)
-#define ScreenSaverReset (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define BlackPixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> black_pixel )
-
-// /usr/include/X11/X.h 
-
-#define Button4MotionMask (2048l)
-#define AutoRepeatModeOn (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultScreen(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> default_screen )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_PTRDIFF
-
-// /usr/include/X11/X.h 
-
-#define DontPreferBlanking (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNCursor "cursor"
-#define DefaultDepthOfScreen(s) ( ( s ) -> root_depth )
-
-// /usr/include/X11/X.h 
-
-#define MappingNotify (34)
-#define BadIDChoice (14)
-#define PropModeReplace (0)
-#define BadLength (16)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNMissingCharSet "missingCharSet"
-#define XNDestroyCallback "destroyCallback"
-#define CellsOfScreen(s) ( DefaultVisualOfScreen ( ( s ) ) -> map_entries )
-
-// /usr/include/X11/X.h 
-
-#define KBBellDuration (8l)
-#define NotifyVirtual (1)
-#define DefaultExposures (2)
-#define Button1MotionMask (256l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XLookupNone (1)
-#define False (0)
-
-// /usr/include/X11/X.h 
-
-#define SelectionNotify (31)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStdColormap "stdColorMap"
-
-// /usr/include/X11/X.h 
-
-#define Button1 (1)
-#define NoExpose (14)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMHighlight (4l)
-
-// /usr/include/X11/X.h 
-
-#define CWHeight (8)
-
-// /usr/include/X11/Xlib.h 
-
-#define ScreenOfDisplay(dpy, scr) ( & ( ( _XPrivDisplay ) ( dpy ) ) -> screens [ scr ] )
-
-// /usr/include/X11/X.h 
-
-#define RevertToNone ( int ) None
-#define JoinBevel (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionLeftEdge (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_PTRDIFF_T_
-
-// /usr/include/X11/X.h 
-
-#define ButtonPress (4)
-#define PseudoColor (3)
-#define IsViewable (2)
-#define FillSolid (0)
-#define YXSorted (2)
-#define GXclear (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultGC(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> default_gc )
-#define XNQueryInputStyle "queryInputStyle"
-
-// /usr/include/X11/X.h 
-
-#define StippleShape (2)
 #define FontRightToLeft (1)
-#define FillTiled (1)
-#define BadPixmap (4)
+#define LineDoubleDash (2)
 
 // /usr/include/X11/Xlib.h 
 
-#define DisplayOfScreen(s) ( ( s ) -> display )
-#define XIMStringConversionSubstitution (1)
-
-// /usr/include/X11/X.h 
-
-#define Mod5MapIndex (7)
-#define Button5 (5)
-#define GCBackground (8l)
-#define NorthEastGravity (3)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMReverse (1l)
-
-// /usr/include/X11/X.h 
-
-#define BadWindow (3)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _STDDEF_H
-
-// /usr/include/X11/X.h 
-
-#define TrueColor (4)
-#define Button5Mask (4096)
-#define CirculateNotify (26)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_H
-
-// /usr/include/X11/X.h 
-
-#define CWBackingPixel (256l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNResourceClass "resourceClass"
-
-// /usr/include/X11/X.h 
-
-#define ReplayPointer (2)
-#define ParentRelative (1l)
-
-// /usr/include/X11/Xlib.h 
-
-#define _X11_XLIB_H_
-
-// /usr/include/X11/X.h 
-
-#define IsUnviewable (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XlibSpecificationRelease (6)
-
-// /usr/include/X11/X.h 
-
-#define XYBitmap (0)
-#define SouthGravity (8)
-
-// /usr/include/X11/Xlib.h 
-
-#define ScreenCount(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> nscreens )
-
-// /usr/include/X11/X.h 
-
-#define GCLineStyle (32l)
-#define NotifyNonlinear (3)
-#define InputOnly (2)
-#define GXnor (8)
-#define MappingBusy (1)
-#define GCFont (16384l)
-
-// /usr/include/X11/Xlib.h 
-
-#define WidthOfScreen(s) ( ( s ) -> width )
-#define XNInputStyle "inputStyle"
-
-// /usr/include/X11/X.h 
-
-#define Convex (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XLookupBoth (4)
-
-// /usr/include/X11/X.h 
-
-#define Complex (0)
-#define BadName (15)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __PTRDIFF_T
-
-// /usr/include/X11/X.h 
-
-#define PropertyNewValue (0)
-#define GCJoinStyle (128l)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
+#define XIMStringConversionRetrieval (2)
+#define WhitePixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> white_pixel )
 
 // /usr/include/X11/X.h 
 
 #define VisibilityNotify (15)
-#define Button3MotionMask (1024l)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-
-// /usr/include/X11/X.h 
-
-#define NotifyUngrab (2)
-#define WhenMapped (1)
 
 // /usr/include/X11/Xlib.h 
 
-#define XIMPreeditPosition (4l)
+#define XNPreeditAttributes "preeditAttributes"
 
 // /usr/include/X11/X.h 
 
-#define SetModeDelete (1)
-#define CWY (2)
+#define GCBackground (8l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNQueryInputStyle "queryInputStyle"
+
+// /usr/include/X11/X.h 
+
+#define DoBlue (4)
+#define PointerMotionMask (64l)
+#define Mod2MapIndex (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define NextRequest(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> request + 1 )
+#define XIMPrimary (32l)
+
+// /usr/include/X11/X.h 
+
+#define ReplayKeyboard (5)
+
+// /usr/include/X11/Xlib.h 
+
+#define WidthOfScreen(s) ( ( s ) -> width )
+
+// /usr/include/X11/X.h 
+
+#define AllowExposures (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionConcealed (16)
+
+// /usr/include/X11/X.h 
+
 #define AnyPropertyType (0l)
-#define CoordModeOrigin (0)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZET_
+
+// /usr/include/X11/X.h 
+
+#define Expose (12)
+#define MappingModifier (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditDoneCallback "preeditDoneCallback"
+
+// /usr/include/X11/X.h 
+
+#define LineOnOffDash (1)
 
 // /usr/include/X11/Xlib.h 
 
@@ -2291,179 +1478,93 @@ extern void XFreeEventData(Display *, XGenericEventCookie *);
 
 // /usr/include/X11/X.h 
 
-#define PointerWindow (0l)
+#define _XTYPEDEF_FONT
+#define MapRequest (20)
 
 // /usr/include/X11/Xlib.h 
 
-#define XNLineSpace "lineSpace"
+#define XIMPreeditNothing (8l)
+#define XNOMAutomatic "omAutomatic"
+
+// /usr/include/X11/X.h 
+
+#define FamilyDECnet (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultVisual(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_visual )
+
+// /usr/include/X11/X.h 
+
+#define ColormapUninstalled (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNOrientation "orientation"
+
+// /usr/include/X11/X.h 
+
+#define ForgetGravity (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditUnKnown (0l)
+
+// /usr/include/X11/X.h 
+
+#define KeyRelease (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define LastKnownRequestProcessed(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> last_request_read )
+
+// /usr/include/X11/X.h 
+
+#define GCGraphicsExposures (65536l)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _T_WCHAR
 
+// /usr/include/X11/Xlib.h 
+
+#define XIMInitialState (1l)
+
 // /usr/include/X11/X.h 
 
-#define CreateNotify (16)
-#define ControlMask (4)
+#define ArcChord (0)
+#define RetainPermanent (1)
+#define NotifyUngrab (2)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _WCHAR_T_DECLARED
-
-// /usr/include/X11/Xlib.h 
-
-#define True (1)
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/X11/X.h 
 
-#define PreferBlanking (1)
-#define Mod2Mask (16)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _PTRDIFF_T_DECLARED
-
-// /usr/include/X11/X.h 
-
-#define Mod3Mask (32)
-#define YSorted (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T
-
-// /usr/include/X11/X.h 
-
-#define FillStippled (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNBackgroundPixmap "backgroundPixmap"
-#define XNQueryICValuesList "queryICValuesList"
-
-// /usr/include/X11/X.h 
-
-#define CWBackPixmap (1l)
-#define ConfigureNotify (22)
-#define ButtonReleaseMask (8l)
-#define UnmapNotify (18)
-#define MSBFirst (1)
-#define ColormapNotify (32)
-
-// /usr/include/X11/Xlib.h 
-
-#define QueuedAfterFlush (2)
-
-// /usr/include/X11/X.h 
-
-#define CurrentTime (0l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditNothing (8l)
-
-// /usr/include/X11/X.h 
-
-#define LineSolid (0)
-#define InputOutput (1)
-#define BadImplementation (17)
+#define PropertyNotify (28)
+#define NotifyAncestor (0)
 #define Button2 (2)
-#define X_PROTOCOL_REVISION (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _PTRDIFF_T_
-
-// /usr/include/X11/X.h 
-
-#define GCCapStyle (64l)
-#define CapProjecting (3)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SYS_SIZE_T_H
-#define _SIZET_
+#define SelectionNotify (31)
 
 // /usr/include/X11/Xlib.h 
 
-#define XIMStringConversionBottomEdge (8)
+#define XIMStringConversionLine (2)
 
 // /usr/include/X11/X.h 
 
-#define GCDashOffset (1048576l)
-#define GCPlaneMask (2l)
+#define CWHeight (8)
 
 // /usr/include/X11/Xlib.h 
 
-#define XNStringConversionCallback "stringConversionCallback"
+#define XNForeground "foreground"
 
 // /usr/include/X11/X.h 
 
-#define GrabInvalidTime (2)
-#define FamilyDECnet (1)
-#define VisibilityChangeMask (65536l)
-#define FamilyInternet6 (6)
-#define BadMatch (8)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_PTRDIFF_
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultColormapOfScreen(s) ( ( s ) -> cmap )
-#define XIMPreeditNone (16l)
-
-// /usr/include/X11/X.h 
-
-#define GCClipXOrigin (131072l)
-
-// /usr/include/X11/Xlib.h 
-
-#define WidthMMOfScreen(s) ( ( s ) -> mwidth )
-
-// /usr/include/X11/X.h 
-
-#define EnterNotify (7)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditStartCallback "preeditStartCallback"
-
-// /usr/include/X11/X.h 
-
-#define Button4 (4)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStatusAttributes "statusAttributes"
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T
-
-// /usr/include/X11/X.h 
-
-#define FocusIn (9)
-#define GXnoop (5)
-#define SelectionClear (29)
-
-// /usr/include/X11/Xlib.h 
-
-#define HeightMMOfScreen(s) ( ( s ) -> mheight )
-#define XNSpotLocation "spotLocation"
-
-// /usr/include/X11/X.h 
-
-#define MappingPointer (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMVisibleToCenter (1024l)
-
-// /usr/include/X11/X.h 
-
-#define EvenOddRule (0)
+#define Always (2)
+#define CapButt (1)
+#define RevertToParent (2)
+#define LockMapIndex (1)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -2471,186 +1572,12 @@ extern void XFreeEventData(Display *, XGenericEventCookie *);
 
 // /usr/include/X11/X.h 
 
-#define X_H
+#define ButtonPress (4)
+#define MSBFirst (1)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _BSD_SIZE_T_
-
-// /usr/include/X11/X.h 
-
-#define Button2MotionMask (512l)
-#define NotifyPointer (5)
-#define SyncPointer (1)
-#define FamilyChaos (2)
-#define FontChange (255)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNQueryIMValuesList "queryIMValuesList"
-
-// /usr/include/X11/X.h 
-
-#define BadGC (13)
-#define GXxor (6)
-#define NotifyNormal (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionTopEdge (4)
-
-// /usr/include/X11/X.h 
-
-#define BadFont (7)
-#define AllTemporary (0l)
-
-// /usr/include/X11/Xlib.h 
-
-#define ConnectionNumber(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> fd )
-#define XNFontSet "fontSet"
-
-// /usr/include/X11/X.h 
-
-#define GXnand (14)
-#define CursorShape (0)
-#define RevertToPointerRoot ( int ) PointerRoot
-#define ArcChord (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditEnable (1l)
-
-// /usr/include/X11/X.h 
-
-#define LineOnOffDash (1)
-#define FocusOut (10)
-#define OwnerGrabButtonMask (16777216l)
-#define NorthWestGravity (1)
-#define DisableAccess (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define VendorRelease(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> release )
-
-// /usr/include/X11/X.h 
-
-#define GXandInverted (4)
-#define CWDontPropagate (4096l)
-#define VisibilityFullyObscured (2)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _PTRDIFF_T
-
-// /usr/include/X11/X.h 
-
-#define LedModeOn (1)
-#define AllowExposures (1)
-#define ReplayKeyboard (5)
-#define GXorInverted (13)
-#define Mod2MapIndex (4)
-#define ZPixmap (2)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNQueryOrientation "queryOrientation"
-#define XAllocID(dpy) ( ( * ( ( _XPrivDisplay ) ( dpy ) ) -> resource_alloc ) ( ( dpy ) ) )
-#define XNOMAutomatic "omAutomatic"
-#define XIMPreeditArea (1l)
-
-// /usr/include/X11/X.h 
-
-#define GrabModeAsync (1)
-#define GXorReverse (11)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t
-
-// /usr/include/X11/X.h 
-
-#define CWWidth (4)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE
-
-// /usr/include/X11/X.h 
-
-#define SouthEastGravity (9)
-#define FocusChangeMask (2097152l)
-#define ForgetGravity (0)
-#define Success (0)
-#define JoinMiter (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define QueuedAlready (0)
-
-// /usr/include/X11/X.h 
-
-#define SyncKeyboard (4)
-#define ClipByChildren (0)
-#define GCStipple (2048l)
-#define CWStackMode (64)
-#define LeaveWindowMask (32l)
-#define LockMapIndex (1)
-#define GraphicsExpose (13)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNVaNestedList "XNVaNestedList"
-
-// /usr/include/X11/X.h 
-
-#define ArcPieSlice (1)
-#define RaiseLowest (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultRootWindow(dpy) ( ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) ) -> root )
-
-// /usr/include/X11/X.h 
-
-#define GCDashList (2097152l)
-#define KBAutoRepeatMode (128l)
-#define CWBackingStore (64l)
-
-// /usr/include/X11/Xlib.h 
-
-#define LastKnownRequestProcessed(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> last_request_read )
-#define XLookupKeySym (3)
-
-// /usr/include/X11/X.h 
-
-#define MappingSuccess (0)
-#define GCForeground (4l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreserveState (2l)
-
-// /usr/include/X11/X.h 
-
-#define FamilyInternet (0)
-#define Button1Mask (256)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNFocusWindow "focusWindow"
-
-// /usr/include/X11/X.h 
-
-#define ScreenSaverActive (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPrimary (32l)
-
-// /usr/include/X11/X.h 
-
-#define KeymapStateMask (16384l)
-#define GrabNotViewable (3)
+#define _BSD_PTRDIFF_T_
 
 // /usr/include/X11/Xlib.h 
 
@@ -2658,110 +1585,392 @@ extern void XFreeEventData(Display *, XGenericEventCookie *);
 
 // /usr/include/X11/X.h 
 
-#define VisibilityPartiallyObscured (1)
+#define DestroyNotify (17)
 
-// /usr/include/X11/Xlib.h 
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define XIMStringConversionWord (3)
-#define XNColormap "colorMap"
-#define AllPlanes ( ( unsigned long ) ~ 0L )
+#define _STDDEF_H
 
 // /usr/include/X11/X.h 
 
-#define GrayScale (1)
+#define IncludeInferiors (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMVisibleToForward (256l)
+#define XNPreeditStartCallback "preeditStartCallback"
+
+// /usr/include/X11/X.h 
+
+#define FamilyChaos (2)
+#define MotionNotify (6)
+#define ShiftMapIndex (0)
+#define Mod5MapIndex (7)
+#define CopyFromParent (0l)
+#define NorthGravity (2)
+#define Button3 (3)
+#define CWBorderWidth (16)
+
+// /usr/include/X11/Xlib.h 
+
+#define ConnectionNumber(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> fd )
+#define XLookupBoth (4)
+
+// /usr/include/X11/X.h 
+
+#define BadAccess (10)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNResourceClass "resourceClass"
+
+// /usr/include/X11/X.h 
+
+#define LASTEvent (36)
+#define CWColormap (8192l)
+#define Button1 (1)
+#define AutoRepeatModeDefault (2)
 
 // /usr/include/X11/Xlib.h 
 
 #define DisplayHeight(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> height )
-#define XIMUnderline (2l)
+#define VendorRelease(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> release )
 
 // /usr/include/X11/X.h 
 
-#define RetainTemporary (2)
-#define BadRequest (1)
-#define AsyncPointer (0)
-#define BadCursor (6)
-#define ClientMessage (33)
-#define Above (0)
-#define ControlMapIndex (2)
-#define Below (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayCells(dpy, scr) ( DefaultVisual ( dpy , scr ) -> map_entries )
-
-// /usr/include/X11/X.h 
-
-#define CenterGravity (5)
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMTertiary (128l)
-#define XNStatusDoneCallback "statusDoneCallback"
-#define XIMSecondary (64l)
-
-// /usr/include/X11/X.h 
-
-#define EnterWindowMask (16l)
-#define CWCursor (16384l)
-#define DoRed (1)
-
-// /usr/include/X11/Xlib.h 
-
-#define PlanesOfScreen(s) ( ( s ) -> root_depth )
-
-// /usr/include/X11/X.h 
-
-#define ButtonPressMask (4l)
-#define GCClipYOrigin (262144l)
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditStateNotifyCallback "preeditStateNotifyCallback"
-
-// /usr/include/X11/X.h 
-
-#define GCFunction (1l)
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultGCOfScreen(s) ( ( s ) -> default_gc )
-
-// /usr/include/X11/X.h 
-
-#define MappingModifier (0)
-#define LSBFirst (0)
-
-// /usr/include/X11/Xlib.h 
-
-#define X_HAVE_UTF8_STRING (1)
-
-// /usr/include/X11/X.h 
-
-#define PropertyNotify (28)
-#define RevertToParent (2)
-#define DirectColor (5)
+#define StructureNotifyMask (131072l)
+#define Complex (0)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _GCC_SIZE_T
+#define __SIZE_T__
 
 // /usr/include/X11/X.h 
 
-#define GCLastBit (22)
-#define GCLineWidth (16l)
 #define CWX (1)
 
 // /usr/include/X11/Xlib.h 
 
-#define DoesBackingStore(s) ( ( s ) -> backing_store )
+#define XIMHotKeyStateOFF (2l)
 
 // /usr/include/X11/X.h 
 
-#define LockMask (2)
-#define SetModeInsert (0)
-#define LastExtensionError (255)
+#define FirstExtensionError (128)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultVisualOfScreen(s) ( ( s ) -> root_visual )
+
+// /usr/include/X11/X.h 
+
+#define UnmapNotify (18)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionTopEdge (4)
+
+// /usr/include/X11/X.h 
+
+#define GXcopyInverted (12)
+#define KBAutoRepeatMode (128l)
+#define JoinBevel (2)
+#define _XTYPEDEF_MASK
+
+// /usr/include/X11/Xlib.h 
+
+#define False (0)
+
+// /usr/include/X11/X.h 
+
+#define NotifyInferior (2)
+#define GXnand (14)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultDepth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
+
+// /usr/include/X11/X.h 
+
+#define VisibilityPartiallyObscured (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XLookupChars (2)
+
+// /usr/include/X11/X.h 
+
+#define ControlMask (4)
+#define GXclear (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionBuffer (1)
+
+// /usr/include/X11/X.h 
+
+#define ButtonRelease (5)
+#define EnterNotify (7)
+#define BottomIf (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define WhitePixelOfScreen(s) ( ( s ) -> white_pixel )
+
+// /usr/include/X11/X.h 
+
+#define GrabNotViewable (3)
+#define NoSymbol (0l)
+#define DisableAccess (0)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_WCHAR_T
+
+// /usr/include/X11/X.h 
+
+#define Mod3MapIndex (5)
+#define Success (0)
+#define BadPixmap (4)
+#define TopIf (2)
+#define ClipByChildren (0)
+#define Button2Mask (512)
+#define YSorted (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditState "preeditState"
+
+// /usr/include/X11/X.h 
+
+#define SelectionClear (29)
+#define AllocAll (1)
+#define LedModeOff (0)
+#define DisableScreenSaver (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStringConversion "stringConversion"
+
+// /usr/include/X11/X.h 
+
+#define EnterWindowMask (16l)
+#define DontAllowExposures (0)
+#define GrayScale (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultGC(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> default_gc )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
+
+// /usr/include/X11/X.h 
+
+#define CreateNotify (16)
+
+// /usr/include/X11/Xlib.h 
+
+#define ImageByteOrder(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> byte_order )
+
+// /usr/include/X11/X.h 
+
+#define MappingSuccess (0)
+#define KBKey (64l)
+#define ResizeRequest (25)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionSubstitution (1)
+#define XNQueryOrientation "queryOrientation"
+
+// /usr/include/X11/X.h 
+
+#define GXequiv (9)
+#define Mod4MapIndex (6)
+#define GCClipYOrigin (262144l)
+#define GCTileStipXOrigin (4096l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMSecondary (64l)
+
+// /usr/include/X11/X.h 
+
+#define LSBFirst (0)
+#define NotifyDetailNone (7)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultScreen(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> default_screen )
+
+// /usr/include/X11/X.h 
+
+#define GCDashOffset (1048576l)
+#define _XTYPEDEF_ATOM
+#define MappingKeyboard (1)
+#define BadAlloc (11)
+#define DontPreferBlanking (0)
+#define GXandInverted (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMTertiary (128l)
+
+// /usr/include/X11/X.h 
+
+#define LowerHighest (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define _X11_XLIB_H_
+#define XIMPreeditCallbacks (2l)
+#define QueuedAfterFlush (2)
+#define DisplayOfScreen(s) ( ( s ) -> display )
+
+// /usr/include/X11/X.h 
+
+#define CursorShape (0)
+#define InputOnly (2)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T
+
+// /usr/include/X11/X.h 
+
+#define CWBackingStore (64l)
+#define Convex (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultScreenOfDisplay(dpy) ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) )
+#define XNGeometryCallback "geometryCallback"
+
+// /usr/include/X11/X.h 
+
+#define NotifyWhileGrabbed (3)
+#define FocusChangeMask (2097152l)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE
+
+// /usr/include/X11/X.h 
+
+#define RaiseLowest (0)
+#define CWBackingPlanes (128l)
+#define CWBorderPixmap (4l)
+#define BadDrawable (9)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayWidth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> width )
+
+// /usr/include/X11/X.h 
+
+#define DestroyAll (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define QueuedAlready (0)
+#define XNFilterEvents "filterEvents"
+#define XlibSpecificationRelease (6)
+
+// /usr/include/X11/X.h 
+
+#define GXor (7)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNMissingCharSet "missingCharSet"
+
+// /usr/include/X11/X.h 
+
+#define CurrentTime (0l)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __WCHAR_T
+
+// /usr/include/X11/X.h 
+
+#define GCFont (16384l)
+
+// /usr/include/X11/Xlib.h 
+
+#define ProtocolRevision(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> proto_minor_version )
+
+// /usr/include/X11/X.h 
+
+#define CWBackPixel (2l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNArea "area"
+
+// /usr/include/X11/X.h 
+
+#define TileShape (1)
+#define NoExpose (14)
+#define FontChange (255)
+#define GCSubwindowMode (32768l)
+
+// /usr/include/X11/Xlib.h 
+
+#define EventMaskOfScreen(s) ( ( s ) -> root_input_mask )
+#define XNBackgroundPixmap "backgroundPixmap"
+
+// /usr/include/X11/X.h 
+
+#define ButtonMotionMask (8192l)
+#define NotUseful (0)
+#define CWY (2)
+#define GrabInvalidTime (2)
+#define VisibilityUnobscured (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionLeftEdge (1)
+
+// /usr/include/X11/X.h 
+
 #define AsyncBoth (6)
+#define CWEventMask (2048l)
+#define StaticGravity (10)
+#define NotifyHint (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define MaxCmapsOfScreen(s) ( ( s ) -> max_maps )
+#define XIMPreeditDisable (2l)
+#define DoesSaveUnders(s) ( ( s ) -> save_unders )
+
+// /usr/include/X11/X.h 
+
+#define GrabModeSync (0)
+#define AnyKey (0l)
+#define BadFont (7)
+#define SubstructureNotifyMask (524288l)
+#define GrabSuccess (0)
+#define GCDashList (2097152l)
+#define UnmapGravity (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayString(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> display_name )
+
+// /usr/include/X11/X.h 
+
+#define PropModePrepend (1)
 
 // /usr/include/X11/Xlib.h 
 
@@ -2769,18 +1978,794 @@ extern void XFreeEventData(Display *, XGenericEventCookie *);
 
 // /usr/include/X11/X.h 
 
-#define JoinRound (1)
-#define Nonconvex (1)
-#define PropertyDelete (1)
+#define MappingNotify (34)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNDefaultString "defaultString"
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_wchar_t_h
+#define _SIZE_T_
+
+// /usr/include/X11/X.h 
+
+#define IsUnmapped (0)
+#define Mod3Mask (32)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNBaseFontName "baseFontName"
+#define XIMPreeditArea (1l)
+
+// /usr/include/X11/X.h 
+
+#define CWDontPropagate (4096l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditEnable (1l)
+
+// /usr/include/X11/X.h 
+
+#define CWOverrideRedirect (512l)
+#define GCLastBit (22)
+#define AutoRepeatModeOff (0)
+#define AutoRepeatModeOn (1)
+#define NotifyPointerRoot (6)
+
+// /usr/include/X11/Xlib.h 
+
+#define BlackPixelOfScreen(s) ( ( s ) -> black_pixel )
+
+// /usr/include/X11/X.h 
+
+#define LedModeOn (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNDirectionalDependentDrawing "directionalDependentDrawing"
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+
+// /usr/include/X11/Xlib.h 
+
+#define XLookupNone (1)
+
+// /usr/include/X11/X.h 
+
+#define Button5MotionMask (4096l)
+#define PlaceOnBottom (1)
+#define MappingFailed (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNQueryIMValuesList "queryIMValuesList"
+#define ProtocolVersion(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> proto_major_version )
+
+// /usr/include/X11/X.h 
+
+#define ScreenSaverReset (0)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _PTRDIFF_T
+
+// /usr/include/X11/X.h 
+
+#define KeymapStateMask (16384l)
+#define VisibilityChangeMask (65536l)
+#define Mod4Mask (64)
+#define ReparentNotify (21)
+#define CWSaveUnder (1024l)
+#define FamilyInternet (0)
+#define KeyReleaseMask (2l)
+#define GXnoop (5)
 #define _XTYPEDEF_XID
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStatusAttributes "statusAttributes"
+#define XIMReverse (1l)
+
+// /usr/include/X11/X.h 
+
+#define PropModeAppend (2)
+#define ArcPieSlice (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultDepthOfScreen(s) ( ( s ) -> root_depth )
+#define XNStatusStartCallback "statusStartCallback"
+
+// /usr/include/X11/X.h 
+
+#define NorthEastGravity (3)
+#define BadLength (16)
+#define GCFillStyle (256l)
+#define NotifyNonlinearVirtual (4)
+#define LeaveWindowMask (32l)
+#define LockMask (2)
+#define YXBanded (3)
+#define YXSorted (2)
+#define WindingRule (1)
+#define SyncPointer (1)
+#define X_PROTOCOL (11)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNAreaNeeded "areaNeeded"
+
+// /usr/include/X11/X.h 
+
+#define GXand (1)
+#define JoinRound (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNVisiblePosition "visiblePosition"
+
+// /usr/include/X11/X.h 
+
+#define KBLed (16l)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultRootWindow(dpy) ( ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) ) -> root )
+#define True (1)
+
+// /usr/include/X11/X.h 
+
+#define InputOutput (1)
+#define AsyncKeyboard (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMVisibleToCenter (1024l)
+#define XNSpotLocation "spotLocation"
+
+// /usr/include/X11/X.h 
+
+#define WestGravity (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNSeparatorofNestedList "separatorofNestedList"
+
+// /usr/include/X11/X.h 
+
+#define DefaultExposures (2)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+
+// /usr/include/X11/X.h 
+
+#define GraphicsExpose (13)
+
+// /usr/include/X11/Xlib.h 
+
+#define XBufferOverflow (-1)
+
+// /usr/include/X11/X.h 
+
+#define DoGreen (2)
+#define CapRound (2)
+#define RevertToPointerRoot ( int ) PointerRoot
+#define Button3MotionMask (1024l)
+#define StippleShape (2)
+#define EvenOddRule (0)
+#define HostDelete (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNR6PreeditCallback "r6PreeditCallback"
+
+// /usr/include/X11/X.h 
+
+#define OwnerGrabButtonMask (16777216l)
+
+// /usr/include/X11/Xlib.h 
+
+#define CellsOfScreen(s) ( DefaultVisualOfScreen ( ( s ) ) -> map_entries )
+#define DisplayCells(dpy, scr) ( DefaultVisual ( dpy , scr ) -> map_entries )
+
+// /usr/include/X11/X.h 
+
+#define Mod2Mask (16)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultColormap(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> cmap )
+
+// /usr/include/X11/X.h 
+
+#define GenericEvent (35)
+#define Button2MotionMask (512l)
+#define CWBorderPixel (8l)
+#define X_H
+#define CWWidth (4)
+#define InputFocus (1l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMHotKeyStateON (1l)
+
+// /usr/include/X11/X.h 
+
+#define ScreenSaverActive (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditStateNotifyCallback "preeditStateNotifyCallback"
+#define XNColormap "colorMap"
+#define XNLineSpace "lineSpace"
+
+// /usr/include/X11/X.h 
+
+#define GCCapStyle (64l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStringConversionCallback "stringConversionCallback"
+#define WidthMMOfScreen(s) ( ( s ) -> mwidth )
+#define XIMStringConversionBottomEdge (8)
+
+// /usr/include/X11/X.h 
+
+#define PlaceOnTop (0)
+#define PropertyNewValue (0)
+#define Mod1Mask (8)
+#define VisibilityFullyObscured (2)
+#define GCFunction (1l)
+#define GCLineWidth (16l)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_
+
+// /usr/include/X11/X.h 
+
+#define BadAtom (5)
+#define ColormapInstalled (1)
+#define GXinvert (10)
+#define PointerRoot (1l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStatusCallbacks (512l)
+#define XIMStatusArea (256l)
+
+// /usr/include/X11/X.h 
+
+#define ShiftMask (1)
+#define CWBackingPixel (256l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditPosition (4l)
+#define BitmapPad(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_pad )
+
+// /usr/include/X11/X.h 
+
+#define MapNotify (19)
+#define ButtonReleaseMask (8l)
+#define PointerMotionHintMask (128l)
+#define NotifyNonlinear (3)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _PTRDIFF_T_
+
+// /usr/include/X11/X.h 
+
+#define GXset (15)
+
+// /usr/include/X11/Xlib.h 
+
+#define ServerVendor(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> vendor )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_SIZE_T
+
+// /usr/include/X11/X.h 
+
+#define KeymapNotify (11)
+#define TrueColor (4)
+#define GCLineStyle (32l)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_H
+
+// /usr/include/X11/X.h 
+
+#define GCFillRule (512l)
+#define NotifyVirtual (1)
+#define CoordModePrevious (1)
+#define Button1MotionMask (256l)
+#define DefaultBlanking (2)
+#define AsyncPointer (0)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_PTRDIFF_
+
+// /usr/include/X11/X.h 
+
+#define NoEventMask (0l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNClientWindow "clientWindow"
+#define XIMStringConversionChar (4)
+
+// /usr/include/X11/X.h 
+
+#define Button4MotionMask (2048l)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayWidthMM(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> mwidth )
+#define BitmapBitOrder(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_bit_order )
+
+// /usr/include/X11/X.h 
+
+#define NotifyPointer (5)
+#define Button4 (4)
+#define CirculateRequest (27)
+#define GXcopy (3)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _STDDEF_H_
+
+// /usr/include/X11/X.h 
+
+#define BadMatch (8)
+#define RevertToNone ( int ) None
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __INT_WCHAR_T_H
+#define _WCHAR_T_DECLARED
+
+// /usr/include/X11/X.h 
+
+#define ConfigureRequest (23)
+#define CenterGravity (5)
+
+// /usr/include/X11/Xlib.h 
+
+#define MinCmapsOfScreen(s) ( ( s ) -> min_maps )
+
+// /usr/include/X11/X.h 
+
+#define PseudoColor (3)
+#define SetModeInsert (0)
+#define Nonconvex (1)
+#define Button4Mask (2048)
+#define None (0l)
+#define KBLedMode (32l)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_ptrdiff_t_h
+#define _WCHAR_T
+
+// /usr/include/X11/X.h 
+
+#define SouthGravity (8)
+#define GCForeground (4l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNVaNestedList "XNVaNestedList"
+
+// /usr/include/X11/X.h 
+
+#define WhenMapped (1)
+#define AlreadyGrabbed (1)
+#define LineSolid (0)
+#define NotifyGrab (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define ScreenOfDisplay(dpy, scr) ( & ( ( _XPrivDisplay ) ( dpy ) ) -> screens [ scr ] )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionRightEdge (2)
+
+// /usr/include/X11/X.h 
+
+#define Button3Mask (1024)
+#define GXorInverted (13)
+#define CapProjecting (3)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _ANSI_STDDEF_H
+
+// /usr/include/X11/X.h 
+
+#define LeaveNotify (8)
+#define KeyPressMask (1l)
+#define KBKeyClickPercent (1l)
+#define CWStackMode (64)
+
+// /usr/include/X11/Xlib.h 
+
+#define PlanesOfScreen(s) ( ( s ) -> root_depth )
+
+// /usr/include/X11/X.h 
+
+#define BadRequest (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNFocusWindow "focusWindow"
+
+// /usr/include/X11/X.h 
+
+#define CirculateNotify (26)
+
+// /usr/include/X11/Xlib.h 
+
+#define XLookupKeySym (3)
+
+// /usr/include/X11/X.h 
+
+#define ResizeRedirectMask (262144l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStatusNothing (1024l)
+
+// /usr/include/X11/X.h 
+
+#define Button1Mask (256)
+#define Button5 (5)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNHotKeyState "hotKeyState"
+#define RootWindowOfScreen(s) ( ( s ) -> root )
+#define DoesBackingStore(s) ( ( s ) -> backing_store )
+
+// /usr/include/X11/X.h 
+
+#define SelectionRequest (30)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStdColormap "stdColorMap"
+#define XNInputStyle "inputStyle"
+
+// /usr/include/X11/X.h 
+
+#define ClientMessage (33)
+#define Opposite (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define BlackPixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> black_pixel )
+
+// /usr/include/X11/X.h 
+
+#define DoRed (1)
+#define FamilyInternet6 (6)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultGCOfScreen(s) ( ( s ) -> default_gc )
+
+// /usr/include/X11/X.h 
+
+#define AllocNone (0)
+#define SouthWestGravity (7)
+#define EnableAccess (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define HeightMMOfScreen(s) ( ( s ) -> mheight )
+#define XNPreeditCaretCallback "preeditCaretCallback"
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_size_t_h
+
+// /usr/include/X11/X.h 
+
+#define GXxor (6)
+#define SyncKeyboard (4)
+#define BadName (15)
+#define GXorReverse (11)
+#define ColormapChangeMask (8388608l)
+#define KBBellDuration (8l)
+#define JoinMiter (0)
+#define GCPlaneMask (2l)
+#define CWBitGravity (16l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditDrawCallback "preeditDrawCallback"
+
+// /usr/include/X11/X.h 
+
+#define GCClipMask (524288l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStatusDrawCallback "statusDrawCallback"
+
+// /usr/include/X11/X.h 
+
+#define GXandReverse (2)
+#define ControlMapIndex (2)
+#define ButtonPressMask (4l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMHighlight (4l)
+
+// /usr/include/X11/X.h 
+
+#define FontLeftToRight (0)
+#define Mod1MapIndex (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define ScreenCount(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> nscreens )
+
+// /usr/include/X11/X.h 
+
+#define NotifyNormal (0)
+#define AnyModifier (32768)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNHotKey "hotKey"
+#define XIMStringConversionWord (3)
+
+// /usr/include/X11/X.h 
+
+#define CoordModeOrigin (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStatusNone (2048l)
+#define XNBackground "background"
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_PTRDIFF
+
+// /usr/include/X11/X.h 
+
+#define SetModeDelete (1)
+#define GCJoinStyle (128l)
+#define ConfigureNotify (22)
+#define X_PROTOCOL_REVISION (0)
+#define SouthEastGravity (9)
+#define ColormapNotify (32)
+
+// /usr/include/X11/Xlib.h 
+
+#define RootWindow(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root )
+#define XNCursor "cursor"
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __wchar_t__
+
+// /usr/include/X11/X.h 
+
+#define PropModeReplace (0)
+#define LastExtensionError (255)
+#define XYBitmap (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define Bool int
+
+// /usr/include/X11/X.h 
+
+#define Mod5Mask (128)
+#define CWBackPixmap (1l)
+#define IsUnviewable (1)
+#define BadValue (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNResetState "resetState"
+
+// /usr/include/X11/X.h 
+
+#define CapNotLast (0)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __PTRDIFF_T
+
+// /usr/include/X11/X.h 
+
+#define PropertyDelete (1)
+#define Above (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStatusDoneCallback "statusDoneCallback"
+
+// /usr/include/X11/X.h 
+
+#define AnyButton (0l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMUnderline (2l)
+
+// /usr/include/X11/X.h 
+
+#define GCClipXOrigin (131072l)
+#define BadWindow (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNDestroyCallback "destroyCallback"
+
+// /usr/include/X11/X.h 
+
+#define KBBellPitch (4l)
+#define FocusOut (10)
+#define SyncBoth (7)
+#define CWSibling (32)
+
+// /usr/include/X11/Xlib.h 
+
+#define QLength(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> qlen )
+#define XNQueryICValuesList "queryICValuesList"
+
+// /usr/include/X11/X.h 
+
+#define FillOpaqueStippled (3)
+#define GCTileStipYOrigin (8192l)
+#define XYPixmap (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_WCHAR_
+
+// /usr/include/X11/X.h 
+
+#define GCStipple (2048l)
+#define BadIDChoice (14)
+#define PointerWindow (0l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNContextualDrawing "contextualDrawing"
+
+// /usr/include/X11/X.h 
+
+#define IsViewable (2)
+#define BadColor (12)
+#define AllTemporary (0l)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/X11/X.h 
+
+#define KBBellPercent (2l)
+#define PreferBlanking (1)
+#define HostInsert (0)
+#define ReplayPointer (2)
+#define FamilyServerInterpreted (5)
 
 // /usr/include/X11/Xlib.h 
 
 #define XNRequiredCharSet "requiredCharSet"
 
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __WCHAR_T__
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreserveState (2l)
+
 // /usr/include/X11/X.h 
 
-#define DestroyAll (0)
-#define WestGravity (4)
-#define IncludeInferiors (1)
-#define DestroyNotify (17)
+#define CWWinGravity (32l)
+#define FillStippled (2)
+#define BadImplementation (17)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _PTRDIFF_T_DECLARED
+
+// /usr/include/X11/X.h 
+
+#define GrabModeAsync (1)
+#define FocusIn (9)
+#define FillTiled (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define BitmapUnit(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_unit )
+
+// /usr/include/X11/X.h 
+
+#define GXnor (8)
+
+// /usr/include/X11/Xlib.h 
+
+#define AllPlanes ( ( unsigned long ) ~ 0L )
+
+// /usr/include/X11/X.h 
+
+#define PropertyChangeMask (4194304l)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayPlanes(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
+
+// /usr/include/X11/X.h 
+
+#define DirectColor (5)
+#define GrabFrozen (4)
+#define GCArcMode (4194304l)
+#define MappingPointer (2)
+#define BadGC (13)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t
+
+// /usr/include/X11/X.h 
+
+#define Below (1)
+#define FillSolid (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditNone (16l)
+
+// /usr/include/X11/X.h 
+
+#define GravityNotify (24)
+#define CWCursor (16384l)
+#define ZPixmap (2)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T
+
+// /usr/include/X11/X.h 
+
+#define EastGravity (6)
+#define StaticGray (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define HeightOfScreen(s) ( ( s ) -> height )
+#define DefaultColormapOfScreen(s) ( ( s ) -> cmap )
+
+// /usr/include/X11/X.h 
+
+#define KeyPress (2)

@@ -475,323 +475,89 @@ extern struct tm *getdate(const char *__string);
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define __ssize_t_defined
+#define __off_t_defined
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/fcntl.h 
 
-#define __S64_TYPE long int
+#define S_IFMT __S_IFMT
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_GETOWN __F_GETOWN
+
+// /usr/include/unistd.h 
+
+#define __intptr_t_defined
+
+// /usr/include/fcntl.h 
+
+#define S_IROTH (4)
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
 #define __mode_t_defined
 
-// /usr/include/unistd.h 
-
-#define _XOPEN_XPG2 (1)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __O_DIRECTORY (65536)
-#define __O_NOFOLLOW (131072)
-
-// /usr/include/unistd.h 
-
-#define F_ULOCK (0)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __O_DSYNC (4096)
-#define __F_GETOWN (9)
-
-// /usr/include/unistd.h 
-
-#define _POSIX_VERSION (199506l)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __F_GETOWN_EX (16)
-
-// /usr/include/unistd.h 
-
-#define _POSIX2_C_DEV __POSIX2_THIS_VERSION
-#define STDERR_FILENO (2)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __F_GETSIG (11)
-
-// /usr/include/unistd.h 
-
-#define ftruncate ftruncate64
-
 // /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
 
 #define O_APPEND (1024)
 
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
+// /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define __S_TYPEISSEM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-#define __S_ISGID (1024)
+#define __ssize_t_defined
 
 // /usr/include/unistd.h 
 
 #define _XOPEN_ENH_I18N (1)
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __useconds_t_defined
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S16_TYPE short int
-#define _BITS_TYPES_H (1)
-
-// /usr/include/unistd.h 
-
-#define _POSIX2_LOCALEDEF __POSIX2_THIS_VERSION
-
 // /usr/include/fcntl.h 
 
-#define S_IWUSR __S_IWRITE
-#define S_IFLNK __S_IFLNK
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __off64_t_defined
-
-// /usr/include/string.h 
-
-#define _STRING_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _STAT_VER_KERNEL (0)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __blksize_t_defined
-
-// /usr/include/unistd.h 
-
-#define _POSIX2_SW_DEV __POSIX2_THIS_VERSION
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __O_CLOEXEC (524288)
+#define S_IFCHR __S_IFCHR
 
 // /usr/include/time.h 
 
-#define __time_t_defined (1)
+#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
 
 // /usr/include/fcntl.h 
 
-#define S_IRWXO (7)
-
-// /usr/include/unistd.h 
-
-#define pwrite pwrite64
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __id_t_defined
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t__
+#define S_IFREG __S_IFREG
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_ISVTX (512)
-
-// /usr/include/unistd.h 
-
-#define _XOPEN_XCU_VERSION (4)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_GETLK F_GETLK64
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T
-
-// /usr/include/unistd.h 
-
-#define _XOPEN_XPG3 (1)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _STATBUF_ST_RDEV
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_SETFD (2)
-#define O_TRUNC (512)
-
-// /usr/include/unistd.h 
-
-#define STDIN_FILENO (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_SYNC (1052672)
-
-// /usr/include/fcntl.h 
-
-#define SEEK_CUR (1)
-
-// /usr/include/unistd.h 
-
-#define X_OK (1)
-#define _POSIX2_C_BIND __POSIX2_THIS_VERSION
-
-// /usr/include/time.h 
-
-#define __clock_t_defined (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZET_
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-
-// /usr/include/fcntl.h 
-
-#define S_IWGRP (16)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __O_TMPFILE (4259840)
-#define F_GETOWN __F_GETOWN
-#define O_FSYNC O_SYNC
-
-// /usr/include/fcntl.h 
-
-#define SEEK_END (2)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __nlink_t_defined
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_TYPEISSHM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_GETFL (3)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _GCC_SIZE_T
-
-// /usr/include/fcntl.h 
-
-#define S_ISUID __S_ISUID
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __ino64_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_SETLKW F_SETLKW64
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _BITS_STAT_H (1)
-
-// /usr/include/unistd.h 
-
-#define _XOPEN_XPG4 (1)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __F_SETOWN (8)
-
-// /usr/include/unistd.h 
-
-#define _XOPEN_UNIX (1)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/fcntl.h 
-
-#define S_IXUSR __S_IEXEC
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
+#define __S_IEXEC (64)
 #define __S_IWRITE (128)
 
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __F_GETSIG (11)
+
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define __off_t_defined
+#define __dev_t_defined
 
 // /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
 
-#define FD_CLOEXEC (1)
+#define O_LARGEFILE __O_LARGEFILE
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_ISUID (2048)
 
 // /usr/include/unistd.h 
 
-#define STDOUT_FILENO (1)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_DUPFD (0)
-
-// /usr/include/fcntl.h 
-
-#define creat creat64
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_ACCMODE (3)
+#define pread pread64
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
 #define __S_IFSOCK (49152)
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IEXEC (64)
-#define __S_IFDIR (16384)
-
 // /usr/include/unistd.h 
 
-#define R_OK (4)
+#define _XOPEN_XPG2 (1)
 
-// /usr/include/x86_64-linux-gnu/sys/types.h 
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __suseconds_t_defined
-#define __int8_t_defined
+#define _SIZE_T_DECLARED
+#define NULL ( ( void * ) 0 )
 
 // /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
 
@@ -801,357 +567,13 @@ extern struct tm *getdate(const char *__string);
 
 #define __SLONG32_TYPE int
 
-// /usr/include/unistd.h 
-
-#define _POSIX2_C_VERSION __POSIX2_THIS_VERSION
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_RDLCK (0)
-#define O_NOCTTY (256)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __BIT_TYPES_DEFINED__ (1)
-
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
-#define __S_IFREG (32768)
-#define __S_TYPEISMQ(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
-#define __S_IFIFO (4096)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_NDELAY O_NONBLOCK
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IREAD (256)
+#define __S_TYPEISSHM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __U64_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_SETFL (4)
-
-// /usr/include/fcntl.h 
-
-#define S_IFIFO __S_IFIFO
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_RDWR (2)
-
-// /usr/include/fcntl.h 
-
-#define S_IFREG __S_IFREG
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_WRLCK (1)
-#define F_GETFD (1)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __fsfilcnt_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_EXLCK (4)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SYS_SIZE_T_H
-
-// /usr/include/fcntl.h 
-
-#define S_IRUSR __S_IREAD
-#define S_IFMT __S_IFMT
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_
-
-// /usr/include/fcntl.h 
-
-#define open open64
-#define S_IFBLK __S_IFBLK
-#define SEEK_SET (0)
-#define S_ISVTX __S_ISVTX
-
-// /usr/include/unistd.h 
-
-#define _POSIX2_VERSION __POSIX2_THIS_VERSION
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __blkcnt_t_defined
-#define __ino_t_defined
-
-// /usr/include/fcntl.h 
-
-#define S_IRWXU (448)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __O_DIRECT (16384)
-#define O_ASYNC (8192)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/unistd.h 
-
-#define lseek lseek64
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __key_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
-#define __ULONG32_TYPE unsigned int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/include/fcntl.h 
-
-#define __OPEN_NEEDS_MODE(oflag) ( ( ( oflag ) & O_CREAT ) != 0 || ( ( oflag ) & __O_TMPFILE ) == __O_TMPFILE )
-
-// /usr/include/time.h 
-
-#define __timespec_defined (1)
-
-// /usr/include/unistd.h 
-
-#define __socklen_t_defined
-
-// /usr/include/fcntl.h 
-
-#define S_IXOTH (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_DSYNC __O_DSYNC
-
-// /usr/include/fcntl.h 
-
-#define S_IXGRP (8)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __POSIX_FADV_NOREUSE (5)
-
-// /usr/include/fcntl.h 
-
-#define S_ISGID __S_ISGID
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IFMT (61440)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __POSIX_FADV_DONTNEED (4)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T__
-
-// /usr/include/unistd.h 
-
-#define _XOPEN_LEGACY (1)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_EXCL (128)
-
-// /usr/include/unistd.h 
-
-#define __intptr_t_defined
-#define __POSIX2_THIS_VERSION (199506l)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define _SYS_TYPES_H (1)
-#define __need_clockid_t
-
-// /usr/include/fcntl.h 
-
-#define S_IRGRP (32)
-
-// /usr/include/time.h 
-
-#define _TIME_H (1)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __fsblkcnt_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_LARGEFILE __O_LARGEFILE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SWORD_TYPE long int
-
-// /usr/include/unistd.h 
-
-#define F_TLOCK (2)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/include/time.h 
-
-#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
-
-// /usr/include/unistd.h 
-
-#define lockf lockf64
-
-// /usr/include/time.h 
-
-#define __timer_t_defined (1)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_SETOWN __F_SETOWN
-
-// /usr/include/unistd.h 
-
-#define truncate truncate64
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __uid_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _STAT_VER_LINUX (1)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __gid_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_CREAT (64)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_IFLNK (40960)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE
-#define NULL ( ( void * ) 0 )
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define O_WRONLY (1)
-#define O_RSYNC O_SYNC
-#define __O_NOATIME (262144)
-
-// /usr/include/unistd.h 
-
-#define pread pread64
-
-// /usr/include/fcntl.h 
-
-#define _FCNTL_H (1)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __dev_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_SHLCK (8)
-
-// /usr/include/time.h 
-
-#define __clockid_t_defined (1)
-
-// /usr/include/unistd.h 
-
-#define F_OK (0)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define F_SETLK F_SETLK64
-#define O_NONBLOCK (2048)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _MKNOD_VER_LINUX (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T
-
-// /usr/include/fcntl.h 
-
-#define S_IFDIR __S_IFDIR
-
-// /usr/include/unistd.h 
-
-#define _XOPEN_VERSION (500)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-
-// /usr/include/unistd.h 
-
-#define _XOPEN_CRYPT (1)
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __F_SETOWN_EX (15)
-#define __F_SETSIG (10)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _STATBUF_ST_BLKSIZE
-
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
-
-#define __O_PATH (2097152)
-
-// /usr/include/fcntl.h 
-
-#define S_IROTH (4)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define _STATBUF_ST_NSEC
-#define _STAT_VER _STAT_VER_LINUX
-#define __S_IFCHR (8192)
-
-// /usr/include/unistd.h 
-
-#define F_LOCK (1)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __pid_t_defined
+#define __S16_TYPE short int
 
 // /usr/include/unistd.h 
 
@@ -1159,12 +581,365 @@ extern struct tm *getdate(const char *__string);
 
 // /usr/include/fcntl.h 
 
-#define S_IWOTH (2)
-#define S_IFSOCK __S_IFSOCK
+#define S_IFIFO __S_IFIFO
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __uid_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_NOCTTY (256)
+#define __O_NOFOLLOW (131072)
+#define F_SETFL (4)
+#define F_GETFL (3)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IFDIR (16384)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/unistd.h 
 
-#define _UNISTD_H (1)
+#define _XOPEN_LEGACY (1)
+#define _XOPEN_CRYPT (1)
+
+// /usr/include/fcntl.h 
+
+#define creat creat64
+
+// /usr/include/time.h 
+
+#define __clockid_t_defined (1)
+
+// /usr/include/fcntl.h 
+
+#define S_IWUSR __S_IWRITE
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_SHLCK (8)
+
+// /usr/include/fcntl.h 
+
+#define S_ISGID __S_ISGID
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __nlink_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_TYPEISSEM(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
+
+// /usr/include/fcntl.h 
+
+#define S_IRWXG (56)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T__
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __F_SETOWN_EX (15)
+
+// /usr/include/fcntl.h 
+
+#define S_IXGRP (8)
+#define S_IRWXU (448)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __F_GETOWN_EX (16)
+#define O_RDWR (2)
+
+// /usr/include/time.h 
+
+#define __clock_t_defined (1)
+#define __timespec_defined (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_SIZE_T
+
+// /usr/include/fcntl.h 
+
+#define S_IFDIR __S_IFDIR
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _STATBUF_ST_NSEC
+#define _STAT_VER _STAT_VER_LINUX
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_UNLCK (2)
+#define __POSIX_FADV_NOREUSE (5)
+#define __F_SETOWN (8)
+
+// /usr/include/unistd.h 
+
+#define _POSIX2_SW_DEV __POSIX2_THIS_VERSION
+#define truncate truncate64
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_SETFD (2)
+
+// /usr/include/unistd.h 
+
+#define ftruncate ftruncate64
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __POSIX_FADV_DONTNEED (4)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_ACCMODE (3)
+
+// /usr/include/unistd.h 
+
+#define _POSIX2_C_DEV __POSIX2_THIS_VERSION
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_GETLK F_GETLK64
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __gid_t_defined
+#define __key_t_defined
+
+// /usr/include/unistd.h 
+
+#define _XOPEN_XCU_VERSION (4)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_CREAT (64)
+
+// /usr/include/unistd.h 
+
+#define X_OK (1)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __blkcnt_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_NONBLOCK (2048)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IFCHR (8192)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t__
+
+// /usr/include/fcntl.h 
+
+#define S_ISVTX __S_ISVTX
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __O_TMPFILE (4259840)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T
+
+// /usr/include/fcntl.h 
+
+#define __OPEN_NEEDS_MODE(oflag) ( ( ( oflag ) & O_CREAT ) != 0 || ( ( oflag ) & __O_TMPFILE ) == __O_TMPFILE )
+#define S_IXUSR __S_IEXEC
+
+// /usr/include/unistd.h 
+
+#define F_LOCK (1)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __need_clockid_t
+
+// /usr/include/fcntl.h 
+
+#define S_IFBLK __S_IFBLK
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __int8_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_EXLCK (4)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __suseconds_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_ASYNC (8192)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_SETOWN __F_SETOWN
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __useconds_t_defined
+
+// /usr/include/unistd.h 
+
+#define F_ULOCK (0)
+#define STDOUT_FILENO (1)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __BIT_TYPES_DEFINED__ (1)
+
+// /usr/include/unistd.h 
+
+#define _POSIX2_VERSION __POSIX2_THIS_VERSION
+
+// /usr/include/fcntl.h 
+
+#define S_ISUID __S_ISUID
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IREAD (256)
+
+// /usr/include/unistd.h 
+
+#define _POSIX2_C_BIND __POSIX2_THIS_VERSION
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_GETFD (1)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+
+// /usr/include/unistd.h 
+
+#define _POSIX2_LOCALEDEF __POSIX2_THIS_VERSION
+#define _XOPEN_VERSION (500)
+#define STDERR_FILENO (2)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+#define __U32_TYPE unsigned int
+
+// /usr/include/unistd.h 
+
+#define _XOPEN_UNIX (1)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __O_CLOEXEC (524288)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/unistd.h 
+
+#define F_TLOCK (2)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __O_DSYNC (4096)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __ino64_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SWORD_TYPE long int
+
+// /usr/include/time.h 
+
+#define __timer_t_defined (1)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IFLNK (40960)
+#define _STAT_VER_KERNEL (0)
+
+// /usr/include/unistd.h 
+
+#define STDIN_FILENO (0)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _STAT_VER_LINUX (1)
+
+// /usr/include/unistd.h 
+
+#define __socklen_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __F_GETOWN (9)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SQUAD_TYPE long int
+
+// /usr/include/fcntl.h 
+
+#define S_IWGRP (16)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_NDELAY O_NONBLOCK
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __fsblkcnt_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IFIFO (4096)
+
+// /usr/include/unistd.h 
+
+#define _XOPEN_XPG3 (1)
+
+// /usr/include/fcntl.h 
+
+#define SEEK_SET (0)
 
 // /usr/include/x86_64-linux-gnu/bits/stat.h 
 
@@ -1172,24 +947,249 @@ extern struct tm *getdate(const char *__string);
 
 // /usr/include/fcntl.h 
 
-#define S_IFCHR __S_IFCHR
+#define S_IXOTH (1)
+
+// /usr/include/unistd.h 
+
+#define __POSIX2_THIS_VERSION (199506l)
+#define W_OK (2)
+#define _POSIX_VERSION (199506l)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _MKNOD_VER_LINUX (0)
+#define __S_ISGID (1024)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_RDLCK (0)
+#define O_TRUNC (512)
+#define O_EXCL (128)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IFMT (61440)
+
+// /usr/include/fcntl.h 
+
+#define SEEK_END (2)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __O_PATH (2097152)
+
+// /usr/include/fcntl.h 
+
+#define S_IRWXO (7)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_FSYNC O_SYNC
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define _SYS_TYPES_H (1)
+#define __ino_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_DSYNC __O_DSYNC
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_IFREG (32768)
+
+// /usr/include/time.h 
+
+#define __time_t_defined (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE
+
+// /usr/include/fcntl.h 
+
+#define SEEK_CUR (1)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_RSYNC O_SYNC
+
+// /usr/include/time.h 
+
+#define _TIME_H (1)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __id_t_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZET_
+#define __size_t
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __fsfilcnt_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define FD_CLOEXEC (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_size_t_h
+#define _SIZE_T
+
+// /usr/include/fcntl.h 
+
+#define S_IWOTH (2)
+#define S_IRUSR __S_IREAD
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __O_DIRECT (16384)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U64_TYPE unsigned long int
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/string.h 
+
+#define _STRING_H (1)
+
+// /usr/include/unistd.h 
+
+#define F_OK (0)
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __S32_TYPE int
 
-// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+// /usr/include/fcntl.h 
 
-#define F_UNLCK (2)
-
-// /usr/include/x86_64-linux-gnu/bits/stat.h 
-
-#define __S_ISUID (2048)
+#define S_IRGRP (32)
 
 // /usr/include/unistd.h 
 
-#define W_OK (2)
+#define lseek lseek64
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _STATBUF_ST_RDEV
+
+// /usr/include/unistd.h 
+
+#define R_OK (4)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __blksize_t_defined
+#define __off64_t_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_WRLCK (1)
+#define F_SETLK F_SETLK64
+
+// /usr/include/unistd.h 
+
+#define lockf lockf64
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_TYPEISMQ(buf) ( ( buf ) -> st_mode - ( buf ) -> st_mode )
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_WRONLY (1)
+
+// /usr/include/unistd.h 
+
+#define _UNISTD_H (1)
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define F_SETLKW F_SETLKW64
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define __S_ISVTX (512)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define O_SYNC (1052672)
+#define F_DUPFD (0)
 
 // /usr/include/fcntl.h 
 
-#define S_IRWXG (56)
+#define S_IFSOCK __S_IFSOCK
+
+// /usr/include/unistd.h 
+
+#define pwrite pwrite64
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _STATBUF_ST_BLKSIZE
+
+// /usr/include/unistd.h 
+
+#define _POSIX2_C_VERSION __POSIX2_THIS_VERSION
+
+// /usr/include/fcntl.h 
+
+#define open open64
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __O_DIRECTORY (65536)
+
+// /usr/include/x86_64-linux-gnu/bits/stat.h 
+
+#define _BITS_STAT_H (1)
+
+// /usr/include/unistd.h 
+
+#define _XOPEN_XPG4 (1)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __pid_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __O_NOATIME (262144)
+
+// /usr/include/fcntl.h 
+
+#define S_IFLNK __S_IFLNK
+
+// /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h 
+
+#define __F_SETSIG (10)
+
+// /usr/include/fcntl.h 
+
+#define _FCNTL_H (1)

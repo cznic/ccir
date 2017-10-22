@@ -135,89 +135,7 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __INT_WCHAR_T_H
-
-// /usr/include/stdlib.h 
-
-#define WIFCONTINUED(status) __WIFCONTINUED ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-
-// /usr/include/stdlib.h 
-
-#define WIFSIGNALED(status) __WIFSIGNALED ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T
-#define _SIZE_T_
-
-// /usr/include/stdlib.h 
-
-#define __ldiv_t_defined (1)
-#define WTERMSIG(status) __WTERMSIG ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_
-
-// /usr/include/stdlib.h 
-
-#define mkstemp mkstemp64
-#define EXIT_FAILURE (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T
-
-// /usr/include/stdlib.h 
-
-#define __COMPAR_FN_T
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __WCHAR_T
-
-// /usr/include/stdlib.h 
-
-#define __malloc_and_calloc_defined
-#define WIFSTOPPED(status) __WIFSTOPPED ( status )
-#define _STDLIB_H (1)
-#define WEXITSTATUS(status) __WEXITSTATUS ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-#define _T_SIZE
-#define ___int_wchar_t_h
-#define __wchar_t__
-
-// /usr/include/stdlib.h 
-
-#define WSTOPSIG(status) __WSTOPSIG ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-#define NULL ( ( void * ) 0 )
-#define __size_t__
-#define _WCHAR_T_H
-#define _GCC_SIZE_T
-#define __SIZE_T__
-#define ___int_size_t_h
-#define _SIZET_
-
-// /usr/include/stdlib.h 
-
-#define WIFEXITED(status) __WIFEXITED ( status )
-#define __lldiv_t_defined (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
 #define __WCHAR_T__
-#define _GCC_WCHAR_T
 #define _T_WCHAR
 
 // /usr/include/stdlib.h 
@@ -226,21 +144,70 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _T_WCHAR_
+#define _WCHAR_T_H
+#define __wchar_t__
+#define __size_t__
+#define _SIZE_T_DEFINED
+#define _SIZE_T
+#define ___int_size_t_h
+#define __WCHAR_T
+
+// /usr/include/stdlib.h 
+
+#define _STDLIB_H (1)
+#define WIFSTOPPED(status) __WIFSTOPPED ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_wchar_t_h
+#define __INT_WCHAR_T_H
+#define _T_SIZE_
+
+// /usr/include/stdlib.h 
+
+#define __malloc_and_calloc_defined
+#define mkstemp mkstemp64
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
 #define _SYS_SIZE_T_H
-#define _WCHAR_T_DEFINED_
+#define _WCHAR_T
 #define _SIZE_T_DEFINED_
-#define __SIZE_T
 #define _BSD_SIZE_T_DEFINED_
-#define __size_t
+
+// /usr/include/stdlib.h 
+
+#define WTERMSIG(status) __WTERMSIG ( status )
+#define WIFEXITED(status) __WIFEXITED ( status )
+#define EXIT_FAILURE (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+#define _WCHAR_T_DEFINED_
+#define _GCC_WCHAR_T
+#define _SIZE_T_
 
 // /usr/include/stdlib.h 
 
 #define RAND_MAX (2147483647)
+#define __COMPAR_FN_T
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _WCHAR_T_DECLARED
+#define _WCHAR_T_DEFINED
+#define __size_t
+#define __SIZE_T
+
+// /usr/include/stdlib.h 
+
+#define WEXITSTATUS(status) __WEXITSTATUS ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_
+#define _T_WCHAR_
+#define _SIZET_
 
 // /usr/include/stdlib.h 
 
@@ -248,5 +215,35 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _WCHAR_T_DEFINED
-#define _BSD_SIZE_T_
+#define _T_SIZE
+#define _WCHAR_T_
+#define _GCC_SIZE_T
+
+// /usr/include/stdlib.h 
+
+#define WIFCONTINUED(status) __WIFCONTINUED ( status )
+#define WSTOPSIG(status) __WSTOPSIG ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T__
+
+// /usr/include/stdlib.h 
+
+#define __lldiv_t_defined (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_DECLARED
+
+// /usr/include/stdlib.h 
+
+#define WIFSIGNALED(status) __WIFSIGNALED ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+
+// /usr/include/stdlib.h 
+
+#define __ldiv_t_defined (1)

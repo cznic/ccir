@@ -7,6 +7,6 @@
 #ifndef _SOCKET_H_
 #define _SOCKET_H_
 
-#include __header(socket)
+#include __header(sys/socket)
 
 #endif				/* _SOCKET_H_ */

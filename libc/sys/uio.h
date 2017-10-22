@@ -7,6 +7,6 @@
 #ifndef _UIO_H_
 #define _UIO_H_
 
-#include __header(uio)
+#include __header(sys/uio)
 
 #endif				/* _UIO_H_ */

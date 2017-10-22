@@ -130,6 +130,7 @@ package Xauth
 const (
 	XBUFSIZ                 = 8192
 	XEOF                    = -1
+	XFUNCPROTO              = 15
 	XFamilyKrb5Principal    = 253
 	XFamilyLocal            = 256
 	XFamilyLocalHost        = 252
@@ -138,6 +139,10 @@ const (
 	XLOCK_ERROR             = 1
 	XLOCK_SUCCESS           = 0
 	XLOCK_TIMEOUT           = 2
+	XNeedFunctionPrototypes = 1
+	XNeedNestedPrototypes   = 1
+	XNeedVarargsPrototypes  = 1
+	XNeedWidePrototypes     = 0
 	XP_tmpdir               = "/tmp"
 	XSEEK_CUR               = 1
 	XSEEK_END               = 2
@@ -217,6 +222,9 @@ const (
 	X_OLD_STDIO_MAGIC       = 4206624768
 	X_STDIO_H               = 1
 	X_STRING_H              = 1
+	X_X_INLINE              = 0
+	X_X_RESTRICT_KYWD       = 0
+	X_Xconst                = 0
 	X__FILE_defined         = 1
 	X__S32_TYPE             = 0
 	X__SLONG32_TYPE         = 0
