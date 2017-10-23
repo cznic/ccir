@@ -100,14 +100,83 @@ extern int munlockall(void);
 extern int shm_open(const char *__name, int __oflag, mode_t __mode);
 extern int shm_unlink(const char *__name);
 
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_SIZE_T
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_
+
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
+
+#define PROT_NONE (0)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t
+
 // /usr/include/x86_64-linux-gnu/sys/mman.h 
 
-#define __mode_t_defined
+#define MAP_FAILED ( ( void * ) - 1 )
+
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
+
+#define MCL_CURRENT (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SYS_SIZE_T_H
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
 #define __SLONG32_TYPE int
-#define _BITS_TYPES_H (1)
+#define __SQUAD_TYPE long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_size_t_h
+
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
+
+#define PROT_GROWSUP (33554432)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
+
+#define PROT_WRITE (2)
+
+// /usr/include/x86_64-linux-gnu/sys/mman.h 
+
+#define __off_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
+
+#define MCL_FUTURE (2)
+#define MS_INVALIDATE (2)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -117,42 +186,10 @@ extern int shm_unlink(const char *__name);
 
 #define MS_ASYNC (1)
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T
-
-// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
-
-#define PROT_WRITE (2)
-
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __U64_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
-
-#define MS_INVALIDATE (2)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_
-
-// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
-
-#define MAP_FIXED (16)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
 #define __U32_TYPE unsigned int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SWORD_TYPE long int
+#define __UWORD_TYPE unsigned long int
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -160,30 +197,51 @@ extern int shm_unlink(const char *__name);
 
 // /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
 
-#define MS_SYNC (4)
-#define MCL_FUTURE (2)
-#define MAP_PRIVATE (2)
-#define PROT_GROWSDOWN (16777216)
+#define MAP_FIXED (16)
+#define PROT_EXEC (4)
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/include/x86_64-linux-gnu/sys/mman.h 
 
-#define __size_t__
+#define __mode_t_defined
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
 
-#define __SLONGWORD_TYPE long int
+#define PROT_READ (1)
 
 // /usr/include/x86_64-linux-gnu/sys/mman.h 
 
 #define mmap mmap64
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _SIZET_
+#define __SIZE_T
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
+
+#define MCL_ONFAULT (4)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SWORD_TYPE long int
+#define __U16_TYPE unsigned short int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t__
+#define _SIZE_T
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U64_TYPE unsigned long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T__
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
@@ -191,11 +249,11 @@ extern int shm_unlink(const char *__name);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZE_T
+#define _T_SIZE
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
 
-#define __U16_TYPE unsigned short int
+#define MS_SYNC (4)
 
 // /usr/include/x86_64-linux-gnu/sys/mman.h 
 
@@ -203,74 +261,22 @@ extern int shm_unlink(const char *__name);
 
 // /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
 
-#define PROT_EXEC (4)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE
-#define __size_t
-
-// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
-
-#define PROT_READ (1)
-#define PROT_NONE (0)
-#define MCL_ONFAULT (4)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T__
-#define _SIZE_T_
+#define PROT_GROWSDOWN (16777216)
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __UWORD_TYPE unsigned long int
+#define _BITS_TYPES_H (1)
+#define __S16_TYPE short int
 
 // /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
 
-#define MCL_CURRENT (1)
+#define MAP_SHARED (1)
+#define MAP_PRIVATE (2)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _SIZE_T_DECLARED
 
-// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
-
-#define PROT_GROWSUP (33554432)
-
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __S64_TYPE long int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SYS_SIZE_T_H
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S16_TYPE short int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-#define _GCC_SIZE_T
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/sys/mman.h 
-
-#define __off_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/mman-linux.h 
-
-#define MAP_SHARED (1)
-
-// /usr/include/x86_64-linux-gnu/sys/mman.h 
-
-#define MAP_FAILED ( ( void * ) - 1 )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
+#define __ULONGWORD_TYPE unsigned long int

@@ -4,11 +4,9 @@
 
 // +build ignore
 
-#ifndef _SETJMP_H_
-#define _SETJMP_H_
+#ifndef _UCONTEXT_H_
+#define _UCONTEXT_H_
 
-#define jmp_buf __jmp_buf
+#include __header(ucontext)
 
-#include __header(setjmp)
-
-#endif				/* _SETJMP_H_ */
+#endif				/* _UCONTEXT_H_ */

@@ -144,7 +144,107 @@ typedef __fsfilcnt64_t fsfilcnt64_t;
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
+#define __fsfilcnt_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define _SYS_TYPES_H (1)
 #define __pid_t_defined
+#define __useconds_t_defined
+#define __id_t_defined
+#define __ssize_t_defined
+#define __int8_t_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __dev_t_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __ino64_t_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __need_clockid_t
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __mode_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S16_TYPE short int
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __BIT_TYPES_DEFINED__ (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __key_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __suseconds_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SQUAD_TYPE long int
+#define __SLONG32_TYPE int
+#define __SLONGWORD_TYPE long int
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __off_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
+#define __size_t
+#define _T_SIZE_
+#define __size_t__
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __nlink_t_defined
+#define __blksize_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S64_TYPE long int
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -156,61 +256,36 @@ typedef __fsfilcnt64_t fsfilcnt64_t;
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __S64_TYPE long int
-#define __SQUAD_TYPE long int
-#define __SLONG32_TYPE int
+#define __U32_TYPE unsigned int
+#define __S32_TYPE int
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZE_T_DECLARED
 #define _GCC_SIZE_T
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+#define __SWORD_TYPE long int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _BSD_SIZE_T_
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __uid_t_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T__
+#define _SIZE_T_
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
 #define __ino_t_defined
-#define __mode_t_defined
-#define __off_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S16_TYPE short int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __key_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define _BITS_TYPES_H (1)
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __id_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SWORD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
+#define __gid_t_defined
 #define __fsblkcnt_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-#define __U64_TYPE unsigned long int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T
-#define _SIZE_T_DEFINED_
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __int8_t_defined
-#define __nlink_t_defined
-#define __dev_t_defined
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -218,80 +293,14 @@ typedef __fsfilcnt64_t fsfilcnt64_t;
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define __ssize_t_defined
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZET_
-#define _T_SIZE
-#define __size_t
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __uid_t_defined
-#define __gid_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-#define __U32_TYPE unsigned int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-#define __SIZE_T__
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __BIT_TYPES_DEFINED__ (1)
-#define __useconds_t_defined
-#define _SYS_TYPES_H (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-#define _SIZE_T_
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __suseconds_t_defined
-#define __fsfilcnt_t_defined
 #define __blkcnt_t_defined
-#define __ino64_t_defined
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_
-#define _SYS_SIZE_T_H
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __need_clockid_t
 
 // /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __S32_TYPE int
+#define __U64_TYPE unsigned long int
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t__
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __blksize_t_defined
+#define _T_SIZE
+#define _SIZE_T_DEFINED_
+#define _SIZET_

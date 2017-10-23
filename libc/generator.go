@@ -1132,7 +1132,7 @@ func main() {
 		{"locale", "__LC_ALL", "setlocale"},
 		{"math", "TODO", "sin|_locale_t"},
 		{"sched", "TODO", "sched_yield|__pid_t"},
-		//TODO{"setjmp", "TODO", "TODO"},
+		{"setjmp", "TODO", "TODO"},
 		{"stdarg", "va_list", "TODO"},
 		{"stdbool", "true", "TODO"},
 		{"stddef", "offsetof", "errno_t"},
@@ -1184,6 +1184,7 @@ func main() {
 		{"linux", "X11/Xlib", "TODO", "XPoint|Pixmap|wchar_t"},
 		{"linux", "X11/X", "TODO", "VisualID"},
 		{"linux", "X11/extensions/Xdbe", "XdbeUntouched", "XdbeBackBuffer|VisualID|wchar_t"},
+		{"linux", "sys/ucontext", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {

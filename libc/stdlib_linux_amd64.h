@@ -135,98 +135,22 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __WCHAR_T__
-#define _T_WCHAR
-
-// /usr/include/stdlib.h 
-
-#define EXIT_SUCCESS (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_H
-#define __wchar_t__
-#define __size_t__
-#define _SIZE_T_DEFINED
-#define _SIZE_T
-#define ___int_size_t_h
-#define __WCHAR_T
-
-// /usr/include/stdlib.h 
-
-#define _STDLIB_H (1)
-#define WIFSTOPPED(status) __WIFSTOPPED ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_wchar_t_h
-#define __INT_WCHAR_T_H
-#define _T_SIZE_
-
-// /usr/include/stdlib.h 
-
-#define __malloc_and_calloc_defined
-#define mkstemp mkstemp64
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SYS_SIZE_T_H
-#define _WCHAR_T
 #define _SIZE_T_DEFINED_
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/stdlib.h 
-
-#define WTERMSIG(status) __WTERMSIG ( status )
-#define WIFEXITED(status) __WIFEXITED ( status )
-#define EXIT_FAILURE (1)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-#define _WCHAR_T_DEFINED_
-#define _GCC_WCHAR_T
-#define _SIZE_T_
-
-// /usr/include/stdlib.h 
-
-#define RAND_MAX (2147483647)
-#define __COMPAR_FN_T
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_DEFINED
-#define __size_t
-#define __SIZE_T
-
-// /usr/include/stdlib.h 
-
-#define WEXITSTATUS(status) __WEXITSTATUS ( status )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_
-#define _T_WCHAR_
+#define __size_t__
 #define _SIZET_
+#define _SIZE_T_DECLARED
+#define __WCHAR_T
+#define _T_WCHAR_
 
 // /usr/include/stdlib.h 
 
-#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE
-#define _WCHAR_T_
-#define _GCC_SIZE_T
-
-// /usr/include/stdlib.h 
-
+#define WIFSTOPPED(status) __WIFSTOPPED ( status )
 #define WIFCONTINUED(status) __WIFCONTINUED ( status )
-#define WSTOPSIG(status) __WSTOPSIG ( status )
+#define RAND_MAX (2147483647)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __SIZE_T__
+#define __INT_WCHAR_T_H
 
 // /usr/include/stdlib.h 
 
@@ -234,16 +158,95 @@ extern int ttyslot(void);
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _WCHAR_T_DECLARED
+#define _T_WCHAR
+
+// /usr/include/stdlib.h 
+
+#define _STDLIB_H (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+#define __WCHAR_T__
+#define _SIZE_T
 
 // /usr/include/stdlib.h 
 
 #define WIFSIGNALED(status) __WIFSIGNALED ( status )
+#define WTERMSIG(status) __WTERMSIG ( status )
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define NULL ( ( void * ) 0 )
+#define ___int_size_t_h
+#define _SYS_SIZE_T_H
+#define _BSD_SIZE_T_DEFINED_
+
+// /usr/include/stdlib.h 
+
+#define WEXITSTATUS(status) __WEXITSTATUS ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_H
+
+// /usr/include/stdlib.h 
+
+#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_DEFINED
+#define _SIZE_T_
+#define _T_SIZE
+#define _GCC_SIZE_T
+#define __wchar_t__
+
+// /usr/include/stdlib.h 
+
+#define __malloc_and_calloc_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T__
+
+// /usr/include/stdlib.h 
+
+#define EXIT_SUCCESS (0)
+#define __COMPAR_FN_T
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
 
 // /usr/include/stdlib.h 
 
 #define __ldiv_t_defined (1)
+#define WSTOPSIG(status) __WSTOPSIG ( status )
+#define mkstemp mkstemp64
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _WCHAR_T_DECLARED
+
+// /usr/include/stdlib.h 
+
+#define EXIT_FAILURE (1)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T
+#define _WCHAR_T_DEFINED_
+#define _BSD_SIZE_T_
+
+// /usr/include/stdlib.h 
+
+#define WIFEXITED(status) __WIFEXITED ( status )
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _GCC_WCHAR_T
+#define _WCHAR_T
+#define _WCHAR_T_
+#define __size_t
+#define ___int_wchar_t_h

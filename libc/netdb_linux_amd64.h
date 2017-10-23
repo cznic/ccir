@@ -444,360 +444,34 @@ extern struct protoent *getprotoent(void);
 extern struct protoent *getprotobyname(const char *__name);
 extern struct protoent *getprotobynumber(int __proto);
 
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_WAITALL MSG_WAITALL
-#define AF_INET PF_INET
-
-// /usr/include/netinet/in.h 
-
-#define INADDR_BROADCAST ( ( in_addr_t ) 0xffffffff )
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S32_TYPE int
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_ATMSVC PF_ATMSVC
-
-// /usr/include/netinet/in.h 
-
-#define s6_addr __in6_u . __u6_addr8
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define CMSG_FIRSTHDR(mhdr) ( ( size_t ) ( mhdr ) -> msg_controllen >= sizeof ( struct cmsghdr ) ? ( struct cmsghdr * ) ( mhdr ) -> msg_control : ( struct cmsghdr * ) 0 )
-
-// /usr/include/netinet/in.h 
-
-#define INADDR_ALLRTRS_GROUP ( ( in_addr_t ) 0xe0000002 )
-#define IN6_IS_ADDR_MC_ORGLOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x8 ) )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_LLC (26)
-
-// /usr/include/stdint.h 
-
-#define _STDINT_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_ATMPVC PF_ATMPVC
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __need_clockid_t
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_OOB MSG_OOB
-#define PF_BRIDGE (7)
-
-// /usr/include/stdint.h 
-
-#define INT8_C(c) c
-#define UINT8_MAX (255)
-#define INT_LEAST16_MIN (-32768)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_FILE PF_LOCAL
-
-// /usr/include/stdint.h 
-
-#define UINT_LEAST16_MAX (65535)
-
 // /usr/include/netinet/in.h 
 
 #define IN_CLASSA_NSHIFT (24)
 
-// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
+#define __BITS_SOCKET_H
 
 // /usr/include/netinet/in.h 
 
-#define IN6_IS_ADDR_MULTICAST(a) ( ( ( const uint8_t * ) ( a ) ) [ 0 ] == 0xff )
+#define IN6_IS_ADDR_MC_LINKLOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x2 ) )
 
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
+// /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define PF_MAX (42)
-
-// /usr/include/netinet/in.h 
-
-#define IN_CLASSB_MAX (65536)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_PNPIPE (275)
-#define AF_PHONET PF_PHONET
-
-// /usr/include/netdb.h 
-
-#define _PATH_HEQUIV "/etc/hosts.equiv"
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_RAW IPPROTO_RAW
-#define IN_BADCLASS(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xf0000000 ) == 0xf0000000 )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_UNIX PF_LOCAL
-
-// /usr/include/netinet/in.h 
-
-#define IN6_IS_ADDR_MC_SITELOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x5 ) )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_X25 PF_X25
-
-// /usr/include/netdb.h 
-
-#define _PATH_NETWORKS "/etc/networks"
+#define __useconds_t_defined
 
 // /usr/include/stdint.h 
 
-#define UINT16_MAX (65535)
-#define PTRDIFF_MAX (9223372036854775807l)
-
-// /usr/include/x86_64-linux-gnu/sys/socket.h 
-
-#define SHUT_RDWR SHUT_RDWR
-
-// /usr/include/netdb.h 
-
-#define _PATH_SERVICES "/etc/services"
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_ENCAP IPPROTO_ENCAP
+#define UINT_FAST64_MAX (18446744073709551615ul)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define AF_FILE PF_FILE
-#define AF_APPLETALK PF_APPLETALK
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_X25 (9)
-
-// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
-
-#define _BITS_SOCKADDR_H (1)
-
-// /usr/include/stdint.h 
-
-#define WCHAR_MIN __WCHAR_MIN
+#define SOL_DCCP (269)
+#define MSG_DONTWAIT MSG_DONTWAIT
 
 // /usr/include/netinet/in.h 
 
 #define INADDR_ANY ( ( in_addr_t ) 0x00000000 )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_NETROM (6)
-#define MSG_PEEK MSG_PEEK
-#define SOL_IUCV (277)
-
-// /usr/include/x86_64-linux-gnu/bits/uio.h 
-
-#define _BITS_UIO_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_IB PF_IB
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_TP IPPROTO_TP
-
-// /usr/include/stdint.h 
-
-#define UINT64_C(c) c ## UL
-
-// /usr/include/netinet/in.h 
-
-#define IN6_IS_ADDR_LINKLOCAL(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] & htonl ( 0xffc00000 ) ) == htonl ( 0xfe800000 ) )
-#define IN_CLASSC_NET (4294967040u)
-
-// /usr/include/stdint.h 
-
-#define UINT_LEAST8_MAX (255)
-#define INT64_MIN (-9223372036854775808l)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_KCM (281)
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_AH IPPROTO_AH
-
-// /usr/include/x86_64-linux-gnu/sys/socket.h 
-
-#define SHUT_RD SHUT_RD
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_CMSG_CLOEXEC MSG_CMSG_CLOEXEC
-
-// /usr/include/netdb.h 
-
-#define _PATH_NSSWITCH_CONF "/etc/nsswitch.conf"
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZET_
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __key_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_BLUETOOTH PF_BLUETOOTH
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_EGP IPPROTO_EGP
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_MPLS PF_MPLS
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_SNA PF_SNA
-#define PF_IPX (4)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-
-// /usr/include/x86_64-linux-gnu/sys/socket.h 
-
-#define SHUT_WR SHUT_WR
-
-// /usr/include/netinet/in.h 
-
-#define INADDR_MAX_LOCAL_GROUP ( ( in_addr_t ) 0xe00000ff )
-
-// /usr/include/stdint.h 
-
-#define UINTPTR_MAX (18446744073709551615ul)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define _SYS_TYPES_H (1)
-
-// /usr/include/netinet/in.h 
-
-#define IN_MULTICAST(a) IN_CLASSD ( a )
-#define IN6_IS_ADDR_LOOPBACK(a) ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 2 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 3 ] == htonl ( 1 ) )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_TIPC (271)
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_RSVP IPPROTO_RSVP
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_DONTWAIT MSG_DONTWAIT
-#define MSG_PROXY MSG_PROXY
-#define SOL_NFC (280)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_RDS PF_RDS
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_
-
-// /usr/include/x86_64-linux-gnu/bits/uio.h 
-
-#define UIO_MAXIOV (1024)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_ERRQUEUE MSG_ERRQUEUE
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_SCTP IPPROTO_SCTP
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_NETLINK (270)
-
-// /usr/include/stdint.h 
-
-#define INT16_C(c) c
-#define UINT_FAST32_MAX (18446744073709551615ul)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __ino_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_NETLINK PF_NETLINK
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_KCM PF_KCM
-#define PF_CAN (29)
-#define PF_MPLS (28)
-#define AF_ASH PF_ASH
-
-// /usr/include/stdint.h 
-
-#define UINT32_C(c) c ## U
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/netinet/in.h 
-
-#define INADDR_UNSPEC_GROUP ( ( in_addr_t ) 0xe0000000 )
-#define INET_ADDRSTRLEN (16)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_DECnet (12)
-#define AF_UNSPEC PF_UNSPEC
-#define CMSG_ALIGN(len) ( ( ( len ) + sizeof ( size_t ) - 1 ) & ( size_t ) ~ ( sizeof ( size_t ) - 1 ) )
-
-// /usr/include/netinet/in.h 
-
-#define IN_CLASSC_HOST (255u)
-#define IN_CLASSB_NSHIFT (16)
-#define IPPROTO_ESP IPPROTO_ESP
-#define IN_CLASSA_MAX (128)
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
@@ -805,125 +479,64 @@ extern struct protoent *getprotobynumber(int __proto);
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define AF_NETBEUI PF_NETBEUI
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_UDPLITE IPPROTO_UDPLITE
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_INET6 PF_INET6
-
-// /usr/include/stdint.h 
-
-#define INT_FAST8_MIN (-128)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define __BITS_SOCKET_H
-
-// /usr/include/x86_64-linux-gnu/sys/socket.h 
-
-#define __SOCKADDR_ARG struct sockaddr * __restrict
+#define CMSG_DATA(cmsg) ( ( cmsg ) -> __cmsg_data )
+#define MSG_WAITALL MSG_WAITALL
 
 // /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
 
-#define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define CMSG_NXTHDR(mhdr, cmsg) __cmsg_nxthdr ( mhdr , cmsg )
+#define _BITS_SOCKADDR_H (1)
 
 // /usr/include/netinet/in.h 
 
-#define IPPROTO_IPV6 IPPROTO_IPV6
+#define IN6_IS_ADDR_UNSPECIFIED(a) ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 2 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 3 ] == 0 )
 
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
+// /usr/include/netdb.h 
 
-#define PF_AX25 (3)
-#define AF_NETROM PF_NETROM
-#define PF_ROUTE PF_NETLINK
-#define CMSG_SPACE(len) ( CMSG_ALIGN ( len ) + CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) )
+#define _PATH_HOSTS "/etc/hosts"
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
 
-#define _GCC_SIZE_T
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __off64_t_defined
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_DSTOPTS IPPROTO_DSTOPTS
-#define IN6ADDR_ANY_INIT { { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 } } }
-#define _NETINET_IN_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_X25 (262)
-
-// /usr/include/netinet/in.h 
-
-#define INADDR_NONE ( ( in_addr_t ) 0xffffffff )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_PACKET PF_PACKET
-#define MSG_NOSIGNAL MSG_NOSIGNAL
-#define AF_ALG PF_ALG
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_IPIP IPPROTO_IPIP
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U64_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_INET (2)
-#define AF_ECONET PF_ECONET
-#define SOL_RDS (276)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __pid_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_BATCH MSG_BATCH
-#define PF_NFC (39)
+#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
 
 // /usr/include/stdint.h 
 
-#define INT_FAST64_MAX (9223372036854775807l)
-#define INT8_MIN (-128)
+#define INTMAX_MIN (-9223372036854775808l)
+
+// /usr/include/x86_64-linux-gnu/sys/uio.h 
+
+#define _SYS_UIO_H (1)
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_ENCAP IPPROTO_ENCAP
+
+// /usr/include/stdint.h 
+
+#define INT_LEAST8_MIN (-128)
+#define UINT_FAST8_MAX (255)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define MSG_SYN MSG_SYN
-#define __socklen_t_defined
-#define MSG_CONFIRM MSG_CONFIRM
+#define CMSG_LEN(len) ( CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) + ( len ) )
 
-// /usr/include/x86_64-linux-gnu/sys/types.h 
+// /usr/include/netinet/in.h 
 
-#define __useconds_t_defined
-#define __ssize_t_defined
+#define IN_CLASSB_NET (4294901760u)
+
+// /usr/include/stdint.h 
+
+#define INT_FAST8_MAX (127)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define SOL_CAIF (278)
+#define MSG_FIN MSG_FIN
+#define MSG_ERRQUEUE MSG_ERRQUEUE
+#define MSG_WAITFORONE MSG_WAITFORONE
+#define PF_TIPC (30)
 
-// /usr/include/x86_64-linux-gnu/sys/types.h 
+// /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __off_t_defined
+#define __UWORD_TYPE unsigned long int
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
@@ -931,50 +544,24 @@ extern struct protoent *getprotobynumber(int __proto);
 
 // /usr/include/stdint.h 
 
-#define INTPTR_MAX (9223372036854775807l)
-#define WINT_MAX (4294967295u)
+#define INT32_MIN (-2147483648)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define PF_RDS (21)
-#define PF_CAIF (37)
+#define MSG_DONTROUTE MSG_DONTROUTE
+#define PF_RXRPC (33)
 
-// /usr/include/stdint.h 
+// /usr/include/netdb.h 
 
-#define INT_LEAST32_MAX (2147483647)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONG32_TYPE int
+#define _PATH_SERVICES "/etc/services"
 
 // /usr/include/netinet/in.h 
 
-#define INADDR_ALLHOSTS_GROUP ( ( in_addr_t ) 0xe0000001 )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_APPLETALK (5)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __nlink_t_defined
+#define IN6_IS_ADDR_MULTICAST(a) ( ( ( const uint8_t * ) ( a ) ) [ 0 ] == 0xff )
 
 // /usr/include/stdint.h 
 
-#define INT_LEAST64_MIN (-9223372036854775808l)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_SECURITY PF_SECURITY
-
-// /usr/include/netinet/in.h 
-
-#define INADDR_LOOPBACK ( ( in_addr_t ) 0x7f000001 )
-#define IN6_IS_ADDR_V4MAPPED(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 2 ] == htonl ( 0xffff ) ) )
-
-// /usr/include/stdint.h 
-
-#define INT64_MAX (9223372036854775807l)
+#define UINT16_MAX (65535)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
@@ -982,251 +569,149 @@ extern struct protoent *getprotobynumber(int __proto);
 
 // /usr/include/netinet/in.h 
 
-#define IPPROTO_TCP IPPROTO_TCP
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_CTRUNC MSG_CTRUNC
-#define PF_INET6 (10)
-
-// /usr/include/stdint.h 
-
-#define INT32_C(c) c
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_HOPOPTS IPPROTO_HOPOPTS
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_
-
-// /usr/include/stdint.h 
-
-#define INT_FAST16_MAX (9223372036854775807l)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_NETLINK (16)
-#define PF_UNSPEC (0)
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_LLC PF_LLC
-
-// /usr/include/netinet/in.h 
-
-#define IN_CLASSC_NSHIFT (8)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_MAX PF_MAX
-#define SOL_DCCP (269)
-
-// /usr/include/stdint.h 
-
-#define INT8_MAX (127)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SCM_RIGHTS SCM_RIGHTS
-
-// /usr/include/stdint.h 
-
-#define UINTMAX_MAX (18446744073709551615ul)
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_COMP IPPROTO_COMP
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-
-// /usr/include/netinet/in.h 
-
 #define IPPROTO_DCCP IPPROTO_DCCP
 
-// /usr/include/x86_64-linux-gnu/sys/types.h 
+// /usr/include/x86_64-linux-gnu/bits/types.h 
 
-#define __suseconds_t_defined
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define CMSG_ALIGN(len) ( ( ( len ) + sizeof ( size_t ) - 1 ) & ( size_t ) ~ ( sizeof ( size_t ) - 1 ) )
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_IPV6 IPPROTO_IPV6
 
 // /usr/include/stdint.h 
 
-#define INT32_MAX (2147483647)
+#define UINT8_MAX (255)
+
+// /usr/include/netinet/in.h 
+
+#define IN_CLASSC(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xe0000000 ) == 0xc0000000 )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_RST MSG_RST
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define ___int_size_t_h
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define _BITS_TYPES_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_PPPOX PF_PPPOX
-#define AF_CAIF PF_CAIF
-#define SOL_RXRPC (272)
-#define MSG_MORE MSG_MORE
+#define _GCC_SIZE_T
 
 // /usr/include/netinet/in.h 
 
-#define IPPROTO_FRAGMENT IPPROTO_FRAGMENT
+#define IN_CLASSA_HOST (16777215u)
+
+// /usr/include/netdb.h 
+
+#define _NETDB_H (1)
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_MPLS IPPROTO_MPLS
 
 // /usr/include/stdint.h 
 
-#define INT64_C(c) c ## L
-#define INT16_MIN (-32768)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __blkcnt_t_defined
-
-// /usr/include/stdint.h 
-
-#define INT16_MAX (32767)
+#define INT_LEAST32_MAX (2147483647)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define AF_IPX PF_IPX
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_UDP IPPROTO_UDP
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_BRIDGE PF_BRIDGE
-#define SOL_ATM (264)
-#define MSG_FASTOPEN MSG_FASTOPEN
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_PUP IPPROTO_PUP
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t__
-
-// /usr/include/netinet/in.h 
-
-#define IN6_ARE_ADDR_EQUAL(a, b) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == ( ( const uint32_t * ) ( b ) ) [ 0 ] ) && ( ( ( const uint32_t * ) ( a ) ) [ 1 ] == ( ( const uint32_t * ) ( b ) ) [ 1 ] ) && ( ( ( const uint32_t * ) ( a ) ) [ 2 ] == ( ( const uint32_t * ) ( b ) ) [ 2 ] ) && ( ( ( const uint32_t * ) ( a ) ) [ 3 ] == ( ( const uint32_t * ) ( b ) ) [ 3 ] ) )
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __id_t_defined
+#define AF_RXRPC PF_RXRPC
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
 #define _SYS_SIZE_T_H
 
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_NETROM PF_NETROM
+
 // /usr/include/netinet/in.h 
 
-#define IPPROTO_ICMP IPPROTO_ICMP
+#define IN_CLASSA_MAX (128)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define PF_PPPOX (24)
+#define PF_ATMPVC (8)
 
-// /usr/include/x86_64-linux-gnu/sys/types.h 
+// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
 
-#define __ino64_t_defined
+#define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define SOL_RAW (255)
+#define AF_INET6 PF_INET6
+#define AF_AX25 PF_AX25
+
+// /usr/include/netinet/in.h 
+
+#define INADDR_UNSPEC_GROUP ( ( in_addr_t ) 0xe0000000 )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_LLC (268)
 
 // /usr/include/stdint.h 
 
-#define UINT_LEAST32_MAX (4294967295u)
+#define WCHAR_MAX __WCHAR_MAX
+#define SIG_ATOMIC_MIN (-2147483648)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define SOL_ALG (279)
-#define PF_NETBEUI (13)
+#define AF_ECONET PF_ECONET
+
+// /usr/include/netinet/in.h 
+
+#define INADDR_ALLHOSTS_GROUP ( ( in_addr_t ) 0xe0000001 )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_BLUETOOTH (31)
+#define SOL_RAW (255)
+#define _SS_PADSIZE ( _SS_SIZE - __SOCKADDR_COMMON_SIZE - sizeof ( __ss_aligntype ) )
+#define PF_WANPIPE (25)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_BATCH MSG_BATCH
+#define PF_NETLINK (16)
+
+// /usr/include/stdint.h 
+
+#define INTMAX_C(c) c ## L
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __fsfilcnt_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_KEY (15)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define _SIZE_T_DEFINED_
-
-// /usr/include/stdint.h 
-
-#define INT_FAST32_MAX (9223372036854775807l)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define CMSG_LEN(len) ( CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) + ( len ) )
-#define MSG_FIN MSG_FIN
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __dev_t_defined
-
-// /usr/include/stdint.h 
-
-#define UINT_LEAST64_MAX (18446744073709551615ul)
+#define _BSD_SIZE_T_
 
 // /usr/include/netinet/in.h 
 
-#define IN_CLASSB_NET (4294901760u)
-#define IPPROTO_ROUTING IPPROTO_ROUTING
+#define IN6_IS_ADDR_V4MAPPED(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 2 ] == htonl ( 0xffff ) ) )
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define PF_ALG (38)
-#define PF_IUCV (32)
-#define PF_IB (27)
-#define SOL_NETBEUI (267)
+#define AF_ROUTE PF_ROUTE
 
 // /usr/include/stdint.h 
 
-#define INT32_MIN (-2147483648)
-#define WINT_MIN (0u)
-#define INT_FAST64_MIN (-9223372036854775808l)
-
-// /usr/include/netinet/in.h 
-
-#define IN_CLASSA(a) ( ( ( ( in_addr_t ) ( a ) ) & 0x80000000 ) == 0 )
+#define INT_LEAST64_MAX (9223372036854775807l)
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define AF_DECnet PF_DECnet
-#define PF_ROSE (11)
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_BEETPH IPPROTO_BEETPH
-#define IN6_IS_ADDR_V4COMPAT(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 2 ] == 0 ) && ( ntohl ( ( ( const uint32_t * ) ( a ) ) [ 3 ] ) > 1 ) )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_AX25 PF_AX25
-
-// /usr/include/stdint.h 
-
-#define UINT64_MAX (18446744073709551615ul)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_KEY PF_KEY
-
-// /usr/include/x86_64-linux-gnu/sys/socket.h 
-
-#define _SYS_SOCKET_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_LOCAL (1)
-#define AF_IRDA PF_IRDA
+#define SCM_RIGHTS SCM_RIGHTS
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -1235,15 +720,281 @@ extern struct protoent *getprotobynumber(int __proto);
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
 #define AF_ISDN PF_ISDN
+#define PF_IRDA (23)
+
+// /usr/include/x86_64-linux-gnu/bits/uio.h 
+
+#define _BITS_UIO_H (1)
 
 // /usr/include/netinet/in.h 
 
-#define IPPROTO_IDP IPPROTO_IDP
+#define IN6_IS_ADDR_V4COMPAT(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 ) && ( ( ( const uint32_t * ) ( a ) ) [ 2 ] == 0 ) && ( ntohl ( ( ( const uint32_t * ) ( a ) ) [ 3 ] ) > 1 ) )
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define PF_VSOCK (40)
-#define AF_TIPC PF_TIPC
+#define AF_UNSPEC PF_UNSPEC
+
+// /usr/include/stdint.h 
+
+#define INTPTR_MIN (-9223372036854775808l)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_MORE MSG_MORE
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_ICMP IPPROTO_ICMP
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_NETBEUI (13)
+
+// /usr/include/stdint.h 
+
+#define __intptr_t_defined
+#define UINT_FAST16_MAX (18446744073709551615ul)
+
+// /usr/include/netinet/in.h 
+
+#define INET6_ADDRSTRLEN (46)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t__
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U32_TYPE unsigned int
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_IB (27)
+
+// /usr/include/x86_64-linux-gnu/sys/socket.h 
+
+#define __CONST_SOCKADDR_ARG const struct sockaddr *
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_BRIDGE PF_BRIDGE
+#define AF_APPLETALK PF_APPLETALK
+
+// /usr/include/stdint.h 
+
+#define UINTPTR_MAX (18446744073709551615ul)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_KEY PF_KEY
+
+// /usr/include/netdb.h 
+
+#define _PATH_NETWORKS "/etc/networks"
+
+// /usr/include/stdint.h 
+
+#define INT_LEAST16_MIN (-32768)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_LLC PF_LLC
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_BLUETOOTH PF_BLUETOOTH
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_COMP IPPROTO_COMP
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_CAN (29)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __pid_t_defined
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_ICMPV6 IPPROTO_ICMPV6
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_ATMSVC (20)
+
+// /usr/include/x86_64-linux-gnu/sys/socket.h 
+
+#define SHUT_RD SHUT_RD
+
+// /usr/include/netinet/in.h 
+
+#define IN_CLASSC_NSHIFT (8)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_BRIDGE (7)
+
+// /usr/include/stdint.h 
+
+#define UINT_LEAST8_MAX (255)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_IPX (4)
+#define __socklen_t_defined
+
+// /usr/include/x86_64-linux-gnu/sys/socket.h 
+
+#define _SYS_SOCKET_H (1)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_SECURITY PF_SECURITY
+#define AF_NETBEUI PF_NETBEUI
+
+// /usr/include/netinet/in.h 
+
+#define IN_MULTICAST(a) IN_CLASSD ( a )
+#define IPPROTO_PUP IPPROTO_PUP
+
+// /usr/include/stdint.h 
+
+#define INT16_C(c) c
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_TIPC (271)
+
+// /usr/include/stdint.h 
+
+#define UINT_LEAST16_MAX (65535)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_PROXY MSG_PROXY
+
+// /usr/include/netinet/in.h 
+
+#define INADDR_NONE ( ( in_addr_t ) 0xffffffff )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_SNA (22)
+#define PF_ISDN (34)
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_IPIP IPPROTO_IPIP
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S16_TYPE short int
+
+// /usr/include/netinet/in.h 
+
+#define IN_CLASSA(a) ( ( ( ( in_addr_t ) ( a ) ) & 0x80000000 ) == 0 )
+
+// /usr/include/x86_64-linux-gnu/bits/uio.h 
+
+#define UIO_MAXIOV (1024)
+
+// /usr/include/stdint.h 
+
+#define INT64_C(c) c ## L
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_ATM (264)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __key_t_defined
+
+// /usr/include/netinet/in.h 
+
+#define IN6_IS_ADDR_LOOPBACK(a) ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 2 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 3 ] == htonl ( 1 ) )
+
+// /usr/include/stdint.h 
+
+#define UINTMAX_C(c) c ## UL
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_AAL (265)
+#define SOL_RXRPC (272)
+#define AF_X25 PF_X25
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_TP IPPROTO_TP
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_IRDA (266)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __mode_t_defined
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_UDP IPPROTO_UDP
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_ATMPVC PF_ATMPVC
+
+// /usr/include/stdint.h 
+
+#define INT8_MAX (127)
+
+// /usr/include/netinet/in.h 
+
+#define INADDR_BROADCAST ( ( in_addr_t ) 0xffffffff )
+
+// /usr/include/stdint.h 
+
+#define WINT_MAX (4294967295u)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SQUAD_TYPE long int
+
+// /usr/include/netinet/in.h 
+
+#define IN_CLASSB_NSHIFT (16)
+#define IPPROTO_MTP IPPROTO_MTP
+
+// /usr/include/stdint.h 
+
+#define WCHAR_MIN __WCHAR_MIN
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_MAX PF_MAX
+
+// /usr/include/netdb.h 
+
+#define NO_RECOVERY (3)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __off_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_PEEK MSG_PEEK
+#define MSG_FASTOPEN MSG_FASTOPEN
 
 // /usr/include/netinet/in.h 
 
@@ -1251,161 +1002,87 @@ extern struct protoent *getprotobynumber(int __proto);
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define SOL_BLUETOOTH (274)
-
-// /usr/include/netdb.h 
-
-#define HOST_NOT_FOUND (1)
+#define PF_UNSPEC (0)
 
 // /usr/include/stdint.h 
 
-#define INTMAX_MIN (-9223372036854775808l)
+#define INT_FAST16_MAX (9223372036854775807l)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __ssize_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_NFC (39)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __ino_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define CMSG_SPACE(len) ( CMSG_ALIGN ( len ) + CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) )
+
+// /usr/include/stdint.h 
+
+#define INT16_MIN (-32768)
+
+// /usr/include/netdb.h 
+
+#define _PATH_NSSWITCH_CONF "/etc/nsswitch.conf"
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_FILE PF_LOCAL
+#define AF_ASH PF_ASH
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __SIZE_T
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_KCM (281)
+
+// /usr/include/stdint.h 
+
+#define INT_FAST32_MAX (9223372036854775807l)
+#define INT64_MAX (9223372036854775807l)
+
+// /usr/include/netinet/in.h 
+
+#define IN6ADDR_ANY_INIT { { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 } } }
+
+// /usr/include/stdint.h 
+
 #define UINT16_C(c) c
 
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_LOCAL PF_LOCAL
-
-// /usr/include/stdint.h 
-
-#define INT_LEAST16_MAX (32767)
-#define INT_FAST8_MAX (127)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_ECONET (19)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __mode_t_defined
-
-// /usr/include/stdint.h 
-
-#define INT_LEAST8_MIN (-128)
-#define INTPTR_MIN (-9223372036854775808l)
-#define UINT32_MAX (4294967295u)
-
 // /usr/include/netinet/in.h 
 
-#define IN_EXPERIMENTAL(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xe0000000 ) == 0xe0000000 )
-#define IN_CLASSC(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xe0000000 ) == 0xc0000000 )
+#define IN_CLASSA_NET (4278190080u)
+#define IPPROTO_MH IPPROTO_MH
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define PF_ATMSVC (20)
+#define PF_NETROM (6)
+#define PF_INET (2)
 
 // /usr/include/stdint.h 
 
-#define __intptr_t_defined
-
-// /usr/include/netinet/in.h 
-
-#define IN6_IS_ADDR_MC_GLOBAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0xe ) )
-
-// /usr/include/x86_64-linux-gnu/sys/socket.h 
-
-#define __CONST_SOCKADDR_ARG const struct sockaddr *
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_IP IPPROTO_IP
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __fsfilcnt_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_VSOCK PF_VSOCK
-#define SOL_IRDA (266)
-#define PF_ASH (18)
-
-// /usr/include/stdint.h 
-
-#define UINTMAX_C(c) c ## UL
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_MPLS IPPROTO_MPLS
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_SNA (22)
-
-// /usr/include/stdint.h 
-
-#define INT_LEAST32_MIN (-2147483648)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_LLC (268)
-#define MSG_TRUNC MSG_TRUNC
-
-// /usr/include/netdb.h 
-
-#define NO_RECOVERY (3)
-#define NO_DATA (4)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_AAL (265)
-
-// /usr/include/stdint.h 
-
-#define PTRDIFF_MIN (-9223372036854775808l)
+#define INT_FAST16_MIN (-9223372036854775808l)
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
-#define __size_t
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_NONE IPPROTO_NONE
+#define __SIZE_T__
 
 // /usr/include/stdint.h 
 
-#define SIG_ATOMIC_MAX (2147483647)
+#define _STDINT_H (1)
 
 // /usr/include/netinet/in.h 
 
-#define IN6_IS_ADDR_MC_NODELOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x1 ) )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_IRDA (23)
-
-// /usr/include/stdint.h 
-
-#define UINT_FAST64_MAX (18446744073709551615ul)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_UNIX PF_UNIX
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define _SS_PADSIZE ( _SS_SIZE - __SOCKADDR_COMMON_SIZE - sizeof ( __ss_aligntype ) )
-
-// /usr/include/netinet/in.h 
-
-#define IN6_IS_ADDR_SITELOCAL(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] & htonl ( 0xffc00000 ) ) == htonl ( 0xfec00000 ) )
-#define IPPROTO_IGMP IPPROTO_IGMP
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S16_TYPE short int
-
-// /usr/include/stdint.h 
-
-#define WCHAR_MAX __WCHAR_MAX
+#define IPPROTO_IDP IPPROTO_IDP
 
 // /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
 
@@ -1413,225 +1090,124 @@ extern struct protoent *getprotobynumber(int __proto);
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define MSG_RST MSG_RST
-#define PF_SECURITY (14)
-#define SOL_DECNET (261)
-#define PF_PACKET (17)
-
-// /usr/include/netdb.h 
-
-#define _NETDB_H (1)
+#define PF_MPLS (28)
+#define PF_ROUTE PF_NETLINK
+#define AF_TIPC PF_TIPC
+#define SOL_BLUETOOTH (274)
 
 // /usr/include/netinet/in.h 
 
-#define IN_CLASSA_NET (4278190080u)
-
-// /usr/include/x86_64-linux-gnu/sys/uio.h 
-
-#define _SYS_UIO_H (1)
+#define IPPROTO_EGP IPPROTO_EGP
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
-#define PF_KCM (41)
+#define AF_ALG PF_ALG
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define __uid_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_ISDN (34)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
+#define __need_clockid_t
 
 // /usr/include/netinet/in.h 
 
-#define IPPROTO_GRE IPPROTO_GRE
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_PACKET (263)
-
-// /usr/include/stdint.h 
-
-#define UINT_FAST8_MAX (255)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_ROUTE PF_ROUTE
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __blksize_t_defined
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T__
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_KEY (15)
-
-// /usr/include/netdb.h 
-
-#define IPPORT_RESERVED (1024)
-
-// /usr/include/stdint.h 
-
-#define __uint32_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define CMSG_DATA(cmsg) ( ( cmsg ) -> __cmsg_data )
-
-// /usr/include/netinet/in.h 
-
-#define IN_CLASSB_HOST (65535u)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_RXRPC PF_RXRPC
-#define AF_WANPIPE PF_WANPIPE
-#define PF_PHONET (35)
-
-// /usr/include/stdint.h 
-
-#define INTMAX_C(c) c ## L
-#define __int8_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SWORD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define PF_ATMPVC (8)
-
-// /usr/include/netinet/in.h 
-
-#define IN_LOOPBACKNET (127)
-
-// /usr/include/x86_64-linux-gnu/sys/types.h 
-
-#define __gid_t_defined
-
-// /usr/include/stdint.h 
-
-#define SIZE_MAX (18446744073709551615ul)
-
-// /usr/include/netdb.h 
-
-#define h_errno ( * __h_errno_location ( ) )
-
-// /usr/include/netinet/in.h 
-
-#define INET6_ADDRSTRLEN (46)
-
-// /usr/include/netdb.h 
-
-#define TRY_AGAIN (2)
-#define _PATH_HOSTS "/etc/hosts"
-
-// /usr/include/netinet/in.h 
-
-#define IN_CLASSB(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xc0000000 ) == 0x80000000 )
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_ROSE PF_ROSE
-#define PF_RXRPC (33)
-
-// /usr/include/stdint.h 
-
-#define INT_FAST32_MIN (-9223372036854775808l)
-
-// /usr/include/netinet/in.h 
-
-#define IN_CLASSA_HOST (16777215u)
-
-// /usr/include/netdb.h 
-
-#define _PATH_PROTOCOLS "/etc/protocols"
-
-// /usr/include/stdint.h 
-
-#define INT_LEAST64_MAX (9223372036854775807l)
-#define SIG_ATOMIC_MIN (-2147483648)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_NFC PF_NFC
-#define AF_IUCV PF_IUCV
-#define MSG_WAITFORONE MSG_WAITFORONE
-
-// /usr/include/stdint.h 
-
-#define INTMAX_MAX (9223372036854775807l)
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_PIM IPPROTO_PIM
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_DONTROUTE MSG_DONTROUTE
-#define PF_TIPC (30)
-#define PF_IEEE802154 (36)
-
-// /usr/include/stdint.h 
-
-#define INT_FAST16_MIN (-9223372036854775808l)
-
-// /usr/include/netinet/in.h 
-
-#define IN6ADDR_LOOPBACK_INIT { { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 1 } } }
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define SOL_PPPOL2TP (273)
-
-// /usr/include/netinet/in.h 
-
-#define IPPROTO_ICMPV6 IPPROTO_ICMPV6
-#define IPPROTO_MH IPPROTO_MH
-#define IN6_IS_ADDR_MC_LINKLOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x2 ) )
-#define IPPROTO_MTP IPPROTO_MTP
+#define IN_CLASSB_MAX (65536)
+#define IPPROTO_HOPOPTS IPPROTO_HOPOPTS
 
 // /usr/include/stdint.h 
 
 #define UINT8_C(c) c
 
-// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
+// /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define _SS_SIZE (128)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define AF_CAN PF_CAN
-
-// /usr/include/stdint.h 
-
-#define UINT_FAST16_MAX (18446744073709551615ul)
-
-// /usr/include/x86_64-linux-gnu/bits/socket.h 
-
-#define MSG_EOR MSG_EOR
-#define PF_BLUETOOTH (31)
-#define PF_WANPIPE (25)
+#define __nlink_t_defined
 
 // /usr/include/netinet/in.h 
 
-#define IN6_IS_ADDR_UNSPECIFIED(a) ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 1 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 2 ] == 0 && ( ( const uint32_t * ) ( a ) ) [ 3 ] == 0 )
+#define IPPROTO_RSVP IPPROTO_RSVP
+#define IN6_IS_ADDR_MC_NODELOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x1 ) )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_OOB MSG_OOB
+#define PF_AX25 (3)
+
+// /usr/include/stdint.h 
+
+#define INT64_MIN (-9223372036854775808l)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_MAX (42)
+
+// /usr/include/stdint.h 
+
+#define INTPTR_MAX (9223372036854775807l)
+
+// /usr/include/netdb.h 
+
+#define NO_DATA (4)
+#define IPPORT_RESERVED (1024)
+
+// /usr/include/netinet/in.h 
+
+#define INADDR_ALLRTRS_GROUP ( ( in_addr_t ) 0xe0000002 )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_SNA PF_SNA
+
+// /usr/include/stdint.h 
+
+#define UINT_FAST32_MAX (18446744073709551615ul)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+
+// /usr/include/stdint.h 
+
+#define SIG_ATOMIC_MAX (2147483647)
+#define UINT_LEAST32_MAX (4294967295u)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_CTRUNC MSG_CTRUNC
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+
+// /usr/include/netdb.h 
+
+#define TRY_AGAIN (2)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_IB PF_IB
+
+// /usr/include/netinet/in.h 
+
+#define IN6_IS_ADDR_MC_ORGLOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x8 ) )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_X25 (9)
+#define SOL_CAIF (278)
+
+// /usr/include/stdint.h 
+
+#define INT32_MAX (2147483647)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_DECnet PF_DECnet
 
 // /usr/include/x86_64-linux-gnu/sys/types.h 
 
-#define __fsblkcnt_t_defined
+#define __off64_t_defined
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_ESP IPPROTO_ESP
 
 // /usr/include/stdint.h 
 
@@ -1639,4 +1215,488 @@ extern struct protoent *getprotobynumber(int __proto);
 
 // /usr/include/x86_64-linux-gnu/bits/socket.h 
 
+#define AF_PHONET PF_PHONET
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_
+
+// /usr/include/stdint.h 
+
+#define INT16_MAX (32767)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define __size_t
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_PHONET (35)
+
+// /usr/include/stdint.h 
+
+#define PTRDIFF_MIN (-9223372036854775808l)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SLONG32_TYPE int
+
+// /usr/include/stdint.h 
+
+#define SIZE_MAX (18446744073709551615ul)
+
+// /usr/include/netinet/in.h 
+
+#define _NETINET_IN_H (1)
+#define IN_CLASSC_NET (4294967040u)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define CMSG_NXTHDR(mhdr, cmsg) __cmsg_nxthdr ( mhdr , cmsg )
+#define AF_WANPIPE PF_WANPIPE
+#define PF_INET6 (10)
+#define PF_CAIF (37)
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/stdint.h 
+
+#define INT8_C(c) c
+
+// /usr/include/netinet/in.h 
+
+#define IN6_ARE_ADDR_EQUAL(a, b) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] == ( ( const uint32_t * ) ( b ) ) [ 0 ] ) && ( ( ( const uint32_t * ) ( a ) ) [ 1 ] == ( ( const uint32_t * ) ( b ) ) [ 1 ] ) && ( ( ( const uint32_t * ) ( a ) ) [ 2 ] == ( ( const uint32_t * ) ( b ) ) [ 2 ] ) && ( ( ( const uint32_t * ) ( a ) ) [ 3 ] == ( ( const uint32_t * ) ( b ) ) [ 3 ] ) )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_PPPOX (24)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZET_
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_INET PF_INET
+#define PF_ASH (18)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __suseconds_t_defined
+
+// /usr/include/stdint.h 
+
+#define INT_FAST32_MIN (-9223372036854775808l)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_NOSIGNAL MSG_NOSIGNAL
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __dev_t_defined
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_IGMP IPPROTO_IGMP
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_IRDA PF_IRDA
+#define AF_ROSE PF_ROSE
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_RAW IPPROTO_RAW
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_ALG (38)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __SWORD_TYPE long int
+
+// /usr/include/netinet/in.h 
+
+#define IN6_IS_ADDR_MC_SITELOCAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0x5 ) )
+#define IN6_IS_ADDR_LINKLOCAL(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] & htonl ( 0xffc00000 ) ) == htonl ( 0xfe800000 ) )
+
+// /usr/include/stdint.h 
+
+#define WINT_MIN (0u)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_X25 (262)
+#define AF_CAN PF_CAN
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __ino64_t_defined
+
+// /usr/include/stdint.h 
+
+#define INT_FAST8_MIN (-128)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_ALG (279)
+#define MSG_SYN MSG_SYN
+#define SOL_RDS (276)
+#define SOL_NETLINK (270)
+#define PF_PACKET (17)
+#define PF_LOCAL (1)
+#define MSG_EOR MSG_EOR
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __fsblkcnt_t_defined
+
+// /usr/include/stdint.h 
+
+#define __uint32_t_defined
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T
+
+// /usr/include/stdint.h 
+
+#define UINT_LEAST64_MAX (18446744073709551615ul)
+
+// /usr/include/netinet/in.h 
+
+#define IN6ADDR_LOOPBACK_INIT { { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 1 } } }
+
+// /usr/include/stdint.h 
+
+#define PTRDIFF_MAX (9223372036854775807l)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_ROSE (11)
+
+// /usr/include/stdint.h 
+
+#define UINT32_MAX (4294967295u)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_PPPOX PF_PPPOX
+#define AF_NETLINK PF_NETLINK
+
+// /usr/include/stdint.h 
+
+#define UINT32_C(c) c ## U
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __blkcnt_t_defined
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_FRAGMENT IPPROTO_FRAGMENT
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_IUCV PF_IUCV
+#define PF_IEEE802154 (36)
+#define AF_ATMSVC PF_ATMSVC
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_PNPIPE (275)
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_TCP IPPROTO_TCP
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_IUCV (32)
+#define SOL_IUCV (277)
+
+// /usr/include/netinet/in.h 
+
+#define IN_CLASSC_HOST (255u)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_IPX PF_IPX
+#define SOL_NETBEUI (267)
+#define SOL_PACKET (263)
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_SCTP IPPROTO_SCTP
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_KCM (41)
+
+// /usr/include/x86_64-linux-gnu/sys/socket.h 
+
+#define SHUT_WR SHUT_WR
+
+// /usr/include/netinet/in.h 
+
+#define IN_CLASSB(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xc0000000 ) == 0x80000000 )
+#define IPPROTO_UDPLITE IPPROTO_UDPLITE
+#define IPPROTO_ROUTING IPPROTO_ROUTING
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_DECnet (12)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __blksize_t_defined
+
+// /usr/include/stdint.h 
+
+#define UINT64_C(c) c ## UL
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_IP IPPROTO_IP
+
+// /usr/include/stdint.h 
+
+#define INT_LEAST64_MIN (-9223372036854775808l)
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_GRE IPPROTO_GRE
+
+// /usr/include/stdint.h 
+
+#define INT_LEAST32_MIN (-2147483648)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_MPLS PF_MPLS
+#define PF_RDS (21)
+
+// /usr/include/stdint.h 
+
+#define UINT64_MAX (18446744073709551615ul)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_KCM PF_KCM
+
+// /usr/include/netinet/in.h 
+
+#define IN_LOOPBACKNET (127)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_RDS PF_RDS
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __U64_TYPE unsigned long int
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_PIM IPPROTO_PIM
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_PPPOL2TP (273)
+
+// /usr/include/netinet/in.h 
+
+#define IPPROTO_AH IPPROTO_AH
+#define IPPROTO_DSTOPTS IPPROTO_DSTOPTS
+
+// /usr/include/stdint.h 
+
+#define UINTMAX_MAX (18446744073709551615ul)
+
+// /usr/include/netinet/in.h 
+
+#define IN_CLASSB_HOST (65535u)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define CMSG_FIRSTHDR(mhdr) ( ( size_t ) ( mhdr ) -> msg_controllen >= sizeof ( struct cmsghdr ) ? ( struct cmsghdr * ) ( mhdr ) -> msg_control : ( struct cmsghdr * ) 0 )
+#define PF_SECURITY (14)
+#define AF_CAIF PF_CAIF
+
+// /usr/include/netinet/in.h 
+
+#define IN6_IS_ADDR_SITELOCAL(a) ( ( ( ( const uint32_t * ) ( a ) ) [ 0 ] & htonl ( 0xffc00000 ) ) == htonl ( 0xfec00000 ) )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_NFC PF_NFC
+
+// /usr/include/stdint.h 
+
+#define __int8_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_FILE PF_FILE
+
+// /usr/include/x86_64-linux-gnu/sys/socket.h 
+
+#define __SOCKADDR_ARG struct sockaddr * __restrict
+
+// /usr/include/stdint.h 
+
+#define INT8_MIN (-128)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_UNIX PF_UNIX
+
+// /usr/include/netdb.h 
+
+#define _PATH_PROTOCOLS "/etc/protocols"
+
+// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
+
+#define _SS_SIZE (128)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_NFC (280)
+
+// /usr/include/stdint.h 
+
+#define INT_LEAST16_MAX (32767)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_PACKET PF_PACKET
+#define MSG_TRUNC MSG_TRUNC
+#define PF_APPLETALK (5)
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __uid_t_defined
+
+// /usr/include/netinet/in.h 
+
+#define IN_EXPERIMENTAL(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xe0000000 ) == 0xe0000000 )
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __gid_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/include/stdint.h 
+
+#define INT_FAST64_MIN (-9223372036854775808l)
+
+// /usr/include/netdb.h 
+
+#define HOST_NOT_FOUND (1)
+
+// /usr/include/netinet/in.h 
+
+#define IN_BADCLASS(a) ( ( ( ( in_addr_t ) ( a ) ) & 0xf0000000 ) == 0xf0000000 )
+#define INADDR_MAX_LOCAL_GROUP ( ( in_addr_t ) 0xe00000ff )
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define SOL_DECNET (261)
+#define PF_ECONET (19)
+
+// /usr/include/stdint.h 
+
+#define INT_FAST64_MAX (9223372036854775807l)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_LOCAL PF_LOCAL
+
+// /usr/include/stdint.h 
+
+#define INT32_C(c) c
+
+// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+
+#define ___int_size_t_h
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define AF_VSOCK PF_VSOCK
+
+// /usr/include/x86_64-linux-gnu/sys/socket.h 
+
+#define SHUT_RDWR SHUT_RDWR
+
+// /usr/include/netdb.h 
+
+#define h_errno ( * __h_errno_location ( ) )
+#define _PATH_HEQUIV "/etc/hosts.equiv"
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define __id_t_defined
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_UNIX PF_LOCAL
+
+// /usr/include/x86_64-linux-gnu/sys/types.h 
+
+#define _SYS_TYPES_H (1)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_CONFIRM MSG_CONFIRM
 #define SOMAXCONN (128)
+
+// /usr/include/stdint.h 
+
+#define INTMAX_MAX (9223372036854775807l)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_LLC (26)
+
+// /usr/include/x86_64-linux-gnu/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+
+// /usr/include/netinet/in.h 
+
+#define IN6_IS_ADDR_MC_GLOBAL(a) ( IN6_IS_ADDR_MULTICAST ( a ) && ( ( ( ( const uint8_t * ) ( a ) ) [ 1 ] & 0xf ) == 0xe ) )
+#define INADDR_LOOPBACK ( ( in_addr_t ) 0x7f000001 )
+#define s6_addr __in6_u . __u6_addr8
+#define IPPROTO_NONE IPPROTO_NONE
+#define IPPROTO_BEETPH IPPROTO_BEETPH
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define MSG_CMSG_CLOEXEC MSG_CMSG_CLOEXEC
+
+// /usr/include/netinet/in.h 
+
+#define INET_ADDRSTRLEN (16)
+
+// /usr/include/x86_64-linux-gnu/bits/socket.h 
+
+#define PF_VSOCK (40)
