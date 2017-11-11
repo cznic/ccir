@@ -1185,6 +1185,7 @@ func main() {
 		{"linux", "X11/X", "TODO", "VisualID"},
 		{"linux", "X11/extensions/Xdbe", "XdbeUntouched", "XdbeBackBuffer|VisualID|wchar_t"},
 		{"linux", "sys/ucontext", "TODO", "TODO"},
+		{"linux", "sys/ioctl", "TODO", "TODO"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {

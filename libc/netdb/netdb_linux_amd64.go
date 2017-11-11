@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 //      /usr/include/stdint.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1997-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1997-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -21,9 +21,9 @@
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/sys/types.h
+//      /usr/include/sys/types.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -41,9 +41,9 @@
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -67,9 +67,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/bits/uio.h
+//      /usr/include/bits/uio.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1996-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1996-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -87,9 +87,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/sys/uio.h
+//      /usr/include/sys/uio.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -109,7 +109,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // ----------------------------------------------------------------------------
 //      /usr/include/netinet/in.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -127,9 +127,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/bits/netdb.h
+//      /usr/include/bits/netdb.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1996-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1996-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -149,7 +149,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // ----------------------------------------------------------------------------
 //      /usr/include/netdb.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1996-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1996-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -190,11 +190,10 @@ const (
 	XAF_IRDA               = 23
 	XAF_ISDN               = 34
 	XAF_IUCV               = 32
-	XAF_KCM                = 41
 	XAF_KEY                = 15
 	XAF_LLC                = 26
 	XAF_LOCAL              = 1
-	XAF_MAX                = 42
+	XAF_MAX                = 41
 	XAF_MPLS               = 28
 	XAF_NETBEUI            = 13
 	XAF_NETLINK            = 16
@@ -282,11 +281,10 @@ const (
 	XPF_IRDA               = 23
 	XPF_ISDN               = 34
 	XPF_IUCV               = 32
-	XPF_KCM                = 41
 	XPF_KEY                = 15
 	XPF_LLC                = 26
 	XPF_LOCAL              = 1
-	XPF_MAX                = 42
+	XPF_MAX                = 41
 	XPF_MPLS               = 28
 	XPF_NETBEUI            = 13
 	XPF_NETLINK            = 16
@@ -313,26 +311,11 @@ const (
 	XSIG_ATOMIC_MIN        = 2147483648
 	XSIZE_MAX              = 18446744073709551615
 	XSOL_AAL               = 265
-	XSOL_ALG               = 279
 	XSOL_ATM               = 264
-	XSOL_BLUETOOTH         = 274
-	XSOL_CAIF              = 278
-	XSOL_DCCP              = 269
 	XSOL_DECNET            = 261
 	XSOL_IRDA              = 266
-	XSOL_IUCV              = 277
-	XSOL_KCM               = 281
-	XSOL_LLC               = 268
-	XSOL_NETBEUI           = 267
-	XSOL_NETLINK           = 270
-	XSOL_NFC               = 280
 	XSOL_PACKET            = 263
-	XSOL_PNPIPE            = 275
-	XSOL_PPPOL2TP          = 273
 	XSOL_RAW               = 255
-	XSOL_RDS               = 276
-	XSOL_RXRPC             = 272
-	XSOL_TIPC              = 271
 	XSOL_X25               = 262
 	XSOMAXCONN             = 128
 	XTRY_AGAIN             = 2
@@ -420,7 +403,6 @@ const (
 	XIPPROTO_IPV6          = 41
 	XIPPROTO_MAX           = 256
 	XIPPROTO_MH            = 135
-	XIPPROTO_MPLS          = 137
 	XIPPROTO_MTP           = 92
 	XIPPROTO_NONE          = 59
 	XIPPROTO_PIM           = 103
@@ -433,7 +415,6 @@ const (
 	XIPPROTO_TP            = 29
 	XIPPROTO_UDP           = 17
 	XIPPROTO_UDPLITE       = 136
-	XMSG_BATCH             = 262144
 	XMSG_CMSG_CLOEXEC      = 1073741824
 	XMSG_CONFIRM           = 2048
 	XMSG_CTRUNC            = 8

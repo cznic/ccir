@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 //      /usr/include/time.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -21,9 +21,9 @@
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/sys/stat.h
+//      /usr/include/sys/stat.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -41,9 +41,9 @@
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/bits/stat.h
+//      /usr/include/bits/stat.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1999-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1999-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or

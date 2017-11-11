@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -31,7 +31,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // ----------------------------------------------------------------------------
 //      /usr/include/alloca.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1992-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1992-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -53,29 +53,29 @@ typedef long unsigned int size_t;
 
 extern void *alloca(size_t __size);
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _BSD_SIZE_T_DEFINED_
-#define _T_SIZE_
+#define __size_t
+#define _SIZE_T_DEFINED_
+#define __SIZE_T
 
 // /usr/include/alloca.h 
 
 #define _ALLOCA_H (1)
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define __SIZE_T__
-#define __size_t
-#define _SIZE_T
-#define _SYS_SIZE_T_H
-#define __size_t__
-#define __SIZE_T
 #define _T_SIZE
-#define _GCC_SIZE_T
-#define _SIZET_
-#define _BSD_SIZE_T_
-#define _SIZE_T_DEFINED
-#define _SIZE_T_DECLARED
 #define ___int_size_t_h
+#define _GCC_SIZE_T
+#define _SIZE_T_DEFINED
+#define _BSD_SIZE_T_DEFINED_
+#define _SYS_SIZE_T_H
+#define __SIZE_T__
+#define _SIZET_
+#define _SIZE_T
 #define _SIZE_T_
-#define _SIZE_T_DEFINED_
+#define _SIZE_T_DECLARED
+#define _BSD_SIZE_T_
+#define __size_t__
+#define _T_SIZE_

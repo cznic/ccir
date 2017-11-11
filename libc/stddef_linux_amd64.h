@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -32,50 +32,49 @@ typedef long int ptrdiff_t;
 typedef long unsigned int size_t;
 typedef int wchar_t;
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _BSD_PTRDIFF_T_
-#define _WCHAR_T_
-#define _SIZE_T_
-#define _SIZE_T_DECLARED
-#define __WCHAR_T__
-#define _PTRDIFF_T_DECLARED
-#define __SIZE_T
-#define _WCHAR_T_DECLARED
-#define __PTRDIFF_T
-#define ___int_wchar_t_h
-#define _BSD_SIZE_T_DEFINED_
-#define ___int_ptrdiff_t_h
-#define _T_PTRDIFF
-#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
-#define ___int_size_t_h
-#define _SIZET_
-#define _SYS_SIZE_T_H
-#define _BSD_SIZE_T_
-#define _SIZE_T_DEFINED
-#define _SIZE_T
-#define _GCC_PTRDIFF_T
-#define _PTRDIFF_T
-#define _T_WCHAR
-#define __SIZE_T__
-#define __size_t
-#define _T_SIZE_
 #define __size_t__
-#define __wchar_t__
-#define _ANSI_STDDEF_H
-#define __WCHAR_T
-#define _T_SIZE
-#define _WCHAR_T
-#define _WCHAR_T_DEFINED
-#define _STDDEF_H_
-#define _GCC_SIZE_T
-#define _PTRDIFF_T_
+#define __SIZE_T__
+#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
 #define _SIZE_T_DEFINED_
-#define __INT_WCHAR_T_H
 #define _T_PTRDIFF_
-#define _WCHAR_T_H
-#define _T_WCHAR_
-#define _STDDEF_H
-#define NULL ( ( void * ) 0 )
+#define __WCHAR_T
+#define __SIZE_T
+#define _WCHAR_T
+#define __size_t
+#define _ANSI_STDDEF_H
+#define _SIZE_T
+#define _PTRDIFF_T_
+#define ___int_wchar_t_h
+#define __wchar_t__
+#define _T_SIZE
+#define _WCHAR_T_DEFINED
 #define _GCC_WCHAR_T
+#define _SIZE_T_DEFINED
+#define ___int_ptrdiff_t_h
+#define __INT_WCHAR_T_H
+#define NULL ( ( void * ) 0 )
+#define __WCHAR_T__
+#define _BSD_SIZE_T_DEFINED_
+#define __PTRDIFF_T
+#define _T_WCHAR_
+#define _BSD_SIZE_T_
+#define _SIZE_T_DECLARED
+#define _STDDEF_H_
+#define _GCC_PTRDIFF_T
+#define _WCHAR_T_H
+#define _T_WCHAR
+#define _T_PTRDIFF
 #define _WCHAR_T_DEFINED_
+#define _SIZET_
+#define _SIZE_T_
+#define _WCHAR_T_DECLARED
+#define _T_SIZE_
+#define _PTRDIFF_T
+#define _GCC_SIZE_T
+#define _SYS_SIZE_T_H
+#define _STDDEF_H
+#define _BSD_PTRDIFF_T_
+#define ___int_size_t_h
+#define _WCHAR_T_

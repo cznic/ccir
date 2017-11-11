@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/sys/un.h
+//      /usr/include/sys/un.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -23,23 +23,19 @@
    <http://www.gnu.org/licenses/>.  */
 
 typedef unsigned short int sa_family_t;
-// /usr/include/x86_64-linux-gnu/sys/un.h
+// /usr/include/sys/un.h
 
 struct sockaddr_un {
 	sa_family_t sun_family;
 	char sun_path[108];
 };
 
-// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
-
-#define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )
-#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
-#define _SS_SIZE (128)
-
-// /usr/include/x86_64-linux-gnu/sys/un.h 
+// /usr/include/sys/un.h 
 
 #define _SYS_UN_H (1)
 
-// /usr/include/x86_64-linux-gnu/bits/sockaddr.h 
+// /usr/include/bits/sockaddr.h 
 
+#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
 #define _BITS_SOCKADDR_H (1)
+#define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )

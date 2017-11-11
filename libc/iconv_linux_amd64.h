@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -31,7 +31,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // ----------------------------------------------------------------------------
 //      /usr/include/iconv.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1997-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1997-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -56,29 +56,29 @@ extern iconv_t iconv_open(const char *__tocode, const char *__fromcode);
 extern size_t iconv(iconv_t __cd, char **__inbuf, size_t * __inbytesleft, char **__outbuf, size_t * __outbytesleft);
 extern int iconv_close(iconv_t __cd);
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
+#define __size_t__
 #define __size_t
-#define _T_SIZE_
-#define _BSD_SIZE_T_DEFINED_
-#define _GCC_SIZE_T
-#define _SIZE_T_DEFINED
-#define ___int_size_t_h
-#define _SYS_SIZE_T_H
-#define _BSD_SIZE_T_
-#define _SIZE_T_
-#define _SIZE_T_DECLARED
-#define _SIZET_
 
 // /usr/include/iconv.h 
 
 #define _ICONV_H (1)
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _SIZE_T
-#define __size_t__
-#define _T_SIZE
+#define _SIZE_T_DECLARED
+#define _SIZE_T_DEFINED
 #define __SIZE_T__
-#define __SIZE_T
+#define _T_SIZE_
+#define _T_SIZE
+#define _BSD_SIZE_T_DEFINED_
+#define ___int_size_t_h
+#define _BSD_SIZE_T_
 #define _SIZE_T_DEFINED_
+#define _SYS_SIZE_T_H
+#define _SIZE_T_
+#define _GCC_SIZE_T
+#define _SIZET_
+#define __SIZE_T
+#define _SIZE_T

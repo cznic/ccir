@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -27,7 +27,6 @@ You should have received a copy of the GNU General Public License and
 a copy of the GCC Runtime Library Exception along with this program;
 see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 <http://www.gnu.org/licenses/>.  */
-
 
 // ----------------------------------------------------------------------------
 //      /usr/include/X11/Xlib.h
@@ -58,2335 +57,2736 @@ in this Software without prior written authorization from The Open Group.
 
 */
 
-	typedef unsigned long XID ;
-typedef unsigned long Mask ;
-typedef unsigned long Atom ;
-typedef unsigned long VisualID ;
-typedef unsigned long Time ;
-typedef XID Window ;
-typedef XID Drawable ;
-typedef XID Font ;
-typedef XID Pixmap ;
-typedef XID Cursor ;
-typedef XID Colormap ;
-typedef XID GContext ;
-typedef XID KeySym ;
-typedef unsigned char KeyCode ;
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h
+typedef unsigned long XID;
+typedef unsigned long Mask;
+typedef unsigned long Atom;
+typedef unsigned long VisualID;
+typedef unsigned long Time;
+typedef XID Window;
+typedef XID Drawable;
+typedef XID Font;
+typedef XID Pixmap;
+typedef XID Cursor;
+typedef XID Colormap;
+typedef XID GContext;
+typedef XID KeySym;
+typedef unsigned char KeyCode;
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 
-typedef long unsigned int size_t ;
-typedef long int ptrdiff_t ;
-typedef int wchar_t ;
+typedef long unsigned int size_t;
+typedef long int ptrdiff_t;
+typedef int wchar_t;
 // /usr/include/X11/Xlib.h
 
-extern int _Xmblen (char *str ,int len );
-typedef char *XPointer ;
-typedef struct _XExtData {int number ;struct _XExtData *next ;int (*free_private )(struct _XExtData *extension );XPointer private_data ;}XExtData ;
-typedef struct {int extension ;int major_opcode ;int first_event ;int first_error ;}XExtCodes ;
-typedef struct {int depth ;int bits_per_pixel ;int scanline_pad ;}XPixmapFormatValues ;
-typedef struct {int function ;unsigned long plane_mask ;unsigned long foreground ;unsigned long background ;int line_width ;int line_style ;int cap_style ;int join_style ;int fill_style ;int fill_rule ;int arc_mode ;Pixmap tile ;Pixmap stipple ;int ts_x_origin ;int ts_y_origin ;Font font ;int subwindow_mode ;int graphics_exposures ;int clip_x_origin ;int clip_y_origin ;Pixmap clip_mask ;int dash_offset ;char dashes ;}XGCValues ;
-typedef struct _XGC *GC ;
-typedef struct {XExtData *ext_data ;VisualID visualid ;int class ;unsigned long red_mask ,green_mask ,blue_mask ;int bits_per_rgb ;int map_entries ;}Visual ;
-typedef struct {int depth ;int nvisuals ;Visual *visuals ;}Depth ;
-struct _XDisplay ;
-typedef struct {XExtData *ext_data ;struct _XDisplay *display ;Window root ;int width ,height ;int mwidth ,mheight ;int ndepths ;Depth *depths ;int root_depth ;Visual *root_visual ;GC default_gc ;Colormap cmap ;unsigned long white_pixel ;unsigned long black_pixel ;int max_maps ,min_maps ;int backing_store ;int save_unders ;long root_input_mask ;}Screen ;
-typedef struct {XExtData *ext_data ;int depth ;int bits_per_pixel ;int scanline_pad ;}ScreenFormat ;
-typedef struct {Pixmap background_pixmap ;unsigned long background_pixel ;Pixmap border_pixmap ;unsigned long border_pixel ;int bit_gravity ;int win_gravity ;int backing_store ;unsigned long backing_planes ;unsigned long backing_pixel ;int save_under ;long event_mask ;long do_not_propagate_mask ;int override_redirect ;Colormap colormap ;Cursor cursor ;}XSetWindowAttributes ;
-typedef struct {int x ,y ;int width ,height ;int border_width ;int depth ;Visual *visual ;Window root ;int class ;int bit_gravity ;int win_gravity ;int backing_store ;unsigned long backing_planes ;unsigned long backing_pixel ;int save_under ;Colormap colormap ;int map_installed ;int map_state ;long all_event_masks ;long your_event_mask ;long do_not_propagate_mask ;int override_redirect ;Screen *screen ;}XWindowAttributes ;
-typedef struct {int family ;int length ;char *address ;}XHostAddress ;
-typedef struct {int typelength ;int valuelength ;char *type ;char *value ;}XServerInterpretedAddress ;
-typedef struct _XImage {int width ,height ;int xoffset ;int format ;char *data ;int byte_order ;int bitmap_unit ;int bitmap_bit_order ;int bitmap_pad ;int depth ;int bytes_per_line ;int bits_per_pixel ;unsigned long red_mask ;unsigned long green_mask ;unsigned long blue_mask ;XPointer obdata ;struct funcs {struct _XImage *(*create_image )(struct _XDisplay *,Visual *,unsigned int ,int ,int ,char *,unsigned int ,unsigned int ,int ,int );int (*destroy_image )(struct _XImage *);unsigned long (*get_pixel )(struct _XImage *,int ,int );int (*put_pixel )(struct _XImage *,int ,int ,unsigned long );struct _XImage *(*sub_image )(struct _XImage *,int ,int ,unsigned int ,unsigned int );int (*add_pixel )(struct _XImage *,long );}f ;}XImage ;
-typedef struct {int x ,y ;int width ,height ;int border_width ;Window sibling ;int stack_mode ;}XWindowChanges ;
-typedef struct {unsigned long pixel ;unsigned short red ,green ,blue ;char flags ;char pad ;}XColor ;
-typedef struct {short x1 ,y1 ,x2 ,y2 ;}XSegment ;
-typedef struct {short x ,y ;}XPoint ;
-typedef struct {short x ,y ;unsigned short width ,height ;}XRectangle ;
-typedef struct {short x ,y ;unsigned short width ,height ;short angle1 ,angle2 ;}XArc ;
-typedef struct {int key_click_percent ;int bell_percent ;int bell_pitch ;int bell_duration ;int led ;int led_mode ;int key ;int auto_repeat_mode ;}XKeyboardControl ;
-typedef struct {int key_click_percent ;int bell_percent ;unsigned int bell_pitch ,bell_duration ;unsigned long led_mask ;int global_auto_repeat ;char auto_repeats [32 ];}XKeyboardState ;
-typedef struct {Time time ;short x ,y ;}XTimeCoord ;
-typedef struct {int max_keypermod ;KeyCode *modifiermap ;}XModifierKeymap ;
-typedef struct _XDisplay Display ;
-struct _XPrivate ;
-struct _XrmHashBucketRec ;
-typedef struct {XExtData *ext_data ;struct _XPrivate *private1 ;int fd ;int private2 ;int proto_major_version ;int proto_minor_version ;char *vendor ;XID private3 ;XID private4 ;XID private5 ;int private6 ;XID (*resource_alloc )(struct _XDisplay *);int byte_order ;int bitmap_unit ;int bitmap_pad ;int bitmap_bit_order ;int nformats ;ScreenFormat *pixmap_format ;int private8 ;int release ;struct _XPrivate *private9 ,*private10 ;int qlen ;unsigned long last_request_read ;unsigned long request ;XPointer private11 ;XPointer private12 ;XPointer private13 ;XPointer private14 ;unsigned max_request_size ;struct _XrmHashBucketRec *db ;int (*private15 )(struct _XDisplay *);char *display_name ;int default_screen ;int nscreens ;Screen *screens ;unsigned long motion_buffer ;unsigned long private16 ;int min_keycode ;int max_keycode ;XPointer private17 ;XPointer private18 ;int private19 ;char *xdefaults ;}*_XPrivDisplay ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Window root ;Window subwindow ;Time time ;int x ,y ;int x_root ,y_root ;unsigned int state ;unsigned int keycode ;int same_screen ;}XKeyEvent ;
-typedef XKeyEvent XKeyPressedEvent ;
-typedef XKeyEvent XKeyReleasedEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Window root ;Window subwindow ;Time time ;int x ,y ;int x_root ,y_root ;unsigned int state ;unsigned int button ;int same_screen ;}XButtonEvent ;
-typedef XButtonEvent XButtonPressedEvent ;
-typedef XButtonEvent XButtonReleasedEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Window root ;Window subwindow ;Time time ;int x ,y ;int x_root ,y_root ;unsigned int state ;char is_hint ;int same_screen ;}XMotionEvent ;
-typedef XMotionEvent XPointerMovedEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Window root ;Window subwindow ;Time time ;int x ,y ;int x_root ,y_root ;int mode ;int detail ;int same_screen ;int focus ;unsigned int state ;}XCrossingEvent ;
-typedef XCrossingEvent XEnterWindowEvent ;
-typedef XCrossingEvent XLeaveWindowEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;int mode ;int detail ;}XFocusChangeEvent ;
-typedef XFocusChangeEvent XFocusInEvent ;
-typedef XFocusChangeEvent XFocusOutEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;char key_vector [32 ];}XKeymapEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;int x ,y ;int width ,height ;int count ;}XExposeEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Drawable drawable ;int x ,y ;int width ,height ;int count ;int major_code ;int minor_code ;}XGraphicsExposeEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Drawable drawable ;int major_code ;int minor_code ;}XNoExposeEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;int state ;}XVisibilityEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window parent ;Window window ;int x ,y ;int width ,height ;int border_width ;int override_redirect ;}XCreateWindowEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window event ;Window window ;}XDestroyWindowEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window event ;Window window ;int from_configure ;}XUnmapEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window event ;Window window ;int override_redirect ;}XMapEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window parent ;Window window ;}XMapRequestEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window event ;Window window ;Window parent ;int x ,y ;int override_redirect ;}XReparentEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window event ;Window window ;int x ,y ;int width ,height ;int border_width ;Window above ;int override_redirect ;}XConfigureEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window event ;Window window ;int x ,y ;}XGravityEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;int width ,height ;}XResizeRequestEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window parent ;Window window ;int x ,y ;int width ,height ;int border_width ;Window above ;int detail ;unsigned long value_mask ;}XConfigureRequestEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window event ;Window window ;int place ;}XCirculateEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window parent ;Window window ;int place ;}XCirculateRequestEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Atom atom ;Time time ;int state ;}XPropertyEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Atom selection ;Time time ;}XSelectionClearEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window owner ;Window requestor ;Atom selection ;Atom target ;Atom property ;Time time ;}XSelectionRequestEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window requestor ;Atom selection ;Atom target ;Atom property ;Time time ;}XSelectionEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Colormap colormap ;int new ;int state ;}XColormapEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;Atom message_type ;int format ;union {char b [20 ];short s [10 ];long l [5 ];}data ;}XClientMessageEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;int request ;int first_keycode ;int count ;}XMappingEvent ;
-typedef struct {int type ;Display *display ;XID resourceid ;unsigned long serial ;unsigned char error_code ;unsigned char request_code ;unsigned char minor_code ;}XErrorEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;Window window ;}XAnyEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;int extension ;int evtype ;}XGenericEvent ;
-typedef struct {int type ;unsigned long serial ;int send_event ;Display *display ;int extension ;int evtype ;unsigned int cookie ;void *data ;}XGenericEventCookie ;
-typedef union _XEvent {int type ;XAnyEvent xany ;XKeyEvent xkey ;XButtonEvent xbutton ;XMotionEvent xmotion ;XCrossingEvent xcrossing ;XFocusChangeEvent xfocus ;XExposeEvent xexpose ;XGraphicsExposeEvent xgraphicsexpose ;XNoExposeEvent xnoexpose ;XVisibilityEvent xvisibility ;XCreateWindowEvent xcreatewindow ;XDestroyWindowEvent xdestroywindow ;XUnmapEvent xunmap ;XMapEvent xmap ;XMapRequestEvent xmaprequest ;XReparentEvent xreparent ;XConfigureEvent xconfigure ;XGravityEvent xgravity ;XResizeRequestEvent xresizerequest ;XConfigureRequestEvent xconfigurerequest ;XCirculateEvent xcirculate ;XCirculateRequestEvent xcirculaterequest ;XPropertyEvent xproperty ;XSelectionClearEvent xselectionclear ;XSelectionRequestEvent xselectionrequest ;XSelectionEvent xselection ;XColormapEvent xcolormap ;XClientMessageEvent xclient ;XMappingEvent xmapping ;XErrorEvent xerror ;XKeymapEvent xkeymap ;XGenericEvent xgeneric ;XGenericEventCookie xcookie ;long pad [24 ];}XEvent ;
-typedef struct {short lbearing ;short rbearing ;short width ;short ascent ;short descent ;unsigned short attributes ;}XCharStruct ;
-typedef struct {Atom name ;unsigned long card32 ;}XFontProp ;
-typedef struct {XExtData *ext_data ;Font fid ;unsigned direction ;unsigned min_char_or_byte2 ;unsigned max_char_or_byte2 ;unsigned min_byte1 ;unsigned max_byte1 ;int all_chars_exist ;unsigned default_char ;int n_properties ;XFontProp *properties ;XCharStruct min_bounds ;XCharStruct max_bounds ;XCharStruct *per_char ;int ascent ;int descent ;}XFontStruct ;
-typedef struct {char *chars ;int nchars ;int delta ;Font font ;}XTextItem ;
-typedef struct {unsigned char byte1 ;unsigned char byte2 ;}XChar2b ;
-typedef struct {XChar2b *chars ;int nchars ;int delta ;Font font ;}XTextItem16 ;
-typedef union {Display *display ;GC gc ;Visual *visual ;Screen *screen ;ScreenFormat *pixmap_format ;XFontStruct *font ;}XEDataObject ;
-typedef struct {XRectangle max_ink_extent ;XRectangle max_logical_extent ;}XFontSetExtents ;
-typedef struct _XOM *XOM ;
-typedef struct _XOC *XOC ;
-typedef struct _XOC *XFontSet ;
+extern int _Xmblen(char *str, int len);
+typedef char *XPointer;
+typedef struct _XExtData {
+	int number;
+	struct _XExtData *next;
+	int (*free_private) (struct _XExtData * extension);
+	XPointer private_data;
+} XExtData;
+typedef struct {
+	int extension;
+	int major_opcode;
+	int first_event;
+	int first_error;
+} XExtCodes;
+typedef struct {
+	int depth;
+	int bits_per_pixel;
+	int scanline_pad;
+} XPixmapFormatValues;
+typedef struct {
+	int function;
+	unsigned long plane_mask;
+	unsigned long foreground;
+	unsigned long background;
+	int line_width;
+	int line_style;
+	int cap_style;
+	int join_style;
+	int fill_style;
+	int fill_rule;
+	int arc_mode;
+	Pixmap tile;
+	Pixmap stipple;
+	int ts_x_origin;
+	int ts_y_origin;
+	Font font;
+	int subwindow_mode;
+	int graphics_exposures;
+	int clip_x_origin;
+	int clip_y_origin;
+	Pixmap clip_mask;
+	int dash_offset;
+	char dashes;
+} XGCValues;
+typedef struct _XGC *GC;
+typedef struct {
+	XExtData *ext_data;
+	VisualID visualid;
+	int class;
+	unsigned long red_mask, green_mask, blue_mask;
+	int bits_per_rgb;
+	int map_entries;
+} Visual;
+typedef struct {
+	int depth;
+	int nvisuals;
+	Visual *visuals;
+} Depth;
+struct _XDisplay;
+typedef struct {
+	XExtData *ext_data;
+	struct _XDisplay *display;
+	Window root;
+	int width, height;
+	int mwidth, mheight;
+	int ndepths;
+	Depth *depths;
+	int root_depth;
+	Visual *root_visual;
+	GC default_gc;
+	Colormap cmap;
+	unsigned long white_pixel;
+	unsigned long black_pixel;
+	int max_maps, min_maps;
+	int backing_store;
+	int save_unders;
+	long root_input_mask;
+} Screen;
+typedef struct {
+	XExtData *ext_data;
+	int depth;
+	int bits_per_pixel;
+	int scanline_pad;
+} ScreenFormat;
+typedef struct {
+	Pixmap background_pixmap;
+	unsigned long background_pixel;
+	Pixmap border_pixmap;
+	unsigned long border_pixel;
+	int bit_gravity;
+	int win_gravity;
+	int backing_store;
+	unsigned long backing_planes;
+	unsigned long backing_pixel;
+	int save_under;
+	long event_mask;
+	long do_not_propagate_mask;
+	int override_redirect;
+	Colormap colormap;
+	Cursor cursor;
+} XSetWindowAttributes;
+typedef struct {
+	int x, y;
+	int width, height;
+	int border_width;
+	int depth;
+	Visual *visual;
+	Window root;
+	int class;
+	int bit_gravity;
+	int win_gravity;
+	int backing_store;
+	unsigned long backing_planes;
+	unsigned long backing_pixel;
+	int save_under;
+	Colormap colormap;
+	int map_installed;
+	int map_state;
+	long all_event_masks;
+	long your_event_mask;
+	long do_not_propagate_mask;
+	int override_redirect;
+	Screen *screen;
+} XWindowAttributes;
+typedef struct {
+	int family;
+	int length;
+	char *address;
+} XHostAddress;
+typedef struct {
+	int typelength;
+	int valuelength;
+	char *type;
+	char *value;
+} XServerInterpretedAddress;
+typedef struct _XImage {
+	int width, height;
+	int xoffset;
+	int format;
+	char *data;
+	int byte_order;
+	int bitmap_unit;
+	int bitmap_bit_order;
+	int bitmap_pad;
+	int depth;
+	int bytes_per_line;
+	int bits_per_pixel;
+	unsigned long red_mask;
+	unsigned long green_mask;
+	unsigned long blue_mask;
+	XPointer obdata;
+	struct funcs {
+		struct _XImage *(*create_image) (struct _XDisplay *, Visual *, unsigned int, int, int, char *, unsigned int, unsigned int, int, int);
+		int (*destroy_image) (struct _XImage *);
+		unsigned long (*get_pixel) (struct _XImage *, int, int);
+		int (*put_pixel) (struct _XImage *, int, int, unsigned long);
+		struct _XImage *(*sub_image) (struct _XImage *, int, int, unsigned int, unsigned int);
+		int (*add_pixel) (struct _XImage *, long);
+	} f;
+} XImage;
+typedef struct {
+	int x, y;
+	int width, height;
+	int border_width;
+	Window sibling;
+	int stack_mode;
+} XWindowChanges;
+typedef struct {
+	unsigned long pixel;
+	unsigned short red, green, blue;
+	char flags;
+	char pad;
+} XColor;
+typedef struct {
+	short x1, y1, x2, y2;
+} XSegment;
+typedef struct {
+	short x, y;
+} XPoint;
+typedef struct {
+	short x, y;
+	unsigned short width, height;
+} XRectangle;
+typedef struct {
+	short x, y;
+	unsigned short width, height;
+	short angle1, angle2;
+} XArc;
+typedef struct {
+	int key_click_percent;
+	int bell_percent;
+	int bell_pitch;
+	int bell_duration;
+	int led;
+	int led_mode;
+	int key;
+	int auto_repeat_mode;
+} XKeyboardControl;
+typedef struct {
+	int key_click_percent;
+	int bell_percent;
+	unsigned int bell_pitch, bell_duration;
+	unsigned long led_mask;
+	int global_auto_repeat;
+	char auto_repeats[32];
+} XKeyboardState;
+typedef struct {
+	Time time;
+	short x, y;
+} XTimeCoord;
+typedef struct {
+	int max_keypermod;
+	KeyCode *modifiermap;
+} XModifierKeymap;
+typedef struct _XDisplay Display;
+struct _XPrivate;
+struct _XrmHashBucketRec;
+typedef struct {
+	XExtData *ext_data;
+	struct _XPrivate *private1;
+	int fd;
+	int private2;
+	int proto_major_version;
+	int proto_minor_version;
+	char *vendor;
+	XID private3;
+	XID private4;
+	XID private5;
+	int private6;
+	 XID(*resource_alloc) (struct _XDisplay *);
+	int byte_order;
+	int bitmap_unit;
+	int bitmap_pad;
+	int bitmap_bit_order;
+	int nformats;
+	ScreenFormat *pixmap_format;
+	int private8;
+	int release;
+	struct _XPrivate *private9, *private10;
+	int qlen;
+	unsigned long last_request_read;
+	unsigned long request;
+	XPointer private11;
+	XPointer private12;
+	XPointer private13;
+	XPointer private14;
+	unsigned max_request_size;
+	struct _XrmHashBucketRec *db;
+	int (*private15) (struct _XDisplay *);
+	char *display_name;
+	int default_screen;
+	int nscreens;
+	Screen *screens;
+	unsigned long motion_buffer;
+	unsigned long private16;
+	int min_keycode;
+	int max_keycode;
+	XPointer private17;
+	XPointer private18;
+	int private19;
+	char *xdefaults;
+} *_XPrivDisplay;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Window root;
+	Window subwindow;
+	Time time;
+	int x, y;
+	int x_root, y_root;
+	unsigned int state;
+	unsigned int keycode;
+	int same_screen;
+} XKeyEvent;
+typedef XKeyEvent XKeyPressedEvent;
+typedef XKeyEvent XKeyReleasedEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Window root;
+	Window subwindow;
+	Time time;
+	int x, y;
+	int x_root, y_root;
+	unsigned int state;
+	unsigned int button;
+	int same_screen;
+} XButtonEvent;
+typedef XButtonEvent XButtonPressedEvent;
+typedef XButtonEvent XButtonReleasedEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Window root;
+	Window subwindow;
+	Time time;
+	int x, y;
+	int x_root, y_root;
+	unsigned int state;
+	char is_hint;
+	int same_screen;
+} XMotionEvent;
+typedef XMotionEvent XPointerMovedEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Window root;
+	Window subwindow;
+	Time time;
+	int x, y;
+	int x_root, y_root;
+	int mode;
+	int detail;
+	int same_screen;
+	int focus;
+	unsigned int state;
+} XCrossingEvent;
+typedef XCrossingEvent XEnterWindowEvent;
+typedef XCrossingEvent XLeaveWindowEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	int mode;
+	int detail;
+} XFocusChangeEvent;
+typedef XFocusChangeEvent XFocusInEvent;
+typedef XFocusChangeEvent XFocusOutEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	char key_vector[32];
+} XKeymapEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	int x, y;
+	int width, height;
+	int count;
+} XExposeEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Drawable drawable;
+	int x, y;
+	int width, height;
+	int count;
+	int major_code;
+	int minor_code;
+} XGraphicsExposeEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Drawable drawable;
+	int major_code;
+	int minor_code;
+} XNoExposeEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	int state;
+} XVisibilityEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window parent;
+	Window window;
+	int x, y;
+	int width, height;
+	int border_width;
+	int override_redirect;
+} XCreateWindowEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window event;
+	Window window;
+} XDestroyWindowEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window event;
+	Window window;
+	int from_configure;
+} XUnmapEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window event;
+	Window window;
+	int override_redirect;
+} XMapEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window parent;
+	Window window;
+} XMapRequestEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window event;
+	Window window;
+	Window parent;
+	int x, y;
+	int override_redirect;
+} XReparentEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window event;
+	Window window;
+	int x, y;
+	int width, height;
+	int border_width;
+	Window above;
+	int override_redirect;
+} XConfigureEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window event;
+	Window window;
+	int x, y;
+} XGravityEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	int width, height;
+} XResizeRequestEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window parent;
+	Window window;
+	int x, y;
+	int width, height;
+	int border_width;
+	Window above;
+	int detail;
+	unsigned long value_mask;
+} XConfigureRequestEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window event;
+	Window window;
+	int place;
+} XCirculateEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window parent;
+	Window window;
+	int place;
+} XCirculateRequestEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Atom atom;
+	Time time;
+	int state;
+} XPropertyEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Atom selection;
+	Time time;
+} XSelectionClearEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window owner;
+	Window requestor;
+	Atom selection;
+	Atom target;
+	Atom property;
+	Time time;
+} XSelectionRequestEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window requestor;
+	Atom selection;
+	Atom target;
+	Atom property;
+	Time time;
+} XSelectionEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Colormap colormap;
+	int new;
+	int state;
+} XColormapEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	Atom message_type;
+	int format;
+	union {
+		char b[20];
+		short s[10];
+		long l[5];
+	} data;
+} XClientMessageEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+	int request;
+	int first_keycode;
+	int count;
+} XMappingEvent;
+typedef struct {
+	int type;
+	Display *display;
+	XID resourceid;
+	unsigned long serial;
+	unsigned char error_code;
+	unsigned char request_code;
+	unsigned char minor_code;
+} XErrorEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	Window window;
+} XAnyEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	int extension;
+	int evtype;
+} XGenericEvent;
+typedef struct {
+	int type;
+	unsigned long serial;
+	int send_event;
+	Display *display;
+	int extension;
+	int evtype;
+	unsigned int cookie;
+	void *data;
+} XGenericEventCookie;
+typedef union _XEvent {
+	int type;
+	XAnyEvent xany;
+	XKeyEvent xkey;
+	XButtonEvent xbutton;
+	XMotionEvent xmotion;
+	XCrossingEvent xcrossing;
+	XFocusChangeEvent xfocus;
+	XExposeEvent xexpose;
+	XGraphicsExposeEvent xgraphicsexpose;
+	XNoExposeEvent xnoexpose;
+	XVisibilityEvent xvisibility;
+	XCreateWindowEvent xcreatewindow;
+	XDestroyWindowEvent xdestroywindow;
+	XUnmapEvent xunmap;
+	XMapEvent xmap;
+	XMapRequestEvent xmaprequest;
+	XReparentEvent xreparent;
+	XConfigureEvent xconfigure;
+	XGravityEvent xgravity;
+	XResizeRequestEvent xresizerequest;
+	XConfigureRequestEvent xconfigurerequest;
+	XCirculateEvent xcirculate;
+	XCirculateRequestEvent xcirculaterequest;
+	XPropertyEvent xproperty;
+	XSelectionClearEvent xselectionclear;
+	XSelectionRequestEvent xselectionrequest;
+	XSelectionEvent xselection;
+	XColormapEvent xcolormap;
+	XClientMessageEvent xclient;
+	XMappingEvent xmapping;
+	XErrorEvent xerror;
+	XKeymapEvent xkeymap;
+	XGenericEvent xgeneric;
+	XGenericEventCookie xcookie;
+	long pad[24];
+} XEvent;
+typedef struct {
+	short lbearing;
+	short rbearing;
+	short width;
+	short ascent;
+	short descent;
+	unsigned short attributes;
+} XCharStruct;
+typedef struct {
+	Atom name;
+	unsigned long card32;
+} XFontProp;
+typedef struct {
+	XExtData *ext_data;
+	Font fid;
+	unsigned direction;
+	unsigned min_char_or_byte2;
+	unsigned max_char_or_byte2;
+	unsigned min_byte1;
+	unsigned max_byte1;
+	int all_chars_exist;
+	unsigned default_char;
+	int n_properties;
+	XFontProp *properties;
+	XCharStruct min_bounds;
+	XCharStruct max_bounds;
+	XCharStruct *per_char;
+	int ascent;
+	int descent;
+} XFontStruct;
+typedef struct {
+	char *chars;
+	int nchars;
+	int delta;
+	Font font;
+} XTextItem;
+typedef struct {
+	unsigned char byte1;
+	unsigned char byte2;
+} XChar2b;
+typedef struct {
+	XChar2b *chars;
+	int nchars;
+	int delta;
+	Font font;
+} XTextItem16;
+typedef union {
+	Display *display;
+	GC gc;
+	Visual *visual;
+	Screen *screen;
+	ScreenFormat *pixmap_format;
+	XFontStruct *font;
+} XEDataObject;
+typedef struct {
+	XRectangle max_ink_extent;
+	XRectangle max_logical_extent;
+} XFontSetExtents;
+typedef struct _XOM *XOM;
+typedef struct _XOC *XOC;
+typedef struct _XOC *XFontSet;
 
-typedef struct {char *chars ;int nchars ;int delta ;XFontSet font_set ;}XmbTextItem ;
-typedef struct {wchar_t *chars ;int nchars ;int delta ;XFontSet font_set ;}XwcTextItem ;
-typedef struct {int charset_count ;char **charset_list ;}XOMCharSetList ;
-typedef enum {XOMOrientation_LTR_TTB ,XOMOrientation_RTL_TTB ,XOMOrientation_TTB_LTR ,XOMOrientation_TTB_RTL ,XOMOrientation_Context }XOrientation ;
-typedef struct {int num_orientation ;XOrientation *orientation ;}XOMOrientation ;
-typedef struct {int num_font ;XFontStruct **font_struct_list ;char **font_name_list ;}XOMFontInfo ;
-typedef struct _XIM *XIM ;
-typedef struct _XIC *XIC ;
-typedef void (*XIMProc )(XIM ,XPointer ,XPointer );
-typedef int (*XICProc )(XIC ,XPointer ,XPointer );
-typedef void (*XIDProc )(Display *,XPointer ,XPointer );
-typedef unsigned long XIMStyle ;
-typedef struct {unsigned short count_styles ;XIMStyle *supported_styles ;}XIMStyles ;
-typedef void *XVaNestedList ;
-typedef struct {XPointer client_data ;XIMProc callback ;}XIMCallback ;
-typedef struct {XPointer client_data ;XICProc callback ;}XICCallback ;
-typedef unsigned long XIMFeedback ;
-typedef struct _XIMText {unsigned short length ;XIMFeedback *feedback ;int encoding_is_wchar ;union {char *multi_byte ;wchar_t *wide_char ;}string ;}XIMText ;
-typedef unsigned long XIMPreeditState ;
-typedef struct _XIMPreeditStateNotifyCallbackStruct {XIMPreeditState state ;}XIMPreeditStateNotifyCallbackStruct ;
-typedef unsigned long XIMResetState ;
-typedef unsigned long XIMStringConversionFeedback ;
-typedef struct _XIMStringConversionText {unsigned short length ;XIMStringConversionFeedback *feedback ;int encoding_is_wchar ;union {char *mbs ;wchar_t *wcs ;}string ;}XIMStringConversionText ;
-typedef unsigned short XIMStringConversionPosition ;
-typedef unsigned short XIMStringConversionType ;
-typedef unsigned short XIMStringConversionOperation ;
-typedef enum {XIMForwardChar ,XIMBackwardChar ,XIMForwardWord ,XIMBackwardWord ,XIMCaretUp ,XIMCaretDown ,XIMNextLine ,XIMPreviousLine ,XIMLineStart ,XIMLineEnd ,XIMAbsolutePosition ,XIMDontChange }XIMCaretDirection ;
-typedef struct _XIMStringConversionCallbackStruct {XIMStringConversionPosition position ;XIMCaretDirection direction ;XIMStringConversionOperation operation ;unsigned short factor ;XIMStringConversionText *text ;}XIMStringConversionCallbackStruct ;
-typedef struct _XIMPreeditDrawCallbackStruct {int caret ;int chg_first ;int chg_length ;XIMText *text ;}XIMPreeditDrawCallbackStruct ;
-typedef enum {XIMIsInvisible ,XIMIsPrimary ,XIMIsSecondary }XIMCaretStyle ;
-typedef struct _XIMPreeditCaretCallbackStruct {int position ;XIMCaretDirection direction ;XIMCaretStyle style ;}XIMPreeditCaretCallbackStruct ;
-typedef enum {XIMTextType ,XIMBitmapType }XIMStatusDataType ;
-typedef struct _XIMStatusDrawCallbackStruct {XIMStatusDataType type ;union {XIMText *text ;Pixmap bitmap ;}data ;}XIMStatusDrawCallbackStruct ;
-typedef struct _XIMHotKeyTrigger {KeySym keysym ;int modifier ;int modifier_mask ;}XIMHotKeyTrigger ;
-typedef struct _XIMHotKeyTriggers {int num_hot_key ;XIMHotKeyTrigger *key ;}XIMHotKeyTriggers ;
-typedef unsigned long XIMHotKeyState ;
-typedef struct {unsigned short count_values ;char **supported_values ;}XIMValuesList ;
-extern int _Xdebug ;
-extern XFontStruct *XLoadQueryFont (Display *,const char *);
-extern XFontStruct *XQueryFont (Display *,XID );
-extern XTimeCoord *XGetMotionEvents (Display *,Window ,Time ,Time ,int *);
-extern XModifierKeymap *XDeleteModifiermapEntry (XModifierKeymap *,KeyCode ,int );
-extern XModifierKeymap *XGetModifierMapping (Display *);
-extern XModifierKeymap *XInsertModifiermapEntry (XModifierKeymap *,KeyCode ,int );
-extern XModifierKeymap *XNewModifiermap (int );
-extern XImage *XCreateImage (Display *,Visual *,unsigned int ,int ,int ,char *,unsigned int ,unsigned int ,int ,int );
-extern int XInitImage (XImage *);
-extern XImage *XGetImage (Display *,Drawable ,int ,int ,unsigned int ,unsigned int ,unsigned long ,int );
-extern XImage *XGetSubImage (Display *,Drawable ,int ,int ,unsigned int ,unsigned int ,unsigned long ,int ,XImage *,int ,int );
-extern Display *XOpenDisplay (const char *);
-extern void XrmInitialize (void );
-extern char *XFetchBytes (Display *,int *);
-extern char *XFetchBuffer (Display *,int *,int );
-extern char *XGetAtomName (Display *,Atom );
-extern int XGetAtomNames (Display *,Atom *,int ,char **);
-extern char *XGetDefault (Display *,const char *,const char *);
-extern char *XDisplayName (const char *);
-extern char *XKeysymToString (KeySym );
-extern int (*XSynchronize (Display *,int ))(Display *);
-extern int (*XSetAfterFunction (Display *,int (*)(Display *)))(Display *);
-extern Atom XInternAtom (Display *,const char *,int );
-extern int XInternAtoms (Display *,char **,int ,int ,Atom *);
-extern Colormap XCopyColormapAndFree (Display *,Colormap );
-extern Colormap XCreateColormap (Display *,Window ,Visual *,int );
-extern Cursor XCreatePixmapCursor (Display *,Pixmap ,Pixmap ,XColor *,XColor *,unsigned int ,unsigned int );
-extern Cursor XCreateGlyphCursor (Display *,Font ,Font ,unsigned int ,unsigned int ,XColor const *,XColor const *);
-extern Cursor XCreateFontCursor (Display *,unsigned int );
-extern Font XLoadFont (Display *,const char *);
-extern GC XCreateGC (Display *,Drawable ,unsigned long ,XGCValues *);
-extern GContext XGContextFromGC (GC );
-extern void XFlushGC (Display *,GC );
-extern Pixmap XCreatePixmap (Display *,Drawable ,unsigned int ,unsigned int ,unsigned int );
-extern Pixmap XCreateBitmapFromData (Display *,Drawable ,const char *,unsigned int ,unsigned int );
-extern Pixmap XCreatePixmapFromBitmapData (Display *,Drawable ,char *,unsigned int ,unsigned int ,unsigned long ,unsigned long ,unsigned int );
-extern Window XCreateSimpleWindow (Display *,Window ,int ,int ,unsigned int ,unsigned int ,unsigned int ,unsigned long ,unsigned long );
-extern Window XGetSelectionOwner (Display *,Atom );
-extern Window XCreateWindow (Display *,Window ,int ,int ,unsigned int ,unsigned int ,unsigned int ,int ,unsigned int ,Visual *,unsigned long ,XSetWindowAttributes *);
-extern Colormap *XListInstalledColormaps (Display *,Window ,int *);
-extern char **XListFonts (Display *,const char *,int ,int *);
-extern char **XListFontsWithInfo (Display *,const char *,int ,int *,XFontStruct **);
-extern char **XGetFontPath (Display *,int *);
-extern char **XListExtensions (Display *,int *);
-extern Atom *XListProperties (Display *,Window ,int *);
-extern XHostAddress *XListHosts (Display *,int *,int *);
-extern KeySym XKeycodeToKeysym (Display *,KeyCode ,int );
-extern KeySym XLookupKeysym (XKeyEvent *,int );
-extern KeySym *XGetKeyboardMapping (Display *,KeyCode ,int ,int *);
-extern KeySym XStringToKeysym (const char *);
-extern long XMaxRequestSize (Display *);
-extern long XExtendedMaxRequestSize (Display *);
-extern char *XResourceManagerString (Display *);
-extern char *XScreenResourceString (Screen *);
-extern unsigned long XDisplayMotionBufferSize (Display *);
-extern VisualID XVisualIDFromVisual (Visual *);
-extern int XInitThreads (void );
-extern void XLockDisplay (Display *);
-extern void XUnlockDisplay (Display *);
-extern XExtCodes *XInitExtension (Display *,const char *);
-extern XExtCodes *XAddExtension (Display *);
-extern XExtData *XFindOnExtensionList (XExtData **,int );
-extern XExtData **XEHeadOfExtensionList (XEDataObject );
-extern Window XRootWindow (Display *,int );
-extern Window XDefaultRootWindow (Display *);
-extern Window XRootWindowOfScreen (Screen *);
-extern Visual *XDefaultVisual (Display *,int );
-extern Visual *XDefaultVisualOfScreen (Screen *);
-extern GC XDefaultGC (Display *,int );
-extern GC XDefaultGCOfScreen (Screen *);
-extern unsigned long XBlackPixel (Display *,int );
-extern unsigned long XWhitePixel (Display *,int );
-extern unsigned long XAllPlanes (void );
-extern unsigned long XBlackPixelOfScreen (Screen *);
-extern unsigned long XWhitePixelOfScreen (Screen *);
-extern unsigned long XNextRequest (Display *);
-extern unsigned long XLastKnownRequestProcessed (Display *);
-extern char *XServerVendor (Display *);
-extern char *XDisplayString (Display *);
-extern Colormap XDefaultColormap (Display *,int );
-extern Colormap XDefaultColormapOfScreen (Screen *);
-extern Display *XDisplayOfScreen (Screen *);
-extern Screen *XScreenOfDisplay (Display *,int );
-extern Screen *XDefaultScreenOfDisplay (Display *);
-extern long XEventMaskOfScreen (Screen *);
-extern int XScreenNumberOfScreen (Screen *);
-typedef int (*XErrorHandler )(Display *,XErrorEvent *);
-extern XErrorHandler XSetErrorHandler (XErrorHandler );
-typedef int (*XIOErrorHandler )(Display *);
-extern XIOErrorHandler XSetIOErrorHandler (XIOErrorHandler );
-extern XPixmapFormatValues *XListPixmapFormats (Display *,int *);
-extern int *XListDepths (Display *,int ,int *);
-extern int XReconfigureWMWindow (Display *,Window ,int ,unsigned int ,XWindowChanges *);
-extern int XGetWMProtocols (Display *,Window ,Atom **,int *);
-extern int XSetWMProtocols (Display *,Window ,Atom *,int );
-extern int XIconifyWindow (Display *,Window ,int );
-extern int XWithdrawWindow (Display *,Window ,int );
-extern int XGetCommand (Display *,Window ,char ***,int *);
-extern int XGetWMColormapWindows (Display *,Window ,Window **,int *);
-extern int XSetWMColormapWindows (Display *,Window ,Window *,int );
-extern void XFreeStringList (char **);
-extern int XSetTransientForHint (Display *,Window ,Window );
-extern int XActivateScreenSaver (Display *);
-extern int XAddHost (Display *,XHostAddress *);
-extern int XAddHosts (Display *,XHostAddress *,int );
-extern int XAddToExtensionList (struct _XExtData **,XExtData *);
-extern int XAddToSaveSet (Display *,Window );
-extern int XAllocColor (Display *,Colormap ,XColor *);
-extern int XAllocColorCells (Display *,Colormap ,int ,unsigned long *,unsigned int ,unsigned long *,unsigned int );
-extern int XAllocColorPlanes (Display *,Colormap ,int ,unsigned long *,int ,int ,int ,int ,unsigned long *,unsigned long *,unsigned long *);
-extern int XAllocNamedColor (Display *,Colormap ,const char *,XColor *,XColor *);
-extern int XAllowEvents (Display *,int ,Time );
-extern int XAutoRepeatOff (Display *);
-extern int XAutoRepeatOn (Display *);
-extern int XBell (Display *,int );
-extern int XBitmapBitOrder (Display *);
-extern int XBitmapPad (Display *);
-extern int XBitmapUnit (Display *);
-extern int XCellsOfScreen (Screen *);
-extern int XChangeActivePointerGrab (Display *,unsigned int ,Cursor ,Time );
-extern int XChangeGC (Display *,GC ,unsigned long ,XGCValues *);
-extern int XChangeKeyboardControl (Display *,unsigned long ,XKeyboardControl *);
-extern int XChangeKeyboardMapping (Display *,int ,int ,KeySym *,int );
-extern int XChangePointerControl (Display *,int ,int ,int ,int ,int );
-extern int XChangeProperty (Display *,Window ,Atom ,Atom ,int ,int ,const unsigned char *,int );
-extern int XChangeSaveSet (Display *,Window ,int );
-extern int XChangeWindowAttributes (Display *,Window ,unsigned long ,XSetWindowAttributes *);
-extern int XCheckIfEvent (Display *,XEvent *,int (*)(Display *,XEvent *,XPointer ),XPointer );
-extern int XCheckMaskEvent (Display *,long ,XEvent *);
-extern int XCheckTypedEvent (Display *,int ,XEvent *);
-extern int XCheckTypedWindowEvent (Display *,Window ,int ,XEvent *);
-extern int XCheckWindowEvent (Display *,Window ,long ,XEvent *);
-extern int XCirculateSubwindows (Display *,Window ,int );
-extern int XCirculateSubwindowsDown (Display *,Window );
-extern int XCirculateSubwindowsUp (Display *,Window );
-extern int XClearArea (Display *,Window ,int ,int ,unsigned int ,unsigned int ,int );
-extern int XClearWindow (Display *,Window );
-extern int XCloseDisplay (Display *);
-extern int XConfigureWindow (Display *,Window ,unsigned int ,XWindowChanges *);
-extern int XConnectionNumber (Display *);
-extern int XConvertSelection (Display *,Atom ,Atom ,Atom ,Window ,Time );
-extern int XCopyArea (Display *,Drawable ,Drawable ,GC ,int ,int ,unsigned int ,unsigned int ,int ,int );
-extern int XCopyGC (Display *,GC ,unsigned long ,GC );
-extern int XCopyPlane (Display *,Drawable ,Drawable ,GC ,int ,int ,unsigned int ,unsigned int ,int ,int ,unsigned long );
-extern int XDefaultDepth (Display *,int );
-extern int XDefaultDepthOfScreen (Screen *);
-extern int XDefaultScreen (Display *);
-extern int XDefineCursor (Display *,Window ,Cursor );
-extern int XDeleteProperty (Display *,Window ,Atom );
-extern int XDestroyWindow (Display *,Window );
-extern int XDestroySubwindows (Display *,Window );
-extern int XDoesBackingStore (Screen *);
-extern int XDoesSaveUnders (Screen *);
-extern int XDisableAccessControl (Display *);
-extern int XDisplayCells (Display *,int );
-extern int XDisplayHeight (Display *,int );
-extern int XDisplayHeightMM (Display *,int );
-extern int XDisplayKeycodes (Display *,int *,int *);
-extern int XDisplayPlanes (Display *,int );
-extern int XDisplayWidth (Display *,int );
-extern int XDisplayWidthMM (Display *,int );
-extern int XDrawArc (Display *,Drawable ,GC ,int ,int ,unsigned int ,unsigned int ,int ,int );
-extern int XDrawArcs (Display *,Drawable ,GC ,XArc *,int );
-extern int XDrawImageString (Display *,Drawable ,GC ,int ,int ,const char *,int );
-extern int XDrawImageString16 (Display *,Drawable ,GC ,int ,int ,const XChar2b *,int );
-extern int XDrawLine (Display *,Drawable ,GC ,int ,int ,int ,int );
-extern int XDrawLines (Display *,Drawable ,GC ,XPoint *,int ,int );
-extern int XDrawPoint (Display *,Drawable ,GC ,int ,int );
-extern int XDrawPoints (Display *,Drawable ,GC ,XPoint *,int ,int );
-extern int XDrawRectangle (Display *,Drawable ,GC ,int ,int ,unsigned int ,unsigned int );
-extern int XDrawRectangles (Display *,Drawable ,GC ,XRectangle *,int );
-extern int XDrawSegments (Display *,Drawable ,GC ,XSegment *,int );
-extern int XDrawString (Display *,Drawable ,GC ,int ,int ,const char *,int );
-extern int XDrawString16 (Display *,Drawable ,GC ,int ,int ,const XChar2b *,int );
-extern int XDrawText (Display *,Drawable ,GC ,int ,int ,XTextItem *,int );
-extern int XDrawText16 (Display *,Drawable ,GC ,int ,int ,XTextItem16 *,int );
-extern int XEnableAccessControl (Display *);
-extern int XEventsQueued (Display *,int );
-extern int XFetchName (Display *,Window ,char **);
-extern int XFillArc (Display *,Drawable ,GC ,int ,int ,unsigned int ,unsigned int ,int ,int );
-extern int XFillArcs (Display *,Drawable ,GC ,XArc *,int );
-extern int XFillPolygon (Display *,Drawable ,GC ,XPoint *,int ,int ,int );
-extern int XFillRectangle (Display *,Drawable ,GC ,int ,int ,unsigned int ,unsigned int );
-extern int XFillRectangles (Display *,Drawable ,GC ,XRectangle *,int );
-extern int XFlush (Display *);
-extern int XForceScreenSaver (Display *,int );
-extern int XFree (void *);
-extern int XFreeColormap (Display *,Colormap );
-extern int XFreeColors (Display *,Colormap ,unsigned long *,int ,unsigned long );
-extern int XFreeCursor (Display *,Cursor );
-extern int XFreeExtensionList (char **);
-extern int XFreeFont (Display *,XFontStruct *);
-extern int XFreeFontInfo (char **,XFontStruct *,int );
-extern int XFreeFontNames (char **);
-extern int XFreeFontPath (char **);
-extern int XFreeGC (Display *,GC );
-extern int XFreeModifiermap (XModifierKeymap *);
-extern int XFreePixmap (Display *,Pixmap );
-extern int XGeometry (Display *,int ,const char *,const char *,unsigned int ,unsigned int ,unsigned int ,int ,int ,int *,int *,int *,int *);
-extern int XGetErrorDatabaseText (Display *,const char *,const char *,const char *,char *,int );
-extern int XGetErrorText (Display *,int ,char *,int );
-extern int XGetFontProperty (XFontStruct *,Atom ,unsigned long *);
-extern int XGetGCValues (Display *,GC ,unsigned long ,XGCValues *);
-extern int XGetGeometry (Display *,Drawable ,Window *,int *,int *,unsigned int *,unsigned int *,unsigned int *,unsigned int *);
-extern int XGetIconName (Display *,Window ,char **);
-extern int XGetInputFocus (Display *,Window *,int *);
-extern int XGetKeyboardControl (Display *,XKeyboardState *);
-extern int XGetPointerControl (Display *,int *,int *,int *);
-extern int XGetPointerMapping (Display *,unsigned char *,int );
-extern int XGetScreenSaver (Display *,int *,int *,int *,int *);
-extern int XGetTransientForHint (Display *,Window ,Window *);
-extern int XGetWindowProperty (Display *,Window ,Atom ,long ,long ,int ,Atom ,Atom *,int *,unsigned long *,unsigned long *,unsigned char **);
-extern int XGetWindowAttributes (Display *,Window ,XWindowAttributes *);
-extern int XGrabButton (Display *,unsigned int ,unsigned int ,Window ,int ,unsigned int ,int ,int ,Window ,Cursor );
-extern int XGrabKey (Display *,int ,unsigned int ,Window ,int ,int ,int );
-extern int XGrabKeyboard (Display *,Window ,int ,int ,int ,Time );
-extern int XGrabPointer (Display *,Window ,int ,unsigned int ,int ,int ,Window ,Cursor ,Time );
-extern int XGrabServer (Display *);
-extern int XHeightMMOfScreen (Screen *);
-extern int XHeightOfScreen (Screen *);
-extern int XIfEvent (Display *,XEvent *,int (*)(Display *,XEvent *,XPointer ),XPointer );
-extern int XImageByteOrder (Display *);
-extern int XInstallColormap (Display *,Colormap );
-extern KeyCode XKeysymToKeycode (Display *,KeySym );
-extern int XKillClient (Display *,XID );
-extern int XLookupColor (Display *,Colormap ,const char *,XColor *,XColor *);
-extern int XLowerWindow (Display *,Window );
-extern int XMapRaised (Display *,Window );
-extern int XMapSubwindows (Display *,Window );
-extern int XMapWindow (Display *,Window );
-extern int XMaskEvent (Display *,long ,XEvent *);
-extern int XMaxCmapsOfScreen (Screen *);
-extern int XMinCmapsOfScreen (Screen *);
-extern int XMoveResizeWindow (Display *,Window ,int ,int ,unsigned int ,unsigned int );
-extern int XMoveWindow (Display *,Window ,int ,int );
-extern int XNextEvent (Display *,XEvent *);
-extern int XNoOp (Display *);
-extern int XParseColor (Display *,Colormap ,const char *,XColor *);
-extern int XParseGeometry (const char *,int *,int *,unsigned int *,unsigned int *);
-extern int XPeekEvent (Display *,XEvent *);
-extern int XPeekIfEvent (Display *,XEvent *,int (*)(Display *,XEvent *,XPointer ),XPointer );
-extern int XPending (Display *);
-extern int XPlanesOfScreen (Screen *);
-extern int XProtocolRevision (Display *);
-extern int XProtocolVersion (Display *);
-extern int XPutBackEvent (Display *,XEvent *);
-extern int XPutImage (Display *,Drawable ,GC ,XImage *,int ,int ,int ,int ,unsigned int ,unsigned int );
-extern int XQLength (Display *);
-extern int XQueryBestCursor (Display *,Drawable ,unsigned int ,unsigned int ,unsigned int *,unsigned int *);
-extern int XQueryBestSize (Display *,int ,Drawable ,unsigned int ,unsigned int ,unsigned int *,unsigned int *);
-extern int XQueryBestStipple (Display *,Drawable ,unsigned int ,unsigned int ,unsigned int *,unsigned int *);
-extern int XQueryBestTile (Display *,Drawable ,unsigned int ,unsigned int ,unsigned int *,unsigned int *);
-extern int XQueryColor (Display *,Colormap ,XColor *);
-extern int XQueryColors (Display *,Colormap ,XColor *,int );
-extern int XQueryExtension (Display *,const char *,int *,int *,int *);
-extern int XQueryKeymap (Display *,char [32 ]);
-extern int XQueryPointer (Display *,Window ,Window *,Window *,int *,int *,int *,int *,unsigned int *);
-extern int XQueryTextExtents (Display *,XID ,const char *,int ,int *,int *,int *,XCharStruct *);
-extern int XQueryTextExtents16 (Display *,XID ,const XChar2b *,int ,int *,int *,int *,XCharStruct *);
-extern int XQueryTree (Display *,Window ,Window *,Window *,Window **,unsigned int *);
-extern int XRaiseWindow (Display *,Window );
-extern int XReadBitmapFile (Display *,Drawable ,const char *,unsigned int *,unsigned int *,Pixmap *,int *,int *);
-extern int XReadBitmapFileData (const char *,unsigned int *,unsigned int *,unsigned char **,int *,int *);
-extern int XRebindKeysym (Display *,KeySym ,KeySym *,int ,const unsigned char *,int );
-extern int XRecolorCursor (Display *,Cursor ,XColor *,XColor *);
-extern int XRefreshKeyboardMapping (XMappingEvent *);
-extern int XRemoveFromSaveSet (Display *,Window );
-extern int XRemoveHost (Display *,XHostAddress *);
-extern int XRemoveHosts (Display *,XHostAddress *,int );
-extern int XReparentWindow (Display *,Window ,Window ,int ,int );
-extern int XResetScreenSaver (Display *);
-extern int XResizeWindow (Display *,Window ,unsigned int ,unsigned int );
-extern int XRestackWindows (Display *,Window *,int );
-extern int XRotateBuffers (Display *,int );
-extern int XRotateWindowProperties (Display *,Window ,Atom *,int ,int );
-extern int XScreenCount (Display *);
-extern int XSelectInput (Display *,Window ,long );
-extern int XSendEvent (Display *,Window ,int ,long ,XEvent *);
-extern int XSetAccessControl (Display *,int );
-extern int XSetArcMode (Display *,GC ,int );
-extern int XSetBackground (Display *,GC ,unsigned long );
-extern int XSetClipMask (Display *,GC ,Pixmap );
-extern int XSetClipOrigin (Display *,GC ,int ,int );
-extern int XSetClipRectangles (Display *,GC ,int ,int ,XRectangle *,int ,int );
-extern int XSetCloseDownMode (Display *,int );
-extern int XSetCommand (Display *,Window ,char **,int );
-extern int XSetDashes (Display *,GC ,int ,const char *,int );
-extern int XSetFillRule (Display *,GC ,int );
-extern int XSetFillStyle (Display *,GC ,int );
-extern int XSetFont (Display *,GC ,Font );
-extern int XSetFontPath (Display *,char **,int );
-extern int XSetForeground (Display *,GC ,unsigned long );
-extern int XSetFunction (Display *,GC ,int );
-extern int XSetGraphicsExposures (Display *,GC ,int );
-extern int XSetIconName (Display *,Window ,const char *);
-extern int XSetInputFocus (Display *,Window ,int ,Time );
-extern int XSetLineAttributes (Display *,GC ,unsigned int ,int ,int ,int );
-extern int XSetModifierMapping (Display *,XModifierKeymap *);
-extern int XSetPlaneMask (Display *,GC ,unsigned long );
-extern int XSetPointerMapping (Display *,const unsigned char *,int );
-extern int XSetScreenSaver (Display *,int ,int ,int ,int );
-extern int XSetSelectionOwner (Display *,Atom ,Window ,Time );
-extern int XSetState (Display *,GC ,unsigned long ,unsigned long ,int ,unsigned long );
-extern int XSetStipple (Display *,GC ,Pixmap );
-extern int XSetSubwindowMode (Display *,GC ,int );
-extern int XSetTSOrigin (Display *,GC ,int ,int );
-extern int XSetTile (Display *,GC ,Pixmap );
-extern int XSetWindowBackground (Display *,Window ,unsigned long );
-extern int XSetWindowBackgroundPixmap (Display *,Window ,Pixmap );
-extern int XSetWindowBorder (Display *,Window ,unsigned long );
-extern int XSetWindowBorderPixmap (Display *,Window ,Pixmap );
-extern int XSetWindowBorderWidth (Display *,Window ,unsigned int );
-extern int XSetWindowColormap (Display *,Window ,Colormap );
-extern int XStoreBuffer (Display *,const char *,int ,int );
-extern int XStoreBytes (Display *,const char *,int );
-extern int XStoreColor (Display *,Colormap ,XColor *);
-extern int XStoreColors (Display *,Colormap ,XColor *,int );
-extern int XStoreName (Display *,Window ,const char *);
-extern int XStoreNamedColor (Display *,Colormap ,const char *,unsigned long ,int );
-extern int XSync (Display *,int );
-extern int XTextExtents (XFontStruct *,const char *,int ,int *,int *,int *,XCharStruct *);
-extern int XTextExtents16 (XFontStruct *,const XChar2b *,int ,int *,int *,int *,XCharStruct *);
-extern int XTextWidth (XFontStruct *,const char *,int );
-extern int XTextWidth16 (XFontStruct *,const XChar2b *,int );
-extern int XTranslateCoordinates (Display *,Window ,Window ,int ,int ,int *,int *,Window *);
-extern int XUndefineCursor (Display *,Window );
-extern int XUngrabButton (Display *,unsigned int ,unsigned int ,Window );
-extern int XUngrabKey (Display *,int ,unsigned int ,Window );
-extern int XUngrabKeyboard (Display *,Time );
-extern int XUngrabPointer (Display *,Time );
-extern int XUngrabServer (Display *);
-extern int XUninstallColormap (Display *,Colormap );
-extern int XUnloadFont (Display *,Font );
-extern int XUnmapSubwindows (Display *,Window );
-extern int XUnmapWindow (Display *,Window );
-extern int XVendorRelease (Display *);
-extern int XWarpPointer (Display *,Window ,Window ,int ,int ,unsigned int ,unsigned int ,int ,int );
-extern int XWidthMMOfScreen (Screen *);
-extern int XWidthOfScreen (Screen *);
-extern int XWindowEvent (Display *,Window ,long ,XEvent *);
-extern int XWriteBitmapFile (Display *,const char *,Pixmap ,unsigned int ,unsigned int ,int ,int );
-extern int XSupportsLocale (void );
-extern char *XSetLocaleModifiers (const char *);
-extern XOM XOpenOM (Display *,struct _XrmHashBucketRec *,const char *,const char *);
-extern int XCloseOM (XOM );
-extern char *XSetOMValues (XOM ,...);
-extern char *XGetOMValues (XOM ,...);
-extern Display *XDisplayOfOM (XOM );
-extern char *XLocaleOfOM (XOM );
-extern XOC XCreateOC (XOM ,...);
-extern void XDestroyOC (XOC );
-extern XOM XOMOfOC (XOC );
-extern char *XSetOCValues (XOC ,...);
-extern char *XGetOCValues (XOC ,...);
-extern XFontSet XCreateFontSet (Display *,const char *,char ***,int *,char **);
-extern void XFreeFontSet (Display *,XFontSet );
-extern int XFontsOfFontSet (XFontSet ,XFontStruct ***,char ***);
-extern char *XBaseFontNameListOfFontSet (XFontSet );
-extern char *XLocaleOfFontSet (XFontSet );
-extern int XContextDependentDrawing (XFontSet );
-extern int XDirectionalDependentDrawing (XFontSet );
-extern int XContextualDrawing (XFontSet );
-extern XFontSetExtents *XExtentsOfFontSet (XFontSet );
-extern int XmbTextEscapement (XFontSet ,const char *,int );
-extern int XwcTextEscapement (XFontSet ,const wchar_t *,int );
-extern int Xutf8TextEscapement (XFontSet ,const char *,int );
-extern int XmbTextExtents (XFontSet ,const char *,int ,XRectangle *,XRectangle *);
-extern int XwcTextExtents (XFontSet ,const wchar_t *,int ,XRectangle *,XRectangle *);
-extern int Xutf8TextExtents (XFontSet ,const char *,int ,XRectangle *,XRectangle *);
-extern int XmbTextPerCharExtents (XFontSet ,const char *,int ,XRectangle *,XRectangle *,int ,int *,XRectangle *,XRectangle *);
-extern int XwcTextPerCharExtents (XFontSet ,const wchar_t *,int ,XRectangle *,XRectangle *,int ,int *,XRectangle *,XRectangle *);
-extern int Xutf8TextPerCharExtents (XFontSet ,const char *,int ,XRectangle *,XRectangle *,int ,int *,XRectangle *,XRectangle *);
-extern void XmbDrawText (Display *,Drawable ,GC ,int ,int ,XmbTextItem *,int );
-extern void XwcDrawText (Display *,Drawable ,GC ,int ,int ,XwcTextItem *,int );
-extern void Xutf8DrawText (Display *,Drawable ,GC ,int ,int ,XmbTextItem *,int );
-extern void XmbDrawString (Display *,Drawable ,XFontSet ,GC ,int ,int ,const char *,int );
-extern void XwcDrawString (Display *,Drawable ,XFontSet ,GC ,int ,int ,const wchar_t *,int );
-extern void Xutf8DrawString (Display *,Drawable ,XFontSet ,GC ,int ,int ,const char *,int );
-extern void XmbDrawImageString (Display *,Drawable ,XFontSet ,GC ,int ,int ,const char *,int );
-extern void XwcDrawImageString (Display *,Drawable ,XFontSet ,GC ,int ,int ,const wchar_t *,int );
-extern void Xutf8DrawImageString (Display *,Drawable ,XFontSet ,GC ,int ,int ,const char *,int );
-extern XIM XOpenIM (Display *,struct _XrmHashBucketRec *,char *,char *);
-extern int XCloseIM (XIM );
-extern char *XGetIMValues (XIM ,...);
-extern char *XSetIMValues (XIM ,...);
-extern Display *XDisplayOfIM (XIM );
-extern char *XLocaleOfIM (XIM );
-extern XIC XCreateIC (XIM ,...);
-extern void XDestroyIC (XIC );
-extern void XSetICFocus (XIC );
-extern void XUnsetICFocus (XIC );
-extern wchar_t *XwcResetIC (XIC );
-extern char *XmbResetIC (XIC );
-extern char *Xutf8ResetIC (XIC );
-extern char *XSetICValues (XIC ,...);
-extern char *XGetICValues (XIC ,...);
-extern XIM XIMOfIC (XIC );
-extern int XFilterEvent (XEvent *,Window );
-extern int XmbLookupString (XIC ,XKeyPressedEvent *,char *,int ,KeySym *,int *);
-extern int XwcLookupString (XIC ,XKeyPressedEvent *,wchar_t *,int ,KeySym *,int *);
-extern int Xutf8LookupString (XIC ,XKeyPressedEvent *,char *,int ,KeySym *,int *);
-extern XVaNestedList XVaCreateNestedList (int ,...);
-extern int XRegisterIMInstantiateCallback (Display *,struct _XrmHashBucketRec *,char *,char *,XIDProc ,XPointer );
-extern int XUnregisterIMInstantiateCallback (Display *,struct _XrmHashBucketRec *,char *,char *,XIDProc ,XPointer );
-typedef void (*XConnectionWatchProc )(Display *,XPointer ,int ,int ,XPointer *);
-extern int XInternalConnectionNumbers (Display *,int **,int *);
-extern void XProcessInternalConnection (Display *,int );
-extern int XAddConnectionWatch (Display *,XConnectionWatchProc ,XPointer );
-extern void XRemoveConnectionWatch (Display *,XConnectionWatchProc ,XPointer );
-extern void XSetAuthorization (char *,int ,char *,int );
-extern int _Xmbtowc (wchar_t *,char *,int );
-extern int _Xwctomb (char *,wchar_t );
-extern int XGetEventData (Display *,XGenericEventCookie *);
-extern void XFreeEventData (Display *,XGenericEventCookie *);
+typedef struct {
+	char *chars;
+	int nchars;
+	int delta;
+	XFontSet font_set;
+} XmbTextItem;
+typedef struct {
+	wchar_t *chars;
+	int nchars;
+	int delta;
+	XFontSet font_set;
+} XwcTextItem;
+typedef struct {
+	int charset_count;
+	char **charset_list;
+} XOMCharSetList;
+typedef enum { XOMOrientation_LTR_TTB, XOMOrientation_RTL_TTB, XOMOrientation_TTB_LTR, XOMOrientation_TTB_RTL, XOMOrientation_Context } XOrientation;
+typedef struct {
+	int num_orientation;
+	XOrientation *orientation;
+} XOMOrientation;
+typedef struct {
+	int num_font;
+	XFontStruct **font_struct_list;
+	char **font_name_list;
+} XOMFontInfo;
+typedef struct _XIM *XIM;
+typedef struct _XIC *XIC;
+typedef void (*XIMProc) (XIM, XPointer, XPointer);
+typedef int (*XICProc) (XIC, XPointer, XPointer);
+typedef void (*XIDProc) (Display *, XPointer, XPointer);
+typedef unsigned long XIMStyle;
+typedef struct {
+	unsigned short count_styles;
+	XIMStyle *supported_styles;
+} XIMStyles;
+typedef void *XVaNestedList;
+typedef struct {
+	XPointer client_data;
+	XIMProc callback;
+} XIMCallback;
+typedef struct {
+	XPointer client_data;
+	XICProc callback;
+} XICCallback;
+typedef unsigned long XIMFeedback;
+typedef struct _XIMText {
+	unsigned short length;
+	XIMFeedback *feedback;
+	int encoding_is_wchar;
+	union {
+		char *multi_byte;
+		wchar_t *wide_char;
+	} string;
+} XIMText;
+typedef unsigned long XIMPreeditState;
+typedef struct _XIMPreeditStateNotifyCallbackStruct {
+	XIMPreeditState state;
+} XIMPreeditStateNotifyCallbackStruct;
+typedef unsigned long XIMResetState;
+typedef unsigned long XIMStringConversionFeedback;
+typedef struct _XIMStringConversionText {
+	unsigned short length;
+	XIMStringConversionFeedback *feedback;
+	int encoding_is_wchar;
+	union {
+		char *mbs;
+		wchar_t *wcs;
+	} string;
+} XIMStringConversionText;
+typedef unsigned short XIMStringConversionPosition;
+typedef unsigned short XIMStringConversionType;
+typedef unsigned short XIMStringConversionOperation;
+typedef enum { XIMForwardChar, XIMBackwardChar, XIMForwardWord, XIMBackwardWord, XIMCaretUp, XIMCaretDown, XIMNextLine, XIMPreviousLine, XIMLineStart, XIMLineEnd, XIMAbsolutePosition, XIMDontChange } XIMCaretDirection;
+typedef struct _XIMStringConversionCallbackStruct {
+	XIMStringConversionPosition position;
+	XIMCaretDirection direction;
+	XIMStringConversionOperation operation;
+	unsigned short factor;
+	XIMStringConversionText *text;
+} XIMStringConversionCallbackStruct;
+typedef struct _XIMPreeditDrawCallbackStruct {
+	int caret;
+	int chg_first;
+	int chg_length;
+	XIMText *text;
+} XIMPreeditDrawCallbackStruct;
+typedef enum { XIMIsInvisible, XIMIsPrimary, XIMIsSecondary } XIMCaretStyle;
+typedef struct _XIMPreeditCaretCallbackStruct {
+	int position;
+	XIMCaretDirection direction;
+	XIMCaretStyle style;
+} XIMPreeditCaretCallbackStruct;
+typedef enum { XIMTextType, XIMBitmapType } XIMStatusDataType;
+typedef struct _XIMStatusDrawCallbackStruct {
+	XIMStatusDataType type;
+	union {
+		XIMText *text;
+		Pixmap bitmap;
+	} data;
+} XIMStatusDrawCallbackStruct;
+typedef struct _XIMHotKeyTrigger {
+	KeySym keysym;
+	int modifier;
+	int modifier_mask;
+} XIMHotKeyTrigger;
+typedef struct _XIMHotKeyTriggers {
+	int num_hot_key;
+	XIMHotKeyTrigger *key;
+} XIMHotKeyTriggers;
+typedef unsigned long XIMHotKeyState;
+typedef struct {
+	unsigned short count_values;
+	char **supported_values;
+} XIMValuesList;
+extern int _Xdebug;
+extern XFontStruct *XLoadQueryFont(Display *, const char *);
+extern XFontStruct *XQueryFont(Display *, XID);
+extern XTimeCoord *XGetMotionEvents(Display *, Window, Time, Time, int *);
+extern XModifierKeymap *XDeleteModifiermapEntry(XModifierKeymap *, KeyCode, int);
+extern XModifierKeymap *XGetModifierMapping(Display *);
+extern XModifierKeymap *XInsertModifiermapEntry(XModifierKeymap *, KeyCode, int);
+extern XModifierKeymap *XNewModifiermap(int);
+extern XImage *XCreateImage(Display *, Visual *, unsigned int, int, int, char *, unsigned int, unsigned int, int, int);
+extern int XInitImage(XImage *);
+extern XImage *XGetImage(Display *, Drawable, int, int, unsigned int, unsigned int, unsigned long, int);
+extern XImage *XGetSubImage(Display *, Drawable, int, int, unsigned int, unsigned int, unsigned long, int, XImage *, int, int);
+extern Display *XOpenDisplay(const char *);
+extern void XrmInitialize(void);
+extern char *XFetchBytes(Display *, int *);
+extern char *XFetchBuffer(Display *, int *, int);
+extern char *XGetAtomName(Display *, Atom);
+extern int XGetAtomNames(Display *, Atom *, int, char **);
+extern char *XGetDefault(Display *, const char *, const char *);
+extern char *XDisplayName(const char *);
+extern char *XKeysymToString(KeySym);
+extern int (*XSynchronize(Display *, int)) (Display *);
+extern int (*XSetAfterFunction(Display *, int (*)(Display *))) (Display *);
+extern Atom XInternAtom(Display *, const char *, int);
+extern int XInternAtoms(Display *, char **, int, int, Atom *);
+extern Colormap XCopyColormapAndFree(Display *, Colormap);
+extern Colormap XCreateColormap(Display *, Window, Visual *, int);
+extern Cursor XCreatePixmapCursor(Display *, Pixmap, Pixmap, XColor *, XColor *, unsigned int, unsigned int);
+extern Cursor XCreateGlyphCursor(Display *, Font, Font, unsigned int, unsigned int, XColor const *, XColor const *);
+extern Cursor XCreateFontCursor(Display *, unsigned int);
+extern Font XLoadFont(Display *, const char *);
+extern GC XCreateGC(Display *, Drawable, unsigned long, XGCValues *);
+extern GContext XGContextFromGC(GC);
+extern void XFlushGC(Display *, GC);
+extern Pixmap XCreatePixmap(Display *, Drawable, unsigned int, unsigned int, unsigned int);
+extern Pixmap XCreateBitmapFromData(Display *, Drawable, const char *, unsigned int, unsigned int);
+extern Pixmap XCreatePixmapFromBitmapData(Display *, Drawable, char *, unsigned int, unsigned int, unsigned long, unsigned long, unsigned int);
+extern Window XCreateSimpleWindow(Display *, Window, int, int, unsigned int, unsigned int, unsigned int, unsigned long, unsigned long);
+extern Window XGetSelectionOwner(Display *, Atom);
+extern Window XCreateWindow(Display *, Window, int, int, unsigned int, unsigned int, unsigned int, int, unsigned int, Visual *, unsigned long, XSetWindowAttributes *);
+extern Colormap *XListInstalledColormaps(Display *, Window, int *);
+extern char **XListFonts(Display *, const char *, int, int *);
+extern char **XListFontsWithInfo(Display *, const char *, int, int *, XFontStruct **);
+extern char **XGetFontPath(Display *, int *);
+extern char **XListExtensions(Display *, int *);
+extern Atom *XListProperties(Display *, Window, int *);
+extern XHostAddress *XListHosts(Display *, int *, int *);
+extern KeySym XKeycodeToKeysym(Display *, KeyCode, int);
+extern KeySym XLookupKeysym(XKeyEvent *, int);
+extern KeySym *XGetKeyboardMapping(Display *, KeyCode, int, int *);
+extern KeySym XStringToKeysym(const char *);
+extern long XMaxRequestSize(Display *);
+extern long XExtendedMaxRequestSize(Display *);
+extern char *XResourceManagerString(Display *);
+extern char *XScreenResourceString(Screen *);
+extern unsigned long XDisplayMotionBufferSize(Display *);
+extern VisualID XVisualIDFromVisual(Visual *);
+extern int XInitThreads(void);
+extern void XLockDisplay(Display *);
+extern void XUnlockDisplay(Display *);
+extern XExtCodes *XInitExtension(Display *, const char *);
+extern XExtCodes *XAddExtension(Display *);
+extern XExtData *XFindOnExtensionList(XExtData **, int);
+extern XExtData **XEHeadOfExtensionList(XEDataObject);
+extern Window XRootWindow(Display *, int);
+extern Window XDefaultRootWindow(Display *);
+extern Window XRootWindowOfScreen(Screen *);
+extern Visual *XDefaultVisual(Display *, int);
+extern Visual *XDefaultVisualOfScreen(Screen *);
+extern GC XDefaultGC(Display *, int);
+extern GC XDefaultGCOfScreen(Screen *);
+extern unsigned long XBlackPixel(Display *, int);
+extern unsigned long XWhitePixel(Display *, int);
+extern unsigned long XAllPlanes(void);
+extern unsigned long XBlackPixelOfScreen(Screen *);
+extern unsigned long XWhitePixelOfScreen(Screen *);
+extern unsigned long XNextRequest(Display *);
+extern unsigned long XLastKnownRequestProcessed(Display *);
+extern char *XServerVendor(Display *);
+extern char *XDisplayString(Display *);
+extern Colormap XDefaultColormap(Display *, int);
+extern Colormap XDefaultColormapOfScreen(Screen *);
+extern Display *XDisplayOfScreen(Screen *);
+extern Screen *XScreenOfDisplay(Display *, int);
+extern Screen *XDefaultScreenOfDisplay(Display *);
+extern long XEventMaskOfScreen(Screen *);
+extern int XScreenNumberOfScreen(Screen *);
+typedef int (*XErrorHandler) (Display *, XErrorEvent *);
+extern XErrorHandler XSetErrorHandler(XErrorHandler);
+typedef int (*XIOErrorHandler) (Display *);
+extern XIOErrorHandler XSetIOErrorHandler(XIOErrorHandler);
+extern XPixmapFormatValues *XListPixmapFormats(Display *, int *);
+extern int *XListDepths(Display *, int, int *);
+extern int XReconfigureWMWindow(Display *, Window, int, unsigned int, XWindowChanges *);
+extern int XGetWMProtocols(Display *, Window, Atom **, int *);
+extern int XSetWMProtocols(Display *, Window, Atom *, int);
+extern int XIconifyWindow(Display *, Window, int);
+extern int XWithdrawWindow(Display *, Window, int);
+extern int XGetCommand(Display *, Window, char ***, int *);
+extern int XGetWMColormapWindows(Display *, Window, Window **, int *);
+extern int XSetWMColormapWindows(Display *, Window, Window *, int);
+extern void XFreeStringList(char **);
+extern int XSetTransientForHint(Display *, Window, Window);
+extern int XActivateScreenSaver(Display *);
+extern int XAddHost(Display *, XHostAddress *);
+extern int XAddHosts(Display *, XHostAddress *, int);
+extern int XAddToExtensionList(struct _XExtData **, XExtData *);
+extern int XAddToSaveSet(Display *, Window);
+extern int XAllocColor(Display *, Colormap, XColor *);
+extern int XAllocColorCells(Display *, Colormap, int, unsigned long *, unsigned int, unsigned long *, unsigned int);
+extern int XAllocColorPlanes(Display *, Colormap, int, unsigned long *, int, int, int, int, unsigned long *, unsigned long *, unsigned long *);
+extern int XAllocNamedColor(Display *, Colormap, const char *, XColor *, XColor *);
+extern int XAllowEvents(Display *, int, Time);
+extern int XAutoRepeatOff(Display *);
+extern int XAutoRepeatOn(Display *);
+extern int XBell(Display *, int);
+extern int XBitmapBitOrder(Display *);
+extern int XBitmapPad(Display *);
+extern int XBitmapUnit(Display *);
+extern int XCellsOfScreen(Screen *);
+extern int XChangeActivePointerGrab(Display *, unsigned int, Cursor, Time);
+extern int XChangeGC(Display *, GC, unsigned long, XGCValues *);
+extern int XChangeKeyboardControl(Display *, unsigned long, XKeyboardControl *);
+extern int XChangeKeyboardMapping(Display *, int, int, KeySym *, int);
+extern int XChangePointerControl(Display *, int, int, int, int, int);
+extern int XChangeProperty(Display *, Window, Atom, Atom, int, int, const unsigned char *, int);
+extern int XChangeSaveSet(Display *, Window, int);
+extern int XChangeWindowAttributes(Display *, Window, unsigned long, XSetWindowAttributes *);
+extern int XCheckIfEvent(Display *, XEvent *, int (*)(Display *, XEvent *, XPointer), XPointer);
+extern int XCheckMaskEvent(Display *, long, XEvent *);
+extern int XCheckTypedEvent(Display *, int, XEvent *);
+extern int XCheckTypedWindowEvent(Display *, Window, int, XEvent *);
+extern int XCheckWindowEvent(Display *, Window, long, XEvent *);
+extern int XCirculateSubwindows(Display *, Window, int);
+extern int XCirculateSubwindowsDown(Display *, Window);
+extern int XCirculateSubwindowsUp(Display *, Window);
+extern int XClearArea(Display *, Window, int, int, unsigned int, unsigned int, int);
+extern int XClearWindow(Display *, Window);
+extern int XCloseDisplay(Display *);
+extern int XConfigureWindow(Display *, Window, unsigned int, XWindowChanges *);
+extern int XConnectionNumber(Display *);
+extern int XConvertSelection(Display *, Atom, Atom, Atom, Window, Time);
+extern int XCopyArea(Display *, Drawable, Drawable, GC, int, int, unsigned int, unsigned int, int, int);
+extern int XCopyGC(Display *, GC, unsigned long, GC);
+extern int XCopyPlane(Display *, Drawable, Drawable, GC, int, int, unsigned int, unsigned int, int, int, unsigned long);
+extern int XDefaultDepth(Display *, int);
+extern int XDefaultDepthOfScreen(Screen *);
+extern int XDefaultScreen(Display *);
+extern int XDefineCursor(Display *, Window, Cursor);
+extern int XDeleteProperty(Display *, Window, Atom);
+extern int XDestroyWindow(Display *, Window);
+extern int XDestroySubwindows(Display *, Window);
+extern int XDoesBackingStore(Screen *);
+extern int XDoesSaveUnders(Screen *);
+extern int XDisableAccessControl(Display *);
+extern int XDisplayCells(Display *, int);
+extern int XDisplayHeight(Display *, int);
+extern int XDisplayHeightMM(Display *, int);
+extern int XDisplayKeycodes(Display *, int *, int *);
+extern int XDisplayPlanes(Display *, int);
+extern int XDisplayWidth(Display *, int);
+extern int XDisplayWidthMM(Display *, int);
+extern int XDrawArc(Display *, Drawable, GC, int, int, unsigned int, unsigned int, int, int);
+extern int XDrawArcs(Display *, Drawable, GC, XArc *, int);
+extern int XDrawImageString(Display *, Drawable, GC, int, int, const char *, int);
+extern int XDrawImageString16(Display *, Drawable, GC, int, int, const XChar2b *, int);
+extern int XDrawLine(Display *, Drawable, GC, int, int, int, int);
+extern int XDrawLines(Display *, Drawable, GC, XPoint *, int, int);
+extern int XDrawPoint(Display *, Drawable, GC, int, int);
+extern int XDrawPoints(Display *, Drawable, GC, XPoint *, int, int);
+extern int XDrawRectangle(Display *, Drawable, GC, int, int, unsigned int, unsigned int);
+extern int XDrawRectangles(Display *, Drawable, GC, XRectangle *, int);
+extern int XDrawSegments(Display *, Drawable, GC, XSegment *, int);
+extern int XDrawString(Display *, Drawable, GC, int, int, const char *, int);
+extern int XDrawString16(Display *, Drawable, GC, int, int, const XChar2b *, int);
+extern int XDrawText(Display *, Drawable, GC, int, int, XTextItem *, int);
+extern int XDrawText16(Display *, Drawable, GC, int, int, XTextItem16 *, int);
+extern int XEnableAccessControl(Display *);
+extern int XEventsQueued(Display *, int);
+extern int XFetchName(Display *, Window, char **);
+extern int XFillArc(Display *, Drawable, GC, int, int, unsigned int, unsigned int, int, int);
+extern int XFillArcs(Display *, Drawable, GC, XArc *, int);
+extern int XFillPolygon(Display *, Drawable, GC, XPoint *, int, int, int);
+extern int XFillRectangle(Display *, Drawable, GC, int, int, unsigned int, unsigned int);
+extern int XFillRectangles(Display *, Drawable, GC, XRectangle *, int);
+extern int XFlush(Display *);
+extern int XForceScreenSaver(Display *, int);
+extern int XFree(void *);
+extern int XFreeColormap(Display *, Colormap);
+extern int XFreeColors(Display *, Colormap, unsigned long *, int, unsigned long);
+extern int XFreeCursor(Display *, Cursor);
+extern int XFreeExtensionList(char **);
+extern int XFreeFont(Display *, XFontStruct *);
+extern int XFreeFontInfo(char **, XFontStruct *, int);
+extern int XFreeFontNames(char **);
+extern int XFreeFontPath(char **);
+extern int XFreeGC(Display *, GC);
+extern int XFreeModifiermap(XModifierKeymap *);
+extern int XFreePixmap(Display *, Pixmap);
+extern int XGeometry(Display *, int, const char *, const char *, unsigned int, unsigned int, unsigned int, int, int, int *, int *, int *, int *);
+extern int XGetErrorDatabaseText(Display *, const char *, const char *, const char *, char *, int);
+extern int XGetErrorText(Display *, int, char *, int);
+extern int XGetFontProperty(XFontStruct *, Atom, unsigned long *);
+extern int XGetGCValues(Display *, GC, unsigned long, XGCValues *);
+extern int XGetGeometry(Display *, Drawable, Window *, int *, int *, unsigned int *, unsigned int *, unsigned int *, unsigned int *);
+extern int XGetIconName(Display *, Window, char **);
+extern int XGetInputFocus(Display *, Window *, int *);
+extern int XGetKeyboardControl(Display *, XKeyboardState *);
+extern int XGetPointerControl(Display *, int *, int *, int *);
+extern int XGetPointerMapping(Display *, unsigned char *, int);
+extern int XGetScreenSaver(Display *, int *, int *, int *, int *);
+extern int XGetTransientForHint(Display *, Window, Window *);
+extern int XGetWindowProperty(Display *, Window, Atom, long, long, int, Atom, Atom *, int *, unsigned long *, unsigned long *, unsigned char **);
+extern int XGetWindowAttributes(Display *, Window, XWindowAttributes *);
+extern int XGrabButton(Display *, unsigned int, unsigned int, Window, int, unsigned int, int, int, Window, Cursor);
+extern int XGrabKey(Display *, int, unsigned int, Window, int, int, int);
+extern int XGrabKeyboard(Display *, Window, int, int, int, Time);
+extern int XGrabPointer(Display *, Window, int, unsigned int, int, int, Window, Cursor, Time);
+extern int XGrabServer(Display *);
+extern int XHeightMMOfScreen(Screen *);
+extern int XHeightOfScreen(Screen *);
+extern int XIfEvent(Display *, XEvent *, int (*)(Display *, XEvent *, XPointer), XPointer);
+extern int XImageByteOrder(Display *);
+extern int XInstallColormap(Display *, Colormap);
+extern KeyCode XKeysymToKeycode(Display *, KeySym);
+extern int XKillClient(Display *, XID);
+extern int XLookupColor(Display *, Colormap, const char *, XColor *, XColor *);
+extern int XLowerWindow(Display *, Window);
+extern int XMapRaised(Display *, Window);
+extern int XMapSubwindows(Display *, Window);
+extern int XMapWindow(Display *, Window);
+extern int XMaskEvent(Display *, long, XEvent *);
+extern int XMaxCmapsOfScreen(Screen *);
+extern int XMinCmapsOfScreen(Screen *);
+extern int XMoveResizeWindow(Display *, Window, int, int, unsigned int, unsigned int);
+extern int XMoveWindow(Display *, Window, int, int);
+extern int XNextEvent(Display *, XEvent *);
+extern int XNoOp(Display *);
+extern int XParseColor(Display *, Colormap, const char *, XColor *);
+extern int XParseGeometry(const char *, int *, int *, unsigned int *, unsigned int *);
+extern int XPeekEvent(Display *, XEvent *);
+extern int XPeekIfEvent(Display *, XEvent *, int (*)(Display *, XEvent *, XPointer), XPointer);
+extern int XPending(Display *);
+extern int XPlanesOfScreen(Screen *);
+extern int XProtocolRevision(Display *);
+extern int XProtocolVersion(Display *);
+extern int XPutBackEvent(Display *, XEvent *);
+extern int XPutImage(Display *, Drawable, GC, XImage *, int, int, int, int, unsigned int, unsigned int);
+extern int XQLength(Display *);
+extern int XQueryBestCursor(Display *, Drawable, unsigned int, unsigned int, unsigned int *, unsigned int *);
+extern int XQueryBestSize(Display *, int, Drawable, unsigned int, unsigned int, unsigned int *, unsigned int *);
+extern int XQueryBestStipple(Display *, Drawable, unsigned int, unsigned int, unsigned int *, unsigned int *);
+extern int XQueryBestTile(Display *, Drawable, unsigned int, unsigned int, unsigned int *, unsigned int *);
+extern int XQueryColor(Display *, Colormap, XColor *);
+extern int XQueryColors(Display *, Colormap, XColor *, int);
+extern int XQueryExtension(Display *, const char *, int *, int *, int *);
+extern int XQueryKeymap(Display *, char[32]);
+extern int XQueryPointer(Display *, Window, Window *, Window *, int *, int *, int *, int *, unsigned int *);
+extern int XQueryTextExtents(Display *, XID, const char *, int, int *, int *, int *, XCharStruct *);
+extern int XQueryTextExtents16(Display *, XID, const XChar2b *, int, int *, int *, int *, XCharStruct *);
+extern int XQueryTree(Display *, Window, Window *, Window *, Window **, unsigned int *);
+extern int XRaiseWindow(Display *, Window);
+extern int XReadBitmapFile(Display *, Drawable, const char *, unsigned int *, unsigned int *, Pixmap *, int *, int *);
+extern int XReadBitmapFileData(const char *, unsigned int *, unsigned int *, unsigned char **, int *, int *);
+extern int XRebindKeysym(Display *, KeySym, KeySym *, int, const unsigned char *, int);
+extern int XRecolorCursor(Display *, Cursor, XColor *, XColor *);
+extern int XRefreshKeyboardMapping(XMappingEvent *);
+extern int XRemoveFromSaveSet(Display *, Window);
+extern int XRemoveHost(Display *, XHostAddress *);
+extern int XRemoveHosts(Display *, XHostAddress *, int);
+extern int XReparentWindow(Display *, Window, Window, int, int);
+extern int XResetScreenSaver(Display *);
+extern int XResizeWindow(Display *, Window, unsigned int, unsigned int);
+extern int XRestackWindows(Display *, Window *, int);
+extern int XRotateBuffers(Display *, int);
+extern int XRotateWindowProperties(Display *, Window, Atom *, int, int);
+extern int XScreenCount(Display *);
+extern int XSelectInput(Display *, Window, long);
+extern int XSendEvent(Display *, Window, int, long, XEvent *);
+extern int XSetAccessControl(Display *, int);
+extern int XSetArcMode(Display *, GC, int);
+extern int XSetBackground(Display *, GC, unsigned long);
+extern int XSetClipMask(Display *, GC, Pixmap);
+extern int XSetClipOrigin(Display *, GC, int, int);
+extern int XSetClipRectangles(Display *, GC, int, int, XRectangle *, int, int);
+extern int XSetCloseDownMode(Display *, int);
+extern int XSetCommand(Display *, Window, char **, int);
+extern int XSetDashes(Display *, GC, int, const char *, int);
+extern int XSetFillRule(Display *, GC, int);
+extern int XSetFillStyle(Display *, GC, int);
+extern int XSetFont(Display *, GC, Font);
+extern int XSetFontPath(Display *, char **, int);
+extern int XSetForeground(Display *, GC, unsigned long);
+extern int XSetFunction(Display *, GC, int);
+extern int XSetGraphicsExposures(Display *, GC, int);
+extern int XSetIconName(Display *, Window, const char *);
+extern int XSetInputFocus(Display *, Window, int, Time);
+extern int XSetLineAttributes(Display *, GC, unsigned int, int, int, int);
+extern int XSetModifierMapping(Display *, XModifierKeymap *);
+extern int XSetPlaneMask(Display *, GC, unsigned long);
+extern int XSetPointerMapping(Display *, const unsigned char *, int);
+extern int XSetScreenSaver(Display *, int, int, int, int);
+extern int XSetSelectionOwner(Display *, Atom, Window, Time);
+extern int XSetState(Display *, GC, unsigned long, unsigned long, int, unsigned long);
+extern int XSetStipple(Display *, GC, Pixmap);
+extern int XSetSubwindowMode(Display *, GC, int);
+extern int XSetTSOrigin(Display *, GC, int, int);
+extern int XSetTile(Display *, GC, Pixmap);
+extern int XSetWindowBackground(Display *, Window, unsigned long);
+extern int XSetWindowBackgroundPixmap(Display *, Window, Pixmap);
+extern int XSetWindowBorder(Display *, Window, unsigned long);
+extern int XSetWindowBorderPixmap(Display *, Window, Pixmap);
+extern int XSetWindowBorderWidth(Display *, Window, unsigned int);
+extern int XSetWindowColormap(Display *, Window, Colormap);
+extern int XStoreBuffer(Display *, const char *, int, int);
+extern int XStoreBytes(Display *, const char *, int);
+extern int XStoreColor(Display *, Colormap, XColor *);
+extern int XStoreColors(Display *, Colormap, XColor *, int);
+extern int XStoreName(Display *, Window, const char *);
+extern int XStoreNamedColor(Display *, Colormap, const char *, unsigned long, int);
+extern int XSync(Display *, int);
+extern int XTextExtents(XFontStruct *, const char *, int, int *, int *, int *, XCharStruct *);
+extern int XTextExtents16(XFontStruct *, const XChar2b *, int, int *, int *, int *, XCharStruct *);
+extern int XTextWidth(XFontStruct *, const char *, int);
+extern int XTextWidth16(XFontStruct *, const XChar2b *, int);
+extern int XTranslateCoordinates(Display *, Window, Window, int, int, int *, int *, Window *);
+extern int XUndefineCursor(Display *, Window);
+extern int XUngrabButton(Display *, unsigned int, unsigned int, Window);
+extern int XUngrabKey(Display *, int, unsigned int, Window);
+extern int XUngrabKeyboard(Display *, Time);
+extern int XUngrabPointer(Display *, Time);
+extern int XUngrabServer(Display *);
+extern int XUninstallColormap(Display *, Colormap);
+extern int XUnloadFont(Display *, Font);
+extern int XUnmapSubwindows(Display *, Window);
+extern int XUnmapWindow(Display *, Window);
+extern int XVendorRelease(Display *);
+extern int XWarpPointer(Display *, Window, Window, int, int, unsigned int, unsigned int, int, int);
+extern int XWidthMMOfScreen(Screen *);
+extern int XWidthOfScreen(Screen *);
+extern int XWindowEvent(Display *, Window, long, XEvent *);
+extern int XWriteBitmapFile(Display *, const char *, Pixmap, unsigned int, unsigned int, int, int);
+extern int XSupportsLocale(void);
+extern char *XSetLocaleModifiers(const char *);
+extern XOM XOpenOM(Display *, struct _XrmHashBucketRec *, const char *, const char *);
+extern int XCloseOM(XOM);
+extern char *XSetOMValues(XOM, ...);
+extern char *XGetOMValues(XOM, ...);
+extern Display *XDisplayOfOM(XOM);
+extern char *XLocaleOfOM(XOM);
+extern XOC XCreateOC(XOM, ...);
+extern void XDestroyOC(XOC);
+extern XOM XOMOfOC(XOC);
+extern char *XSetOCValues(XOC, ...);
+extern char *XGetOCValues(XOC, ...);
+extern XFontSet XCreateFontSet(Display *, const char *, char ***, int *, char **);
+extern void XFreeFontSet(Display *, XFontSet);
+extern int XFontsOfFontSet(XFontSet, XFontStruct ***, char ***);
+extern char *XBaseFontNameListOfFontSet(XFontSet);
+extern char *XLocaleOfFontSet(XFontSet);
+extern int XContextDependentDrawing(XFontSet);
+extern int XDirectionalDependentDrawing(XFontSet);
+extern int XContextualDrawing(XFontSet);
+extern XFontSetExtents *XExtentsOfFontSet(XFontSet);
+extern int XmbTextEscapement(XFontSet, const char *, int);
+extern int XwcTextEscapement(XFontSet, const wchar_t *, int);
+extern int Xutf8TextEscapement(XFontSet, const char *, int);
+extern int XmbTextExtents(XFontSet, const char *, int, XRectangle *, XRectangle *);
+extern int XwcTextExtents(XFontSet, const wchar_t *, int, XRectangle *, XRectangle *);
+extern int Xutf8TextExtents(XFontSet, const char *, int, XRectangle *, XRectangle *);
+extern int XmbTextPerCharExtents(XFontSet, const char *, int, XRectangle *, XRectangle *, int, int *, XRectangle *, XRectangle *);
+extern int XwcTextPerCharExtents(XFontSet, const wchar_t *, int, XRectangle *, XRectangle *, int, int *, XRectangle *, XRectangle *);
+extern int Xutf8TextPerCharExtents(XFontSet, const char *, int, XRectangle *, XRectangle *, int, int *, XRectangle *, XRectangle *);
+extern void XmbDrawText(Display *, Drawable, GC, int, int, XmbTextItem *, int);
+extern void XwcDrawText(Display *, Drawable, GC, int, int, XwcTextItem *, int);
+extern void Xutf8DrawText(Display *, Drawable, GC, int, int, XmbTextItem *, int);
+extern void XmbDrawString(Display *, Drawable, XFontSet, GC, int, int, const char *, int);
+extern void XwcDrawString(Display *, Drawable, XFontSet, GC, int, int, const wchar_t *, int);
+extern void Xutf8DrawString(Display *, Drawable, XFontSet, GC, int, int, const char *, int);
+extern void XmbDrawImageString(Display *, Drawable, XFontSet, GC, int, int, const char *, int);
+extern void XwcDrawImageString(Display *, Drawable, XFontSet, GC, int, int, const wchar_t *, int);
+extern void Xutf8DrawImageString(Display *, Drawable, XFontSet, GC, int, int, const char *, int);
+extern XIM XOpenIM(Display *, struct _XrmHashBucketRec *, char *, char *);
+extern int XCloseIM(XIM);
+extern char *XGetIMValues(XIM, ...);
+extern char *XSetIMValues(XIM, ...);
+extern Display *XDisplayOfIM(XIM);
+extern char *XLocaleOfIM(XIM);
+extern XIC XCreateIC(XIM, ...);
+extern void XDestroyIC(XIC);
+extern void XSetICFocus(XIC);
+extern void XUnsetICFocus(XIC);
+extern wchar_t *XwcResetIC(XIC);
+extern char *XmbResetIC(XIC);
+extern char *Xutf8ResetIC(XIC);
+extern char *XSetICValues(XIC, ...);
+extern char *XGetICValues(XIC, ...);
+extern XIM XIMOfIC(XIC);
+extern int XFilterEvent(XEvent *, Window);
+extern int XmbLookupString(XIC, XKeyPressedEvent *, char *, int, KeySym *, int *);
+extern int XwcLookupString(XIC, XKeyPressedEvent *, wchar_t *, int, KeySym *, int *);
+extern int Xutf8LookupString(XIC, XKeyPressedEvent *, char *, int, KeySym *, int *);
+extern XVaNestedList XVaCreateNestedList(int, ...);
+extern int XRegisterIMInstantiateCallback(Display *, struct _XrmHashBucketRec *, char *, char *, XIDProc, XPointer);
+extern int XUnregisterIMInstantiateCallback(Display *, struct _XrmHashBucketRec *, char *, char *, XIDProc, XPointer);
+typedef void (*XConnectionWatchProc) (Display *, XPointer, int, int, XPointer *);
+extern int XInternalConnectionNumbers(Display *, int **, int *);
+extern void XProcessInternalConnection(Display *, int);
+extern int XAddConnectionWatch(Display *, XConnectionWatchProc, XPointer);
+extern void XRemoveConnectionWatch(Display *, XConnectionWatchProc, XPointer);
+extern void XSetAuthorization(char *, int, char *, int);
+extern int _Xmbtowc(wchar_t *, char *, int);
+extern int _Xwctomb(char *, wchar_t);
+extern int XGetEventData(Display *, XGenericEventCookie *);
+extern void XFreeEventData(Display *, XGenericEventCookie *);
 // /usr/include/X11/extensions/Xdbe.h
 
-typedef struct {VisualID visual ;int depth ;int perflevel ;}XdbeVisualInfo ;
-typedef struct {int count ;XdbeVisualInfo *visinfo ;}XdbeScreenVisualInfo ;
-typedef Drawable XdbeBackBuffer ;
-typedef unsigned char XdbeSwapAction ;
-typedef struct {Window swap_window ;XdbeSwapAction swap_action ;}XdbeSwapInfo ;
-typedef struct {Window window ;}XdbeBackBufferAttributes ;
-typedef struct {int type ;Display *display ;XdbeBackBuffer buffer ;unsigned long serial ;unsigned char error_code ;unsigned char request_code ;unsigned char minor_code ;}XdbeBufferError ;
-extern int XdbeQueryExtension (Display *,int *,int *);
-extern XdbeBackBuffer XdbeAllocateBackBufferName (Display *,Window ,XdbeSwapAction );
-extern int XdbeDeallocateBackBufferName (Display *,XdbeBackBuffer );
-extern int XdbeSwapBuffers (Display *,XdbeSwapInfo *,int );
-extern int XdbeBeginIdiom (Display *);
-extern int XdbeEndIdiom (Display *);
-extern XdbeScreenVisualInfo *XdbeGetVisualInfo (Display *,Drawable *,int *);
-extern void XdbeFreeVisualInfo (XdbeScreenVisualInfo *);
-extern XdbeBackBufferAttributes *XdbeGetBackBufferAttributes (Display *,XdbeBackBuffer );
-
-
-// /usr/include/X11/X.h 
-
-#define CirculateNotify (26)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNRequiredCharSet "requiredCharSet"
-#define DefaultVisualOfScreen(s) ( ( s ) -> root_visual )
-#define XIMUnderline (2l)
-#define XIMPreeditDisable (2l)
-
-
-// /usr/include/X11/X.h 
-
-#define AllowExposures (1)
-#define ExposureMask (32768l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayString(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> display_name )
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define DBE_PROTOCOL_NAME "DOUBLE-BUFFER"
-
+typedef struct {
+	VisualID visual;
+	int depth;
+	int perflevel;
+} XdbeVisualInfo;
+typedef struct {
+	int count;
+	XdbeVisualInfo *visinfo;
+} XdbeScreenVisualInfo;
+typedef Drawable XdbeBackBuffer;
+typedef unsigned char XdbeSwapAction;
+typedef struct {
+	Window swap_window;
+	XdbeSwapAction swap_action;
+} XdbeSwapInfo;
+typedef struct {
+	Window window;
+} XdbeBackBufferAttributes;
+typedef struct {
+	int type;
+	Display *display;
+	XdbeBackBuffer buffer;
+	unsigned long serial;
+	unsigned char error_code;
+	unsigned char request_code;
+	unsigned char minor_code;
+} XdbeBufferError;
+extern int XdbeQueryExtension(Display *, int *, int *);
+extern XdbeBackBuffer XdbeAllocateBackBufferName(Display *, Window, XdbeSwapAction);
+extern int XdbeDeallocateBackBufferName(Display *, XdbeBackBuffer);
+extern int XdbeSwapBuffers(Display *, XdbeSwapInfo *, int);
+extern int XdbeBeginIdiom(Display *);
+extern int XdbeEndIdiom(Display *);
+extern XdbeScreenVisualInfo *XdbeGetVisualInfo(Display *, Drawable *, int *);
+extern void XdbeFreeVisualInfo(XdbeScreenVisualInfo *);
+extern XdbeBackBufferAttributes *XdbeGetBackBufferAttributes(Display *, XdbeBackBuffer);
 
 // /usr/include/X11/X.h 
 
-#define NotifyAncestor (0)
-#define MappingModifier (0)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T 
-
-
-// /usr/include/X11/X.h 
-
-#define GrabFrozen (4)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define MaxCmapsOfScreen(s) ( ( s ) -> max_maps )
-#define XIMStringConversionChar (4)
-
-
-// /usr/include/X11/X.h 
-
-#define StaticGravity (10)
-#define StippleShape (2)
-#define FamilyInternet6 (6)
-#define CapProjecting (3)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define BlackPixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> black_pixel )
-
-
-// /usr/include/X11/X.h 
-
-#define AutoRepeatModeOn (1)
-#define GCFunction (1l)
-#define BadLength (16)
-#define GCTileStipYOrigin (8192l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNCursor "cursor"
-
-
-// /usr/include/X11/X.h 
-
-#define LockMask (2)
-#define ClientMessage (33)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNResourceClass "resourceClass"
-#define XIMStatusNothing (1024l)
-
-
-// /usr/include/X11/X.h 
-
-#define CWBorderPixel (8l)
-#define Mod1Mask (8)
-#define KeymapStateMask (16384l)
-#define AsyncKeyboard (3)
-#define LineSolid (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionLine (2)
-#define DefaultGC(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> default_gc )
-
-
-// /usr/include/X11/X.h 
-
-#define DoRed (1)
-#define DisableScreenInterval (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStatusArea (256l)
-
-
-// /usr/include/X11/X.h 
-
-#define LineOnOffDash (1)
-#define CopyFromParent (0l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditStateNotifyCallback "preeditStateNotifyCallback"
-
-
-// /usr/include/X11/X.h 
-
-#define IsUnmapped (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditAttributes "preeditAttributes"
-#define XNFontInfo "fontInfo"
-#define XNQueryICValuesList "queryICValuesList"
-
-
-// /usr/include/X11/X.h 
-
-#define ButtonMotionMask (8192l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultScreenOfDisplay(dpy) ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) )
-#define CellsOfScreen(s) ( DefaultVisualOfScreen ( ( s ) ) -> map_entries )
-
-
-// /usr/include/X11/X.h 
-
-#define SubstructureRedirectMask (1048576l)
-#define BadIDChoice (14)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_size_t_h 
-#define _SYS_SIZE_T_H 
-#define _SIZET_ 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNVaNestedList "XNVaNestedList"
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_ 
-
-
-// /usr/include/X11/X.h 
-
-#define ShiftMask (1)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __WCHAR_T__ 
-#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
-
-
-// /usr/include/X11/X.h 
-
-#define KeyPress (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNInputStyle "inputStyle"
-
-
-// /usr/include/X11/X.h 
-
-#define CWDontPropagate (4096l)
-#define BadCursor (6)
-#define MappingSuccess (0)
-#define FillStippled (2)
-#define Button3MotionMask (1024l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNClientWindow "clientWindow"
-#define XNPreeditState "preeditState"
-
-
-// /usr/include/X11/X.h 
-
-#define MapRequest (20)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionWord (3)
-
-
-// /usr/include/X11/X.h 
-
-#define X_H 
-#define KBKeyClickPercent (1l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayWidth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> width )
-
-
-// /usr/include/X11/X.h 
-
-#define Below (1)
-#define GrabSuccess (0)
-#define GXclear (0)
-#define PropertyNotify (28)
-#define ScreenSaverActive (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditNothing (8l)
-
-
-// /usr/include/X11/X.h 
-
-#define GrabNotViewable (3)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPrimary (32l)
-#define XIMStringConversionRightEdge (2)
-
-
-// /usr/include/X11/X.h 
-
-#define AllTemporary (0l)
-#define CWBackingPlanes (128l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define WhitePixelOfScreen(s) ( ( s ) -> white_pixel )
-#define XIMVisibleToBackword (512l)
-
-
-// /usr/include/X11/X.h 
-
-#define GCGraphicsExposures (65536l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionWrapped (32)
-
-
-// /usr/include/X11/X.h 
-
-#define CWBackingStore (64l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNBackground "background"
-
-
-// /usr/include/X11/X.h 
-
-#define Mod3Mask (32)
-#define ShiftMapIndex (0)
-#define GenericEvent (35)
-#define NorthEastGravity (3)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define True (1)
-#define XIMStringConversionBuffer (1)
-#define XNArea "area"
-
-
-// /usr/include/X11/X.h 
-
-#define NotifyNonlinear (3)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditUnKnown (0l)
-
-
-// /usr/include/X11/X.h 
-
-#define WestGravity (4)
-#define GXnoop (5)
-#define KeyRelease (3)
-#define DisableAccess (0)
-#define DestroyNotify (17)
-#define SyncKeyboard (4)
-#define GCArcMode (4194304l)
-#define LockMapIndex (1)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __wchar_t__ 
-
-
-// /usr/include/X11/X.h 
-
-#define Button5Mask (4096)
-#define TrueColor (4)
-#define Mod5Mask (128)
 #define GCBackground (8l)
-#define GXcopy (3)
-#define Button4Mask (2048)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayCells(dpy, scr) ( DefaultVisual ( dpy , scr ) -> map_entries )
-#define RootWindow(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root )
-
-
-// /usr/include/X11/X.h 
-
-#define ReplayKeyboard (5)
-#define CWBackPixmap (1l)
-#define AnyButton (0l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED_ 
-
-
-// /usr/include/X11/X.h 
-
-#define NotifyUngrab (2)
-#define FirstExtensionError (128)
-#define StaticColor (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultVisual(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_visual )
-
-
-// /usr/include/X11/X.h 
-
-#define PropertyNewValue (0)
-#define NotifyNormal (0)
-#define NotifyWhileGrabbed (3)
-#define EvenOddRule (0)
-#define GCLineWidth (16l)
-#define GXxor (6)
-#define NotUseful (0)
-#define SouthGravity (8)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNHotKeyState "hotKeyState"
-
-
-// /usr/include/X11/X.h 
-
-#define GCStipple (2048l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNResetState "resetState"
-
-
-// /usr/include/X11/X.h 
-
-#define BadGC (13)
-#define FillOpaqueStippled (3)
-#define KeyPressMask (1l)
-#define YSorted (1)
-#define MapNotify (19)
-#define RevertToPointerRoot ( int ) PointerRoot
-#define CapButt (1)
-#define WindingRule (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNDestroyCallback "destroyCallback"
-
-
-// /usr/include/X11/X.h 
-
-#define CWSibling (32)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define DbeNumberEvents (0)
-
-
-// /usr/include/X11/X.h 
-
-#define BottomIf (3)
-#define GCTile (1024l)
-#define _XTYPEDEF_MASK 
-#define PointerRoot (1l)
-
+#define KBBellPitch (4l)
 
 // /usr/include/X11/Xlib.h 
 
 #define XNDirectionalDependentDrawing "directionalDependentDrawing"
-#define XIMPreeditEnable (1l)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define XdbeBackground (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define Status int
-
+#define BitmapBitOrder(dpy) ( ( ( _XPrivDisplay ) dpy ) -> bitmap_bit_order )
+#define CellsOfScreen(s) ( DefaultVisualOfScreen ( ( s ) ) -> map_entries )
 
 // /usr/include/X11/X.h 
 
-#define ReplayPointer (2)
-#define TopIf (2)
-#define GCDashOffset (1048576l)
-#define CWOverrideRedirect (512l)
-#define FamilyInternet (0)
-#define CWWidth (4)
-#define AlreadyGrabbed (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DoesBackingStore(s) ( ( s ) -> backing_store )
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE 
-
-
-// /usr/include/X11/X.h 
-
-#define Always (2)
-#define Button2MotionMask (512l)
-#define SubstructureNotifyMask (524288l)
-#define FamilyServerInterpreted (5)
-#define XYBitmap (0)
-#define NotifyHint (1)
-#define CoordModePrevious (1)
-#define JoinRound (1)
-#define BadDrawable (9)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __WCHAR_T 
-
-
-// /usr/include/X11/X.h 
-
-#define EastGravity (6)
-#define TileShape (1)
-#define CWX (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMInitialState (1l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_PTRDIFF_ 
-
-
-// /usr/include/X11/extensions/Xdbe.h 
-
-#define XDBE_H 
-
-
-// /usr/include/X11/X.h 
-
-#define CapNotLast (0)
-#define NotifyDetailNone (7)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStatusDrawCallback "statusDrawCallback"
-
-
-// /usr/include/X11/X.h 
-
-#define CWBackingPixel (256l)
-#define GravityNotify (24)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMVisibleToForward (256l)
-
-
-// /usr/include/X11/X.h 
-
-#define VisibilityChangeMask (65536l)
-#define AutoRepeatModeDefault (2)
-#define ResizeRedirectMask (262144l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMSecondary (64l)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define XdbeUntouched (2)
-
-
-// /usr/include/X11/X.h 
-
-#define ParentRelative (1l)
-#define FocusIn (9)
-#define DisableScreenSaver (0)
-#define RetainPermanent (1)
-#define ZPixmap (2)
-#define Mod1MapIndex (3)
-#define Expose (12)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define WidthOfScreen(s) ( ( s ) -> width )
-
-
-// /usr/include/X11/X.h 
-
-#define Button3 (3)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _GCC_WCHAR_T 
-
-
-// /usr/include/X11/X.h 
-
-#define Button5 (5)
-#define Button1 (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define ScreenCount(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> nscreens )
-
-
-// /usr/include/X11/X.h 
-
-#define KBLedMode (32l)
-#define YXBanded (3)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define QLength(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> qlen )
-#define XIMStringConversionConcealed (16)
-#define XNPreeditDrawCallback "preeditDrawCallback"
-#define DefaultDepth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
-
-
-// /usr/include/X11/X.h 
-
-#define GrabInvalidTime (2)
-#define DestroyAll (0)
-#define VisibilityFullyObscured (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMVisibleToCenter (1024l)
-#define DisplayHeight(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> height )
-
-
-// /usr/include/X11/X.h 
-
-#define GCFillStyle (256l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define PlanesOfScreen(s) ( ( s ) -> root_depth )
-#define XIMTertiary (128l)
-
-
-// /usr/include/X11/X.h 
-
-#define GCClipXOrigin (131072l)
-#define PointerMotionMask (64l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define ConnectionNumber(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> fd )
-#define XNAreaNeeded "areaNeeded"
-
-
-// /usr/include/X11/X.h 
-
-#define HostDelete (1)
-#define CWBitGravity (16l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define HeightOfScreen(s) ( ( s ) -> height )
-
-
-// /usr/include/X11/X.h 
-
-#define KBAutoRepeatMode (128l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNResourceName "resourceName"
-
-
-// /usr/include/X11/X.h 
-
-#define GrabModeSync (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define BitmapBitOrder(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_bit_order )
-
-
-// /usr/include/X11/X.h 
-
-#define FillTiled (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNQueryOrientation "queryOrientation"
-#define HeightMMOfScreen(s) ( ( s ) -> mheight )
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t__ 
-
-
-// /usr/include/X11/X.h 
-
-#define GXcopyInverted (12)
-#define PropModePrepend (1)
-#define SouthEastGravity (9)
-#define JoinBevel (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define _X11_XLIB_H_ 
-
-
-// /usr/include/X11/X.h 
-
-#define DirectColor (5)
-#define Button3Mask (1024)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionTopEdge (4)
-
-
-// /usr/include/X11/X.h 
-
-#define Button4 (4)
-#define CWStackMode (64)
-#define ArcChord (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNQueryInputStyle "queryInputStyle"
-
-
-// /usr/include/X11/X.h 
-
-#define _XTYPEDEF_ATOM 
-#define GCDashList (2097152l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditStartCallback "preeditStartCallback"
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _ANSI_STDDEF_H 
-
-
-// /usr/include/X11/X.h 
-
-#define InputFocus (1l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStdColormap "stdColorMap"
-#define XNFilterEvents "filterEvents"
-
-
-// /usr/include/X11/X.h 
-
-#define Mod2Mask (16)
-#define BadColor (12)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define MinCmapsOfScreen(s) ( ( s ) -> min_maps )
-
-
-// /usr/include/X11/X.h 
-
-#define Button1MotionMask (256l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNPreeditDoneCallback "preeditDoneCallback"
-#define WhitePixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> white_pixel )
-
-
-// /usr/include/X11/X.h 
-
-#define VisibilityNotify (15)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XLookupNone (1)
-
-
-// /usr/include/X11/X.h 
-
-#define PropModeReplace (0)
-#define GrayScale (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define LastKnownRequestProcessed(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> last_request_read )
-
-
-// /usr/include/X11/X.h 
-
-#define GraphicsExpose (13)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T 
-
-
-// /usr/include/X11/X.h 
-
-#define AllocAll (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XLookupKeySym (3)
-
-
-// /usr/include/X11/X.h 
-
-#define KBKey (64l)
-#define BadImplementation (17)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define AllPlanes ( ( unsigned long ) ~ 0L )
-
-
-// /usr/include/X11/X.h 
-
-#define LeaveWindowMask (32l)
-#define SelectionRequest (30)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DoesSaveUnders(s) ( ( s ) -> save_unders )
-
-
-// /usr/include/X11/X.h 
-
-#define CWHeight (8)
-#define NotifyNonlinearVirtual (4)
-#define RaiseLowest (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStatusDoneCallback "statusDoneCallback"
-#define XIMStringConversionSubstitution (1)
-
-
-// /usr/include/X11/X.h 
-
-#define FocusChangeMask (2097152l)
-#define StaticGray (0)
-#define LedModeOn (1)
-#define EnterWindowMask (16l)
-#define LineDoubleDash (2)
-#define YXSorted (2)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DECLARED 
-
-
-// /usr/include/X11/X.h 
-
-#define ButtonRelease (5)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditArea (1l)
-
-
-// /usr/include/X11/X.h 
-
-#define AutoRepeatModeOff (0)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_DECLARED 
-#define _T_WCHAR_ 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionLeftEdge (1)
-
-
-// /usr/include/X11/X.h 
-
-#define GCFillRule (512l)
-#define EnterNotify (7)
-#define GCClipMask (524288l)
-#define ArcPieSlice (1)
-#define FontChange (255)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _PTRDIFF_T 
-
-
-// /usr/include/X11/X.h 
-
-#define CWY (2)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _STDDEF_H 
-
-
-// /usr/include/X11/X.h 
-
-#define GXequiv (9)
-#define ResizeRequest (25)
-#define DontPreferBlanking (0)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __PTRDIFF_T 
-
-
-// /usr/include/X11/X.h 
-
-#define RetainTemporary (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultColormapOfScreen(s) ( ( s ) -> cmap )
-
-
-// /usr/include/X11/X.h 
-
-#define MappingNotify (34)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XLookupBoth (4)
-
-
-// /usr/include/X11/X.h 
-
-#define ControlMapIndex (2)
-#define DefaultExposures (2)
-#define PlaceOnTop (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define EventMaskOfScreen(s) ( ( s ) -> root_input_mask )
-
-
-// /usr/include/X11/X.h 
-
-#define GXandInverted (4)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define NextRequest(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> request + 1 )
-
-
-// /usr/include/X11/X.h 
-
-#define PropModeAppend (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMHotKeyStateOFF (2l)
-#define Bool int
-
-
-// /usr/include/X11/X.h 
-
-#define FocusOut (10)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define ImageByteOrder(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> byte_order )
-
-
-// /usr/include/X11/X.h 
-
-#define MotionNotify (6)
-#define VisibilityUnobscured (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNContextualDrawing "contextualDrawing"
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_ 
-
-
-// /usr/include/X11/X.h 
-
-#define None (0l)
-#define Button2 (2)
-#define AnyKey (0l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define QueuedAlready (0)
-
-
-// /usr/include/X11/X.h 
-
+#define Button3MotionMask (1024l)
 #define GrabModeAsync (1)
 
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _GCC_PTRDIFF_T 
-
-
 // /usr/include/X11/Xlib.h 
 
-#define ProtocolRevision(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> proto_minor_version )
+#define XIMVisibleToBackword (512l)
 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-// /usr/include/X11/X.h 
-
-#define WhenMapped (1)
-#define Above (0)
-#define Nonconvex (1)
-#define UnmapNotify (18)
-#define CWBorderWidth (16)
-#define CWBackPixel (2l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayWidthMM(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> mwidth )
-#define ServerVendor(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> vendor )
-
-
-// /usr/include/X11/X.h 
-
-#define PreferBlanking (1)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __SIZE_T 
-
-
-// /usr/include/X11/X.h 
-
-#define GCJoinStyle (128l)
-#define GXorReverse (11)
-#define FillSolid (0)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define DBE_MINOR_VERSION (0)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _GCC_SIZE_T 
-
-
-// /usr/include/X11/X.h 
-
-#define FamilyDECnet (1)
-#define EnableAccess (1)
-#define PropertyChangeMask (4194304l)
-#define ColormapUninstalled (0)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define DBE_MAJOR_VERSION (1)
-
-
-// /usr/include/X11/X.h 
-
-#define CWBorderPixmap (4l)
-#define CapRound (2)
-#define MappingKeyboard (1)
-#define MSBFirst (1)
-#define SelectionNotify (31)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultColormap(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> cmap )
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _PTRDIFF_T_DECLARED 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define QueuedAfterFlush (2)
-
-
-// /usr/include/X11/X.h 
-
-#define ScreenSaverReset (0)
-#define Complex (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMHighlight (4l)
-
-
-// /usr/include/X11/X.h 
-
-#define InputOutput (1)
-#define ForgetGravity (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DisplayHeightMM(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> mheight )
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_DEFINED_ 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XlibSpecificationRelease (6)
-#define XNBackgroundPixmap "backgroundPixmap"
-#define ProtocolVersion(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> proto_major_version )
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_PTRDIFF_T_ 
-
-
-// /usr/include/X11/X.h 
-
-#define KBBellPitch (4l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStatusAttributes "statusAttributes"
-#define RootWindowOfScreen(s) ( ( s ) -> root )
-
-
-// /usr/include/X11/X.h 
-
-#define KeyReleaseMask (2l)
-#define X_PROTOCOL_REVISION (0)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _STDDEF_H_ 
-
-
-// /usr/include/X11/X.h 
-
-#define DoGreen (2)
-#define ColormapNotify (32)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStringConversionCallback "stringConversionCallback"
-
-
-// /usr/include/X11/X.h 
-
-#define NotifyInferior (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMReverse (1l)
-#define XIMStatusNone (2048l)
-#define DisplayOfScreen(s) ( ( s ) -> display )
-
-
-// /usr/include/X11/X.h 
-
-#define BadMatch (8)
-#define FamilyChaos (2)
-#define GCLineStyle (32l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define X_HAVE_UTF8_STRING (1)
-#define DisplayPlanes(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
-
-
-// /usr/include/X11/X.h 
-
-#define CreateNotify (16)
-#define IncludeInferiors (1)
-#define CurrentTime (0l)
-#define PointerWindow (0l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_ 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNForeground "foreground"
-
-
-// /usr/include/X11/X.h 
-
-#define MappingFailed (2)
-#define BadAccess (10)
-#define Button5MotionMask (4096l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNDefaultString "defaultString"
-
-
-// /usr/include/X11/X.h 
-
-#define GCClipYOrigin (262144l)
-#define Button2Mask (512)
-#define KBBellDuration (8l)
-#define RevertToParent (2)
-#define NorthWestGravity (1)
-#define BadFont (7)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultScreen(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> default_screen )
-
-
-// /usr/include/X11/X.h 
-
-#define ButtonPress (4)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNR6PreeditCallback "r6PreeditCallback"
-
-
-// /usr/include/X11/X.h 
-
-#define SetModeInsert (0)
-#define FontLeftToRight (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define WidthMMOfScreen(s) ( ( s ) -> mwidth )
-#define XIMPreeditPosition (4l)
-
-
-// /usr/include/X11/X.h 
-
-#define HostInsert (0)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define XdbeUndefined (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMStringConversionRetrieval (2)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_DEFINED 
-
-
-// /usr/include/X11/X.h 
-
-#define IsViewable (2)
-#define AsyncPointer (0)
-#define BadRequest (1)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_PTRDIFF 
-
-
-// /usr/include/X11/X.h 
-
-#define PropertyDelete (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define ScreenOfDisplay(dpy, scr) ( & ( ( _XPrivDisplay ) ( dpy ) ) -> screens [ scr ] )
-
-
-// /usr/include/X11/X.h 
-
-#define SyncBoth (7)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultRootWindow(dpy) ( ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) ) -> root )
-#define XIMStatusCallbacks (512l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __INT_WCHAR_T_H 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNFontSet "fontSet"
-
-
-// /usr/include/X11/X.h 
-
-#define _XTYPEDEF_XID 
-#define CWWinGravity (32l)
-#define Mod5MapIndex (7)
-#define GXorInverted (13)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNBaseFontName "baseFontName"
-
-
-// /usr/include/X11/X.h 
-
-#define ConfigureRequest (23)
-#define NotifyPointerRoot (6)
-#define CursorShape (0)
-#define CWColormap (8192l)
-
+#define __PTRDIFF_T
 
 // /usr/include/X11/Xlib.h 
 
 #define XNOMAutomatic "omAutomatic"
 
-
 // /usr/include/X11/X.h 
 
-#define ReparentNotify (21)
-#define CWEventMask (2048l)
-#define LSBFirst (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XLookupChars (2)
-
-
-// /usr/include/X11/X.h 
-
-#define CoordModeOrigin (0)
-#define BadAtom (5)
-#define BadWindow (3)
-#define Button1Mask (256)
-#define Unsorted (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNVisiblePosition "visiblePosition"
-
-
-// /usr/include/X11/X.h 
-
-#define JoinMiter (0)
-#define NoExpose (14)
-#define Mod3MapIndex (5)
-#define NotifyGrab (1)
-#define ControlMask (4)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define XdbeBadBuffer (0)
-
-
-// /usr/include/X11/X.h 
-
-#define ConfigureNotify (22)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNSpotLocation "spotLocation"
-
-
-// /usr/include/X11/X.h 
-
-#define CirculateRequest (27)
-#define GCTileStipXOrigin (4096l)
-#define KBLed (16l)
-#define GCFont (16384l)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define DBE_H 
-
-
-// /usr/include/X11/X.h 
-
-#define GXnand (14)
-#define NoSymbol (0l)
-
-
-// /usr/include/X11/extensions/dbe.h 
-
-#define DbeBadBuffer (0)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define VendorRelease(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> release )
-
-
-// /usr/include/X11/X.h 
-
-#define InputOnly (2)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNQueryIMValuesList "queryIMValuesList"
-
-
-// /usr/include/X11/X.h 
-
-#define LowerHighest (1)
-#define SouthWestGravity (7)
-#define SetModeDelete (1)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define NULL ( ( void * ) 0 )
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreserveState (2l)
-
-
-// /usr/include/X11/X.h 
-
-#define BadName (15)
-#define NotifyVirtual (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNStatusStartCallback "statusStartCallback"
-#define DefaultGCOfScreen(s) ( ( s ) -> default_gc )
-#define BitmapUnit(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_unit )
-
-
-// /usr/include/X11/X.h 
-
-#define ColormapInstalled (1)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define __size_t 
-
-
-// /usr/include/X11/X.h 
-
-#define AsyncBoth (6)
-#define GXset (15)
-#define FontRightToLeft (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNMissingCharSet "missingCharSet"
-#define XNSeparatorofNestedList "separatorofNestedList"
-
-
-// /usr/include/X11/X.h 
-
-#define GCCapStyle (64l)
-#define PseudoColor (3)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define DefaultDepthOfScreen(s) ( ( s ) -> root_depth )
-
-
-// /usr/include/X11/X.h 
-
-#define Opposite (4)
+#define AutoRepeatModeDefault (2)
+#define EvenOddRule (0)
+#define _XTYPEDEF_ATOM
+#define LeaveNotify (8)
+#define SubstructureNotifyMask (524288l)
+#define CWBackingStore (64l)
 #define NorthGravity (2)
-#define Mod4Mask (64)
+#define GCTile (1024l)
 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-// /usr/include/X11/Xlib.h 
-
-#define XBufferOverflow (-1)
-
-
-// /usr/include/X11/X.h 
-
-#define PointerMotionHintMask (128l)
-#define CWCursor (16384l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _SIZE_T_DEFINED 
-
-
-// /usr/include/X11/X.h 
-
-#define _XTYPEDEF_FONT 
-#define ClipByChildren (0)
-#define GCForeground (4l)
-
+#define offsetof(TYPE, MEMBER) __builtin_offsetof ( TYPE , MEMBER )
 
 // /usr/include/X11/Xlib.h 
 
-#define XIMStringConversionBottomEdge (8)
-#define XNStringConversion "stringConversion"
-#define XNOrientation "orientation"
-
+#define BitmapPad(dpy) ( ( ( _XPrivDisplay ) dpy ) -> bitmap_pad )
+#define DisplayCells(dpy, scr) ( DefaultVisual ( dpy , scr ) -> map_entries )
 
 // /usr/include/X11/X.h 
 
-#define ColormapChangeMask (8388608l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_ 
-#define __SIZE_T__ 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define BlackPixelOfScreen(s) ( ( s ) -> black_pixel )
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _PTRDIFF_T_ 
-
-
-// /usr/include/X11/X.h 
-
-#define GCSubwindowMode (32768l)
-#define GXinvert (10)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNHotKey "hotKey"
-#define XNColormap "colorMap"
-#define QueuedAfterReading (1)
-
-
-// /usr/include/X11/X.h 
-
-#define BadPixmap (4)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_ptrdiff_t_h 
-
-
-// /usr/include/X11/X.h 
-
-#define BadAlloc (11)
-#define UnmapGravity (0)
-#define LastExtensionError (255)
-#define XYPixmap (1)
-#define GCPlaneMask (2l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_WCHAR 
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XAllocID(dpy) ( ( * ( ( _XPrivDisplay ) ( dpy ) ) -> resource_alloc ) ( ( dpy ) ) )
-#define BitmapPad(dpy) ( ( ( _XPrivDisplay ) ( dpy ) ) -> bitmap_pad )
-
-
-// /usr/include/X11/X.h 
-
+#define FamilyDECnet (1)
+#define NotifyAncestor (0)
 #define GXandReverse (2)
 
-
 // /usr/include/X11/Xlib.h 
 
-#define XNPreeditCaretCallback "preeditCaretCallback"
-
-
-// /usr/include/X11/X.h 
-
-#define DontAllowExposures (0)
-#define DoBlue (4)
-#define Mod4MapIndex (6)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define False (0)
-
-
-// /usr/include/X11/X.h 
-
-#define PlaceOnBottom (1)
-#define GCLastBit (22)
-#define AllocNone (0)
-#define LeaveNotify (8)
-#define GXnor (8)
-#define GXor (7)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNGeometryCallback "geometryCallback"
-#define XIMPreeditNone (16l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define ___int_wchar_t_h 
-
-
-// /usr/include/X11/X.h 
-
-#define AnyModifier (32768)
-#define LASTEvent (36)
-#define Success (0)
-#define SelectionClear (29)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XNFocusWindow "focusWindow"
-
-
-// /usr/include/X11/X.h 
-
-#define KBBellPercent (2l)
-#define MappingPointer (2)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _T_SIZE_ 
-
-
-// /usr/include/X11/X.h 
-
-#define NotifyPointer (5)
-#define SyncPointer (1)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMPreeditCallbacks (2l)
-
-
-// /usr/include/X11/X.h 
-
-#define AnyPropertyType (0l)
-#define Convex (2)
-#define Button4MotionMask (2048l)
-#define DefaultBlanking (2)
-#define MappingBusy (1)
-#define X_PROTOCOL (11)
-#define StructureNotifyMask (131072l)
-
-
-// /usr/include/X11/Xlib.h 
-
-#define XIMHotKeyStateON (1l)
-
-
-// /usr/include/X11/X.h 
-
-#define NoEventMask (0l)
-#define IsUnviewable (1)
-#define Mod2MapIndex (4)
-#define KeymapNotify (11)
-#define CenterGravity (5)
-#define LedModeOff (0)
-#define BadValue (2)
-
+#define XNClientWindow "clientWindow"
 
 // /usr/include/X11/extensions/dbe.h 
 
 #define DbeNumberErrors (1)
 
-
 // /usr/include/X11/X.h 
 
-#define ButtonReleaseMask (8l)
-#define GXand (1)
-#define RevertToNone ( int ) None
+#define ConfigureNotify (22)
+#define NotUseful (0)
+#define AllocNone (0)
+#define DefaultBlanking (2)
+#define RetainTemporary (2)
+#define NotifyInferior (2)
+#define GXclear (0)
 
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionLine (2)
+#define XIMPreeditArea (1l)
+#define XIMPrimary (32l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE_
 
 // /usr/include/X11/extensions/dbe.h 
 
-#define XdbeCopied (3)
+#define DBE_PROTOCOL_NAME "DOUBLE-BUFFER"
 
+// /usr/include/X11/Xlib.h 
+
+#define XIMStatusArea (256l)
 
 // /usr/include/X11/X.h 
 
-#define CWSaveUnder (1024l)
-#define OwnerGrabButtonMask (16777216l)
-
-
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
-
-#define _WCHAR_T_H 
-
+#define Button1MotionMask (256l)
 
 // /usr/include/X11/Xlib.h 
 
 #define XNLineSpace "lineSpace"
 
+// /usr/include/X11/X.h 
+
+#define ControlMask (4)
+#define Mod4Mask (64)
+#define CWBorderWidth (16)
+#define CWX (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define DoesBackingStore(s) ( ( s ) -> backing_store )
+
+// /usr/include/X11/X.h 
+
+#define GCArcMode (4194304l)
+#define Mod5MapIndex (7)
+
+// /usr/include/X11/Xlib.h 
+
+#define WhitePixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> white_pixel )
+#define XNR6PreeditCallback "r6PreeditCallback"
+#define XIMStringConversionWrapped (32)
+
+// /usr/include/X11/X.h 
+
+#define Button4Mask (2048)
+
+// /usr/include/X11/Xlib.h 
+
+#define True (1)
+#define XNStatusDoneCallback "statusDoneCallback"
+
+// /usr/include/X11/X.h 
+
+#define SyncPointer (1)
+#define CWEventMask (2048l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultGC(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> default_gc )
+
+// /usr/include/X11/X.h 
+
+#define LineSolid (0)
+#define GrabInvalidTime (2)
+#define MappingPointer (2)
+#define GXorReverse (11)
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define DBE_H
+
+// /usr/include/X11/X.h 
+
+#define JoinRound (1)
+#define LastExtensionError (255)
+#define CWBitGravity (16l)
+#define Complex (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionSubstitution (1)
+
+// /usr/include/X11/X.h 
+
+#define CapProjecting (3)
+#define InputOutput (1)
+#define CurrentTime (0l)
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define XdbeBadBuffer (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define X_HAVE_UTF8_STRING (1)
+
+// /usr/include/X11/X.h 
+
+#define VisibilityNotify (15)
+#define HostInsert (0)
+#define SelectionRequest (30)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _PTRDIFF_T
+
+// /usr/include/X11/Xlib.h 
+
+#define XNSeparatorofNestedList "separatorofNestedList"
+
+// /usr/include/X11/X.h 
+
+#define LockMapIndex (1)
+#define FirstExtensionError (128)
+#define GCClipMask (524288l)
+#define ColormapChangeMask (8388608l)
+#define CWY (2)
+#define FontChange (255)
+#define EnterNotify (7)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNContextualDrawing "contextualDrawing"
+
+// /usr/include/X11/X.h 
+
+#define Convex (2)
+#define RevertToNone ( int ) None
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditAttributes "preeditAttributes"
+
+// /usr/include/X11/X.h 
+
+#define AllowExposures (1)
+#define DirectColor (5)
+
+// /usr/include/X11/extensions/Xdbe.h 
+
+#define XDBE_H
+
+// /usr/include/X11/X.h 
+
+#define CoordModePrevious (1)
+#define CirculateNotify (26)
+#define CenterGravity (5)
+
+// /usr/include/X11/Xlib.h 
+
+#define Status int
+
+// /usr/include/X11/X.h 
+
+#define Unsorted (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define ScreenCount(dpy) ( ( ( _XPrivDisplay ) dpy ) -> nscreens )
+
+// /usr/include/X11/X.h 
+
+#define SouthGravity (8)
+#define Button2MotionMask (512l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionTopEdge (4)
+
+// /usr/include/X11/X.h 
+
+#define NoSymbol (0l)
+#define RaiseLowest (0)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T__
+
+// /usr/include/X11/X.h 
+
+#define TrueColor (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditStartCallback "preeditStartCallback"
+
+// /usr/include/X11/X.h 
+
+#define LedModeOff (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define ProtocolVersion(dpy) ( ( ( _XPrivDisplay ) dpy ) -> proto_major_version )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __wchar_t__
+
+// /usr/include/X11/Xlib.h 
+
+#define _X11_XLIB_H_
+
+// /usr/include/X11/X.h 
+
+#define RetainPermanent (1)
+#define PointerMotionMask (64l)
+#define AllTemporary (0l)
+#define MappingFailed (2)
+#define KeyPressMask (1l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_wchar_t_h
+
+// /usr/include/X11/X.h 
+
+#define Mod2MapIndex (4)
+#define ScreenSaverActive (1)
+#define InputOnly (2)
+#define YXSorted (2)
+#define Mod4MapIndex (6)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNCursor "cursor"
+#define XNPreeditStateNotifyCallback "preeditStateNotifyCallback"
+
+// /usr/include/X11/X.h 
+
+#define GXinvert (10)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNBaseFontName "baseFontName"
+#define BitmapUnit(dpy) ( ( ( _XPrivDisplay ) dpy ) -> bitmap_unit )
+#define XNPreeditCaretCallback "preeditCaretCallback"
+
+// /usr/include/X11/X.h 
+
+#define Below (1)
+#define PointerWindow (0l)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayOfScreen(s) ( ( s ) -> display )
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define XdbeUntouched (2)
+
+// /usr/include/X11/X.h 
+
+#define BadWindow (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNOrientation "orientation"
+
+// /usr/include/X11/X.h 
+
+#define DoRed (1)
+#define NorthEastGravity (3)
+#define ButtonMotionMask (8192l)
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define DBE_MAJOR_VERSION (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define QLength(dpy) ( ( ( _XPrivDisplay ) dpy ) -> qlen )
+
+// /usr/include/X11/X.h 
+
+#define Mod3Mask (32)
+
+// /usr/include/X11/Xlib.h 
+
+#define HeightOfScreen(s) ( ( s ) -> height )
+#define XNQueryICValuesList "queryICValuesList"
+
+// /usr/include/X11/X.h 
+
+#define KeymapNotify (11)
+#define DisableScreenSaver (0)
+#define LockMask (2)
+#define AnyButton (0l)
+#define BadDrawable (9)
+
+// /usr/include/X11/Xlib.h 
+
+#define VendorRelease(dpy) ( ( ( _XPrivDisplay ) dpy ) -> release )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+
+// /usr/include/X11/X.h 
+
+#define ParentRelative (1l)
+
+// /usr/include/X11/Xlib.h 
+
+#define PlanesOfScreen(s) ( ( s ) -> root_depth )
+#define XNResourceName "resourceName"
+
+// /usr/include/X11/X.h 
+
+#define X_PROTOCOL (11)
+#define KBBellDuration (8l)
+#define GCFillRule (512l)
+
+// /usr/include/X11/Xlib.h 
+
+#define ScreenOfDisplay(dpy, scr) ( & ( ( _XPrivDisplay ) dpy ) -> screens [ scr ] )
+
+// /usr/include/X11/X.h 
+
+#define UnmapNotify (18)
+#define MotionNotify (6)
+#define Button1Mask (256)
+#define PropertyNewValue (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultColormapOfScreen(s) ( ( s ) -> cmap )
+
+// /usr/include/X11/X.h 
+
+#define VisibilityUnobscured (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultVisualOfScreen(s) ( ( s ) -> root_visual )
+#define XIMPreeditDisable (2l)
+
+// /usr/include/X11/X.h 
+
+#define ReplayKeyboard (5)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/X11/X.h 
+
+#define CWWidth (4)
+#define CapButt (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNMissingCharSet "missingCharSet"
+
+// /usr/include/X11/X.h 
+
+#define ZPixmap (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMHotKeyStateON (1l)
+
+// /usr/include/X11/X.h 
+
+#define Nonconvex (1)
+#define GXor (7)
+#define Button1 (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define RootWindow(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root )
+#define WidthOfScreen(s) ( ( s ) -> width )
 
 // /usr/include/X11/X.h 
 
 #define ButtonPressMask (4l)
+#define PlaceOnBottom (1)
+#define WhenMapped (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _WCHAR_T
+#define __size_t
+
+// /usr/include/X11/X.h 
+
+#define KeyReleaseMask (2l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNDefaultString "defaultString"
+
+// /usr/include/X11/X.h 
+
+#define BadGC (13)
+#define CWSaveUnder (1024l)
+#define PropertyNotify (28)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_
+
+// /usr/include/X11/X.h 
+
+#define GCDashList (2097152l)
+#define GCLineWidth (16l)
+#define AllocAll (1)
+#define CirculateRequest (27)
+#define ShiftMask (1)
+#define CWBorderPixmap (4l)
+#define StippleShape (2)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _STDDEF_H_
+
+// /usr/include/X11/X.h 
+
+#define StaticGray (0)
+#define GrabNotViewable (3)
+#define LASTEvent (36)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_PTRDIFF_T_
+
+// /usr/include/X11/Xlib.h 
+
+#define XNHotKey "hotKey"
+
+// /usr/include/X11/X.h 
+
+#define GCPlaneMask (2l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNQueryOrientation "queryOrientation"
+#define XNStdColormap "stdColorMap"
+#define XNBackground "background"
+
+// /usr/include/X11/X.h 
+
+#define KeyRelease (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNBackgroundPixmap "backgroundPixmap"
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __WCHAR_T
+
+// /usr/include/X11/X.h 
+
+#define Mod1MapIndex (3)
+#define StructureNotifyMask (131072l)
+#define GCLastBit (22)
+#define CursorShape (0)
+#define NotifyPointerRoot (6)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMVisibleToForward (256l)
+
+// /usr/include/X11/X.h 
+
+#define GCStipple (2048l)
+#define KBLed (16l)
+#define CapNotLast (0)
+#define X_PROTOCOL_REVISION (0)
+#define _XTYPEDEF_MASK
+#define PseudoColor (3)
+#define WestGravity (4)
+#define Mod1Mask (8)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNHotKeyState "hotKeyState"
+
+// /usr/include/X11/X.h 
+
+#define NoEventMask (0l)
+#define GXand (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _WCHAR_T_DEFINED
+
+// /usr/include/X11/X.h 
+
+#define ControlMapIndex (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayWidthMM(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> mwidth )
+
+// /usr/include/X11/X.h 
+
+#define CWBorderPixel (8l)
+#define CreateNotify (16)
+#define FamilyServerInterpreted (5)
+#define BadIDChoice (14)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
+
+// /usr/include/X11/X.h 
+
+#define GCDashOffset (1048576l)
+#define CoordModeOrigin (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNForeground "foreground"
+
+// /usr/include/X11/X.h 
+
+#define X_H
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_ptrdiff_t_h
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultVisual(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_visual )
+
+// /usr/include/X11/X.h 
+
+#define IsUnviewable (1)
+#define _XTYPEDEF_XID
+#define BadMatch (8)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNFocusWindow "focusWindow"
+#define XIMPreeditCallbacks (2l)
+
+// /usr/include/X11/X.h 
+
+#define CWBackPixel (2l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_size_t_h
+
+// /usr/include/X11/Xlib.h 
+
+#define NextRequest(dpy) ( ( ( _XPrivDisplay ) dpy ) -> request + 1 )
+#define XLookupChars (2)
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define DbeBadBuffer (0)
+#define XdbeBackground (1)
+
+// /usr/include/X11/X.h 
+
+#define ForgetGravity (0)
+#define EastGravity (6)
+#define None (0l)
+#define CWBackPixmap (1l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __size_t__
+
+// /usr/include/X11/X.h 
+
+#define BadImplementation (17)
+#define LeaveWindowMask (32l)
+#define TileShape (1)
+#define ButtonReleaseMask (8l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNColormap "colorMap"
+
+// /usr/include/X11/X.h 
+
+#define BadAtom (5)
+#define FamilyInternet6 (6)
+
+// /usr/include/X11/Xlib.h 
+
+#define ServerVendor(dpy) ( ( ( _XPrivDisplay ) dpy ) -> vendor )
+#define XIMTertiary (128l)
+#define XNStatusStartCallback "statusStartCallback"
+
+// /usr/include/X11/X.h 
+
+#define GraphicsExpose (13)
+#define GCCapStyle (64l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionBuffer (1)
+#define QueuedAfterReading (1)
+#define XIMStringConversionChar (4)
+#define XIMPreserveState (2l)
+
+// /usr/include/X11/X.h 
+
+#define MappingKeyboard (1)
+#define SouthWestGravity (7)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultRootWindow(dpy) ( ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) ) -> root )
+
+// /usr/include/X11/X.h 
+
+#define AsyncBoth (6)
+#define XYPixmap (1)
+#define DontPreferBlanking (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultColormap(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> cmap )
+
+// /usr/include/X11/X.h 
+
+#define DisableScreenInterval (0)
+#define _XTYPEDEF_FONT
+#define ResizeRequest (25)
+#define Success (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define BlackPixel(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> black_pixel )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionWord (3)
+
+// /usr/include/X11/X.h 
+
+#define BadAccess (10)
+#define NotifyNonlinearVirtual (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define XLookupBoth (4)
+
+// /usr/include/X11/X.h 
+
+#define PlaceOnTop (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMHighlight (4l)
+#define XIMStringConversionBottomEdge (8)
+#define AllPlanes ( ( unsigned long ) ~ 0L )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _GCC_SIZE_T
+
+// /usr/include/X11/X.h 
+
+#define TopIf (2)
+#define ArcChord (0)
+#define PropertyChangeMask (4194304l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNVisiblePosition "visiblePosition"
+#define QueuedAlready (0)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_WCHAR_
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define DBE_MINOR_VERSION (0)
+
+// /usr/include/X11/X.h 
+
+#define AsyncPointer (0)
+#define CWWinGravity (32l)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultDepth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
+
+// /usr/include/X11/X.h 
+
+#define HostDelete (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define QueuedAfterFlush (2)
+
+// /usr/include/X11/X.h 
+
+#define FillStippled (2)
+#define ButtonRelease (5)
+#define GXequiv (9)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditUnKnown (0l)
+
+// /usr/include/X11/X.h 
+
+#define EnterWindowMask (16l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNFontSet "fontSet"
+
+// /usr/include/X11/X.h 
+
+#define AsyncKeyboard (3)
+#define DisableAccess (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define False (0)
+#define XIMStatusCallbacks (512l)
+
+// /usr/include/X11/X.h 
+
+#define BadFont (7)
+#define KBLedMode (32l)
+#define GCJoinStyle (128l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMUnderline (2l)
+
+// /usr/include/X11/X.h 
+
+#define ArcPieSlice (1)
+#define BadCursor (6)
+#define GXnor (8)
+#define GCTileStipYOrigin (8192l)
+#define KBBellPercent (2l)
+#define GXcopy (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNDestroyCallback "destroyCallback"
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __WCHAR_T__
+
+// /usr/include/X11/X.h 
+
+#define DoGreen (2)
+#define AutoRepeatModeOff (0)
+#define MapNotify (19)
+#define LedModeOn (1)
+#define PointerMotionHintMask (128l)
+#define BadAlloc (11)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStringConversionLeftEdge (1)
+
+// /usr/include/X11/X.h 
+
+#define GCForeground (4l)
+#define MappingModifier (0)
+#define LineDoubleDash (2)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _WCHAR_T_H
+
+// /usr/include/X11/Xlib.h 
+
+#define XLookupNone (1)
+#define XIMStringConversionRetrieval (2)
+#define XIMStringConversionConcealed (16)
+
+// /usr/include/X11/X.h 
+
+#define PropModeAppend (2)
+#define FillOpaqueStippled (3)
+#define MapRequest (20)
+#define CWColormap (8192l)
+#define GXset (15)
+#define YXBanded (3)
+#define FamilyChaos (2)
+#define PropModePrepend (1)
+#define PropertyDelete (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNAreaNeeded "areaNeeded"
+
+// /usr/include/X11/X.h 
+
+#define KeyPress (2)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditNone (16l)
+
+// /usr/include/X11/X.h 
+
+#define SouthEastGravity (9)
+#define GCGraphicsExposures (65536l)
+#define GCClipXOrigin (131072l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNFilterEvents "filterEvents"
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_PTRDIFF_
+
+// /usr/include/X11/X.h 
+
+#define LineOnOffDash (1)
+#define NotifyPointer (5)
+#define GCClipYOrigin (262144l)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayWidth(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> width )
+
+// /usr/include/X11/X.h 
+
+#define DestroyNotify (17)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMStatusNothing (1024l)
+#define XIMStatusNone (2048l)
+#define XAllocID(dpy) ( ( * ( ( _XPrivDisplay ) dpy ) -> resource_alloc ) ( ( dpy ) ) )
+
+// /usr/include/X11/X.h 
+
+#define PointerRoot (1l)
+#define CWHeight (8)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _PTRDIFF_T_
+
+// /usr/include/X11/X.h 
+
+#define CopyFromParent (0l)
+#define CWCursor (16384l)
+
+// /usr/include/X11/Xlib.h 
+
+#define MinCmapsOfScreen(s) ( ( s ) -> min_maps )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE
+
+// /usr/include/X11/X.h 
+
+#define Button2Mask (512)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNResetState "resetState"
+#define XIMInitialState (1l)
+
+// /usr/include/X11/X.h 
+
+#define BadPixmap (4)
+#define ColormapUninstalled (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStringConversionCallback "stringConversionCallback"
+
+// /usr/include/X11/X.h 
+
+#define StaticColor (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNVaNestedList "XNVaNestedList"
+#define XNFontInfo "fontInfo"
+
+// /usr/include/X11/X.h 
+
+#define JoinBevel (2)
+#define CapRound (2)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _WCHAR_T_DEFINED_
+
+// /usr/include/X11/X.h 
+
+#define GCFont (16384l)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultScreenOfDisplay(dpy) ScreenOfDisplay ( dpy , DefaultScreen ( dpy ) )
+
+// /usr/include/X11/X.h 
+
+#define GCLineStyle (32l)
+
+// /usr/include/X11/Xlib.h 
+
+#define HeightMMOfScreen(s) ( ( s ) -> mheight )
+
+// /usr/include/X11/X.h 
+
+#define GenericEvent (35)
+#define NotifyNonlinear (3)
+#define UnmapGravity (0)
+#define DestroyAll (0)
+#define SyncKeyboard (4)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __INT_WCHAR_T_H
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayString(dpy) ( ( ( _XPrivDisplay ) dpy ) -> display_name )
+
+// /usr/include/X11/X.h 
+
+#define ClientMessage (33)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultDepthOfScreen(s) ( ( s ) -> root_depth )
+
+// /usr/include/X11/X.h 
+
+#define ShiftMapIndex (0)
+#define IsViewable (2)
+#define ButtonPress (4)
+#define Button3 (3)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultGCOfScreen(s) ( ( s ) -> default_gc )
+
+// /usr/include/X11/X.h 
+
+#define Button3Mask (1024)
+#define KeymapStateMask (16384l)
+#define ColormapInstalled (1)
 #define VisibilityPartiallyObscured (1)
+#define PropModeReplace (0)
+#define CWStackMode (64)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStatusDrawCallback "statusDrawCallback"
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define DbeNumberEvents (0)
+
+// /usr/include/X11/X.h 
+
+#define XYBitmap (0)
+#define NoExpose (14)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZET_
+
+// /usr/include/X11/X.h 
+
+#define LSBFirst (0)
+#define FillSolid (0)
+#define AutoRepeatModeOn (1)
+#define NotifyVirtual (1)
+#define SetModeDelete (1)
+#define BadRequest (1)
+#define FontRightToLeft (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XlibSpecificationRelease (6)
+
+// /usr/include/X11/X.h 
+
+#define GCSubwindowMode (32768l)
+
+// /usr/include/X11/Xlib.h 
+
+#define WhitePixelOfScreen(s) ( ( s ) -> white_pixel )
+
+// /usr/include/X11/X.h 
+
+#define MappingBusy (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayHeight(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> height )
+
+// /usr/include/X11/X.h 
+
+#define ConfigureRequest (23)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNStatusAttributes "statusAttributes"
+
+// /usr/include/X11/X.h 
+
+#define StaticGravity (10)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_
+
+// /usr/include/X11/X.h 
+
+#define CWSibling (32)
+#define FocusIn (9)
+
+// /usr/include/X11/Xlib.h 
+
+#define LastKnownRequestProcessed(dpy) ( ( ( _XPrivDisplay ) dpy ) -> last_request_read )
+#define ImageByteOrder(dpy) ( ( ( _XPrivDisplay ) dpy ) -> byte_order )
+
+// /usr/include/X11/X.h 
+
+#define Button4MotionMask (2048l)
+#define DefaultExposures (2)
+#define GXcopyInverted (12)
+#define RevertToPointerRoot ( int ) PointerRoot
+#define AnyPropertyType (0l)
+#define IncludeInferiors (1)
+#define GCFillStyle (256l)
+#define NotifyUngrab (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditNothing (8l)
+
+// /usr/include/X11/X.h 
+
+#define MappingNotify (34)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _STDDEF_H
+
+// /usr/include/X11/Xlib.h 
+
+#define MaxCmapsOfScreen(s) ( ( s ) -> max_maps )
+#define Bool int
+
+// /usr/include/X11/X.h 
+
+#define CWBackingPlanes (128l)
+#define ScreenSaverReset (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define DisplayHeightMM(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> mheight )
+
+// /usr/include/X11/X.h 
+
+#define GrabSuccess (0)
+#define YSorted (1)
+#define Always (2)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNGeometryCallback "geometryCallback"
+#define XNPreeditDoneCallback "preeditDoneCallback"
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _ANSI_STDDEF_H
+
+// /usr/include/X11/X.h 
+
+#define NotifyHint (1)
+#define InputFocus (1l)
+#define GXandInverted (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNResourceClass "resourceClass"
+
+// /usr/include/X11/X.h 
+
+#define CWDontPropagate (4096l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNArea "area"
+#define XNStringConversion "stringConversion"
+
+// /usr/include/X11/X.h 
+
+#define KBKey (64l)
+#define FillTiled (1)
+#define Opposite (4)
+#define AnyModifier (32768)
+#define NotifyNormal (0)
+#define PreferBlanking (1)
+#define SelectionNotify (31)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMHotKeyStateOFF (2l)
+
+// /usr/include/X11/X.h 
+
+#define SyncBoth (7)
+#define MSBFirst (1)
+#define Mod3MapIndex (5)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNInputStyle "inputStyle"
+
+// /usr/include/X11/X.h 
+
+#define GrabModeSync (0)
+#define IsUnmapped (0)
+#define OwnerGrabButtonMask (16777216l)
+
+// /usr/include/X11/Xlib.h 
+
+#define EventMaskOfScreen(s) ( ( s ) -> root_input_mask )
+
+// /usr/include/X11/X.h 
+
+#define FamilyInternet (0)
+#define SetModeInsert (0)
+#define NotifyGrab (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditDrawCallback "preeditDrawCallback"
+#define XIMStringConversionRightEdge (2)
+#define DoesSaveUnders(s) ( ( s ) -> save_unders )
+
+// /usr/include/X11/X.h 
+
+#define GravityNotify (24)
+#define BadColor (12)
+#define ResizeRedirectMask (262144l)
+#define DontAllowExposures (0)
+#define VisibilityChangeMask (65536l)
+#define FocusChangeMask (2097152l)
+#define KBKeyClickPercent (1l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_PTRDIFF
+
+// /usr/include/X11/Xlib.h 
+
+#define BlackPixelOfScreen(s) ( ( s ) -> black_pixel )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_WCHAR
+
+// /usr/include/X11/X.h 
+
+#define BottomIf (3)
+#define Button5MotionMask (4096l)
+#define BadName (15)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _WCHAR_T_
+#define _WCHAR_T_DECLARED
+
+// /usr/include/X11/X.h 
+
+#define VisibilityFullyObscured (2)
+#define JoinMiter (0)
+#define BadLength (16)
+
+// /usr/include/X11/Xlib.h 
+
+#define WidthMMOfScreen(s) ( ( s ) -> mwidth )
+#define ProtocolRevision(dpy) ( ( ( _XPrivDisplay ) dpy ) -> proto_minor_version )
+#define DisplayPlanes(dpy, scr) ( ScreenOfDisplay ( dpy , scr ) -> root_depth )
+
+// /usr/include/X11/X.h 
+
+#define Expose (12)
+
+// /usr/include/X11/Xlib.h 
+
+#define DefaultScreen(dpy) ( ( ( _XPrivDisplay ) dpy ) -> default_screen )
+#define XIMReverse (1l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/X11/X.h 
+
+#define BadValue (2)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _GCC_PTRDIFF_T
+
+// /usr/include/X11/X.h 
+
+#define ReplayPointer (2)
+#define GCTileStipXOrigin (4096l)
+#define KBAutoRepeatMode (128l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMSecondary (64l)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _GCC_WCHAR_T
+
+// /usr/include/X11/X.h 
+
+#define GCFunction (1l)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditPosition (4l)
+#define XIMVisibleToCenter (1024l)
+#define XBufferOverflow (-1)
+
+// /usr/include/X11/X.h 
+
+#define Button5Mask (4096)
+#define EnableAccess (1)
+#define Button5 (5)
+#define AnyKey (0l)
+#define NorthWestGravity (1)
+#define CWBackingPixel (256l)
+#define GXnand (14)
+
+// /usr/include/X11/Xlib.h 
+
+#define XIMPreeditEnable (1l)
+
+// /usr/include/X11/X.h 
+
+#define SelectionClear (29)
+#define RevertToParent (2)
+#define Mod2Mask (16)
+#define FocusOut (10)
+#define AlreadyGrabbed (1)
+
+// /usr/include/X11/Xlib.h 
+
+#define RootWindowOfScreen(s) ( ( s ) -> root )
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define XdbeUndefined (0)
+
+// /usr/include/X11/X.h 
+
+#define DoBlue (4)
+#define NotifyWhileGrabbed (3)
+#define ClipByChildren (0)
+#define ReparentNotify (21)
+#define Button2 (2)
+#define GrabFrozen (4)
+#define NotifyDetailNone (7)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNSpotLocation "spotLocation"
+
+// /usr/include/X11/X.h 
+
+#define Button4 (4)
+
+// /usr/include/X11/Xlib.h 
+
+#define ConnectionNumber(dpy) ( ( ( _XPrivDisplay ) dpy ) -> fd )
+
+// /usr/include/X11/X.h 
+
+#define LowerHighest (1)
+#define SubstructureRedirectMask (1048576l)
+#define Mod5Mask (128)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNQueryInputStyle "queryInputStyle"
+
+// /usr/include/X11/X.h 
+
+#define Above (0)
+#define ExposureMask (32768l)
+#define WindingRule (1)
+#define MappingSuccess (0)
+#define ColormapNotify (32)
+#define FontLeftToRight (0)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNQueryIMValuesList "queryIMValuesList"
+#define XLookupKeySym (3)
+
+// /usr/include/X11/X.h 
+
+#define GrayScale (1)
+#define CWOverrideRedirect (512l)
+#define GXxor (6)
+#define GXnoop (5)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNRequiredCharSet "requiredCharSet"
+
+// /usr/include/X11/X.h 
+
+#define GXorInverted (13)
+
+// /usr/include/X11/Xlib.h 
+
+#define XNPreeditState "preeditState"
+
+// /usr/include/X11/extensions/dbe.h 
+
+#define XdbeCopied (3)

@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/limits.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include-fixed/limits.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1992-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1992-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -28,25 +28,25 @@ a copy of the GCC Runtime Library Exception along with this program;
 see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 <http://www.gnu.org/licenses/>.  */
 
-	// /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/limits.h 
+	// /usr/lib64/gcc/x86_64-suse-linux/4.8/include-fixed/limits.h 
 
-#define _LIMITS_H___
-#define USHRT_MAX (65535)
-#define INT_MIN (-2147483648)
-#define ULONG_MAX (18446744073709551615ul)
 #define CHAR_MIN SCHAR_MIN
-#define SHRT_MIN (-32768)
-#define SHRT_MAX __SHRT_MAX__
-#define _GCC_LIMITS_H_
-#define INT_MAX __INT_MAX__
-#define SCHAR_MAX __SCHAR_MAX__
-#define UCHAR_MAX (255)
-#define ULLONG_MAX (18446744073709551615ull)
-#define UINT_MAX (4294967295u)
-#define LONG_MIN (-9223372036854775808l)
-#define LLONG_MIN (-9223372036854775808ll)
-#define LLONG_MAX __LONG_LONG_MAX__
+#define _LIMITS_H___
 #define LONG_MAX __LONG_MAX__
-#define SCHAR_MIN (-128)
-#define CHAR_BIT __CHAR_BIT__
+#define USHRT_MAX (65535)
+#define ULONG_MAX (18446744073709551615ul)
+#define INT_MIN (-2147483648)
+#define LLONG_MIN (-9223372036854775808ll)
+#define INT_MAX __INT_MAX__
+#define LLONG_MAX __LONG_LONG_MAX__
+#define SHRT_MAX __SHRT_MAX__
+#define UINT_MAX (4294967295u)
+#define _GCC_LIMITS_H_
 #define CHAR_MAX SCHAR_MAX
+#define SHRT_MIN (-32768)
+#define UCHAR_MAX (255)
+#define CHAR_BIT __CHAR_BIT__
+#define LONG_MIN (-9223372036854775808l)
+#define ULLONG_MAX (18446744073709551615ull)
+#define SCHAR_MAX __SCHAR_MAX__
+#define SCHAR_MIN (-128)

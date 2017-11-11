@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stdbool.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stdbool.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1998-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1998-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -28,10 +28,10 @@ a copy of the GCC Runtime Library Exception along with this program;
 see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 <http://www.gnu.org/licenses/>.  */
 
-	// /usr/lib/gcc/x86_64-linux-gnu/6/include/stdbool.h 
+	// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stdbool.h 
 
-#define __bool_true_false_are_defined (1)
-#define _STDBOOL_H
 #define true (1)
 #define false (0)
+#define __bool_true_false_are_defined (1)
 #define bool _Bool
+#define _STDBOOL_H

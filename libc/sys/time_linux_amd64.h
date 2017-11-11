@@ -5,7 +5,7 @@
 // ----------------------------------------------------------------------------
 //      /usr/include/time.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -23,9 +23,9 @@
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/x86_64-linux-gnu/sys/time.h
+//      /usr/include/sys/time.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -99,28 +99,36 @@ typedef unsigned int __socklen_t;
 // /usr/include/time.h
 
 typedef __time_t time_t;
-// /usr/include/x86_64-linux-gnu/bits/time.h
+// /usr/include/bits/time.h
 
 struct timeval {
 	__time_t tv_sec;
 	__suseconds_t tv_usec;
 };
-// /usr/include/x86_64-linux-gnu/bits/sigset.h
+// /usr/include/bits/sigset.h
 
 typedef int __sig_atomic_t;
 typedef struct {
 	unsigned long int __val[16l];
 } __sigset_t;
-// /usr/include/x86_64-linux-gnu/sys/select.h
+// /usr/include/sys/select.h
 
 typedef __sigset_t sigset_t;
+// /usr/include/time.h
+
+struct timespec {
+	__time_t tv_sec;
+	__syscall_slong_t tv_nsec;
+};
+// /usr/include/sys/select.h
+
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
 typedef struct {
 	__fd_mask fds_bits[16];
 } fd_set;
 extern int select(int __nfds, fd_set * __readfds, fd_set * __writefds, fd_set * __exceptfds, struct timeval *__timeout);
-// /usr/include/x86_64-linux-gnu/sys/time.h
+// /usr/include/sys/time.h
 
 typedef void *__timezone_ptr_t;
 extern int gettimeofday(struct timeval *__tv, __timezone_ptr_t __tz);
@@ -134,100 +142,110 @@ extern int getitimer(__itimer_which_t __which, struct itimerval *__value);
 extern int setitimer(__itimer_which_t __which, const struct itimerval *__new, struct itimerval *__old);
 extern int utimes(const char *__file, const struct timeval __tvp[2]);
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/bits/types.h 
+
+#define __U32_TYPE unsigned int
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/include/sys/select.h 
+
+#define __NFDBITS ( 8 * ( int ) sizeof ( __fd_mask ) )
+
+// /usr/include/bits/sigset.h 
+
+#define _SIGSET_NWORDS ( 1024 / ( 8 * sizeof ( unsigned long int ) ) )
+
+// /usr/include/sys/select.h 
+
+#define __suseconds_t_defined
+#define FD_ZERO(fdsetp) __FD_ZERO ( fdsetp )
+#define __FDS_BITS(set) ( ( set ) -> fds_bits )
+
+// /usr/include/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/include/time.h 
+
+#define __timespec_defined (1)
+
+// /usr/include/bits/sigset.h 
+
+#define _SIGSET_H_types (1)
+
+// /usr/include/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/include/sys/time.h 
+
+#define ITIMER_REAL ITIMER_REAL
+
+// /usr/include/sys/select.h 
+
+#define FD_ISSET(fd, fdsetp) __FD_ISSET ( fd , fdsetp )
+
+// /usr/include/bits/types.h 
 
 #define __SLONG32_TYPE int
-#define __S16_TYPE short int
-#define __SLONGWORD_TYPE long int
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
+// /usr/include/sys/select.h 
 
-#define FD_SET(fd, fdsetp) __FD_SET ( fd , fdsetp )
-#define __suseconds_t_defined
-#define __NFDBITS ( 8 * ( int ) sizeof ( __fd_mask ) )
-#define __FD_ELT(d) ( ( d ) / __NFDBITS )
+#define FD_CLR(fd, fdsetp) __FD_CLR ( fd , fdsetp )
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/sys/time.h 
+// /usr/include/sys/time.h 
 
 #define ITIMER_VIRTUAL ITIMER_VIRTUAL
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/sys/select.h 
 
-#define __ULONGWORD_TYPE unsigned long int
+#define _SYS_SELECT_H (1)
+#define FD_SETSIZE __FD_SETSIZE
 
-// /usr/include/x86_64-linux-gnu/sys/time.h 
-
-#define _SYS_TIME_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/bits/types.h 
 
 #define __U64_TYPE unsigned long int
-#define __S32_TYPE int
+#define __UWORD_TYPE unsigned long int
+#define __SWORD_TYPE long int
+#define __ULONG32_TYPE unsigned int
+#define __SQUAD_TYPE long int
+
+// /usr/include/sys/select.h 
+
+#define __sigset_t_defined
+
+// /usr/include/bits/time.h 
+
+#define _STRUCT_TIMEVAL (1)
 
 // /usr/include/time.h 
 
 #define __time_t_defined (1)
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/bits/types.h 
 
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __FDS_BITS(set) ( ( set ) -> fds_bits )
-
-// /usr/include/x86_64-linux-gnu/sys/time.h 
-
-#define ITIMER_PROF ITIMER_PROF
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define FD_SETSIZE __FD_SETSIZE
-#define FD_ZERO(fdsetp) __FD_ZERO ( fdsetp )
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _SIGSET_H_types (1)
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __FD_MASK(d) ( ( __fd_mask ) ( 1UL << ( ( d ) % __NFDBITS ) ) )
-#define FD_CLR(fd, fdsetp) __FD_CLR ( fd , fdsetp )
-#define _SYS_SELECT_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _SIGSET_NWORDS ( 1024 / ( 8 * sizeof ( unsigned long int ) ) )
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-#define __SWORD_TYPE long int
-#define __SQUAD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __sigset_t_defined
-
-// /usr/include/x86_64-linux-gnu/sys/time.h 
-
-#define ITIMER_REAL ITIMER_REAL
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
-#define __UWORD_TYPE unsigned long int
-#define _BITS_TYPES_H (1)
 #define __U16_TYPE unsigned short int
 
-// /usr/include/x86_64-linux-gnu/bits/time.h 
+// /usr/include/sys/select.h 
 
-#define _STRUCT_TIMEVAL (1)
+#define __FD_MASK(d) ( ( __fd_mask ) ( 1UL << ( ( d ) % __NFDBITS ) ) )
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
+// /usr/include/bits/types.h 
 
-#define FD_ISSET(fd, fdsetp) __FD_ISSET ( fd , fdsetp )
+#define _BITS_TYPES_H (1)
+
+// /usr/include/sys/select.h 
+
+#define FD_SET(fd, fdsetp) __FD_SET ( fd , fdsetp )
+#define __FD_ELT(d) ( ( d ) / __NFDBITS )
+
+// /usr/include/bits/types.h 
+
+#define __S16_TYPE short int
+#define __SLONGWORD_TYPE long int
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/sys/time.h 
+
+#define ITIMER_PROF ITIMER_PROF
+#define _SYS_TIME_H (1)

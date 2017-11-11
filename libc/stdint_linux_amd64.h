@@ -5,7 +5,7 @@
 // ----------------------------------------------------------------------------
 //      /usr/include/stdint.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1997-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1997-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -53,68 +53,68 @@ typedef unsigned long int uintmax_t;
 
 // /usr/include/stdint.h 
 
-#define INT_FAST32_MAX (9223372036854775807l)
-#define INT32_C(c) c
-#define INT_LEAST16_MAX (32767)
-#define UINT_LEAST64_MAX (18446744073709551615ul)
 #define INT64_MIN (-9223372036854775808l)
-#define INT_LEAST16_MIN (-32768)
-#define INT_FAST8_MAX (127)
-#define UINT_LEAST16_MAX (65535)
-#define __uint32_t_defined
-#define INT16_MIN (-32768)
-#define INT8_MAX (127)
-#define __intptr_t_defined
-#define INTMAX_MAX (9223372036854775807l)
-#define INT_LEAST64_MIN (-9223372036854775808l)
-#define UINT64_MAX (18446744073709551615ul)
-#define WINT_MAX (4294967295u)
-#define UINTMAX_C(c) c ## UL
-#define UINT_FAST32_MAX (18446744073709551615ul)
-#define INTPTR_MIN (-9223372036854775808l)
-#define INT32_MAX (2147483647)
-#define INTMAX_C(c) c ## L
-#define INT_FAST16_MAX (9223372036854775807l)
-#define UINT_LEAST32_MAX (4294967295u)
-#define SIG_ATOMIC_MIN (-2147483648)
-#define INT16_MAX (32767)
-#define UINT16_MAX (65535)
-#define INT64_C(c) c ## L
-#define UINT_LEAST8_MAX (255)
-#define SIZE_MAX (18446744073709551615ul)
-#define INT_FAST8_MIN (-128)
-#define UINT64_C(c) c ## UL
-#define INT_FAST32_MIN (-9223372036854775808l)
 #define INT_FAST16_MIN (-9223372036854775808l)
-#define UINT32_MAX (4294967295u)
-#define UINTMAX_MAX (18446744073709551615ul)
-#define INT_LEAST64_MAX (9223372036854775807l)
-#define UINT32_C(c) c ## U
-#define WINT_MIN (0u)
-#define WCHAR_MAX __WCHAR_MAX
-#define INT_FAST64_MAX (9223372036854775807l)
-#define UINT_FAST16_MAX (18446744073709551615ul)
-#define INTMAX_MIN (-9223372036854775808l)
-#define _STDINT_H (1)
-#define UINT8_MAX (255)
-#define INT16_C(c) c
+#define INT32_C(c) c
+#define UINT16_MAX (65535)
+#define WINT_MAX (4294967295u)
+#define UINT64_C(c) c ## UL
+#define INTPTR_MIN (-9223372036854775808l)
 #define PTRDIFF_MIN (-9223372036854775808l)
-#define INT32_MIN (-2147483648)
-#define INT_LEAST32_MAX (2147483647)
-#define INT_LEAST8_MAX (127)
-#define INT_FAST64_MIN (-9223372036854775808l)
-#define INT8_C(c) c
-#define __int8_t_defined
-#define UINTPTR_MAX (18446744073709551615ul)
-#define INTPTR_MAX (9223372036854775807l)
-#define INT_LEAST8_MIN (-128)
-#define UINT_FAST64_MAX (18446744073709551615ul)
-#define PTRDIFF_MAX (9223372036854775807l)
-#define UINT8_C(c) c
-#define WCHAR_MIN __WCHAR_MIN
-#define INT64_MAX (9223372036854775807l)
+#define UINT8_MAX (255)
+#define _STDINT_H (1)
+#define INT_FAST64_MAX (9223372036854775807l)
 #define INT8_MIN (-128)
-#define INT_LEAST32_MIN (-2147483648)
-#define UINT16_C(c) c
+#define SIG_ATOMIC_MIN (-2147483648)
+#define __uint32_t_defined
+#define INT_LEAST16_MIN (-32768)
+#define __intptr_t_defined
+#define UINTMAX_C(c) c ## UL
+#define WCHAR_MAX __WCHAR_MAX
+#define UINT_FAST16_MAX (18446744073709551615ul)
+#define INT_FAST32_MIN (-9223372036854775808l)
+#define UINT8_C(c) c
+#define INT_LEAST64_MIN (-9223372036854775808l)
+#define UINT_LEAST64_MAX (18446744073709551615ul)
+#define INT8_C(c) c
+#define PTRDIFF_MAX (9223372036854775807l)
+#define INT_LEAST32_MAX (2147483647)
+#define INT32_MAX (2147483647)
+#define INT_FAST32_MAX (9223372036854775807l)
+#define INT64_MAX (9223372036854775807l)
+#define INT_FAST64_MIN (-9223372036854775808l)
+#define INTPTR_MAX (9223372036854775807l)
+#define INT16_C(c) c
+#define INT32_MIN (-2147483648)
+#define INT_FAST8_MIN (-128)
 #define UINT_FAST8_MAX (255)
 #define SIG_ATOMIC_MAX (2147483647)
+#define INT64_C(c) c ## L
+#define __int8_t_defined
+#define INT16_MIN (-32768)
+#define INT_LEAST8_MIN (-128)
+#define INT_LEAST64_MAX (9223372036854775807l)
+#define UINTMAX_MAX (18446744073709551615ul)
+#define INT_LEAST32_MIN (-2147483648)
+#define INT8_MAX (127)
+#define WINT_MIN (0u)
+#define UINT_FAST64_MAX (18446744073709551615ul)
+#define INTMAX_C(c) c ## L
+#define INT_LEAST8_MAX (127)
+#define INTMAX_MIN (-9223372036854775808l)
+#define INTMAX_MAX (9223372036854775807l)
+#define UINT16_C(c) c
+#define UINTPTR_MAX (18446744073709551615ul)
+#define UINT_FAST32_MAX (18446744073709551615ul)
+#define UINT64_MAX (18446744073709551615ul)
+#define UINT32_C(c) c ## U
+#define INT_LEAST16_MAX (32767)
+#define UINT_LEAST16_MAX (65535)
+#define INT_FAST16_MAX (9223372036854775807l)
+#define UINT_LEAST32_MAX (4294967295u)
+#define UINT32_MAX (4294967295u)
+#define UINT_LEAST8_MAX (255)
+#define WCHAR_MIN __WCHAR_MIN
+#define INT_FAST8_MAX (127)
+#define SIZE_MAX (18446744073709551615ul)
+#define INT16_MAX (32767)

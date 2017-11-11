@@ -56,22 +56,22 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef long int __intptr_t;
 typedef unsigned int __socklen_t;
-// /usr/include/x86_64-linux-gnu/bits/sigset.h
+// /usr/include/bits/sigset.h
 
 typedef int __sig_atomic_t;
 typedef struct {
 	unsigned long int __val[16l];
 } __sigset_t;
-// /usr/include/x86_64-linux-gnu/sys/select.h
+// /usr/include/sys/select.h
 
 typedef __sigset_t sigset_t;
-// /usr/include/x86_64-linux-gnu/bits/time.h
+// /usr/include/bits/time.h
 
 struct timeval {
 	__time_t tv_sec;
 	__suseconds_t tv_usec;
 };
-// /usr/include/x86_64-linux-gnu/sys/select.h
+// /usr/include/sys/select.h
 
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
@@ -80,205 +80,198 @@ typedef struct {
 } fd_set;
 extern int select(int __nfds, fd_set * __readfds, fd_set * __writefds, fd_set * __exceptfds, struct timeval *__timeout);
 
-// /usr/include/x86_64-linux-gnu/bits/time.h 
+// /usr/include/bits/typesizes.h 
 
-#define _STRUCT_TIMEVAL (1)
+#define __ID_T_TYPE __U32_TYPE
+#define __NLINK_T_TYPE __SYSCALL_ULONG_TYPE
+#define __TIMER_T_TYPE void *
 
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __MODE_T_TYPE __U32_TYPE
-#define __USECONDS_T_TYPE __U32_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define FD_SET(fd, fdsetp) __FD_SET ( fd , fdsetp )
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __RLIM_T_TYPE __SYSCALL_ULONG_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define FD_ISSET(fd, fdsetp) __FD_ISSET ( fd , fdsetp )
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __SSIZE_T_TYPE __SWORD_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SWORD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __BLKCNT64_T_TYPE __SQUAD_TYPE
-#define __OFF_T_TYPE __SYSCALL_SLONG_TYPE
-#define __SYSCALL_SLONG_TYPE __SLONGWORD_TYPE
-#define __FSBLKCNT_T_TYPE __SYSCALL_ULONG_TYPE
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define _SYS_SELECT_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __TIME_T_TYPE __SYSCALL_SLONG_TYPE
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __NFDBITS ( 8 * ( int ) sizeof ( __fd_mask ) )
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __CLOCK_T_TYPE __SYSCALL_SLONG_TYPE
-#define __BLKCNT_T_TYPE __SYSCALL_SLONG_TYPE
-#define __SYSCALL_ULONG_TYPE __ULONGWORD_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
+// /usr/include/bits/sigset.h 
 
 #define _SIGSET_NWORDS ( 1024 / ( 8 * sizeof ( unsigned long int ) ) )
 
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
+// /usr/include/bits/typesizes.h 
 
 #define __DADDR_T_TYPE __S32_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _SIGSET_H_types (1)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __FD_ELT(d) ( ( d ) / __NFDBITS )
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __FD_SETSIZE (1024)
-#define __PID_T_TYPE __S32_TYPE
-#define __FSWORD_T_TYPE __SYSCALL_SLONG_TYPE
-#define __FSID_T_TYPE struct { int __val [ 2 ] ; }
-#define __FSBLKCNT64_T_TYPE __UQUAD_TYPE
-#define __INO_T_MATCHES_INO64_T (1)
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __sigset_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
+#define __INO_T_TYPE __SYSCALL_ULONG_TYPE
+#define __OFF_T_MATCHES_OFF64_T (1)
 #define __INO64_T_TYPE __UQUAD_TYPE
-#define __FSFILCNT64_T_TYPE __UQUAD_TYPE
-#define __FSFILCNT_T_TYPE __SYSCALL_ULONG_TYPE
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S32_TYPE int
-#define __U32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __NLINK_T_TYPE __SYSCALL_ULONG_TYPE
-#define __CPU_MASK_TYPE __SYSCALL_ULONG_TYPE
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __FDS_BITS(set) ( ( set ) -> fds_bits )
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __TIMER_T_TYPE void *
-#define __GID_T_TYPE __U32_TYPE
-#define __BLKSIZE_T_TYPE __SYSCALL_SLONG_TYPE
-#define __ID_T_TYPE __U32_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __SUSECONDS_T_TYPE __SYSCALL_SLONG_TYPE
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
-
-#define __suseconds_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __CLOCKID_T_TYPE __S32_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __UID_T_TYPE __U32_TYPE
-#define __KEY_T_TYPE __S32_TYPE
-#define __OFF64_T_TYPE __SQUAD_TYPE
-
-// /usr/include/x86_64-linux-gnu/sys/select.h 
+// /usr/include/sys/select.h 
 
 #define __FD_MASK(d) ( ( __fd_mask ) ( 1UL << ( ( d ) % __NFDBITS ) ) )
 
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
+// /usr/include/bits/typesizes.h 
+
+#define __BLKCNT_T_TYPE __SYSCALL_SLONG_TYPE
+#define __MODE_T_TYPE __U32_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __SWORD_TYPE long int
+
+// /usr/include/sys/select.h 
+
+#define _SYS_SELECT_H (1)
+#define FD_CLR(fd, fdsetp) __FD_CLR ( fd , fdsetp )
+
+// /usr/include/bits/typesizes.h 
+
+#define __UID_T_TYPE __U32_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/bits/typesizes.h 
+
+#define __BLKSIZE_T_TYPE __SYSCALL_SLONG_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+
+// /usr/include/bits/typesizes.h 
+
+#define __FSWORD_T_TYPE __SYSCALL_SLONG_TYPE
+#define __SUSECONDS_T_TYPE __SYSCALL_SLONG_TYPE
+
+// /usr/include/sys/select.h 
+
+#define __NFDBITS ( 8 * ( int ) sizeof ( __fd_mask ) )
+
+// /usr/include/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/bits/typesizes.h 
+
+#define __OFF_T_TYPE __SYSCALL_SLONG_TYPE
+#define __CLOCK_T_TYPE __SYSCALL_SLONG_TYPE
+#define __FSFILCNT_T_TYPE __SYSCALL_ULONG_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/include/bits/typesizes.h 
+
+#define __RLIM_T_TYPE __SYSCALL_ULONG_TYPE
+#define __PID_T_TYPE __S32_TYPE
+#define __SSIZE_T_TYPE __SWORD_TYPE
+#define __BLKCNT64_T_TYPE __SQUAD_TYPE
+
+// /usr/include/bits/sigset.h 
+
+#define _SIGSET_H_types (1)
+
+// /usr/include/bits/types.h 
+
+#define __SLONG32_TYPE int
+
+// /usr/include/bits/time.h 
+
+#define _STRUCT_TIMEVAL (1)
+
+// /usr/include/bits/typesizes.h 
 
 #define _BITS_TYPESIZES_H (1)
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
+// /usr/include/bits/types.h 
 
-#define FD_SETSIZE __FD_SETSIZE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S16_TYPE short int
-#define __SLONG32_TYPE int
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __RLIM64_T_TYPE __UQUAD_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define _BITS_TYPES_H (1)
-
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
-
-#define __DEV_T_TYPE __UQUAD_TYPE
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U16_TYPE unsigned short int
 #define __U64_TYPE unsigned long int
+#define __S16_TYPE short int
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
+// /usr/include/bits/typesizes.h 
 
-#define FD_CLR(fd, fdsetp) __FD_CLR ( fd , fdsetp )
+#define __FSID_T_TYPE struct { int __val [ 2 ] ; }
 
-// /usr/include/x86_64-linux-gnu/bits/typesizes.h 
+// /usr/include/sys/select.h 
 
-#define __INO_T_TYPE __SYSCALL_ULONG_TYPE
-#define __OFF_T_MATCHES_OFF64_T (1)
+#define FD_ISSET(fd, fdsetp) __FD_ISSET ( fd , fdsetp )
+#define __FD_ELT(d) ( ( d ) / __NFDBITS )
+#define __sigset_t_defined
 
-// /usr/include/x86_64-linux-gnu/sys/select.h 
+// /usr/include/bits/typesizes.h 
+
+#define __FSFILCNT64_T_TYPE __UQUAD_TYPE
+#define __TIME_T_TYPE __SYSCALL_SLONG_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/include/sys/select.h 
 
 #define FD_ZERO(fdsetp) __FD_ZERO ( fdsetp )
 
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/bits/typesizes.h 
+
+#define __RLIM64_T_TYPE __UQUAD_TYPE
+
+// /usr/include/sys/select.h 
+
+#define __suseconds_t_defined
+
+// /usr/include/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+
+// /usr/include/sys/select.h 
+
+#define FD_SET(fd, fdsetp) __FD_SET ( fd , fdsetp )
+
+// /usr/include/bits/typesizes.h 
+
+#define __FSBLKCNT_T_TYPE __SYSCALL_ULONG_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __U32_TYPE unsigned int
+
+// /usr/include/bits/typesizes.h 
+
+#define __USECONDS_T_TYPE __U32_TYPE
+#define __SYSCALL_ULONG_TYPE __ULONGWORD_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __SQUAD_TYPE long int
+
+// /usr/include/sys/select.h 
+
+#define __FDS_BITS(set) ( ( set ) -> fds_bits )
+
+// /usr/include/bits/typesizes.h 
+
+#define __INO_T_MATCHES_INO64_T (1)
+#define __KEY_T_TYPE __S32_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/include/sys/select.h 
+
+#define FD_SETSIZE __FD_SETSIZE
+
+// /usr/include/bits/typesizes.h 
+
+#define __OFF64_T_TYPE __SQUAD_TYPE
+#define __DEV_T_TYPE __UQUAD_TYPE
+
+// /usr/include/bits/types.h 
 
 #define __ULONGWORD_TYPE unsigned long int
+
+// /usr/include/bits/typesizes.h 
+
+#define __FD_SETSIZE (1024)
+#define __GID_T_TYPE __U32_TYPE
+#define __CLOCKID_T_TYPE __S32_TYPE
+#define __SYSCALL_SLONG_TYPE __SLONGWORD_TYPE
+#define __FSBLKCNT64_T_TYPE __UQUAD_TYPE
+
+// /usr/include/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int

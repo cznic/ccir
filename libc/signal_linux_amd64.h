@@ -5,7 +5,7 @@
 // ----------------------------------------------------------------------------
 //      /usr/include/signal.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@ extern int __sigdelset(__sigset_t *, int);
 
 typedef __sig_atomic_t sig_atomic_t;
 typedef __sigset_t sigset_t;
-// /usr/include/x86_64-linux-gnu/bits/types.h
+// /usr/include/bits/types.h
 
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
@@ -93,7 +93,7 @@ typedef unsigned int __socklen_t;
 
 typedef __pid_t pid_t;
 typedef __uid_t uid_t;
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h
+// /usr/include/bits/siginfo.h
 
 typedef union sigval {
 	int sival_int;
@@ -201,427 +201,436 @@ extern __sighandler_t sigset(int __sig, __sighandler_t __disp);
 extern int __libc_current_sigrtmin(void);
 extern int __libc_current_sigrtmax(void);
 
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
+// /usr/include/bits/siginfo.h 
 
-#define SIG_DFL ( ( __sighandler_t ) 0 )
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define ILL_ILLADR ILL_ILLADR
-#define __have_siginfo_t (1)
-#define FPE_FLTRES FPE_FLTRES
-#define ILL_ILLOPC ILL_ILLOPC
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGILL (4)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define ILL_PRVOPC ILL_PRVOPC
-#define SIGEV_NONE SIGEV_NONE
-#define ILL_BADSTK ILL_BADSTK
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGALRM (14)
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _EXTERN_INLINE __extern_inline
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGTTIN (21)
-#define SIGSYS (31)
-#define SIG_IGN ( ( __sighandler_t ) 1 )
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define ILL_ILLOPN ILL_ILLOPN
-#define __SIGEV_MAX_SIZE (64)
-
-// /usr/include/signal.h 
-
-#define __uid_t_defined
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define POLL_IN POLL_IN
-#define FPE_INTOVF FPE_INTOVF
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define __have_sigval_t (1)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONG32_TYPE int
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGCLD SIGCHLD
-#define SIGPWR (30)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define POLL_OUT POLL_OUT
-#define CLD_CONTINUED CLD_CONTINUED
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define __sigmask(sig) ( ( ( unsigned long int ) 1 ) << ( ( ( sig ) - 1 ) % ( 8 * sizeof ( unsigned long int ) ) ) )
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGURG (23)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_addr _sifields . _sigfault . si_addr
-#define SI_TKILL SI_TKILL
-#define si_ptr _sifields . _rt . si_sigval . sival_ptr
-#define SIGEV_SIGNAL SIGEV_SIGNAL
-#define FPE_FLTDIV FPE_FLTDIV
-#define ILL_COPROC ILL_COPROC
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGXCPU (24)
-#define SIGSEGV (11)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_upper _sifields . _sigfault . si_addr_bnd . _upper
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _SIGSET_NWORDS ( 1024 / ( 8 * sizeof ( unsigned long int ) ) )
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define CLD_KILLED CLD_KILLED
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGUNUSED (31)
-#define SIG_ERR (-1)
-#define SIGHUP (1)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_overrun _sifields . _timer . si_overrun
-#define si_uid _sifields . _kill . si_uid
-#define __SI_MAX_SIZE (128)
-#define FPE_FLTINV FPE_FLTINV
-#define CLD_DUMPED CLD_DUMPED
-#define ILL_PRVREG ILL_PRVREG
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGBUS (7)
-#define SIGSTKFLT (16)
-#define SIGTRAP (5)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_fd _sifields . _sigpoll . si_fd
-#define FPE_FLTOVF FPE_FLTOVF
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S64_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGUSR1 (10)
-#define SIGTSTP (20)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define __have_sigevent_t (1)
-#define SEGV_MAPERR SEGV_MAPERR
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGSTOP (19)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define SI_ASYNCIO SI_ASYNCIO
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGIO (29)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define BUS_ADRERR BUS_ADRERR
-
-// /usr/include/signal.h 
-
-#define _SIGNAL_H
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _SIGSET_H_fns (1)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define SEGV_ACCERR SEGV_ACCERR
-#define SIGEV_THREAD_ID SIGEV_THREAD_ID
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGIOT (6)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define POLL_PRI POLL_PRI
-
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
-
-#define _SIGSET_H_types (1)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_int _sifields . _rt . si_sigval . sival_int
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGRTMIN ( __libc_current_sigrtmin ( ) )
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define ILL_ILLTRP ILL_ILLTRP
-#define POLL_MSG POLL_MSG
 #define si_stime _sifields . _sigchld . si_stime
 
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
+// /usr/include/bits/signum.h 
 
-#define SIGFPE (8)
+#define SIGIO (29)
+#define SIGALRM (14)
 
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define CLD_STOPPED CLD_STOPPED
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGKILL (9)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define BUS_MCEERR_AO BUS_MCEERR_AO
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __S32_TYPE int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define SI_MESGQ SI_MESGQ
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-#define __SWORD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_call_addr _sifields . _sigsys . _call_addr
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define _NSIG (65)
-#define SIGINT (2)
-#define SIGTERM (15)
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_pid _sifields . _kill . si_pid
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGUSR2 (12)
-#define SIGCONT (18)
-#define SIGPOLL SIGIO
-#define SIGVTALRM (26)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define POLL_ERR POLL_ERR
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGTTOU (22)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define BUS_OBJERR BUS_OBJERR
-#define FPE_INTDIV FPE_INTDIV
-#define sigev_notify_function _sigev_un . _sigev_thread . _function
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGCHLD (17)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_arch _sifields . _sigsys . _arch
-#define SI_ASYNCNL SI_ASYNCNL
-#define __SIGEV_PAD_SIZE ( ( __SIGEV_MAX_SIZE / sizeof ( int ) ) - 4 )
-
-// /usr/include/signal.h 
-
-#define sigpause(sig) __sigpause ( ( sig ) , 1 )
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define BUS_ADRALN BUS_ADRALN
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-#define __S16_TYPE short int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
+// /usr/include/bits/siginfo.h 
 
 #define si_syscall _sifields . _sigsys . _syscall
 
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
+// /usr/include/bits/signum.h 
 
-#define SIGPROF (27)
+#define SIGSEGV (11)
 
-// /usr/include/signal.h 
-
-#define __pid_t_defined
-#define signal __sysv_signal
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define BUS_MCEERR_AR BUS_MCEERR_AR
-#define CLD_TRAPPED CLD_TRAPPED
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGPIPE (13)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define si_addr_lsb _sifields . _sigfault . si_addr_lsb
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define SI_KERNEL SI_KERNEL
-#define TRAP_BRKPT TRAP_BRKPT
-#define si_timerid _sifields . _timer . si_tid
-#define FPE_FLTSUB FPE_FLTSUB
-#define SI_QUEUE SI_QUEUE
-#define si_lower _sifields . _sigfault . si_addr_bnd . _lower
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define __SIGRTMIN (32)
-#define SIGQUIT (3)
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define SI_USER SI_USER
-#define __SI_PAD_SIZE ( ( __SI_MAX_SIZE / sizeof ( int ) ) - 4 )
-#define SI_TIMER SI_TIMER
-#define si_status _sifields . _sigchld . si_status
-#define si_utime _sifields . _sigchld . si_utime
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
+// /usr/include/bits/types.h 
 
 #define _BITS_TYPES_H (1)
-#define __ULONGWORD_TYPE unsigned long int
 
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
+// /usr/include/bits/siginfo.h 
 
-#define SIGWINCH (28)
+#define SIGEV_THREAD SIGEV_THREAD
+#define __have_sigval_t (1)
+#define si_value _sifields . _rt . si_sigval
+#define SI_TKILL SI_TKILL
+#define si_status _sifields . _sigchld . si_status
 
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
+// /usr/include/bits/types.h 
 
-#define __SI_ALIGNMENT
+#define __UQUAD_TYPE unsigned long int
 
-// /usr/include/signal.h 
+// /usr/include/bits/signum.h 
 
-#define __sigset_t_defined
+#define SIGUNUSED (31)
 
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
+// /usr/include/bits/siginfo.h 
 
-#define si_band _sifields . _sigpoll . si_band
-#define SI_SIGIO SI_SIGIO
+#define SI_TIMER SI_TIMER
 
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
+// /usr/include/bits/sigset.h 
 
-#define SIGXFSZ (25)
+#define _SIGSET_H_types (1)
 
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
+// /usr/include/bits/signum.h 
 
-#define FPE_FLTUND FPE_FLTUND
+#define SIGCLD SIGCHLD
 
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
+// /usr/include/bits/siginfo.h 
 
-#define SIGRTMAX ( __libc_current_sigrtmax ( ) )
-#define SIG_HOLD ( ( __sighandler_t ) 2 )
+#define FPE_FLTSUB FPE_FLTSUB
+#define SIGEV_NONE SIGEV_NONE
 
-// /usr/include/x86_64-linux-gnu/bits/sigset.h 
+// /usr/include/bits/signum.h 
 
-#define __sigword(sig) ( ( ( sig ) - 1 ) / ( 8 * sizeof ( unsigned long int ) ) )
+#define SIG_ERR (-1)
 
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
+// /usr/include/bits/siginfo.h 
 
-#define sigev_notify_attributes _sigev_un . _sigev_thread . _attribute
 #define __have_pthread_attr_t (1)
+#define POLL_HUP POLL_HUP
+#define CLD_CONTINUED CLD_CONTINUED
 
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
+// /usr/include/bits/types.h 
 
-#define __SIGRTMAX (64)
+#define __S32_TYPE int
 
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
+// /usr/include/bits/siginfo.h 
 
 #define CLD_EXITED CLD_EXITED
-
-// /usr/include/x86_64-linux-gnu/bits/types.h 
-
-#define __U64_TYPE unsigned long int
-
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
-
-#define POLL_HUP POLL_HUP
-#define si_value _sifields . _rt . si_sigval
-
-// /usr/include/x86_64-linux-gnu/bits/signum.h 
-
-#define SIGABRT (6)
 
 // /usr/include/signal.h 
 
 #define __sig_atomic_t_defined
 
-// /usr/include/x86_64-linux-gnu/bits/siginfo.h 
+// /usr/include/bits/siginfo.h 
 
+#define si_uid _sifields . _kill . si_uid
+
+// /usr/include/bits/signum.h 
+
+#define SIGSYS (31)
+
+// /usr/include/bits/siginfo.h 
+
+#define SI_QUEUE SI_QUEUE
+#define ILL_BADSTK ILL_BADSTK
+
+// /usr/include/bits/signum.h 
+
+#define SIGRTMAX ( __libc_current_sigrtmax ( ) )
+
+// /usr/include/bits/siginfo.h 
+
+#define si_lower _sifields . _sigfault . si_addr_bnd . _lower
+#define si_overrun _sifields . _timer . si_overrun
+#define POLL_PRI POLL_PRI
+
+// /usr/include/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+
+// /usr/include/bits/signum.h 
+
+#define SIGCONT (18)
+#define SIGQUIT (3)
+
+// /usr/include/bits/siginfo.h 
+
+#define SI_SIGIO SI_SIGIO
+#define SI_KERNEL SI_KERNEL
+#define __SI_ALIGNMENT
+
+// /usr/include/bits/sigset.h 
+
+#define __sigword(sig) ( ( ( sig ) - 1 ) / ( 8 * sizeof ( unsigned long int ) ) )
+
+// /usr/include/bits/signum.h 
+
+#define SIGHUP (1)
+
+// /usr/include/signal.h 
+
+#define __sigset_t_defined
+
+// /usr/include/bits/siginfo.h 
+
+#define si_fd _sifields . _sigpoll . si_fd
+
+// /usr/include/bits/types.h 
+
+#define __S16_TYPE short int
+
+// /usr/include/bits/siginfo.h 
+
+#define si_pid _sifields . _kill . si_pid
+
+// /usr/include/bits/types.h 
+
+#define __U64_TYPE unsigned long int
+
+// /usr/include/bits/siginfo.h 
+
+#define __SI_PAD_SIZE ( ( __SI_MAX_SIZE / sizeof ( int ) ) - 4 )
+#define ILL_ILLOPC ILL_ILLOPC
+
+// /usr/include/bits/signum.h 
+
+#define SIGVTALRM (26)
+
+// /usr/include/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/signal.h 
+
+#define signal __sysv_signal
+
+// /usr/include/bits/siginfo.h 
+
+#define CLD_STOPPED CLD_STOPPED
+#define SEGV_MAPERR SEGV_MAPERR
+
+// /usr/include/bits/signum.h 
+
+#define SIG_IGN ( ( __sighandler_t ) 1 )
+
+// /usr/include/bits/siginfo.h 
+
+#define ILL_PRVOPC ILL_PRVOPC
+
+// /usr/include/bits/signum.h 
+
+#define __SIGRTMAX (64)
+
+// /usr/include/bits/siginfo.h 
+
+#define SEGV_ACCERR SEGV_ACCERR
+#define si_utime _sifields . _sigchld . si_utime
+#define si_ptr _sifields . _rt . si_sigval . sival_ptr
+
+// /usr/include/bits/signum.h 
+
+#define SIGBUS (7)
+
+// /usr/include/bits/siginfo.h 
+
+#define si_upper _sifields . _sigfault . si_addr_bnd . _upper
+#define ILL_ILLOPN ILL_ILLOPN
+
+// /usr/include/bits/signum.h 
+
+#define SIGUSR1 (10)
+
+// /usr/include/signal.h 
+
+#define sigpause(sig) __sigpause ( ( sig ) , 1 )
+
+// /usr/include/bits/signum.h 
+
+#define SIGFPE (8)
+#define SIG_DFL ( ( __sighandler_t ) 0 )
+#define SIGSTKFLT (16)
+#define SIGPROF (27)
+
+// /usr/include/signal.h 
+
+#define __uid_t_defined
+
+// /usr/include/bits/siginfo.h 
+
+#define __have_siginfo_t (1)
+
+// /usr/include/bits/signum.h 
+
+#define SIGRTMIN ( __libc_current_sigrtmin ( ) )
+
+// /usr/include/bits/siginfo.h 
+
+#define FPE_FLTDIV FPE_FLTDIV
+
+// /usr/include/bits/signum.h 
+
+#define SIGSTOP (19)
+
+// /usr/include/bits/siginfo.h 
+
+#define SIGEV_SIGNAL SIGEV_SIGNAL
+#define ILL_ILLADR ILL_ILLADR
+#define POLL_MSG POLL_MSG
+
+// /usr/include/signal.h 
+
+#define _SIGNAL_H
+
+// /usr/include/bits/signum.h 
+
+#define _NSIG (65)
+
+// /usr/include/bits/siginfo.h 
+
+#define si_int _sifields . _rt . si_sigval . sival_int
 #define TRAP_TRACE TRAP_TRACE
-#define SIGEV_THREAD SIGEV_THREAD
+
+// /usr/include/bits/signum.h 
+
+#define SIGPIPE (13)
+
+// /usr/include/bits/siginfo.h 
+
+#define si_call_addr _sifields . _sigsys . _call_addr
+#define FPE_FLTOVF FPE_FLTOVF
+
+// /usr/include/bits/signum.h 
+
+#define SIGTTOU (22)
+#define SIGIOT (6)
+
+// /usr/include/bits/siginfo.h 
+
+#define si_addr _sifields . _sigfault . si_addr
+#define si_timerid _sifields . _timer . si_tid
+#define __SIGEV_PAD_SIZE ( ( __SIGEV_MAX_SIZE / sizeof ( int ) ) - 4 )
+#define POLL_OUT POLL_OUT
+#define SI_ASYNCIO SI_ASYNCIO
+#define BUS_MCEERR_AO BUS_MCEERR_AO
+#define ILL_COPROC ILL_COPROC
+#define BUS_MCEERR_AR BUS_MCEERR_AR
+#define FPE_INTDIV FPE_INTDIV
+#define si_band _sifields . _sigpoll . si_band
+#define __SI_MAX_SIZE (128)
+#define CLD_KILLED CLD_KILLED
+#define sigev_notify_attributes _sigev_un . _sigev_thread . _attribute
+#define SI_ASYNCNL SI_ASYNCNL
+
+// /usr/include/bits/signum.h 
+
+#define SIGABRT (6)
+
+// /usr/include/bits/sigset.h 
+
+#define _EXTERN_INLINE __extern_inline
+
+// /usr/include/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/include/bits/siginfo.h 
+
+#define FPE_INTOVF FPE_INTOVF
+
+// /usr/include/bits/sigset.h 
+
+#define _SIGSET_NWORDS ( 1024 / ( 8 * sizeof ( unsigned long int ) ) )
+
+// /usr/include/bits/types.h 
+
+#define __SQUAD_TYPE long int
+
+// /usr/include/bits/signum.h 
+
+#define SIGUSR2 (12)
+#define SIGPWR (30)
+#define SIGINT (2)
+#define SIGTERM (15)
+
+// /usr/include/bits/siginfo.h 
+
+#define ILL_ILLTRP ILL_ILLTRP
+
+// /usr/include/signal.h 
+
+#define __pid_t_defined
+
+// /usr/include/bits/siginfo.h 
+
+#define __have_sigevent_t (1)
+
+// /usr/include/bits/signum.h 
+
+#define __SIGRTMIN (32)
+
+// /usr/include/bits/siginfo.h 
+
+#define BUS_OBJERR BUS_OBJERR
+#define BUS_ADRERR BUS_ADRERR
+#define si_arch _sifields . _sigsys . _arch
+
+// /usr/include/bits/types.h 
+
+#define __SWORD_TYPE long int
+
+// /usr/include/bits/siginfo.h 
+
+#define __SIGEV_MAX_SIZE (64)
+
+// /usr/include/bits/signum.h 
+
+#define SIGKILL (9)
+#define SIGWINCH (28)
+#define SIGILL (4)
+
+// /usr/include/bits/siginfo.h 
+
+#define si_addr_lsb _sifields . _sigfault . si_addr_lsb
+
+// /usr/include/bits/signum.h 
+
+#define SIGTRAP (5)
+
+// /usr/include/bits/siginfo.h 
+
+#define CLD_TRAPPED CLD_TRAPPED
+#define FPE_FLTINV FPE_FLTINV
+
+// /usr/include/bits/signum.h 
+
+#define SIGTSTP (20)
+
+// /usr/include/bits/siginfo.h 
+
+#define SI_MESGQ SI_MESGQ
+
+// /usr/include/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+#define __U32_TYPE unsigned int
+
+// /usr/include/bits/siginfo.h 
+
+#define CLD_DUMPED CLD_DUMPED
+#define sigev_notify_function _sigev_un . _sigev_thread . _function
+#define FPE_FLTRES FPE_FLTRES
+#define SI_USER SI_USER
+
+// /usr/include/bits/signum.h 
+
+#define SIGXFSZ (25)
+#define SIGCHLD (17)
+#define SIGPOLL SIGIO
+#define SIGXCPU (24)
+
+// /usr/include/bits/sigset.h 
+
+#define __sigmask(sig) ( ( ( unsigned long int ) 1 ) << ( ( ( sig ) - 1 ) % ( 8 * sizeof ( unsigned long int ) ) ) )
+
+// /usr/include/bits/siginfo.h 
+
+#define POLL_ERR POLL_ERR
+#define ILL_PRVREG ILL_PRVREG
+
+// /usr/include/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/include/bits/siginfo.h 
+
+#define TRAP_BRKPT TRAP_BRKPT
+
+// /usr/include/bits/types.h 
+
+#define __SLONG32_TYPE int
+#define __U16_TYPE unsigned short int
+
+// /usr/include/bits/signum.h 
+
+#define SIGTTIN (21)
+
+// /usr/include/bits/siginfo.h 
+
+#define BUS_ADRALN BUS_ADRALN
+
+// /usr/include/bits/signum.h 
+
+#define SIG_HOLD ( ( __sighandler_t ) 2 )
+
+// /usr/include/bits/siginfo.h 
+
+#define POLL_IN POLL_IN
+#define FPE_FLTUND FPE_FLTUND
+
+// /usr/include/bits/sigset.h 
+
+#define _SIGSET_H_fns (1)
+
+// /usr/include/bits/siginfo.h 
+
+#define SIGEV_THREAD_ID SIGEV_THREAD_ID
+
+// /usr/include/bits/signum.h 
+
+#define SIGURG (23)

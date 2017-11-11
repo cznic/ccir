@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -31,7 +31,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // ----------------------------------------------------------------------------
 //      /usr/include/strings.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -60,29 +60,29 @@ extern int ffs(int __i);
 extern int strcasecmp(const char *__s1, const char *__s2);
 extern int strncasecmp(const char *__s1, const char *__s2, size_t __n);
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define ___int_size_t_h
+#define _SIZE_T_DEFINED_
+#define __size_t__
 #define _SIZE_T
-#define _BSD_SIZE_T_DEFINED_
-#define _SIZE_T_DEFINED
+#define _T_SIZE
+#define __size_t
+#define ___int_size_t_h
 #define _BSD_SIZE_T_
-#define __SIZE_T__
-#define _SYS_SIZE_T_H
-#define _SIZE_T_DECLARED
 
 // /usr/include/strings.h 
 
 #define _STRINGS_H (1)
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _T_SIZE
-#define __size_t
-#define __SIZE_T
-#define _GCC_SIZE_T
+#define _SYS_SIZE_T_H
 #define _T_SIZE_
-#define _SIZE_T_DEFINED_
-#define _SIZE_T_
 #define _SIZET_
-#define __size_t__
+#define _SIZE_T_DECLARED
+#define _GCC_SIZE_T
+#define __SIZE_T__
+#define _SIZE_T_
+#define _SIZE_T_DEFINED
+#define _BSD_SIZE_T_DEFINED_
+#define __SIZE_T

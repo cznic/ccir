@@ -3,9 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/x86_64-linux-gnu/6/include/stdarg.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stdarg.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -31,18 +31,18 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 typedef __builtin_va_list __gnuc_va_list;
 typedef __gnuc_va_list va_list;
 
-// /usr/lib/gcc/x86_64-linux-gnu/6/include/stdarg.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stdarg.h 
 
-#define _VA_LIST_DEFINED
-#define __GNUC_VA_LIST
 #define __va_list__
-#define _VA_LIST
 #define _STDARG_H
-#define va_copy(d, s) __builtin_va_copy ( d , s )
-#define _VA_LIST_
-#define _VA_LIST_T_H
-#define _ANSI_STDARG_H_
-#define va_start(v, l) __builtin_va_start ( v , l )
 #define __va_copy(d, s) __builtin_va_copy ( d , s )
+#define __GNUC_VA_LIST
+#define _VA_LIST_DEFINED
+#define _VA_LIST
 #define va_end(v) __builtin_va_end ( v )
+#define _VA_LIST_
+#define _ANSI_STDARG_H_
+#define va_copy(d, s) __builtin_va_copy ( d , s )
+#define _VA_LIST_T_H
 #define va_arg(v, l) __builtin_va_arg ( v , l )
+#define va_start(v, l) __builtin_va_start ( v , l )
