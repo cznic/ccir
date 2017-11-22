@@ -254,671 +254,38 @@ extern int listen(int __fd, int __n);
 extern int accept(int __fd, struct sockaddr *__addr, socklen_t * __addr_len);
 extern int shutdown(int __fd, int __how);
 
-// /usr/include/bits/socket.h 
-
-#define PF_IEEE802154 (36)
-#define PF_BLUETOOTH (31)
-#define AF_BLUETOOTH PF_BLUETOOTH
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_BUSY_POLL (46)
-
-// /usr/include/bits/socket.h 
-
-#define MSG_SYN MSG_SYN
-#define AF_NETLINK PF_NETLINK
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_BROADCAST (6)
-
-// /usr/include/sys/types.h 
-
-#define __ssize_t_defined
-
-// /usr/include/bits/socket.h 
-
-#define SOMAXCONN (128)
-
-// /usr/include/sys/types.h 
-
-#define __dev_t_defined
-#define __id_t_defined
-
-// /usr/include/sys/socket.h 
-
-#define SHUT_WR SHUT_WR
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_OOBINLINE (10)
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_RDM SOCK_RDM
-
-// /usr/include/bits/socket.h 
-
-#define AF_LLC PF_LLC
-#define _SS_SIZE (128)
-
-// /usr/include/asm-generic/socket.h 
-
-#define __ASM_GENERIC_SOCKET_H
-#define SO_REUSEADDR (2)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/sys/uio.h 
-
-#define _SYS_UIO_H (1)
-
-// /usr/include/bits/socket.h 
-
-#define AF_ROUTE PF_ROUTE
-
-// /usr/include/sys/types.h 
-
-#define __ino64_t_defined
-
-// /usr/include/bits/socket.h 
-
-#define AF_MPLS PF_MPLS
-#define MSG_TRUNC MSG_TRUNC
-
-// /usr/include/sys/types.h 
-
-#define _SYS_TYPES_H (1)
-
-// /usr/include/bits/socket.h 
-
-#define PF_CAIF (37)
-#define AF_PACKET PF_PACKET
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_SNDLOWAT (19)
-
-// /usr/include/bits/socket.h 
-
-#define PF_APPLETALK (5)
-#define __ss_aligntype unsigned long int
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_NOFCS (43)
-
-// /usr/include/bits/socket.h 
-
-#define PF_CAN (29)
-
-// /usr/include/bits/types.h 
-
-#define __S64_TYPE long int
-
-// /usr/include/bits/socket.h 
-
-#define _SS_PADSIZE ( _SS_SIZE - ( 2 * sizeof ( __ss_aligntype ) ) )
-
-// /usr/include/bits/types.h 
-
-#define __SLONG32_TYPE int
-
-// /usr/include/bits/socket.h 
-
-#define AF_CAN PF_CAN
-#define AF_VSOCK PF_VSOCK
-#define PF_VSOCK (40)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T
-
-// /usr/include/sys/types.h 
-
-#define __useconds_t_defined
-
-// /usr/include/sys/socket.h 
-
-#define SHUT_RDWR SHUT_RDWR
-
-// /usr/include/sys/types.h 
-
-#define __key_t_defined
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __size_t__
-
-// /usr/include/bits/socket.h 
-
-#define PF_PHONET (35)
-
-// /usr/include/bits/types.h 
-
-#define __S32_TYPE int
-#define __U64_TYPE unsigned long int
-
-// /usr/include/bits/sockaddr.h 
-
-#define _BITS_SOCKADDR_H (1)
-
-// /usr/include/bits/socket.h 
-
-#define SOL_DECNET (261)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __SIZE_T__
-
-// /usr/include/bits/socket.h 
-
-#define PF_NETLINK (16)
-#define PF_MPLS (28)
-#define SOL_PACKET (263)
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_BSDCOMPAT (14)
-
-// /usr/include/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_PACKET SOCK_PACKET
-
-// /usr/include/sys/types.h 
-
-#define __gid_t_defined
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-
-// /usr/include/bits/socket.h 
-
-#define AF_INET6 PF_INET6
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_CLOEXEC SOCK_CLOEXEC
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_TIMESTAMP (29)
-
-// /usr/include/bits/socket.h 
-
-#define PF_IB (27)
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_SECURITY_ENCRYPTION_TRANSPORT (23)
-
-// /usr/include/bits/socket.h 
-
-#define MSG_MORE MSG_MORE
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_LINGER (13)
-
-// /usr/include/sys/types.h 
-
-#define __BIT_TYPES_DEFINED__ (1)
-
 // /usr/include/asm-generic/socket.h 
 
 #define SO_DOMAIN (39)
-
-// /usr/include/bits/socket.h 
-
-#define PF_RDS (21)
-#define SOL_X25 (262)
-#define AF_X25 PF_X25
-#define AF_INET PF_INET
+#define SO_TYPE (3)
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _SYS_SIZE_T_H
-
-// /usr/include/bits/socket.h 
-
-#define PF_ECONET (19)
+#define _SIZET_
 
 // /usr/include/asm-generic/socket.h 
 
-#define SO_SECURITY_ENCRYPTION_NETWORK (24)
+#define SO_BINDTODEVICE (25)
 
 // /usr/include/sys/types.h 
 
-#define __ino_t_defined
-#define __fsfilcnt_t_defined
-
-// /usr/include/bits/socket.h 
-
-#define PF_ATMSVC (20)
+#define __pid_t_defined
 
 // /usr/include/asm-generic/socket.h 
 
-#define SO_DEBUG (1)
-
-// /usr/include/bits/socket.h 
-
-#define AF_TIPC PF_TIPC
-#define MSG_NOSIGNAL MSG_NOSIGNAL
-
-// /usr/include/bits/sockaddr.h 
-
-#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
-
-// /usr/include/bits/socket.h 
-
-#define PF_DECnet (12)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __size_t
-
-// /usr/include/bits/socket.h 
-
-#define PF_NFC (39)
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_SNDTIMEO (21)
-
-// /usr/include/sys/types.h 
-
-#define __uid_t_defined
-
-// /usr/include/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/bits/socket.h 
-
-#define PF_RXRPC (33)
-#define PF_AX25 (3)
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_RXQ_OVFL (40)
-#define SO_KEEPALIVE (9)
-#define SO_PEEK_OFF (42)
-#define SO_SELECT_ERR_QUEUE (45)
-
-// /usr/include/bits/socket.h 
-
-#define SOL_RAW (255)
-#define PF_PPPOX (24)
-#define AF_LOCAL PF_LOCAL
-#define __BITS_SOCKET_H
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_RCVLOWAT (18)
-
-// /usr/include/bits/socket.h 
-
-#define PF_UNIX PF_LOCAL
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_ERROR (4)
-
-// /usr/include/bits/socket.h 
-
-#define AF_PPPOX PF_PPPOX
-#define MSG_PROXY MSG_PROXY
-#define PF_ROUTE PF_NETLINK
-#define MSG_EOR MSG_EOR
-#define PF_ATMPVC (8)
-#define AF_KEY PF_KEY
-#define AF_DECnet PF_DECnet
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _BSD_SIZE_T_
-
-// /usr/include/bits/socket.h 
-
-#define AF_ISDN PF_ISDN
-
-// /usr/include/asm-generic/socket.h 
-
-#define SOL_SOCKET (1)
-
-// /usr/include/bits/socket.h 
-
-#define MSG_WAITFORONE MSG_WAITFORONE
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_PEERSEC (31)
-
-// /usr/include/bits/socket.h 
-
-#define AF_PHONET PF_PHONET
-#define PF_MAX (41)
-#define SOL_ATM (264)
-#define MSG_FIN MSG_FIN
-#define AF_ATMSVC PF_ATMSVC
-#define MSG_CTRUNC MSG_CTRUNC
-#define AF_AX25 PF_AX25
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_WIFI_STATUS (41)
 #define SO_NO_CHECK (11)
 
 // /usr/include/bits/socket.h 
 
-#define PF_PACKET (17)
+#define AF_ATMSVC PF_ATMSVC
 
 // /usr/include/asm-generic/socket.h 
 
-#define SO_BPF_EXTENSIONS (48)
-
-// /usr/include/bits/socket.h 
-
-#define AF_ALG PF_ALG
-
-// /usr/include/sys/types.h 
-
-#define __off_t_defined
-#define __pid_t_defined
-#define __suseconds_t_defined
-
-// /usr/include/sys/socket.h 
-
-#define __CONST_SOCKADDR_ARG const struct sockaddr *
-
-// /usr/include/bits/socket.h 
-
-#define MSG_PEEK MSG_PEEK
-#define AF_ECONET PF_ECONET
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_DCCP SOCK_DCCP
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-
-// /usr/include/bits/socket.h 
-
-#define PF_TIPC (30)
-#define MSG_RST MSG_RST
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_RAW SOCK_RAW
-
-// /usr/include/bits/socket.h 
-
-#define AF_ASH PF_ASH
-
-// /usr/include/bits/uio.h 
-
-#define _BITS_UIO_H (1)
-
-// /usr/include/bits/socket.h 
-
-#define CMSG_LEN(len) ( CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) + ( len ) )
-
-// /usr/include/bits/types.h 
-
-#define __U32_TYPE unsigned int
-
-// /usr/include/bits/socket.h 
-
-#define PF_NETBEUI (13)
-#define MSG_CONFIRM MSG_CONFIRM
-#define AF_RXRPC PF_RXRPC
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_PRIORITY (12)
-#define SO_ATTACH_BPF (50)
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_STREAM SOCK_STREAM
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_PEERCRED (17)
-
-// /usr/include/bits/socket.h 
-
-#define PF_WANPIPE (25)
-#define AF_WANPIPE PF_WANPIPE
-
-// /usr/include/sys/socket.h 
-
-#define SHUT_RD SHUT_RD
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _T_SIZE_
-
-// /usr/include/bits/socket.h 
-
-#define AF_NFC PF_NFC
-#define AF_IUCV PF_IUCV
-
-// /usr/include/sys/types.h 
-
-#define __nlink_t_defined
-
-// /usr/include/bits/types.h 
-
-#define __SWORD_TYPE long int
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_RCVBUF (8)
 #define SO_RCVBUFFORCE (33)
 
 // /usr/include/bits/socket.h 
 
-#define MSG_DONTWAIT MSG_DONTWAIT
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_PASSCRED (16)
-
-// /usr/include/bits/socket.h 
-
-#define MSG_OOB MSG_OOB
-#define PF_ROSE (11)
-
-// /usr/include/sys/types.h 
-
-#define __blksize_t_defined
-#define __need_clockid_t
-
-// /usr/include/bits/socket.h 
-
-#define PF_BRIDGE (7)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/bits/socket.h 
-
-#define PF_LOCAL (1)
-#define PF_IPX (4)
-#define CMSG_FIRSTHDR(mhdr) ( ( size_t ) ( mhdr ) -> msg_controllen >= sizeof ( struct cmsghdr ) ? ( struct cmsghdr * ) ( mhdr ) -> msg_control : ( struct cmsghdr * ) 0 )
-#define AF_RDS PF_RDS
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_ATTACH_FILTER (26)
-
-// /usr/include/bits/socket.h 
-
-#define MSG_ERRQUEUE MSG_ERRQUEUE
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_NONBLOCK SOCK_NONBLOCK
-
-// /usr/include/bits/socket.h 
-
-#define PF_ASH (18)
-#define AF_SECURITY PF_SECURITY
-#define PF_INET (2)
-#define AF_ROSE PF_ROSE
-#define PF_SECURITY (14)
-#define CMSG_DATA(cmsg) ( ( cmsg ) -> __cmsg_data )
-#define AF_FILE PF_FILE
-#define AF_IPX PF_IPX
-#define AF_APPLETALK PF_APPLETALK
-
-// /usr/include/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-
-// /usr/include/bits/socket.h 
-
-#define SOL_IRDA (266)
-#define MSG_DONTROUTE MSG_DONTROUTE
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_DETACH_FILTER (27)
-
-// /usr/include/bits/socket.h 
-
-#define AF_UNIX PF_UNIX
-#define PF_IRDA (23)
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_MAX_PACING_RATE (47)
-
-// /usr/include/sys/socket.h 
-
-#define __SOCKADDR_ARG struct sockaddr * __restrict
-
-// /usr/include/sys/types.h 
-
-#define __off64_t_defined
-
-// /usr/include/bits/socket.h 
-
-#define PF_UNSPEC (0)
-#define MSG_WAITALL MSG_WAITALL
-#define CMSG_SPACE(len) ( CMSG_ALIGN ( len ) + CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) )
-
-// /usr/include/sys/types.h 
-
-#define __mode_t_defined
-
-// /usr/include/bits/socket.h 
-
-#define PF_SNA (22)
-
-// /usr/include/bits/socket_type.h 
-
-#define SOCK_SEQPACKET SOCK_SEQPACKET
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_PEERNAME (28)
-
-// /usr/include/bits/socket.h 
-
-#define PF_IUCV (32)
-#define AF_CAIF PF_CAIF
-
-// /usr/include/bits/types.h 
-
-#define _BITS_TYPES_H (1)
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_ACCEPTCONN (30)
-#define SCM_WIFI_STATUS SO_WIFI_STATUS
-#define SO_BINDTODEVICE (25)
-#define SO_TYPE (3)
-
-// /usr/include/bits/socket.h 
-
-#define AF_SNA PF_SNA
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_PROTOCOL (38)
-
-// /usr/include/bits/types.h 
-
-#define __SQUAD_TYPE long int
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_SNDBUFFORCE (32)
-
-// /usr/include/bits/socket.h 
-
-#define PF_KEY (15)
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_DETACH_BPF SO_DETACH_FILTER
-
-// /usr/include/bits/socket.h 
-
-#define AF_NETBEUI PF_NETBEUI
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_DONTROUTE (5)
-
-// /usr/include/bits/socket.h 
-
-#define __socklen_t_defined
-#define AF_IEEE802154 PF_IEEE802154
-#define MSG_CMSG_CLOEXEC MSG_CMSG_CLOEXEC
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_PASSSEC (34)
-
-// /usr/include/bits/socket.h 
-
-#define CMSG_NXTHDR(mhdr, cmsg) __cmsg_nxthdr ( mhdr , cmsg )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _GCC_SIZE_T
-
-// /usr/include/bits/socket.h 
-
-#define PF_ISDN (34)
-
-// /usr/include/sys/types.h 
-
-#define __fsblkcnt_t_defined
-#define __blkcnt_t_defined
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_INCOMING_CPU (49)
-
-// /usr/include/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
+#define AF_BLUETOOTH PF_BLUETOOTH
 
 // /usr/include/asm-generic/socket.h 
 
@@ -926,61 +293,67 @@ extern int shutdown(int __fd, int __how);
 
 // /usr/include/bits/socket.h 
 
-#define MSG_FASTOPEN MSG_FASTOPEN
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_TIMESTAMPNS (35)
+#define PF_KEY (15)
 
 // /usr/include/bits/socket_type.h 
 
-#define SOCK_DGRAM SOCK_DGRAM
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-
-// /usr/include/bits/socket.h 
-
-#define CMSG_ALIGN(len) ( ( ( len ) + sizeof ( size_t ) - 1 ) & ( size_t ) ~ ( sizeof ( size_t ) - 1 ) )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZET_
-
-// /usr/include/bits/socket.h 
-
-#define PF_ALG (38)
+#define SOCK_DCCP SOCK_DCCP
 
 // /usr/include/asm-generic/socket.h 
 
-#define SO_LOCK_FILTER (44)
+#define SCM_WIFI_STATUS SO_WIFI_STATUS
 
 // /usr/include/bits/socket.h 
 
-#define AF_NETROM PF_NETROM
+#define PF_NFC (39)
+#define PF_IPX (4)
+#define PF_MPLS (28)
+#define AF_X25 PF_X25
+#define PF_UNSPEC (0)
+#define AF_PPPOX PF_PPPOX
+#define AF_CAIF PF_CAIF
+
+// /usr/include/asm-generic/socket.h 
+
+#define SCM_TIMESTAMPING SO_TIMESTAMPING
+
+// /usr/include/bits/socket.h 
+
+#define PF_BLUETOOTH (31)
+#define AF_NETLINK PF_NETLINK
+#define PF_WANPIPE (25)
 #define PF_FILE PF_LOCAL
-
-// /usr/include/bits/sockaddr.h 
-
-#define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )
-
-// /usr/include/bits/socket.h 
-
 #define PF_LLC (26)
-#define PF_X25 (9)
+#define AF_UNIX PF_UNIX
 
-// /usr/include/asm-generic/socket.h 
+// /usr/include/sys/types.h 
 
-#define SO_REUSEPORT (15)
+#define __dev_t_defined
 
 // /usr/include/bits/socket.h 
 
-#define AF_IRDA PF_IRDA
+#define AF_LOCAL PF_LOCAL
+#define PF_RXRPC (33)
 
 // /usr/include/asm-generic/socket.h 
 
-#define SO_GET_FILTER SO_ATTACH_FILTER
+#define SO_PEERCRED (17)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_
+
+// /usr/include/bits/socket_type.h 
+
+#define SOCK_CLOEXEC SOCK_CLOEXEC
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_SNDBUF (7)
+
+// /usr/include/bits/socket.h 
+
+#define CMSG_SPACE(len) ( CMSG_ALIGN ( len ) + CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) )
 
 // /usr/include/sys/socket.h 
 
@@ -988,49 +361,111 @@ extern int shutdown(int __fd, int __how);
 
 // /usr/include/bits/socket.h 
 
-#define AF_MAX PF_MAX
-
-// /usr/include/asm-generic/socket.h 
-
-#define SO_RCVTIMEO (20)
-
-// /usr/include/bits/socket.h 
-
-#define PF_NETROM (6)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_
-#define __SIZE_T
+#define AF_TIPC PF_TIPC
 
 // /usr/include/sys/types.h 
 
-#define __int8_t_defined
+#define __fsfilcnt_t_defined
+#define __blksize_t_defined
 
-// /usr/include/bits/socket.h 
+// /usr/include/bits/socket_type.h 
 
-#define AF_ATMPVC PF_ATMPVC
-#define AF_UNSPEC PF_UNSPEC
-#define AF_BRIDGE PF_BRIDGE
-#define AF_IB PF_IB
-
-// /usr/include/bits/uio.h 
-
-#define UIO_MAXIOV (1024)
-
-// /usr/include/bits/types.h 
-
-#define __S16_TYPE short int
-
-// /usr/include/bits/socket.h 
-
-#define PF_INET6 (10)
+#define SOCK_PACKET SOCK_PACKET
 
 // /usr/include/asm-generic/socket.h 
 
-#define SO_SECURITY_AUTHENTICATION (22)
-#define SO_MARK (36)
-#define SCM_TIMESTAMPING SO_TIMESTAMPING
+#define SO_SNDLOWAT (19)
+
+// /usr/include/bits/socket_type.h 
+
+#define SOCK_RAW SOCK_RAW
+
+// /usr/include/bits/socket.h 
+
+#define AF_ALG PF_ALG
+#define MSG_EOR MSG_EOR
+#define PF_SECURITY (14)
+
+// /usr/include/sys/types.h 
+
+#define __key_t_defined
+
+// /usr/include/bits/socket.h 
+
+#define PF_NETLINK (16)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_SELECT_ERR_QUEUE (45)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_SNDTIMEO (21)
+#define SO_MAX_PACING_RATE (47)
+
+// /usr/include/bits/socket.h 
+
+#define AF_ASH PF_ASH
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_NOFCS (43)
+
+// /usr/include/bits/socket.h 
+
+#define AF_APPLETALK PF_APPLETALK
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_OOBINLINE (10)
+
+// /usr/include/bits/socket.h 
+
+#define AF_PHONET PF_PHONET
+#define SOL_ATM (264)
+#define PF_ALG (38)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_TIMESTAMP (29)
+
+// /usr/include/bits/socket_type.h 
+
+#define SOCK_DGRAM SOCK_DGRAM
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_ERROR (4)
+
+// /usr/include/bits/uio.h 
+
+#define _BITS_UIO_H (1)
+
+// /usr/include/bits/socket.h 
+
+#define SOL_X25 (262)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_SECURITY_ENCRYPTION_TRANSPORT (23)
+
+// /usr/include/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
+
+// /usr/include/bits/socket.h 
+
+#define AF_SECURITY PF_SECURITY
+#define AF_INET PF_INET
+#define AF_INET6 PF_INET6
+
+// /usr/include/asm-generic/socket.h 
+
+#define SCM_TIMESTAMPNS SO_TIMESTAMPNS
 
 // /usr/include/bits/socket.h 
 
@@ -1038,21 +473,589 @@ extern int shutdown(int __fd, int __how);
 
 // /usr/include/asm-generic/socket.h 
 
-#define SCM_TIMESTAMP SO_TIMESTAMP
+#define SO_PROTOCOL (38)
+
+// /usr/include/sys/types.h 
+
+#define __ino64_t_defined
+
+// /usr/include/bits/socket.h 
+
+#define MSG_CONFIRM MSG_CONFIRM
+#define PF_IUCV (32)
+#define AF_NETBEUI PF_NETBEUI
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_PEERSEC (31)
+
+// /usr/include/sys/types.h 
+
+#define __useconds_t_defined
+
+// /usr/include/bits/socket_type.h 
+
+#define SOCK_RDM SOCK_RDM
+
+// /usr/include/bits/uio.h 
+
+#define UIO_MAXIOV (1024)
+
+// /usr/include/sys/types.h 
+
+#define __fsblkcnt_t_defined
+#define __mode_t_defined
+#define _SYS_TYPES_H (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T
+
+// /usr/include/bits/socket.h 
+
+#define PF_IRDA (23)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_PEEK_OFF (42)
 
 // /usr/include/bits/types.h 
 
-#define __SLONGWORD_TYPE long int
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_BSDCOMPAT (14)
+
+// /usr/include/sys/types.h 
+
+#define __id_t_defined
+
+// /usr/include/bits/socket.h 
+
+#define PF_ASH (18)
+#define PF_RDS (21)
+#define PF_ECONET (19)
+#define CMSG_DATA(cmsg) ( ( cmsg ) -> __cmsg_data )
+#define AF_DECnet PF_DECnet
+#define MSG_WAITFORONE MSG_WAITFORONE
+
+// /usr/include/sys/types.h 
+
+#define __uid_t_defined
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_GET_FILTER SO_ATTACH_FILTER
+
+// /usr/include/bits/socket.h 
+
+#define __ss_aligntype unsigned long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+
+// /usr/include/bits/socket.h 
+
+#define AF_MPLS PF_MPLS
+#define AF_LLC PF_LLC
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __size_t
+
+// /usr/include/bits/socket.h 
+
+#define PF_ISDN (34)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_MARK (36)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_size_t_h
+
+// /usr/include/bits/socket.h 
+
+#define PF_ROUTE PF_NETLINK
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_REUSEPORT (15)
+
+// /usr/include/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+
+// /usr/include/bits/socket.h 
+
+#define __BITS_SOCKET_H
+#define MSG_OOB MSG_OOB
+
+// /usr/include/bits/socket_type.h 
+
+#define SOCK_STREAM SOCK_STREAM
+
+// /usr/include/bits/socket.h 
+
+#define AF_RDS PF_RDS
+#define MSG_DONTWAIT MSG_DONTWAIT
+#define MSG_DONTROUTE MSG_DONTROUTE
+#define MSG_ERRQUEUE MSG_ERRQUEUE
+#define PF_PPPOX (24)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
+
+// /usr/include/bits/types.h 
+
+#define _BITS_TYPES_H (1)
+#define __U32_TYPE unsigned int
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_PEERNAME (28)
+
+// /usr/include/bits/socket.h 
+
+#define PF_IEEE802154 (36)
+
+// /usr/include/bits/types.h 
+
+#define __SQUAD_TYPE long int
+
+// /usr/include/bits/socket.h 
+
+#define PF_AX25 (3)
+#define PF_X25 (9)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_SECURITY_ENCRYPTION_NETWORK (24)
+
+// /usr/include/bits/socket.h 
+
+#define PF_LOCAL (1)
+#define CMSG_LEN(len) ( CMSG_ALIGN ( sizeof ( struct cmsghdr ) ) + ( len ) )
+#define SOL_AAL (265)
+#define PF_INET (2)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_RXQ_OVFL (40)
+
+// /usr/include/bits/socket.h 
+
+#define AF_KEY PF_KEY
+
+// /usr/include/bits/types.h 
+
+#define __SLONG32_TYPE int
+
+// /usr/include/bits/socket.h 
+
+#define MSG_WAITALL MSG_WAITALL
+#define PF_ROSE (11)
+#define AF_NETROM PF_NETROM
+#define AF_ROSE PF_ROSE
+
+// /usr/include/bits/sockaddr.h 
+
+#define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )
+
+// /usr/include/bits/socket.h 
+
+#define AF_ECONET PF_ECONET
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_DEBUG (1)
+
+// /usr/include/bits/socket.h 
+
+#define CMSG_FIRSTHDR(mhdr) ( ( size_t ) ( mhdr ) -> msg_controllen >= sizeof ( struct cmsghdr ) ? ( struct cmsghdr * ) ( mhdr ) -> msg_control : ( struct cmsghdr * ) 0 )
+#define MSG_TRUNC MSG_TRUNC
+#define PF_APPLETALK (5)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_PASSCRED (16)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __size_t__
+#define _SIZE_T
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_RCVLOWAT (18)
+#define SO_BUSY_POLL (46)
+
+// /usr/include/bits/socket.h 
+
+#define PF_NETBEUI (13)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T__
+
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/include/bits/socket.h 
+
+#define AF_SNA PF_SNA
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+#define _GCC_SIZE_T
+
+// /usr/include/bits/socket.h 
+
+#define AF_AX25 PF_AX25
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_DETACH_BPF SO_DETACH_FILTER
+
+// /usr/include/sys/types.h 
+
+#define __blkcnt_t_defined
+
+// /usr/include/bits/socket.h 
+
+#define AF_IRDA PF_IRDA
+
+// /usr/include/sys/types.h 
+
+#define __off_t_defined
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_PASSSEC (34)
+#define SO_TIMESTAMPNS (35)
+
+// /usr/include/bits/socket.h 
+
+#define PF_BRIDGE (7)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SOL_SOCKET (1)
+
+// /usr/include/bits/socket.h 
+
+#define AF_BRIDGE PF_BRIDGE
+
+// /usr/include/sys/socket.h 
+
+#define SHUT_RDWR SHUT_RDWR
+
+// /usr/include/bits/socket.h 
+
+#define PF_INET6 (10)
+#define PF_ATMSVC (20)
+#define AF_RXRPC PF_RXRPC
+
+// /usr/include/bits/types.h 
+
+#define __SWORD_TYPE long int
+
+// /usr/include/bits/socket.h 
+
+#define PF_NETROM (6)
+#define SOL_DECNET (261)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/bits/socket.h 
+
+#define MSG_FASTOPEN MSG_FASTOPEN
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_WIFI_STATUS (41)
+
+// /usr/include/bits/socket.h 
+
+#define AF_VSOCK PF_VSOCK
+
+// /usr/include/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_ATTACH_BPF (50)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/bits/socket.h 
+
+#define AF_WANPIPE PF_WANPIPE
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_ATTACH_FILTER (26)
+
+// /usr/include/bits/sockaddr.h 
+
+#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
+
+// /usr/include/bits/socket.h 
+
+#define AF_PACKET PF_PACKET
+#define CMSG_NXTHDR(mhdr, cmsg) __cmsg_nxthdr ( mhdr , cmsg )
+#define PF_DECnet (12)
+#define __socklen_t_defined
+
+// /usr/include/bits/socket_type.h 
+
+#define SOCK_NONBLOCK SOCK_NONBLOCK
+
+// /usr/include/bits/socket.h 
+
+#define AF_UNSPEC PF_UNSPEC
+#define AF_IPX PF_IPX
+
+// /usr/include/sys/socket.h 
+
+#define __CONST_SOCKADDR_ARG const struct sockaddr *
+#define __SOCKADDR_ARG struct sockaddr * __restrict
+
+// /usr/include/bits/socket.h 
+
+#define CMSG_ALIGN(len) ( ( ( len ) + sizeof ( size_t ) - 1 ) & ( size_t ) ~ ( sizeof ( size_t ) - 1 ) )
+#define AF_ROUTE PF_ROUTE
+
+// /usr/include/sys/types.h 
+
+#define __BIT_TYPES_DEFINED__ (1)
+
+// /usr/include/bits/socket.h 
+
+#define MSG_PROXY MSG_PROXY
+#define PF_UNIX PF_LOCAL
+#define SOL_RAW (255)
+#define AF_ISDN PF_ISDN
+#define MSG_RST MSG_RST
+
+// /usr/include/asm-generic/socket.h 
+
+#define SCM_TIMESTAMP SO_TIMESTAMP
+
+// /usr/include/bits/socket.h 
+
+#define SOL_IRDA (266)
+#define PF_MAX (41)
+
+// /usr/include/sys/types.h 
+
+#define __nlink_t_defined
+
+// /usr/include/bits/socket.h 
+
+#define PF_CAN (29)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_RCVBUF (8)
+
+// /usr/include/bits/socket.h 
+
+#define PF_SNA (22)
+#define SOL_PACKET (263)
+#define AF_IEEE802154 PF_IEEE802154
+
+// /usr/include/bits/sockaddr.h 
+
+#define _BITS_SOCKADDR_H (1)
+
+// /usr/include/bits/socket.h 
+
+#define AF_FILE PF_FILE
+#define AF_CAN PF_CAN
+#define AF_ATMPVC PF_ATMPVC
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_LOCK_FILTER (44)
+
+// /usr/include/sys/types.h 
+
+#define __ssize_t_defined
+
+// /usr/include/bits/socket.h 
+
+#define AF_MAX PF_MAX
+
+// /usr/include/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_KEEPALIVE (9)
+
+// /usr/include/bits/socket.h 
+
+#define PF_ATMPVC (8)
+
+// /usr/include/sys/uio.h 
+
+#define _SYS_UIO_H (1)
+
+// /usr/include/bits/socket.h 
+
+#define MSG_CMSG_CLOEXEC MSG_CMSG_CLOEXEC
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_PRIORITY (12)
+
+// /usr/include/bits/socket.h 
+
+#define MSG_PEEK MSG_PEEK
+#define PF_PHONET (35)
+#define PF_IB (27)
+#define PF_TIPC (30)
+#define PF_VSOCK (40)
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_DETACH_FILTER (27)
+#define SO_RCVTIMEO (20)
+#define SO_REUSEADDR (2)
+#define SO_LINGER (13)
+
+// /usr/include/bits/socket.h 
+
+#define MSG_SYN MSG_SYN
+
+// /usr/include/bits/types.h 
+
+#define __S16_TYPE short int
+
+// /usr/include/bits/socket.h 
+
+#define AF_IUCV PF_IUCV
+#define SOMAXCONN (128)
+#define AF_NFC PF_NFC
+
+// /usr/include/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/include/bits/socket.h 
+
+#define PF_CAIF (37)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_
+
+// /usr/include/bits/socket.h 
+
+#define _SS_PADSIZE ( _SS_SIZE - ( 2 * sizeof ( __ss_aligntype ) ) )
+
+// /usr/include/sys/types.h 
+
+#define __int8_t_defined
+#define __need_clockid_t
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_INCOMING_CPU (49)
+
+// /usr/include/bits/socket_type.h 
+
+#define SOCK_SEQPACKET SOCK_SEQPACKET
+
+// /usr/include/sys/socket.h 
+
+#define SHUT_RD SHUT_RD
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_SNDBUFFORCE (32)
+
+// /usr/include/bits/types.h 
+
+#define __U64_TYPE unsigned long int
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_BROADCAST (6)
+
+// /usr/include/bits/socket.h 
+
+#define MSG_MORE MSG_MORE
+
+// /usr/include/sys/types.h 
+
+#define __suseconds_t_defined
+
+// /usr/include/bits/types.h 
+
+#define __S64_TYPE long int
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_ACCEPTCONN (30)
+
+// /usr/include/bits/socket.h 
+
+#define PF_PACKET (17)
+
+// /usr/include/sys/types.h 
+
+#define __gid_t_defined
+
+// /usr/include/asm-generic/socket.h 
+
+#define SO_DONTROUTE (5)
+
+// /usr/include/bits/socket.h 
+
+#define MSG_NOSIGNAL MSG_NOSIGNAL
+
+// /usr/include/asm-generic/socket.h 
+
+#define __ASM_GENERIC_SOCKET_H
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
 #define _T_SIZE
 
-// /usr/include/bits/socket.h 
+// /usr/include/sys/types.h 
 
-#define SOL_AAL (265)
+#define __off64_t_defined
 
 // /usr/include/asm-generic/socket.h 
 
-#define SO_SNDBUF (7)
-#define SCM_TIMESTAMPNS SO_TIMESTAMPNS
+#define SO_SECURITY_AUTHENTICATION (22)
+#define SO_BPF_EXTENSIONS (48)
+
+// /usr/include/sys/types.h 
+
+#define __ino_t_defined
+
+// /usr/include/bits/socket.h 
+
+#define MSG_CTRUNC MSG_CTRUNC
+#define _SS_SIZE (128)
+#define AF_IB PF_IB
+#define MSG_FIN MSG_FIN
+
+// /usr/include/sys/socket.h 
+
+#define SHUT_WR SHUT_WR

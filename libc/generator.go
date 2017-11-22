@@ -1137,7 +1137,7 @@ func main() {
 		{"stdbool", "true", "TODO"},
 		{"stddef", "offsetof", "errno_t"},
 		{"stdint", "TODO", "uint32_t"},
-		{"stdio", "TODO", "printf|__off_t|__mbstate_t|size_t|_off64_t"},
+		{"stdio", "FILENAME_MAX", "printf|__off_t|__mbstate_t|size_t|_off64_t"},
 		{"stdlib", "TODO", "qsort|wchar_t"},
 		{"string", "TODO", "strcpy|size_t"},
 		{"strings", "TODO", "index|size_t"},
@@ -1185,7 +1185,9 @@ func main() {
 		{"linux", "X11/X", "TODO", "VisualID"},
 		{"linux", "X11/extensions/Xdbe", "XdbeUntouched", "XdbeBackBuffer|VisualID|wchar_t"},
 		{"linux", "sys/ucontext", "TODO", "TODO"},
-		{"linux", "sys/ioctl", "TODO", "TODO"},
+		{"linux", "sys/ioctl", "TODO", "ioctl"},
+		{"linux", "pwd", "TODO", "getpwuid|__gid_t|size_t"},
+		{"linux", "sys/resource", "RUSAGE_SELF", "getrusage|__id_t|timeval"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {

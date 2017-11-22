@@ -407,269 +407,53 @@ Xauth *XauGetAuthByAddr(unsigned short, unsigned short, const char *, unsigned s
 Xauth *XauGetBestAuthByAddr(unsigned short, unsigned short, const char *, unsigned short, const char *, int, char **, const int *);
 void XauDisposeAuth(Xauth *);
 
-// /usr/include/libio.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _IO_CURRENTLY_PUTTING (2048)
-#define _IO_stdout ( ( _IO_FILE * ) ( & _IO_2_1_stdout_ ) )
-
-// /usr/include/X11/Xauth.h 
-
-#define LOCK_SUCCESS (0)
-
-// /usr/include/libio.h 
-
-#define _IO_LEFT (2)
-#define _IOS_TRUNC (16)
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define NARROWPROTO
-
-// /usr/include/libio.h 
-
-#define _IO_BE(expr, res) ( expr )
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_UNLIKELY(x) ( x )
-#define _X_NONNULL()
-
-// /usr/include/libio.h 
-
-#define _IO_IN_BACKUP (256)
-
-// /usr/include/X11/Xauth.h 
-
-#define FamilyLocalHost (252)
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_NORETURN
-
-// /usr/include/stdio.h 
-
-#define stdin stdin
+#define _SYS_SIZE_T_H
 
 // /usr/include/libio.h 
 
 #define _IO_EOF_SEEN (16)
 
-// /usr/include/stdio.h 
-
-#define tmpfile tmpfile64
-
-// /usr/include/_G_config.h 
-
-#define _G_HAVE_MREMAP (1)
-
-// /usr/include/libio.h 
-
-#define _IO_ferror_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_ERR_SEEN ) != 0 )
-
-// /usr/include/_G_config.h 
-
-#define _G_HAVE_ST_BLKSIZE defined ( _STATBUF_ST_BLKSIZE )
-
-// /usr/include/libio.h 
-
-#define _IO_iconv_t _G_iconv_t
-#define _IO_UNIFIED_JUMPTABLES (1)
-#define _IO_wint_t wint_t
-
 // /usr/include/X11/Xfuncproto.h 
 
-#define _X_UNUSED
-
-// /usr/include/libio.h 
-
-#define _IO_SHOWPOINT (256)
-#define _IO_flockfile(_fp)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _T_SIZE
-
-// /usr/include/libio.h 
-
-#define _IOS_INPUT (1)
-
-// /usr/include/stdio.h 
-
-#define SEEK_END (2)
-
-// /usr/include/libio.h 
-
-#define _IO_fpos64_t _G_fpos64_t
-#define _IO_pid_t __pid_t
-#define _IOS_ATEND (4)
-
-// /usr/include/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-#define _BITS_TYPES_H (1)
-
-// /usr/include/libio.h 
-
-#define _IOS_BIN (128)
-
-// /usr/include/stdio.h 
-
-#define stdout stdout
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_EXPORT
 #define _X_INTERNAL
 
 // /usr/include/libio.h 
 
-#define _OLD_STDIO_MAGIC (4206624768u)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-#define _SYS_SIZE_T_H
-#define __SIZE_T__
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define NeedVarargsPrototypes (1)
-
-// /usr/include/libio.h 
-
-#define _IO_BAD_SEEN (16384)
+#define _IO_SKIPWS (1)
 
 // /usr/include/stdio.h 
 
-#define fopen fopen64
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define FUNCPROTO (15)
-
-// /usr/include/libio.h 
-
-#define _IO_SHOWPOS (1024)
-#define _IO_UNITBUF (8192)
-
-// /usr/include/stdio.h 
-
-#define vsscanf __isoc99_vsscanf
-#define ____FILE_defined (1)
-
-// /usr/include/libio.h 
-
-#define _IO_fpos_t _G_fpos_t
-#define _IOS_APPEND (8)
-
-// /usr/include/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/libio.h 
-
-#define _IO_HAVE_ST_BLKSIZE _G_HAVE_ST_BLKSIZE
-#define _IO_cleanup_region_end(_Doit)
-#define _IO_peekc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) && __underflow ( _fp ) == EOF ? EOF : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr )
-
-// /usr/include/bits/types.h 
-
-#define __S32_TYPE int
-
-// /usr/include/libio.h 
-
-#define _IO_PENDING_OUTPUT_COUNT(_fp) ( ( _fp ) -> _IO_write_ptr - ( _fp ) -> _IO_write_base )
-#define _IO_OCT (32)
-
-// /usr/include/_G_config.h 
-
-#define _G_va_list __gnuc_va_list
-
-// /usr/include/stdio.h 
-
-#define BUFSIZ _IO_BUFSIZ
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_RESTRICT_KYWD restrict
+#define getc(_fp) _IO_getc ( _fp )
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
 #define _BSD_SIZE_T_
 
-// /usr/include/libio.h 
-
-#define _IO_IS_FILEBUF (8192)
-#define _IO_stderr ( ( _IO_FILE * ) ( & _IO_2_1_stderr_ ) )
-#define _IO_size_t size_t
-
 // /usr/include/stdio.h 
 
-#define fscanf __isoc99_fscanf
-
-// /usr/include/libio.h 
-
-#define _IO_SCIENTIFIC (2048)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZET_
+#define __FILE_defined (1)
 
 // /usr/include/X11/Xfuncproto.h 
 
-#define _Xconst const
-
-// /usr/include/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/libio.h 
-
-#define _IO_HEX (64)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-
-// /usr/include/libio.h 
-
-#define _IO_SHOWBASE (128)
-
-// /usr/include/bits/types.h 
-
-#define __S64_TYPE long int
+#define _X_RESTRICT_KYWD restrict
+#define _X_EXPORT
 
 // /usr/include/stdio.h 
 
-#define _IOFBF (0)
-
-// /usr/include/X11/Xauth.h 
-
-#define FamilyKrb5Principal (253)
+#define _IONBF (2)
 
 // /usr/include/libio.h 
 
-#define _IO_INTERNAL (8)
+#define _IO_uid_t __uid_t
+#define _IO_TIED_PUT_GET (1024)
+#define _IO_SHOWPOINT (256)
+#define _IO_funlockfile(_fp)
 
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+// /usr/include/bits/types.h 
 
-#define __SIZE_T
-#define __size_t
-#define __size_t__
-
-// /usr/include/libio.h 
-
-#define _IO_FIXED (4096)
-#define _IO_ftrylockfile(_fp)
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_SENTINEL(x)
-#define _X_COLD
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_
+#define _BITS_TYPES_H (1)
 
 // /usr/include/stdio.h 
 
@@ -677,7 +461,344 @@ void XauDisposeAuth(Xauth *);
 
 // /usr/include/libio.h 
 
+#define _IO_DONT_CLOSE (32768)
+#define _IO_va_list __gnuc_va_list
+#define __HAVE_COLUMN
+#define _IOS_APPEND (8)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_INLINE inline
+
+// /usr/include/libio.h 
+
+#define _IO_peekc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) && __underflow ( _fp ) == EOF ? EOF : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr )
+
+// /usr/include/stdio.h 
+
+#define fopen fopen64
+#define SEEK_SET (0)
+
+// /usr/include/libio.h 
+
+#define _IO_feof_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_EOF_SEEN ) != 0 )
+
+// /usr/include/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/include/libio.h 
+
+#define _IO_BUFSIZ _G_BUFSIZ
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define NeedNestedPrototypes (1)
+#define _X_NONNULL()
+
+// /usr/include/stdio.h 
+
+#define stdin stdin
+
+// /usr/include/X11/Xauth.h 
+
+#define _Xauth_h
+
+// /usr/include/libio.h 
+
+#define _IO_ERR_SEEN (32)
+#define _IO_BAD_SEEN (16384)
+
+// /usr/include/stdio.h 
+
+#define SEEK_END (2)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/libio.h 
+
+#define _IOS_NOREPLACE (64)
+#define _IO_USER_BUF (1)
+#define _IO_IS_APPENDING (4096)
+
+// /usr/include/stdio.h 
+
+#define ftello ftello64
+
+// /usr/include/libio.h 
+
+#define _IO_MAGIC (4222418944u)
+#define _IO_stdout ( ( _IO_FILE * ) ( & _IO_2_1_stdout_ ) )
+#define _IOS_TRUNC (16)
+#define _OLD_STDIO_MAGIC (4206624768u)
+
+// /usr/include/stdio.h 
+
+#define ____FILE_defined (1)
+
+// /usr/include/libio.h 
+
+#define _IO_DEC (16)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_ATTRIBUTE_PRINTF(x, y)
+
+// /usr/include/libio.h 
+
+#define _IO_DELETE_DONT_CLOSE (64)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _Xconst const
+
+// /usr/include/bits/types.h 
+
+#define __S16_TYPE short int
+
+// /usr/include/stdio.h 
+
+#define _STDIO_USES_IOSTREAM
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_size_t_h
+
+// /usr/include/libio.h 
+
+#define _IO_wint_t wint_t
+
+// /usr/include/X11/Xauth.h 
+
+#define LOCK_SUCCESS (0)
+#define FamilyLocal (256)
+
+// /usr/include/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+
+// /usr/include/libio.h 
+
+#define _IO_LEFT (2)
+
+// /usr/include/bits/types.h 
+
+#define __U32_TYPE unsigned int
+
+// /usr/include/stdio.h 
+
+#define tmpfile tmpfile64
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+#define _BSD_SIZE_T_DEFINED_
+
+// /usr/include/libio.h 
+
+#define _IO_UNITBUF (8192)
+#define _IO_USER_LOCK (32768)
+#define _IO_fpos_t _G_fpos_t
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define FUNCPROTO (15)
+
+// /usr/include/stdio.h 
+
+#define _IOFBF (0)
+
+// /usr/include/libio.h 
+
+#define _IO_STDIO (16384)
+
+// /usr/include/stdio.h 
+
+#define putc(_ch, _fp) _IO_putc ( _ch , _fp )
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define NeedWidePrototypes (0)
+
+// /usr/include/_G_config.h 
+
+#define _G_config_h (1)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _XFUNCPROTOEND
+
+// /usr/include/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/X11/Xauth.h 
+
+#define FamilyNetname (254)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __size_t__
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_NORETURN
+
+// /usr/include/libio.h 
+
+#define _IO_BE(expr, res) ( expr )
+#define _IO_off64_t __off64_t
+
+// /usr/include/string.h 
+
+#define _STRING_H (1)
+
+// /usr/include/libio.h 
+
 #define _IO_BOOLALPHA (65536)
+
+// /usr/include/stdio.h 
+
+#define fscanf __isoc99_fscanf
+
+// /usr/include/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __size_t
+
+// /usr/include/libio.h 
+
+#define _IO_NO_WRITES (8)
+#define _IO_SHOWBASE (128)
+
+// /usr/include/X11/Xauth.h 
+
+#define LOCK_ERROR (1)
+#define FamilyLocalHost (252)
+#define FamilyWild (65535)
+
+// /usr/include/libio.h 
+
+#define _IO_cleanup_region_start(_fct, _fp)
+#define _IO_CURRENTLY_PUTTING (2048)
+#define _IO_SHOWPOS (1024)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_UNUSED
+#define __has_attribute(x) 0
+
+// /usr/include/libio.h 
+
+#define _IO_ftrylockfile(_fp)
+#define _IO_UNIFIED_JUMPTABLES (1)
+#define _IO_SCIENTIFIC (2048)
+#define _IOS_INPUT (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T
+
+// /usr/include/libio.h 
+
+#define _IOS_OUTPUT (2)
+#define _IO_file_flags _flags
+#define _IO_fpos64_t _G_fpos64_t
+#define _IO_MAGIC_MASK (4294901760u)
+#define EOF (-1)
+
+// /usr/include/stdio.h 
+
+#define vsscanf __isoc99_vsscanf
+
+// /usr/include/libio.h 
+
+#define _IO_stderr ( ( _IO_FILE * ) ( & _IO_2_1_stderr_ ) )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_
+
+// /usr/include/libio.h 
+
+#define _IO_IN_BACKUP (256)
+#define _IO_putc_unlocked(_ch, _fp) ( _IO_BE ( ( _fp ) -> _IO_write_ptr >= ( _fp ) -> _IO_write_end , 0 ) ? __overflow ( _fp , ( unsigned char ) ( _ch ) ) : ( unsigned char ) ( * ( _fp ) -> _IO_write_ptr ++ = ( _ch ) ) )
+#define _IO_cleanup_region_end(_Doit)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define NeedVarargsPrototypes (1)
+#define _XFUNCPROTOBEGIN
+
+// /usr/include/stdio.h 
+
+#define stderr stderr
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/stdio.h 
+
+#define sscanf __isoc99_sscanf
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_DEPRECATED
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZET_
+
+// /usr/include/libio.h 
+
+#define _IO_getc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) ? __uflow ( _fp ) : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr ++ )
+
+// /usr/include/stdio.h 
+
+#define fgetpos fgetpos64
+
+// /usr/include/_G_config.h 
+
+#define _G_va_list __gnuc_va_list
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE
+#define _SIZE_T
+
+// /usr/include/stdio.h 
+
+#define P_tmpdir "/tmp"
+
+// /usr/include/bits/types.h 
+
+#define __SLONG32_TYPE int
+#define __S64_TYPE long int
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_UNLIKELY(x) ( x )
+
+// /usr/include/bits/types.h 
+
+#define __SQUAD_TYPE long int
+
+// /usr/include/libio.h 
+
+#define _IO_FIXED (4096)
+#define _IO_UPPERCASE (512)
+#define _IO_LINKED (128)
+#define _IO_RIGHT (4)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define NARROWPROTO
 
 // /usr/include/bits/types.h 
 
@@ -686,86 +807,40 @@ void XauDisposeAuth(Xauth *);
 // /usr/include/libio.h 
 
 #define _IO_FLAGS2_MMAP (1)
+#define _IO_UNBUFFERED (2)
 
-// /usr/include/_G_config.h 
+// /usr/include/stdio.h 
 
-#define _G_HAVE_MMAP (1)
-
-// /usr/include/libio.h 
-
-#define _IO_RIGHT (4)
-#define _IO_getc_unlocked(_fp) ( _IO_BE ( ( _fp ) -> _IO_read_ptr >= ( _fp ) -> _IO_read_end , 0 ) ? __uflow ( _fp ) : * ( unsigned char * ) ( _fp ) -> _IO_read_ptr ++ )
+#define vscanf __isoc99_vscanf
+#define stdout stdout
 
 // /usr/include/X11/Xfuncproto.h 
 
-#define _XFUNCPROTO_H_
-#define NeedNestedPrototypes (1)
+#define NeedFunctionPrototypes (1)
 
 // /usr/include/libio.h 
 
-#define _IOS_NOREPLACE (64)
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _XFUNCPROTOBEGIN
-
-// /usr/include/_G_config.h 
-
-#define _G_BUFSIZ (8192)
-
-// /usr/include/libio.h 
-
-#define _IO_TIED_PUT_GET (1024)
-#define _IO_IS_APPENDING (4096)
-#define _IO_UPPERCASE (512)
-
-// /usr/include/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/include/libio.h 
-
-#define _IO_FLAGS2_USER_WBUF (8)
-
-// /usr/include/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/libio.h 
-
-#define _IO_va_list __gnuc_va_list
-#define _IO_stdin ( ( _IO_FILE * ) ( & _IO_2_1_stdin_ ) )
-#define _IO_LINE_BUF (512)
-#define _IO_STDIO (16384)
-
-// /usr/include/X11/Xauth.h 
-
-#define LOCK_TIMEOUT (2)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/libio.h 
-
-#define _IO_off_t __off_t
-
-// /usr/include/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/include/X11/Xauth.h 
-
-#define LOCK_ERROR (1)
+#define _IO_PENDING_OUTPUT_COUNT(_fp) ( ( _fp ) -> _IO_write_ptr - ( _fp ) -> _IO_write_base )
 
 // /usr/include/stdio.h 
 
 #define _STDIO_H (1)
 
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_LIKELY(x) ( x )
+
 // /usr/include/libio.h 
 
-#define _IO_STDIO_H
-#define _IO_NO_WRITES (8)
+#define _IO_flockfile(_fp)
+
+// /usr/include/stdio.h 
+
+#define freopen freopen64
+
+// /usr/include/libio.h 
+
+#define _IO_ferror_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_ERR_SEEN ) != 0 )
 
 // /usr/include/stdio.h 
 
@@ -777,213 +852,51 @@ void XauDisposeAuth(Xauth *);
 
 // /usr/include/libio.h 
 
-#define _IO_MAGIC (4222418944u)
-#define _IO_funlockfile(_fp)
-#define _IO_DEC (16)
-#define _IO_uid_t __uid_t
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_INLINE inline
-
-// /usr/include/libio.h 
-
-#define _IO_FLAGS2_NOTCANCEL (2)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define NULL ( ( void * ) 0 )
-
-// /usr/include/libio.h 
-
-#define _IO_USER_LOCK (32768)
-#define _IO_ERR_SEEN (32)
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_HIDDEN
-
-// /usr/include/stdio.h 
-
-#define SEEK_SET (0)
-
-// /usr/include/bits/types.h 
-
-#define __U32_TYPE unsigned int
-
-// /usr/include/stdio.h 
-
-#define _IOLBF (1)
-
-// /usr/include/libio.h 
-
-#define _IO_peekc(_fp) _IO_peekc_unlocked ( _fp )
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define NeedWidePrototypes (0)
-
-// /usr/include/libio.h 
-
-#define _IO_BUFSIZ _G_BUFSIZ
-#define _IO_SKIPWS (1)
-
-// /usr/include/bits/types.h 
-
-#define __SLONG32_TYPE int
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define NeedFunctionPrototypes (1)
-
-// /usr/include/libio.h 
-
-#define _IO_LINKED (128)
-
-// /usr/include/stdio.h 
-
-#define vscanf __isoc99_vscanf
-
-// /usr/include/X11/Xauth.h 
-
-#define _Xauth_h
-
-// /usr/include/stdio.h 
-
-#define _IONBF (2)
-
-// /usr/include/libio.h 
-
-#define _IO_feof_unlocked(__fp) ( ( ( __fp ) -> _flags & _IO_EOF_SEEN ) != 0 )
+#define _IO_LINE_BUF (512)
 
 // /usr/include/_G_config.h 
 
-#define _G_IO_IO_FILE_VERSION (131073)
+#define _G_HAVE_ST_BLKSIZE defined ( _STATBUF_ST_BLKSIZE )
 
 // /usr/include/X11/Xfuncproto.h 
 
-#define __has_attribute(x) 0
-
-// /usr/include/libio.h 
-
-#define _IO_ssize_t __ssize_t
-
-// /usr/include/string.h 
-
-#define _STRING_H (1)
-
-// /usr/include/stdio.h 
-
-#define fgetpos fgetpos64
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/libio.h 
-
-#define _IO_USER_BUF (1)
-
-// /usr/include/stdio.h 
-
-#define P_tmpdir "/tmp"
-#define scanf __isoc99_scanf
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_DEPRECATED
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-
-// /usr/include/stdio.h 
-
-#define freopen freopen64
-#define __FILE_defined (1)
-#define _STDIO_USES_IOSTREAM
-
-// /usr/include/libio.h 
-
-#define _IO_UNBUFFERED (2)
-
-// /usr/include/X11/Xauth.h 
-
-#define FamilyLocal (256)
-
-// /usr/include/stdio.h 
-
-#define fsetpos fsetpos64
-
-// /usr/include/libio.h 
-
-#define __HAVE_COLUMN
-
-// /usr/include/stdio.h 
-
-#define ftello ftello64
-
-// /usr/include/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/libio.h 
-
-#define _IO_DELETE_DONT_CLOSE (64)
-#define _IOS_OUTPUT (2)
+#define _XFUNCPROTO_H_
+#define _X_HIDDEN
 
 // /usr/include/wchar.h 
 
 #define ____mbstate_t_defined (1)
 
-// /usr/include/stdio.h 
+// /usr/include/_G_config.h 
 
-#define stderr stderr
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_LIKELY(x) ( x )
+#define _G_BUFSIZ (8192)
 
 // /usr/include/libio.h 
 
+#define _IO_off_t __off_t
 #define _IO_NO_READS (4)
-
-// /usr/include/stdio.h 
-
-#define sscanf __isoc99_sscanf
-
-// /usr/include/libio.h 
-
-#define _IO_putc_unlocked(_ch, _fp) ( _IO_BE ( ( _fp ) -> _IO_write_ptr >= ( _fp ) -> _IO_write_end , 0 ) ? __overflow ( _fp , ( unsigned char ) ( _ch ) ) : ( unsigned char ) ( * ( _fp ) -> _IO_write_ptr ++ = ( _ch ) ) )
-
-// /usr/include/stdio.h 
-
-#define getc(_fp) _IO_getc ( _fp )
-#define putc(_ch, _fp) _IO_putc ( _ch , _fp )
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _T_SIZE_
-
-// /usr/include/X11/Xfuncproto.h 
-
-#define _X_ATTRIBUTE_PRINTF(x, y)
-
-// /usr/include/X11/Xauth.h 
-
-#define FamilyWild (65535)
-
-// /usr/include/bits/types.h 
-
-#define __S16_TYPE short int
+#define __SIZE_T__
 
 // /usr/include/libio.h 
 
+#define _IO_OCT (32)
 #define _IOS_NOCREATE (32)
+#define _IO_HEX (64)
 
-// /usr/include/_G_config.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _G_config_h (1)
+#define NULL ( ( void * ) 0 )
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_COLD
+
+// /usr/include/bits/types.h 
+
+#define __SLONGWORD_TYPE long int
 
 // /usr/include/stdio.h 
 
@@ -991,34 +904,91 @@ void XauDisposeAuth(Xauth *);
 
 // /usr/include/libio.h 
 
-#define _IO_DONT_CLOSE (32768)
+#define _IO_IS_FILEBUF (8192)
 
-// /usr/include/X11/Xfuncproto.h 
+// /usr/include/stdio.h 
 
-#define _XFUNCPROTOEND
+#define _IOLBF (1)
 
 // /usr/include/libio.h 
 
-#define EOF (-1)
+#define _IO_ssize_t __ssize_t
+#define _IOS_ATEND (4)
+
+// /usr/include/stdio.h 
+
+#define fsetpos fsetpos64
+
+// /usr/include/libio.h 
+
+#define _IO_pid_t __pid_t
+#define _IO_stdin ( ( _IO_FILE * ) ( & _IO_2_1_stdin_ ) )
+
+// /usr/include/X11/Xauth.h 
+
+#define FamilyKrb5Principal (253)
+
+// /usr/include/libio.h 
+
+#define _IO_size_t size_t
+#define _IO_iconv_t _G_iconv_t
+
+// /usr/include/_G_config.h 
+
+#define _G_HAVE_MREMAP (1)
+
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/include/libio.h 
+
+#define _IO_STDIO_H
+#define _IO_INTERNAL (8)
+
+// /usr/include/stdio.h 
+
+#define BUFSIZ _IO_BUFSIZ
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
 #define _GCC_SIZE_T
-
-// /usr/include/libio.h 
-
-#define _IO_file_flags _flags
-#define _IO_cleanup_region_start(_fct, _fp)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T
-
-// /usr/include/libio.h 
-
-#define _IO_MAGIC_MASK (4294901760u)
-#define _IO_off64_t __off64_t
+#define _SIZE_T_DEFINED_
 
 // /usr/include/X11/Xauth.h 
 
-#define FamilyNetname (254)
+#define LOCK_TIMEOUT (2)
+
+// /usr/include/libio.h 
+
+#define _IO_HAVE_ST_BLKSIZE _G_HAVE_ST_BLKSIZE
+#define _IO_FLAGS2_USER_WBUF (8)
+
+// /usr/include/stdio.h 
+
+#define scanf __isoc99_scanf
+
+// /usr/include/_G_config.h 
+
+#define _G_HAVE_MMAP (1)
+
+// /usr/include/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/libio.h 
+
+#define _IO_peekc(_fp) _IO_peekc_unlocked ( _fp )
+
+// /usr/include/_G_config.h 
+
+#define _G_IO_IO_FILE_VERSION (131073)
+
+// /usr/include/X11/Xfuncproto.h 
+
+#define _X_SENTINEL(x)
+
+// /usr/include/libio.h 
+
+#define _IOS_BIN (128)
+#define _IO_FLAGS2_NOTCANCEL (2)

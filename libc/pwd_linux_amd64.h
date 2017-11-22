@@ -29,7 +29,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/include/time.h
+//      /usr/include/pwd.h
 // ----------------------------------------------------------------------------
 /* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -47,9 +47,6 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-
-typedef long unsigned int size_t;
-// /usr/include/bits/types.h
 
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
@@ -105,156 +102,72 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef long int __intptr_t;
 typedef unsigned int __socklen_t;
-// /usr/include/time.h
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 
-typedef __clock_t clock_t;
-typedef __time_t time_t;
-typedef __clockid_t clockid_t;
-typedef __timer_t timer_t;
-struct timespec {
-	__time_t tv_sec;
-	__syscall_slong_t tv_nsec;
+typedef long unsigned int size_t;
+// /usr/include/pwd.h
+
+typedef __gid_t gid_t;
+typedef __uid_t uid_t;
+struct passwd {
+	char *pw_name;
+	char *pw_passwd;
+	__uid_t pw_uid;
+	__gid_t pw_gid;
+	char *pw_gecos;
+	char *pw_dir;
+	char *pw_shell;
 };
-struct tm {
-	int tm_sec;
-	int tm_min;
-	int tm_hour;
-	int tm_mday;
-	int tm_mon;
-	int tm_year;
-	int tm_wday;
-	int tm_yday;
-	int tm_isdst;
-	long int __tm_gmtoff;
-	const char *__tm_zone;
-};
-struct itimerspec {
-	struct timespec it_interval;
-	struct timespec it_value;
-};
-struct sigevent;
-extern clock_t clock(void);
-extern time_t time(time_t * __timer);
-extern double difftime(time_t __time1, time_t __time0);
-extern time_t mktime(struct tm *__tp);
-extern size_t strftime(char *__s, size_t __maxsize, const char *__format, const struct tm *__tp);
-extern char *strptime(const char *__s, const char *__fmt, struct tm *__tp);
-extern struct tm *gmtime(const time_t * __timer);
-extern struct tm *localtime(const time_t * __timer);
-extern struct tm *gmtime_r(const time_t * __timer, struct tm *__tp);
-extern struct tm *localtime_r(const time_t * __timer, struct tm *__tp);
-extern char *asctime(const struct tm *__tp);
-extern char *ctime(const time_t * __timer);
-extern char *asctime_r(const struct tm *__tp, char *__buf);
-extern char *ctime_r(const time_t * __timer, char *__buf);
-extern char *__tzname[2];
-extern int __daylight;
-extern long int __timezone;
-extern char *tzname[2];
-extern void tzset(void);
-extern int daylight;
-extern long int timezone;
-extern int nanosleep(const struct timespec *__requested_time, struct timespec *__remaining);
-extern int clock_getres(clockid_t __clock_id, struct timespec *__res);
-extern int clock_gettime(clockid_t __clock_id, struct timespec *__tp);
-extern int clock_settime(clockid_t __clock_id, const struct timespec *__tp);
-extern int timer_create(clockid_t __clock_id, struct sigevent *__evp, timer_t * __timerid);
-extern int timer_delete(timer_t __timerid);
-extern int timer_settime(timer_t __timerid, int __flags, const struct itimerspec *__value, struct itimerspec *__ovalue);
-extern int timer_gettime(timer_t __timerid, struct itimerspec *__value);
-extern int timer_getoverrun(timer_t __timerid);
-extern int getdate_err;
-extern struct tm *getdate(const char *__string);
+extern void setpwent(void);
+extern void endpwent(void);
+extern struct passwd *getpwent(void);
+extern struct passwd *getpwuid(__uid_t __uid);
+extern struct passwd *getpwnam(const char *__name);
+extern int getpwuid_r(__uid_t __uid, struct passwd *__resultbuf, char *__buffer, size_t __buflen, struct passwd **__result);
+extern int getpwnam_r(const char *__name, struct passwd *__resultbuf, char *__buffer, size_t __buflen, struct passwd **__result);
 
 // /usr/include/bits/types.h 
 
-#define __S32_TYPE int
+#define __ULONG32_TYPE unsigned int
+#define __S16_TYPE short int
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _BSD_SIZE_T_
-
-// /usr/include/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-#define __U16_TYPE unsigned short int
-
-// /usr/include/time.h 
-
-#define __timer_t_defined (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZET_
-
-// /usr/include/bits/types.h 
-
-#define __U64_TYPE unsigned long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __size_t
 #define _SIZE_T
-
-// /usr/include/time.h 
-
-#define _TIME_H (1)
-
-// /usr/include/bits/types.h 
-
-#define __U32_TYPE unsigned int
-#define __UWORD_TYPE unsigned long int
-#define __SLONG32_TYPE int
-
-// /usr/include/time.h 
-
-#define __time_t_defined (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-#define _SIZE_T_DECLARED
-#define _BSD_SIZE_T_DEFINED_
-#define __size_t__
-#define _SYS_SIZE_T_H
-#define NULL ( ( void * ) 0 )
-
-// /usr/include/time.h 
-
-#define __clock_t_defined (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __SIZE_T__
-
-// /usr/include/bits/types.h 
-
-#define __S64_TYPE long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _GCC_SIZE_T
 
 // /usr/include/bits/types.h 
 
 #define _BITS_TYPES_H (1)
 
-// /usr/include/time.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define __clockid_t_defined (1)
+#define _SIZE_T_DEFINED_
+
+// /usr/include/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/pwd.h 
+
+#define __uid_t_defined
+
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/pwd.h 
+
+#define __gid_t_defined
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _T_SIZE_
-
-// /usr/include/time.h 
-
-#define __timespec_defined (1)
+#define _SYS_SIZE_T_H
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/bits/types.h 
 
 #define __SLONGWORD_TYPE long int
-#define __SQUAD_TYPE long int
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
@@ -262,27 +175,51 @@ extern struct tm *getdate(const char *__string);
 
 // /usr/include/bits/types.h 
 
-#define __S16_TYPE short int
-#define __ULONG32_TYPE unsigned int
+#define __ULONGWORD_TYPE unsigned long int
+#define __S32_TYPE int
+#define __U64_TYPE unsigned long int
+#define __SQUAD_TYPE long int
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
+#define _SIZE_T_DECLARED
 #define _T_SIZE
-#define __SIZE_T
-
-// /usr/include/time.h 
-
-#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
 
 // /usr/include/bits/types.h 
 
-#define __ULONGWORD_TYPE unsigned long int
+#define __S64_TYPE long int
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
 #define ___int_size_t_h
-#define _SIZE_T_DEFINED_
+#define _GCC_SIZE_T
+#define _SIZET_
+#define __size_t__
+#define __SIZE_T
+#define _BSD_SIZE_T_
 
 // /usr/include/bits/types.h 
 
 #define __SWORD_TYPE long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+#define _T_SIZE_
+
+// /usr/include/pwd.h 
+
+#define _PWD_H (1)
+
+// /usr/include/bits/types.h 
+
+#define __SLONG32_TYPE int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T__
+#define __size_t
+
+// /usr/include/bits/types.h 
+
+#define __U32_TYPE unsigned int

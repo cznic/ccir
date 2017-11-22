@@ -76,6 +76,26 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    This exception applies to code released by its copyright holders
    in files containing the exception.  */
 
+// ----------------------------------------------------------------------------
+//      /usr/include/bits/stdio_lim.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1994-2015 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
 package stdio
 
 const (
@@ -218,12 +238,17 @@ const (
 	XEWOULDBLOCK            = 11
 	XEXDEV                  = 18
 	XEXFULL                 = 54
+	XFILENAME_MAX           = 4096
+	XFOPEN_MAX              = 16
 	XINT_MAX                = 2147483647
 	XINT_MIN                = 2147483648
 	XLLONG_MAX              = 9223372036854775807
 	XLLONG_MIN              = -9223372036854775808
 	XLONG_MAX               = 9223372036854775807
 	XLONG_MIN               = -9223372036854775808
+	XL_ctermid              = 9
+	XL_cuserid              = 9
+	XL_tmpnam               = 20
 	XP_tmpdir               = "/tmp"
 	XSCHAR_MAX              = 127
 	XSCHAR_MIN              = -128
@@ -232,6 +257,7 @@ const (
 	XSEEK_SET               = 0
 	XSHRT_MAX               = 32767
 	XSHRT_MIN               = -32768
+	XTMP_MAX                = 238328
 	XUCHAR_MAX              = 255
 	XUINT_MAX               = 4294967295
 	XULLONG_MAX             = 18446744073709551615

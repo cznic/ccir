@@ -81,6 +81,7 @@ extern void __bzero(void *__s, size_t __n);
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
+#define _SIZET_
 #define _SIZE_T
 
 // /usr/include/string.h 
@@ -89,20 +90,19 @@ extern void __bzero(void *__s, size_t __n);
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define NULL ( ( void * ) 0 )
-#define __SIZE_T
-#define ___int_size_t_h
-#define _SIZE_T_DEFINED
-#define _T_SIZE_
-#define _BSD_SIZE_T_DEFINED_
-#define __size_t__
-#define _GCC_SIZE_T
-#define _BSD_SIZE_T_
-#define _SIZE_T_
 #define _SYS_SIZE_T_H
-#define __size_t
-#define __SIZE_T__
-#define _T_SIZE
-#define _SIZET_
 #define _SIZE_T_DEFINED_
+#define _GCC_SIZE_T
+#define _T_SIZE_
+#define ___int_size_t_h
+#define __size_t__
+#define _BSD_SIZE_T_DEFINED_
 #define _SIZE_T_DECLARED
+#define _T_SIZE
+#define _SIZE_T_DEFINED
+#define NULL ( ( void * ) 0 )
+#define _SIZE_T_
+#define __SIZE_T__
+#define __size_t
+#define _BSD_SIZE_T_
+#define __SIZE_T
