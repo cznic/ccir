@@ -58,17 +58,7 @@ extern int iconv_close(iconv_t __cd);
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define __size_t__
-#define ___int_size_t_h
-#define __size_t
-#define __SIZE_T
-#define _T_SIZE_
-#define _BSD_SIZE_T_
 #define _SIZET_
-#define _SIZE_T_
-#define _SIZE_T
-#define _BSD_SIZE_T_DEFINED_
-#define _SIZE_T_DEFINED_
 
 // /usr/include/iconv.h 
 
@@ -76,9 +66,19 @@ extern int iconv_close(iconv_t __cd);
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _SIZE_T_DEFINED
 #define _T_SIZE
-#define _SYS_SIZE_T_H
-#define __SIZE_T__
+#define _BSD_SIZE_T_
+#define _SIZE_T
+#define _SIZE_T_DEFINED_
+#define ___int_size_t_h
 #define _GCC_SIZE_T
+#define __size_t
+#define _SYS_SIZE_T_H
+#define _BSD_SIZE_T_DEFINED_
+#define __size_t__
 #define _SIZE_T_DECLARED
+#define _T_SIZE_
+#define __SIZE_T
+#define __SIZE_T__
+#define _SIZE_T_DEFINED
+#define _SIZE_T_

@@ -192,38 +192,6 @@ struct iovec {
 extern ssize_t readv(int __fd, const struct iovec *__iovec, int __count);
 extern ssize_t writev(int __fd, const struct iovec *__iovec, int __count);
 
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _GCC_SIZE_T
-
-// /usr/include/sys/types.h 
-
-#define __gid_t_defined
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __SIZE_T
-
-// /usr/include/bits/types.h 
-
-#define __SLONG32_TYPE int
-#define __U32_TYPE unsigned int
-
-// /usr/include/sys/types.h 
-
-#define __fsblkcnt_t_defined
-#define __uid_t_defined
-#define __dev_t_defined
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _T_SIZE_
-#define _SIZE_T_DECLARED
-
-// /usr/include/sys/types.h 
-
-#define __need_clockid_t
-
 // /usr/include/bits/types.h 
 
 #define _BITS_TYPES_H (1)
@@ -232,101 +200,74 @@ extern ssize_t writev(int __fd, const struct iovec *__iovec, int __count);
 
 #define __size_t
 
-// /usr/include/bits/types.h 
-
-#define __U64_TYPE unsigned long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/bits/uio.h 
-
-#define UIO_MAXIOV (1024)
-
 // /usr/include/sys/types.h 
 
-#define __key_t_defined
-#define __off_t_defined
 #define __pid_t_defined
-#define __ino64_t_defined
-#define __mode_t_defined
-
-// /usr/include/sys/uio.h 
-
-#define _SYS_UIO_H (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __size_t__
-
-// /usr/include/bits/types.h 
-
-#define __SWORD_TYPE long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _T_SIZE
-
-// /usr/include/sys/types.h 
-
-#define __off64_t_defined
-
-// /usr/include/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/include/sys/types.h 
-
-#define __blksize_t_defined
-#define __useconds_t_defined
-
-// /usr/include/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/sys/types.h 
-
-#define __BIT_TYPES_DEFINED__ (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-
-// /usr/include/sys/types.h 
-
-#define __blkcnt_t_defined
 #define __id_t_defined
-#define __int8_t_defined
 
 // /usr/include/bits/types.h 
 
-#define __S16_TYPE short int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SYS_SIZE_T_H
+#define __S64_TYPE long int
 
 // /usr/include/bits/uio.h 
 
 #define _BITS_UIO_H (1)
 
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _BSD_SIZE_T_
-#define _SIZE_T_
-
 // /usr/include/bits/types.h 
 
 #define __SLONGWORD_TYPE long int
 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_size_t_h
+#define __size_t__
+
+// /usr/include/sys/types.h 
+
+#define __key_t_defined
+
+// /usr/include/bits/types.h 
+
+#define __S16_TYPE short int
+
+// /usr/include/sys/types.h 
+
+#define __blkcnt_t_defined
+#define __uid_t_defined
+#define _SYS_TYPES_H (1)
+
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/include/sys/types.h 
+
+#define __ino64_t_defined
+#define __suseconds_t_defined
+
+// /usr/include/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/include/sys/types.h 
+
+#define __useconds_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_
+
+// /usr/include/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+
 // /usr/include/sys/types.h 
 
 #define __fsfilcnt_t_defined
+
+// /usr/include/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
@@ -334,15 +275,115 @@ extern ssize_t writev(int __fd, const struct iovec *__iovec, int __count);
 
 // /usr/include/sys/types.h 
 
+#define __off_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED_
+
+// /usr/include/bits/types.h 
+
+#define __SLONG32_TYPE int
+#define __SWORD_TYPE long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SYS_SIZE_T_H
+
+// /usr/include/sys/types.h 
+
+#define __mode_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/sys/types.h 
+
+#define __ino_t_defined
+#define __dev_t_defined
+#define __gid_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_
+
+// /usr/include/sys/types.h 
+
 #define __ssize_t_defined
+
+// /usr/include/bits/uio.h 
+
+#define UIO_MAXIOV (1024)
+
+// /usr/include/sys/types.h 
+
+#define __need_clockid_t
+
+// /usr/include/sys/uio.h 
+
+#define _SYS_UIO_H (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DEFINED
+
+// /usr/include/sys/types.h 
+
+#define __fsblkcnt_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T
+
+// /usr/include/sys/types.h 
+
+#define __BIT_TYPES_DEFINED__ (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _GCC_SIZE_T
+
+// /usr/include/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+#define __U32_TYPE unsigned int
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
 #define __SIZE_T__
 
+// /usr/include/sys/types.h 
+
+#define __int8_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
+
+// /usr/include/sys/types.h 
+
+#define __off64_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE
+
+// /usr/include/sys/types.h 
+
+#define __blksize_t_defined
+
 // /usr/include/bits/types.h 
 
-#define __U16_TYPE unsigned short int
+#define __SQUAD_TYPE long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+
+// /usr/include/sys/types.h 
+
+#define __nlink_t_defined
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
@@ -350,31 +391,5 @@ extern ssize_t writev(int __fd, const struct iovec *__iovec, int __count);
 
 // /usr/include/bits/types.h 
 
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-
-// /usr/include/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/sys/types.h 
-
-#define __suseconds_t_defined
-#define __nlink_t_defined
-
-// /usr/include/bits/types.h 
-
-#define __SQUAD_TYPE long int
-#define __S64_TYPE long int
-
-// /usr/include/sys/types.h 
-
-#define _SYS_TYPES_H (1)
-#define __ino_t_defined
-
-// /usr/include/bits/types.h 
-
 #define __S32_TYPE int
+#define __U64_TYPE unsigned long int

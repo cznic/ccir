@@ -173,9 +173,23 @@ extern int setpriority(__priority_which_t __which, id_t __who, int __prio);
 
 // /usr/include/bits/resource.h 
 
-#define RLIMIT_RTPRIO __RLIMIT_RTPRIO
-#define RLIMIT_RTTIME __RLIMIT_RTTIME
-#define RLIM_INFINITY (18446744073709551615ull)
+#define PRIO_MIN (-20)
+#define RLIM64_INFINITY (18446744073709551615ull)
+#define PRIO_PGRP PRIO_PGRP
+#define RLIMIT_MEMLOCK __RLIMIT_MEMLOCK
+
+// /usr/include/bits/time.h 
+
+#define _STRUCT_TIMEVAL (1)
+
+// /usr/include/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/bits/resource.h 
+
+#define RLIMIT_AS RLIMIT_AS
+#define RLIMIT_RSS __RLIMIT_RSS
 
 // /usr/include/bits/types.h 
 
@@ -183,17 +197,37 @@ extern int setpriority(__priority_which_t __which, id_t __who, int __prio);
 
 // /usr/include/bits/resource.h 
 
-#define RLIMIT_FSIZE RLIMIT_FSIZE
-#define RLIMIT_MSGQUEUE __RLIMIT_MSGQUEUE
+#define RLIM_SAVED_CUR RLIM_INFINITY
 
 // /usr/include/bits/types.h 
 
-#define __UWORD_TYPE unsigned long int
-#define __SLONGWORD_TYPE long int
+#define __ULONGWORD_TYPE unsigned long int
+#define __U32_TYPE unsigned int
 
 // /usr/include/bits/resource.h 
 
-#define RLIMIT_CORE RLIMIT_CORE
+#define RLIMIT_STACK RLIMIT_STACK
+#define RLIMIT_NPROC __RLIMIT_NPROC
+
+// /usr/include/sys/resource.h 
+
+#define setrlimit setrlimit64
+#define _SYS_RESOURCE_H (1)
+
+// /usr/include/bits/resource.h 
+
+#define RLIMIT_MSGQUEUE __RLIMIT_MSGQUEUE
+#define PRIO_MAX (20)
+#define RLIMIT_NOFILE RLIMIT_NOFILE
+#define RLIMIT_CPU RLIMIT_CPU
+
+// /usr/include/sys/resource.h 
+
+#define __id_t_defined
+
+// /usr/include/bits/resource.h 
+
+#define RLIM_SAVED_MAX RLIM_INFINITY
 
 // /usr/include/bits/types.h 
 
@@ -201,48 +235,19 @@ extern int setpriority(__priority_which_t __which, id_t __who, int __prio);
 
 // /usr/include/bits/resource.h 
 
-#define RLIM_NLIMITS __RLIM_NLIMITS
 #define PRIO_PROCESS PRIO_PROCESS
-
-// /usr/include/sys/resource.h 
-
-#define __id_t_defined
-
-// /usr/include/bits/time.h 
-
-#define _STRUCT_TIMEVAL (1)
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_STACK RLIMIT_STACK
-#define PRIO_PGRP PRIO_PGRP
-#define RLIM_SAVED_MAX RLIM_INFINITY
 #define RUSAGE_SELF RUSAGE_SELF
-#define PRIO_MIN (-20)
-#define RLIMIT_AS RLIMIT_AS
 
 // /usr/include/bits/types.h 
 
-#define __S64_TYPE long int
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_MEMLOCK __RLIMIT_MEMLOCK
-#define RLIMIT_NLIMITS __RLIMIT_NLIMITS
-#define RLIMIT_SIGPENDING __RLIMIT_SIGPENDING
-
-// /usr/include/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/bits/resource.h 
-
-#define RUSAGE_CHILDREN RUSAGE_CHILDREN
-#define RLIMIT_NOFILE RLIMIT_NOFILE
-
-// /usr/include/bits/types.h 
-
+#define __SWORD_TYPE long int
 #define __S32_TYPE int
+#define __U64_TYPE unsigned long int
+
+// /usr/include/bits/resource.h 
+
+#define RLIMIT_FSIZE RLIMIT_FSIZE
+#define RLIM_NLIMITS __RLIM_NLIMITS
 
 // /usr/include/sys/resource.h 
 
@@ -250,54 +255,43 @@ extern int setpriority(__priority_which_t __which, id_t __who, int __prio);
 
 // /usr/include/bits/types.h 
 
-#define __ULONGWORD_TYPE unsigned long int
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_DATA RLIMIT_DATA
-
-// /usr/include/bits/types.h 
-
-#define __U32_TYPE unsigned int
-#define _BITS_TYPES_H (1)
-#define __SWORD_TYPE long int
 #define __UQUAD_TYPE unsigned long int
-#define __U16_TYPE unsigned short int
+#define __ULONG32_TYPE unsigned int
 
 // /usr/include/bits/resource.h 
 
-#define PRIO_MAX (20)
-#define RLIMIT_CPU RLIMIT_CPU
-#define RLIMIT_RSS __RLIMIT_RSS
-#define PRIO_USER PRIO_USER
 #define RLIMIT_NICE __RLIMIT_NICE
 
 // /usr/include/bits/types.h 
 
-#define __U64_TYPE unsigned long int
+#define __SLONGWORD_TYPE long int
 
 // /usr/include/bits/resource.h 
 
+#define RLIMIT_DATA RLIMIT_DATA
+#define RLIMIT_CORE RLIMIT_CORE
+#define RLIMIT_RTPRIO __RLIMIT_RTPRIO
+#define RLIMIT_SIGPENDING __RLIMIT_SIGPENDING
+#define RLIMIT_RTTIME __RLIMIT_RTTIME
 #define RLIMIT_LOCKS __RLIMIT_LOCKS
-
-// /usr/include/sys/resource.h 
-
-#define _SYS_RESOURCE_H (1)
+#define RLIMIT_NLIMITS __RLIMIT_NLIMITS
 
 // /usr/include/bits/types.h 
 
+#define _BITS_TYPES_H (1)
+
+// /usr/include/bits/resource.h 
+
+#define PRIO_USER PRIO_USER
+
+// /usr/include/bits/types.h 
+
+#define __S64_TYPE long int
+#define __U16_TYPE unsigned short int
 #define __S16_TYPE short int
 
 // /usr/include/bits/resource.h 
 
-#define RLIM64_INFINITY (18446744073709551615ull)
-
-// /usr/include/sys/resource.h 
-
-#define setrlimit setrlimit64
-
-// /usr/include/bits/resource.h 
-
+#define RLIM_INFINITY (18446744073709551615ull)
 #define RLIMIT_OFILE __RLIMIT_OFILE
-#define RLIMIT_NPROC __RLIMIT_NPROC
-#define RLIM_SAVED_CUR RLIM_INFINITY
+#define RUSAGE_CHILDREN RUSAGE_CHILDREN

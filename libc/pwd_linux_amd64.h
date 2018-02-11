@@ -126,90 +126,17 @@ extern struct passwd *getpwnam(const char *__name);
 extern int getpwuid_r(__uid_t __uid, struct passwd *__resultbuf, char *__buffer, size_t __buflen, struct passwd **__result);
 extern int getpwnam_r(const char *__name, struct passwd *__resultbuf, char *__buffer, size_t __buflen, struct passwd **__result);
 
-// /usr/include/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-#define __S16_TYPE short int
-
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _SIZE_T
-
-// /usr/include/bits/types.h 
-
-#define _BITS_TYPES_H (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-
-// /usr/include/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
+#define _SIZE_T_DEFINED
 
 // /usr/include/pwd.h 
 
 #define __uid_t_defined
 
-// /usr/include/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/pwd.h 
-
-#define __gid_t_defined
-
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _SYS_SIZE_T_H
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_
-
-// /usr/include/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-#define __S32_TYPE int
-#define __U64_TYPE unsigned long int
-#define __SQUAD_TYPE long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-#define _T_SIZE
-
-// /usr/include/bits/types.h 
-
-#define __S64_TYPE long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define ___int_size_t_h
-#define _GCC_SIZE_T
-#define _SIZET_
-#define __size_t__
-#define __SIZE_T
-#define _BSD_SIZE_T_
-
-// /usr/include/bits/types.h 
-
-#define __SWORD_TYPE long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-#define _T_SIZE_
-
-// /usr/include/pwd.h 
-
-#define _PWD_H (1)
+#define __size_t
 
 // /usr/include/bits/types.h 
 
@@ -217,9 +144,82 @@ extern int getpwnam_r(const char *__name, struct passwd *__resultbuf, char *__bu
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
+#define _SIZE_T
+
+// /usr/include/bits/types.h 
+
+#define __SWORD_TYPE long int
+#define __UWORD_TYPE unsigned long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE
+
+// /usr/include/bits/types.h 
+
+#define __SQUAD_TYPE long int
+#define _BITS_TYPES_H (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+#define __S32_TYPE int
+
+// /usr/include/pwd.h 
+
+#define _PWD_H (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_size_t_h
 #define __SIZE_T__
-#define __size_t
+#define __SIZE_T
+#define _SIZE_T_
+#define _SIZE_T_DEFINED_
+#define _BSD_SIZE_T_DEFINED_
+
+// /usr/include/bits/types.h 
+
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _GCC_SIZE_T
+#define _SIZET_
 
 // /usr/include/bits/types.h 
 
 #define __U32_TYPE unsigned int
+
+// /usr/include/pwd.h 
+
+#define __gid_t_defined
+
+// /usr/include/bits/types.h 
+
+#define __S64_TYPE long int
+#define __U64_TYPE unsigned long int
+#define __UQUAD_TYPE unsigned long int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __size_t__
+#define _SYS_SIZE_T_H
+#define _BSD_SIZE_T_
+
+// /usr/include/bits/types.h 
+
+#define __S16_TYPE short int
+#define __SLONGWORD_TYPE long int

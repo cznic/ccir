@@ -1126,7 +1126,7 @@ func main() {
 		{"ctype", "TODO", "tolower|__int32_t|pthreadlocinfo|__ctype_b_loc"},
 		{"errno", "EINTR|ETIMEDOUT", "errno"},
 		{"fcntl", "F_WRLCK", "_off64_t|__time32_t|open|struct flock|__off_t"},
-		{"float", "TODO", "TODO"},
+		{"float", "DBL_MAX", "TODO"},
 		{"inttypes", "PRI", "TODO"},
 		{"limits", "INT_MAX", "TODO"},
 		{"locale", "__LC_ALL", "setlocale"},

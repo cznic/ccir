@@ -407,152 +407,17 @@ extern void *pthread_getspecific(pthread_key_t __key);
 extern int pthread_setspecific(pthread_key_t __key, const void *__pointer);
 extern int pthread_atfork(void (*__prepare) (void), void (*__parent) (void), void (*__child) (void));
 
-// /usr/include/bits/pthreadtypes.h 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define __SIZEOF_PTHREAD_CONDATTR_T (4)
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_SCOPE_SYSTEM PTHREAD_SCOPE_SYSTEM
-
-// /usr/include/bits/sched.h 
-
-#define __CPU_FREE(cpuset) __sched_cpufree ( cpuset )
-
-// /usr/include/pthread.h 
-
-#define __cleanup_fct_attribute
+#define _SIZE_T_DEFINED_
 
 // /usr/include/bits/pthreadtypes.h 
 
-#define __PTHREAD_SPINS 0 , 0
-
-// /usr/include/bits/sched.h 
-
-#define __CPU_CLR_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] &= ~ __CPUMASK ( __cpu ) ) : 0 ; } ) )
-#define __CPU_ALLOC_SIZE(count) ( ( ( ( count ) + __NCPUBITS - 1 ) / __NCPUBITS ) * sizeof ( __cpu_mask ) )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _GCC_SIZE_T
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_MUTEX_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , __PTHREAD_SPINS , { 0 , 0 } } }
-
-// /usr/include/bits/sched.h 
-
-#define __CPU_ZERO_S(setsize, cpusetp) do { size_t __i ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; __cpu_mask * __bits = ( cpusetp ) -> __bits ; for ( __i = 0 ; __i < __imax ; ++ __i ) __bits [ __i ] = 0 ; } while ( 0 )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _T_SIZE_
-
-// /usr/include/bits/sched.h 
-
-#define __CPUMASK(cpu) ( ( __cpu_mask ) 1 << ( ( cpu ) % __NCPUBITS ) )
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __SIZEOF_PTHREAD_RWLOCK_T (56)
-
-// /usr/include/time.h 
-
-#define __clockid_t_defined (1)
-
-// /usr/include/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED
-
-// /usr/include/bits/sched.h 
-
-#define __CPU_EQUAL_S(setsize, cpusetp1, cpusetp2) ( __extension__ ( { const __cpu_mask * __arr1 = ( cpusetp1 ) -> __bits ; const __cpu_mask * __arr2 = ( cpusetp2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) if ( __arr1 [ __i ] != __arr2 [ __i ] ) break ; __i == __imax ; } ) )
-
-// /usr/include/bits/types.h 
-
-#define __SLONG32_TYPE int
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_RWLOCK_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , __PTHREAD_RWLOCK_ELISION_EXTRA , 0 , 0 } }
-
-// /usr/include/bits/types.h 
-
-#define __S16_TYPE short int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __SIZEOF_PTHREAD_MUTEX_T (40)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __SIZEOF_PTHREAD_ATTR_T (56)
-
-// /usr/include/bits/sched.h 
-
-#define __CPU_ALLOC(count) __sched_cpualloc ( count )
-#define __CPUELT(cpu) ( ( cpu ) / __NCPUBITS )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _T_SIZE
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __SIZEOF_PTHREAD_RWLOCKATTR_T (8)
+#define __PTHREAD_RWLOCK_INT_FLAGS_SHARED (1)
 
 // /usr/include/bits/sched.h 
 
 #define SCHED_OTHER (0)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __SIZE_T__
-
-// /usr/include/bits/types.h 
-
-#define __SWORD_TYPE long int
-#define __S32_TYPE int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZET_
-
-// /usr/include/bits/types.h 
-
-#define __U16_TYPE unsigned short int
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __SIZEOF_PTHREAD_BARRIER_T (32)
-
-// /usr/include/bits/sched.h 
-
-#define __CPU_OP_S(setsize, destset, srcset1, srcset2, op) ( __extension__ ( { cpu_set_t * __dest = ( destset ) ; const __cpu_mask * __arr1 = ( srcset1 ) -> __bits ; const __cpu_mask * __arr2 = ( srcset2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) ( ( __cpu_mask * ) __dest -> __bits ) [ __i ] = __arr1 [ __i ] op __arr2 [ __i ] ; __dest ; } ) )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define ___int_size_t_h
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_CANCEL_DISABLE PTHREAD_CANCEL_DISABLE
-
-// /usr/include/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
 
 // /usr/include/bits/pthreadtypes.h 
 
@@ -560,191 +425,190 @@ extern int pthread_atfork(void (*__prepare) (void), void (*__parent) (void), voi
 
 // /usr/include/bits/sched.h 
 
-#define __CPU_ISSET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( ( const __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] & __CPUMASK ( __cpu ) ) ) != 0 : 0 ; } ) )
+#define __CPU_EQUAL_S(setsize, cpusetp1, cpusetp2) ( __extension__ ( { const __cpu_mask * __arr1 = ( cpusetp1 ) -> __bits ; const __cpu_mask * __arr2 = ( cpusetp2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) if ( __arr1 [ __i ] != __arr2 [ __i ] ) break ; __i == __imax ; } ) )
 
 // /usr/include/time.h 
 
 #define __time_t_defined (1)
-#define __timespec_defined (1)
 
-// /usr/include/bits/sched.h 
+// /usr/include/bits/types.h 
 
-#define __defined_schedparam (1)
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __SIZEOF_PTHREAD_MUTEXATTR_T (4)
+#define __U32_TYPE unsigned int
+#define __UQUAD_TYPE unsigned long int
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
 #define __size_t
 
-// /usr/include/pthread.h 
-
-#define PTHREAD_SCOPE_PROCESS PTHREAD_SCOPE_PROCESS
-#define PTHREAD_INHERIT_SCHED PTHREAD_INHERIT_SCHED
-
-// /usr/include/time.h 
-
-#define __timer_t_defined (1)
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_CANCEL_DEFERRED PTHREAD_CANCEL_DEFERRED
-
 // /usr/include/bits/sched.h 
 
-#define __CPU_SETSIZE (4096)
-#define __cpu_set_t_defined
-
-// /usr/include/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-#define __ULONGWORD_TYPE unsigned long int
-#define __U64_TYPE unsigned long int
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_EXPLICIT_SCHED PTHREAD_EXPLICIT_SCHED
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __SIZEOF_PTHREAD_BARRIERATTR_T (4)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _BSD_SIZE_T_DEFINED_
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_PROCESS_PRIVATE PTHREAD_PROCESS_PRIVATE
-
-// /usr/include/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DEFINED_
-
-// /usr/include/pthread.h 
-
-#define pthread_cleanup_pop(execute) do { } while ( 0 ) ; } while ( 0 ) ; __pthread_unregister_cancel ( & __cancel_buf ) ; if ( execute ) __cancel_routine ( __cancel_arg ) ; } while ( 0 )
-
-// /usr/include/bits/sched.h 
-
-#define __NCPUBITS ( 8 * sizeof ( __cpu_mask ) )
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __PTHREAD_RWLOCK_ELISION_EXTRA 0 , { 0 , 0 , 0 , 0 , 0 , 0 , 0 }
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SIZE_T_DECLARED
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __PTHREAD_RWLOCK_INT_FLAGS_SHARED (1)
+#define __CPU_ALLOC(count) __sched_cpualloc ( count )
 
 // /usr/include/pthread.h 
 
 #define PTHREAD_CREATE_JOINABLE PTHREAD_CREATE_JOINABLE
-#define PTHREAD_CANCEL_ENABLE PTHREAD_CANCEL_ENABLE
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __SIZE_T
-
-// /usr/include/bits/types.h 
-
-#define __U32_TYPE unsigned int
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_CANCELED ( ( void * ) - 1 )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __size_t__
-
-// /usr/include/pthread.h 
-
-#define PTHREAD_CANCEL_ASYNCHRONOUS PTHREAD_CANCEL_ASYNCHRONOUS
-
-// /usr/include/time.h 
-
-#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
 
 // /usr/include/bits/pthreadtypes.h 
 
 #define __PTHREAD_MUTEX_HAVE_PREV (1)
 
-// /usr/include/bits/types.h 
+// /usr/include/time.h 
 
-#define __S64_TYPE long int
+#define __timespec_defined (1)
 
-// /usr/include/pthread.h 
+// /usr/include/bits/pthreadtypes.h 
 
-#define _PTHREAD_H (1)
-
-// /usr/include/bits/sched.h 
-
-#define __CPU_COUNT_S(setsize, cpusetp) __sched_cpucount ( setsize , cpusetp )
+#define __PTHREAD_SPINS 0 , 0
 
 // /usr/include/time.h 
 
 #define __clock_t_defined (1)
 
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
+
 // /usr/include/pthread.h 
 
-#define PTHREAD_COND_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , ( void * ) 0 , 0 , 0 } }
+#define PTHREAD_SCOPE_SYSTEM PTHREAD_SCOPE_SYSTEM
+#define pthread_cleanup_push(routine, arg) do { __pthread_unwind_buf_t __cancel_buf ; void ( * __cancel_routine ) ( void * ) = ( routine ) ; void * __cancel_arg = ( arg ) ; int __not_first_call = __sigsetjmp ( ( struct __jmp_buf_tag * ) ( void * ) __cancel_buf . __cancel_jmp_buf , 0 ) ; if ( __glibc_unlikely ( __not_first_call ) ) { __cancel_routine ( __cancel_arg ) ; __pthread_unwind_next ( & __cancel_buf ) ; } __pthread_register_cancel ( & __cancel_buf ) ; do {
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DECLARED
 
 // /usr/include/bits/types.h 
 
-#define _BITS_TYPES_H (1)
+#define __ULONG32_TYPE unsigned int
 
 // /usr/include/bits/pthreadtypes.h 
 
-#define __SIZEOF_PTHREAD_COND_T (48)
-
-// /usr/include/bits/sched.h 
-
-#define SCHED_FIFO (1)
-
-// /usr/include/bits/pthreadtypes.h 
-
-#define __have_pthread_attr_t (1)
+#define __SIZEOF_PTHREAD_RWLOCKATTR_T (8)
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define NULL ( ( void * ) 0 )
+#define __size_t__
+
+// /usr/include/bits/types.h 
+
+#define __SLONG32_TYPE int
 
 // /usr/include/bits/sched.h 
 
-#define __CPU_SET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] |= __CPUMASK ( __cpu ) ) : 0 ; } ) )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _SYS_SIZE_T_H
+#define __NCPUBITS ( 8 * sizeof ( __cpu_mask ) )
 
 // /usr/include/pthread.h 
 
-#define PTHREAD_ONCE_INIT (0)
-#define PTHREAD_CREATE_DETACHED PTHREAD_CREATE_DETACHED
-#define pthread_cleanup_push(routine, arg) do { __pthread_unwind_buf_t __cancel_buf ; void ( * __cancel_routine ) ( void * ) = ( routine ) ; void * __cancel_arg = ( arg ) ; int __not_first_call = __sigsetjmp ( ( struct __jmp_buf_tag * ) ( void * ) __cancel_buf . __cancel_jmp_buf , 0 ) ; if ( __glibc_unlikely ( __not_first_call ) ) { __cancel_routine ( __cancel_arg ) ; __pthread_unwind_next ( & __cancel_buf ) ; } __pthread_register_cancel ( & __cancel_buf ) ; do {
+#define PTHREAD_SCOPE_PROCESS PTHREAD_SCOPE_PROCESS
+#define _PTHREAD_H (1)
+
+// /usr/include/bits/sched.h 
+
+#define __CPU_ZERO_S(setsize, cpusetp) do { size_t __i ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; __cpu_mask * __bits = ( cpusetp ) -> __bits ; for ( __i = 0 ; __i < __imax ; ++ __i ) __bits [ __i ] = 0 ; } while ( 0 )
+
+// /usr/include/bits/pthreadtypes.h 
+
+#define __SIZEOF_PTHREAD_MUTEXATTR_T (4)
+
+// /usr/include/pthread.h 
+
+#define PTHREAD_EXPLICIT_SCHED PTHREAD_EXPLICIT_SCHED
+
+// /usr/include/bits/sched.h 
+
+#define __CPU_CLR_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] &= ~ __CPUMASK ( __cpu ) ) : 0 ; } ) )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_
 
 // /usr/include/bits/sched.h 
 
 #define SCHED_RR (2)
 
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define __SIZE_T
+#define _SIZE_T_DEFINED
+#define _SIZET_
+
+// /usr/include/bits/sched.h 
+
+#define __CPUELT(cpu) ( ( cpu ) / __NCPUBITS )
+
+// /usr/include/pthread.h 
+
+#define PTHREAD_CANCEL_ASYNCHRONOUS PTHREAD_CANCEL_ASYNCHRONOUS
+#define PTHREAD_PROCESS_SHARED PTHREAD_PROCESS_SHARED
+
 // /usr/include/bits/types.h 
 
-#define __UQUAD_TYPE unsigned long int
+#define __U64_TYPE unsigned long int
+#define _BITS_TYPES_H (1)
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _BSD_SIZE_T_
+#define __SIZE_T__
+
+// /usr/include/pthread.h 
+
+#define pthread_cleanup_pop(execute) do { } while ( 0 ) ; } while ( 0 ) ; __pthread_unregister_cancel ( & __cancel_buf ) ; if ( execute ) __cancel_routine ( __cancel_arg ) ; } while ( 0 )
+
+// /usr/include/bits/types.h 
+
+#define __S16_TYPE short int
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE
+#define _GCC_SIZE_T
+
+// /usr/include/bits/types.h 
+
+#define __SQUAD_TYPE long int
+
+// /usr/include/pthread.h 
+
+#define PTHREAD_CANCEL_DEFERRED PTHREAD_CANCEL_DEFERRED
+#define PTHREAD_RWLOCK_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , __PTHREAD_RWLOCK_ELISION_EXTRA , 0 , 0 } }
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_
+#define _SYS_SIZE_T_H
+
+// /usr/include/bits/sched.h 
+
+#define __CPU_COUNT_S(setsize, cpusetp) __sched_cpucount ( setsize , cpusetp )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_SIZE_
+
+// /usr/include/bits/types.h 
+
+#define __S32_TYPE int
+#define __SLONGWORD_TYPE long int
+#define __S64_TYPE long int
+#define __ULONGWORD_TYPE unsigned long int
+
+// /usr/include/bits/sched.h 
+
+#define __CPUMASK(cpu) ( ( __cpu_mask ) 1 << ( ( cpu ) % __NCPUBITS ) )
+#define __cpu_set_t_defined
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T
+
+// /usr/include/bits/sched.h 
+
+#define __defined_schedparam (1)
+#define __CPU_SETSIZE (4096)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_DEFINED_
 
 // /usr/include/time.h 
 
@@ -752,4 +616,95 @@ extern int pthread_atfork(void (*__prepare) (void), void (*__parent) (void), voi
 
 // /usr/include/pthread.h 
 
-#define PTHREAD_PROCESS_SHARED PTHREAD_PROCESS_SHARED
+#define __cleanup_fct_attribute
+
+// /usr/include/time.h 
+
+#define __clockid_t_defined (1)
+
+// /usr/include/bits/pthreadtypes.h 
+
+#define __SIZEOF_PTHREAD_MUTEX_T (40)
+
+// /usr/include/pthread.h 
+
+#define PTHREAD_CREATE_DETACHED PTHREAD_CREATE_DETACHED
+#define PTHREAD_CANCEL_ENABLE PTHREAD_CANCEL_ENABLE
+#define PTHREAD_CANCEL_DISABLE PTHREAD_CANCEL_DISABLE
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+
+// /usr/include/bits/sched.h 
+
+#define __CPU_ISSET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( ( const __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] & __CPUMASK ( __cpu ) ) ) != 0 : 0 ; } ) )
+
+// /usr/include/bits/pthreadtypes.h 
+
+#define __have_pthread_attr_t (1)
+#define __SIZEOF_PTHREAD_COND_T (48)
+#define __PTHREAD_RWLOCK_ELISION_EXTRA 0 , { 0 , 0 , 0 , 0 , 0 , 0 , 0 }
+#define __SIZEOF_PTHREAD_CONDATTR_T (4)
+#define __SIZEOF_PTHREAD_ATTR_T (56)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_size_t_h
+
+// /usr/include/bits/sched.h 
+
+#define SCHED_FIFO (1)
+#define __CPU_ALLOC_SIZE(count) ( ( ( ( count ) + __NCPUBITS - 1 ) / __NCPUBITS ) * sizeof ( __cpu_mask ) )
+#define __CPU_SET_S(cpu, setsize, cpusetp) ( __extension__ ( { size_t __cpu = ( cpu ) ; __cpu / 8 < ( setsize ) ? ( ( ( __cpu_mask * ) ( ( cpusetp ) -> __bits ) ) [ __CPUELT ( __cpu ) ] |= __CPUMASK ( __cpu ) ) : 0 ; } ) )
+
+// /usr/include/bits/types.h 
+
+#define __UWORD_TYPE unsigned long int
+
+// /usr/include/pthread.h 
+
+#define PTHREAD_MUTEX_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , __PTHREAD_SPINS , { 0 , 0 } } }
+#define PTHREAD_ONCE_INIT (0)
+#define PTHREAD_COND_INITIALIZER { { 0 , 0 , 0 , 0 , 0 , ( void * ) 0 , 0 , 0 } }
+#define PTHREAD_PROCESS_PRIVATE PTHREAD_PROCESS_PRIVATE
+
+// /usr/include/bits/pthreadtypes.h 
+
+#define __SIZEOF_PTHREAD_BARRIERATTR_T (4)
+
+// /usr/include/bits/sched.h 
+
+#define __CPU_FREE(cpuset) __sched_cpufree ( cpuset )
+
+// /usr/include/bits/types.h 
+
+#define __SWORD_TYPE long int
+
+// /usr/include/pthread.h 
+
+#define PTHREAD_CANCELED ( ( void * ) - 1 )
+
+// /usr/include/bits/sched.h 
+
+#define __CPU_OP_S(setsize, destset, srcset1, srcset2, op) ( __extension__ ( { cpu_set_t * __dest = ( destset ) ; const __cpu_mask * __arr1 = ( srcset1 ) -> __bits ; const __cpu_mask * __arr2 = ( srcset2 ) -> __bits ; size_t __imax = ( setsize ) / sizeof ( __cpu_mask ) ; size_t __i ; for ( __i = 0 ; __i < __imax ; ++ __i ) ( ( __cpu_mask * ) __dest -> __bits ) [ __i ] = __arr1 [ __i ] op __arr2 [ __i ] ; __dest ; } ) )
+
+// /usr/include/time.h 
+
+#define __isleap(year) ( ( year ) % 4 == 0 && ( ( year ) % 100 != 0 || ( year ) % 400 == 0 ) )
+
+// /usr/include/pthread.h 
+
+#define PTHREAD_INHERIT_SCHED PTHREAD_INHERIT_SCHED
+
+// /usr/include/bits/pthreadtypes.h 
+
+#define __SIZEOF_PTHREAD_RWLOCK_T (56)
+
+// /usr/include/time.h 
+
+#define __timer_t_defined (1)
+
+// /usr/include/bits/pthreadtypes.h 
+
+#define __SIZEOF_PTHREAD_BARRIER_T (32)

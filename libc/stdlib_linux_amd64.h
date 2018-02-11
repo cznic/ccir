@@ -134,13 +134,24 @@ extern char *ptsname(int __fd);
 
 // /usr/include/stdlib.h 
 
-#define __ldiv_t_defined (1)
-#define __WAIT_STATUS int *
-#define RAND_MAX (2147483647)
+#define WTERMSIG(status) __WTERMSIG ( __WAIT_INT ( status ) )
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _WCHAR_T_H
+#define _GCC_SIZE_T
+
+// /usr/include/stdlib.h 
+
+#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
+#define WIFSIGNALED(status) __WIFSIGNALED ( __WAIT_INT ( status ) )
+#define EXIT_FAILURE (1)
+#define __ldiv_t_defined (1)
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define ___int_wchar_t_h
+#define _T_WCHAR
+#define _SIZE_T
 
 // /usr/include/stdlib.h 
 
@@ -148,9 +159,16 @@ extern char *ptsname(int __fd);
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define __SIZE_T
+#define __size_t__
+
+// /usr/include/stdlib.h 
+
+#define WEXITSTATUS(status) __WEXITSTATUS ( __WAIT_INT ( status ) )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _BSD_SIZE_T_
 #define _WCHAR_T_DECLARED
-#define _WCHAR_T_
 
 // /usr/include/stdlib.h 
 
@@ -158,46 +176,21 @@ extern char *ptsname(int __fd);
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _GCC_SIZE_T
+#define _BSD_SIZE_T_DEFINED_
 #define _T_SIZE
-#define _BSD_SIZE_T_
-#define __wchar_t__
+#define __size_t
+#define __WCHAR_T__
 
 // /usr/include/stdlib.h 
 
-#define MB_CUR_MAX ( __ctype_get_mb_cur_max ( ) )
 #define mkstemp mkstemp64
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _T_WCHAR
-#define _SIZE_T_DEFINED_
 #define ___int_size_t_h
-#define _SIZE_T
-
-// /usr/include/stdlib.h 
-
-#define _STDLIB_H (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define NULL ( ( void * ) 0 )
-#define _GCC_WCHAR_T
-#define _SIZE_T_
-#define __size_t
+#define _WCHAR_T_DEFINED_
 #define _T_SIZE_
-
-// /usr/include/stdlib.h 
-
-#define WIFSIGNALED(status) __WIFSIGNALED ( __WAIT_INT ( status ) )
-#define WTERMSIG(status) __WTERMSIG ( __WAIT_INT ( status ) )
-#define WIFEXITED(status) __WIFEXITED ( __WAIT_INT ( status ) )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define _WCHAR_T
-#define _BSD_SIZE_T_DEFINED_
-#define _T_WCHAR_
+#define __INT_WCHAR_T_H
 
 // /usr/include/stdlib.h 
 
@@ -205,50 +198,63 @@ extern char *ptsname(int __fd);
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define _WCHAR_T_DEFINED_
-#define _SIZE_T_DECLARED
-
-// /usr/include/stdlib.h 
-
-#define WIFSTOPPED(status) __WIFSTOPPED ( __WAIT_INT ( status ) )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
 #define __SIZE_T__
-#define ___int_wchar_t_h
-#define _SIZE_T_DEFINED
-
-// /usr/include/stdlib.h 
-
-#define EXIT_SUCCESS (0)
-#define EXIT_FAILURE (1)
-#define __WAIT_INT(status) ( status )
-#define WEXITSTATUS(status) __WEXITSTATUS ( __WAIT_INT ( status ) )
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __size_t__
-#define _SIZET_
 #define _SYS_SIZE_T_H
-#define __WCHAR_T
 #define _WCHAR_T_DEFINED
 
 // /usr/include/stdlib.h 
 
-#define __WAIT_STATUS_DEFN int *
+#define _STDLIB_H (1)
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define __WCHAR_T__
+#define _GCC_WCHAR_T
+#define __wchar_t__
+#define _WCHAR_T_
+#define __SIZE_T
 
 // /usr/include/stdlib.h 
 
+#define __WAIT_STATUS int *
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define NULL ( ( void * ) 0 )
+
+// /usr/include/stdlib.h 
+
+#define WIFEXITED(status) __WIFEXITED ( __WAIT_INT ( status ) )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _T_WCHAR_
+#define _SIZE_T_DEFINED_
+#define _SIZET_
+#define _WCHAR_T_H
+#define _SIZE_T_DEFINED
+
+// /usr/include/stdlib.h 
+
+#define RAND_MAX (2147483647)
+#define __WAIT_INT(status) ( status )
+#define EXIT_SUCCESS (0)
+#define WSTOPSIG(status) __WSTOPSIG ( __WAIT_INT ( status ) )
+
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
+
+#define _SIZE_T_DECLARED
+#define __WCHAR_T
+#define _WCHAR_T
+
+// /usr/include/stdlib.h 
+
+#define WIFSTOPPED(status) __WIFSTOPPED ( __WAIT_INT ( status ) )
 #define __COMPAR_FN_T
 
 // /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
 
-#define __INT_WCHAR_T_H
+#define _SIZE_T_
 
 // /usr/include/stdlib.h 
 
-#define WSTOPSIG(status) __WSTOPSIG ( __WAIT_INT ( status ) )
+#define __WAIT_STATUS_DEFN int *

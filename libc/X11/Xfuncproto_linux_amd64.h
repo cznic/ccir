@@ -4,28 +4,28 @@
 
 	// /usr/include/X11/Xfuncproto.h 
 
-#define _XFUNCPROTOEND
-#define _X_NONNULL()
-#define _X_INLINE inline
-#define NeedVarargsPrototypes (1)
-#define _X_LIKELY(x) ( x )
-#define NARROWPROTO
 #define _Xconst const
-#define _X_HIDDEN
-#define NeedWidePrototypes (0)
-#define FUNCPROTO (15)
-#define _XFUNCPROTOBEGIN
-#define _X_ATTRIBUTE_PRINTF(x, y)
-#define _X_EXPORT
+#define _X_LIKELY(x) ( x )
 #define NeedFunctionPrototypes (1)
-#define _X_NORETURN
-#define _XFUNCPROTO_H_
-#define _X_DEPRECATED
-#define _X_UNUSED
-#define _X_RESTRICT_KYWD restrict
-#define _X_SENTINEL(x)
-#define _X_COLD
+#define NeedVarargsPrototypes (1)
 #define __has_attribute(x) 0
+#define _X_NORETURN 
+#define NARROWPROTO 
+#define _X_RESTRICT_KYWD restrict
+#define _X_DEPRECATED 
+#define _X_NONNULL() 
 #define _X_UNLIKELY(x) ( x )
-#define _X_INTERNAL
+#define _X_ATTRIBUTE_PRINTF(x, y) 
 #define NeedNestedPrototypes (1)
+#define _X_SENTINEL(x) 
+#define _X_UNUSED 
+#define FUNCPROTO (15)
+#define NeedWidePrototypes (0)
+#define _X_INLINE inline
+#define _X_INTERNAL 
+#define _XFUNCPROTOEND 
+#define _X_EXPORT 
+#define _XFUNCPROTOBEGIN 
+#define _X_HIDDEN 
+#define _X_COLD 
+#define _XFUNCPROTO_H_

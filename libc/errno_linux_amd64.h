@@ -6,210 +6,9 @@ extern int *__errno_location(void);
 
 // /usr/include/asm-generic/errno.h 
 
-#define ENODATA (61)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EBUSY (16)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ENOMEDIUM (123)
-#define EPFNOSUPPORT (96)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EPERM (1)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EBADE (52)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EIO (5)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ELNRNG (48)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EINTR (4)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ENOKEY (126)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ENOENT (2)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EKEYREJECTED (129)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define _ASM_GENERIC_ERRNO_BASE_H
-#define EFBIG (27)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EXFULL (54)
-#define ENOLCK (37)
-#define EBADMSG (74)
-#define EPROTONOSUPPORT (93)
-#define ENOBUFS (105)
-#define EILSEQ (84)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EROFS (30)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ENOTSOCK (88)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ETXTBSY (26)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ENOCSI (50)
-#define EREMOTE (66)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ENOSPC (28)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EUNATCH (49)
-#define EBADSLT (57)
-#define EDQUOT (122)
-#define EL2HLT (51)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ESPIPE (29)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ELIBACC (79)
-#define ENETRESET (102)
-#define ETOOMANYREFS (109)
-#define ECONNABORTED (103)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ENFILE (23)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ERFKILL (132)
-#define ESHUTDOWN (108)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ESRCH (3)
-#define ENOMEM (12)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EBADR (53)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EXDEV (18)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ESOCKTNOSUPPORT (94)
-#define ENOPKG (65)
-#define EADV (68)
-#define ENOTNAM (118)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EMLINK (31)
-#define EISDIR (21)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EL3RST (47)
-#define EREMOTEIO (121)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EACCES (13)
-#define EAGAIN (11)
-
-// /usr/include/bits/errno.h 
-
-#define errno ( * __errno_location ( ) )
-
-// /usr/include/asm-generic/errno.h 
-
-#define ELIBMAX (82)
-#define EDESTADDRREQ (89)
+#define ESRMNT (69)
 #define EISCONN (106)
-#define EL3HLT (46)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EMFILE (24)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EDEADLK (35)
-#define EMEDIUMTYPE (124)
-#define ETIME (62)
-#define ECONNREFUSED (111)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EFAULT (14)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ENOSYS (38)
-#define ENOSTR (60)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EBADF (9)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EALREADY (114)
-#define ENOMSG (42)
-#define ENONET (64)
-#define EKEYEXPIRED (127)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ENOTDIR (20)
-
-// /usr/include/bits/errno.h 
-
-#define ENOTSUP EOPNOTSUPP
-
-// /usr/include/asm-generic/errno.h 
-
-#define EADDRINUSE (98)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define ENOEXEC (8)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EMSGSIZE (90)
-#define ENOTCONN (107)
-#define ENOTRECOVERABLE (131)
-#define ECANCELED (125)
+#define ENOTNAM (118)
 
 // /usr/include/asm-generic/errno-base.h 
 
@@ -217,65 +16,59 @@ extern int *__errno_location(void);
 
 // /usr/include/asm-generic/errno.h 
 
-#define ECONNRESET (104)
-#define ENETUNREACH (101)
-#define ENOLINK (67)
+#define EAFNOSUPPORT (97)
+#define EBADMSG (74)
+#define EXFULL (54)
+#define ENOCSI (50)
+#define ELOOP (40)
+#define EREMOTEIO (121)
 
 // /usr/include/asm-generic/errno-base.h 
 
-#define ENOTTY (25)
+#define EXDEV (18)
+#define EIO (5)
 
 // /usr/include/asm-generic/errno.h 
 
-#define ENOTUNIQ (76)
-#define EKEYREVOKED (128)
 #define EINPROGRESS (115)
-#define EBADFD (77)
-#define ENOSR (63)
-#define ENAVAIL (119)
-#define EUSERS (87)
-#define ERESTART (85)
-#define EL2NSYNC (45)
-#define ETIMEDOUT (110)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ENOEXEC (8)
+#define ENOTDIR (20)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EBADSLT (57)
+#define ENOANO (55)
+#define EBADRQC (56)
 #define EPROTOTYPE (91)
-#define ENOPROTOOPT (92)
-#define ESRMNT (69)
-#define EHOSTUNREACH (113)
-#define EHWPOISON (133)
+#define EADDRNOTAVAIL (99)
+#define ESTRPIPE (86)
+#define ELIBBAD (80)
+#define ELIBEXEC (83)
+#define ELIBSCN (81)
+
+// /usr/include/bits/errno.h 
+
+#define ENOTSUP EOPNOTSUPP
 
 // /usr/include/asm-generic/errno-base.h 
 
 #define EINVAL (22)
+#define _ASM_GENERIC_ERRNO_BASE_H
 
 // /usr/include/asm-generic/errno.h 
 
-#define ELIBEXEC (83)
+#define EADV (68)
+#define ENOPKG (65)
+#define ENAMETOOLONG (36)
+#define EBADR (53)
 #define EBFONT (59)
 #define EUCLEAN (117)
-#define EBADRQC (56)
-#define ESTRPIPE (86)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define EEXIST (17)
-
-// /usr/include/asm-generic/errno.h 
-
-#define EOWNERDEAD (130)
-#define ELIBSCN (81)
-#define EPROTO (71)
-
-// /usr/include/asm-generic/errno-base.h 
-
-#define E2BIG (7)
-#define ENOTBLK (15)
-
-// /usr/include/asm-generic/errno.h 
-
-#define ELIBBAD (80)
-#define ESTALE (116)
-#define EISNAM (120)
-#define EWOULDBLOCK EAGAIN
+#define ENOTRECOVERABLE (131)
+#define EIDRM (43)
+#define EMULTIHOP (72)
 
 // /usr/include/asm-generic/errno-base.h 
 
@@ -284,31 +77,136 @@ extern int *__errno_location(void);
 // /usr/include/asm-generic/errno.h 
 
 #define ECOMM (70)
-#define EOVERFLOW (75)
-#define EREMCHG (78)
 #define EHOSTDOWN (112)
-#define EOPNOTSUPP (95)
-#define ENOTEMPTY (39)
 
 // /usr/include/asm-generic/errno-base.h 
 
-#define EDOM (33)
+#define EFAULT (14)
 
 // /usr/include/asm-generic/errno.h 
 
-#define EAFNOSUPPORT (97)
-#define ENAMETOOLONG (36)
+#define EMEDIUMTYPE (124)
+#define ETOOMANYREFS (109)
 
 // /usr/include/asm-generic/errno-base.h 
 
+#define EFBIG (27)
+#define ESPIPE (29)
 #define ECHILD (10)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EKEYREVOKED (128)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EACCES (13)
+#define EBUSY (16)
+
+// /usr/include/asm-generic/errno.h 
+
+#define _ASM_GENERIC_ERRNO_H
+#define ERFKILL (132)
+#define ENOTCONN (107)
+#define EOVERFLOW (75)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ENOTTY (25)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EALREADY (114)
+#define ENOSYS (38)
+#define EL3RST (47)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EISDIR (21)
+#define EROFS (30)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EUNATCH (49)
+
+// /usr/include/asm-generic/errno-base.h 
+
 #define EPIPE (32)
 
 // /usr/include/asm-generic/errno.h 
 
-#define ECHRNG (44)
-#define ENOANO (55)
-#define EIDRM (43)
+#define ENOPROTOOPT (92)
+#define ECONNABORTED (103)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ENFILE (23)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EKEYEXPIRED (127)
+#define ENOSTR (60)
+#define EDESTADDRREQ (89)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EMFILE (24)
+#define ENOSPC (28)
+
+// /usr/include/asm-generic/errno.h 
+
+#define ETIME (62)
+#define EL3HLT (46)
+#define EBADE (52)
+#define ENAVAIL (119)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ETXTBSY (26)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EHWPOISON (133)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EBADF (9)
+#define E2BIG (7)
+
+// /usr/include/asm-generic/errno.h 
+
+#define ELIBACC (79)
+#define ENETRESET (102)
+#define ENOTEMPTY (39)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ENOMEM (12)
+
+// /usr/include/asm-generic/errno.h 
+
+#define ENOKEY (126)
+#define ERESTART (85)
+#define EPFNOSUPPORT (96)
+#define EOWNERDEAD (130)
+#define EILSEQ (84)
+#define ESHUTDOWN (108)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ENOENT (2)
+
+// /usr/include/asm-generic/errno.h 
+
+#define ENOMSG (42)
+#define EKEYREJECTED (129)
+#define ENOTUNIQ (76)
+#define ECONNREFUSED (111)
+#define ESOCKTNOSUPPORT (94)
+#define ENOTSOCK (88)
+#define ENOBUFS (105)
+#define ENOSR (63)
+#define EREMCHG (78)
 
 // /usr/include/asm-generic/errno-base.h 
 
@@ -316,10 +214,97 @@ extern int *__errno_location(void);
 
 // /usr/include/asm-generic/errno.h 
 
-#define _ASM_GENERIC_ERRNO_H
-#define EDEADLOCK EDEADLK
-#define EADDRNOTAVAIL (99)
+#define EHOSTUNREACH (113)
+#define EDEADLK (35)
+#define EADDRINUSE (98)
 #define EDOTDOT (73)
-#define EMULTIHOP (72)
+#define EL2NSYNC (45)
+#define ENOLCK (37)
+#define EREMOTE (66)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EPERM (1)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EWOULDBLOCK EAGAIN
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EMLINK (31)
+
+// /usr/include/asm-generic/errno.h 
+
+#define ELIBMAX (82)
+#define ETIMEDOUT (110)
+#define EISNAM (120)
+#define EUSERS (87)
 #define ENETDOWN (100)
-#define ELOOP (40)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EEXIST (17)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EBADFD (77)
+#define EMSGSIZE (90)
+#define EDEADLOCK EDEADLK
+#define ECHRNG (44)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EAGAIN (11)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EPROTONOSUPPORT (93)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ESRCH (3)
+
+// /usr/include/asm-generic/errno.h 
+
+#define ENONET (64)
+#define ELNRNG (48)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define ENOTBLK (15)
+
+// /usr/include/asm-generic/errno.h 
+
+#define ENETUNREACH (101)
+#define EL2HLT (51)
+#define ENODATA (61)
+#define ECONNRESET (104)
+#define EDQUOT (122)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EDOM (33)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EPROTO (71)
+
+// /usr/include/bits/errno.h 
+
+#define errno ( * __errno_location ( ) )
+
+// /usr/include/asm-generic/errno.h 
+
+#define ECANCELED (125)
+#define ENOMEDIUM (123)
+#define ENOLINK (67)
+#define ESTALE (116)
+
+// /usr/include/asm-generic/errno-base.h 
+
+#define EINTR (4)
+
+// /usr/include/asm-generic/errno.h 
+
+#define EOPNOTSUPP (95)

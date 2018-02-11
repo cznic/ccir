@@ -103,14 +103,41 @@ extern int _tolower(int);
 
 // /usr/include/bits/types.h 
 
-#define _BITS_TYPES_H (1)
+#define __U32_TYPE unsigned int
 
 // /usr/include/ctype.h 
 
+#define iscntrl(c) __isctype ( ( c ) , _IScntrl )
+
+// /usr/include/bits/types.h 
+
+#define __ULONG32_TYPE unsigned int
+
+// /usr/include/ctype.h 
+
+#define isspace(c) __isctype ( ( c ) , _ISspace )
 #define isblank(c) __isctype ( ( c ) , _ISblank )
-#define isalnum(c) __isctype ( ( c ) , _ISalnum )
+
+// /usr/include/bits/types.h 
+
+#define __UQUAD_TYPE unsigned long int
+#define __SLONGWORD_TYPE long int
+#define __SLONG32_TYPE int
+#define __SWORD_TYPE long int
+#define __S64_TYPE long int
+#define __SQUAD_TYPE long int
+
+// /usr/include/ctype.h 
+
+#define isdigit(c) __isctype ( ( c ) , _ISdigit )
+
+// /usr/include/bits/types.h 
+
+#define __S32_TYPE int
+
+// /usr/include/ctype.h 
+
 #define _tolower(c) ( ( int ) ( * __ctype_tolower_loc ( ) ) [ ( int ) ( c ) ] )
-#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
 
 // /usr/include/bits/types.h 
 
@@ -118,77 +145,50 @@ extern int _tolower(int);
 
 // /usr/include/ctype.h 
 
+#define isalnum(c) __isctype ( ( c ) , _ISalnum )
 #define isalpha(c) __isctype ( ( c ) , _ISalpha )
 
 // /usr/include/bits/types.h 
 
-#define __SLONG32_TYPE int
+#define _BITS_TYPES_H (1)
+
+// /usr/include/ctype.h 
+
+#define _toupper(c) ( ( int ) ( * __ctype_toupper_loc ( ) ) [ ( int ) ( c ) ] )
+#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
+#define ispunct(c) __isctype ( ( c ) , _ISpunct )
+
+// /usr/include/bits/types.h 
+
+#define __U16_TYPE unsigned short int
 #define __S16_TYPE short int
 
 // /usr/include/ctype.h 
 
-#define isascii(c) __isascii ( c )
-
-// /usr/include/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-
-// /usr/include/ctype.h 
-
+#define isxdigit(c) __isctype ( ( c ) , _ISxdigit )
+#define __toascii(c) ( ( c ) & 0x7f )
+#define toascii(c) __toascii ( c )
+#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
 #define __tobody(c, f, a, args) ( __extension__ ( { int __res ; if ( sizeof ( c ) > 1 ) { if ( __builtin_constant_p ( c ) ) { int __c = ( c ) ; __res = __c < - 128 || __c > 255 ? __c : ( a ) [ __c ] ; } else __res = f args ; } else __res = ( a ) [ ( int ) ( c ) ] ; __res ; } ) )
 
 // /usr/include/bits/types.h 
 
-#define __SQUAD_TYPE long int
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/ctype.h 
-
-#define isprint(c) __isctype ( ( c ) , _ISprint )
-#define __exctype(name) extern int name ( int ) __THROW
-
-// /usr/include/bits/types.h 
-
-#define __SWORD_TYPE long int
-#define __U16_TYPE unsigned short int
-
-// /usr/include/ctype.h 
-
-#define islower(c) __isctype ( ( c ) , _ISlower )
-#define isupper(c) __isctype ( ( c ) , _ISupper )
-#define iscntrl(c) __isctype ( ( c ) , _IScntrl )
-#define __isctype(c, type) ( ( * __ctype_b_loc ( ) ) [ ( int ) ( c ) ] & ( unsigned short int ) type )
-#define isxdigit(c) __isctype ( ( c ) , _ISxdigit )
-#define isdigit(c) __isctype ( ( c ) , _ISdigit )
-
-// /usr/include/bits/types.h 
-
-#define __ULONG32_TYPE unsigned int
-#define __S32_TYPE int
 #define __UWORD_TYPE unsigned long int
-#define __U64_TYPE unsigned long int
 
 // /usr/include/ctype.h 
 
 #define isgraph(c) __isctype ( ( c ) , _ISgraph )
-#define __toascii(c) ( ( c ) & 0x7f )
-
-// /usr/include/bits/types.h 
-
-#define __U32_TYPE unsigned int
-
-// /usr/include/ctype.h 
-
-#define __isascii(c) ( ( ( c ) & ~ 0x7f ) == 0 )
-#define isspace(c) __isctype ( ( c ) , _ISspace )
+#define _ISbit(bit) ( ( bit ) < 8 ? ( ( 1 << ( bit ) ) << 8 ) : ( ( 1 << ( bit ) ) >> 8 ) )
 #define _CTYPE_H (1)
+#define isprint(c) __isctype ( ( c ) , _ISprint )
+#define isupper(c) __isctype ( ( c ) , _ISupper )
+#define isascii(c) __isascii ( c )
 
 // /usr/include/bits/types.h 
 
-#define __S64_TYPE long int
+#define __U64_TYPE unsigned long int
 
 // /usr/include/ctype.h 
 
-#define ispunct(c) __isctype ( ( c ) , _ISpunct )
-#define _toupper(c) ( ( int ) ( * __ctype_toupper_loc ( ) ) [ ( int ) ( c ) ] )
-#define toascii(c) __toascii ( c )
+#define islower(c) __isctype ( ( c ) , _ISlower )
+#define __exctype(name) extern int name ( int ) __THROW
