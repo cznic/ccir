@@ -21,9 +21,9 @@
    <http://www.gnu.org/licenses/>.  */
 
 // ----------------------------------------------------------------------------
-//      /usr/lib/gcc/i686-linux-gnu/6/include/stddef.h
+//      /usr/lib/gcc/i686-linux-gnu/5/include/stddef.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1989-2016 Free Software Foundation, Inc.
+/* Copyright (C) 1989-2015 Free Software Foundation, Inc.
 
 This file is part of GCC.
 

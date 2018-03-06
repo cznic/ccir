@@ -43,20 +43,21 @@
 package time
 
 const (
-	XFD_SETSIZE       = 0
-	X_BITS_TYPES_H    = 1
-	X_SIGSET_H_types  = 1
-	X_STRUCT_TIMEVAL  = 1
-	X_SYS_SELECT_H    = 1
-	X_SYS_TIME_H      = 1
-	X__S32_TYPE       = 0
-	X__S64_TYPE       = 0
-	X__SQUAD_TYPE     = 0
-	X__SWORD_TYPE     = 0
-	X__U64_TYPE       = 0
-	X__UQUAD_TYPE     = 0
-	X__time_t_defined = 1
-	XITIMER_PROF      = 2
-	XITIMER_REAL      = 0
-	XITIMER_VIRTUAL   = 1
+	XFD_SETSIZE         = 0
+	X_BITS_TYPES_H      = 1
+	X_SIGSET_H_types    = 1
+	X_STRUCT_TIMEVAL    = 1
+	X_SYS_SELECT_H      = 1
+	X_SYS_TIME_H        = 1
+	X__S32_TYPE         = 0
+	X__S64_TYPE         = 0
+	X__SQUAD_TYPE       = 0
+	X__SWORD_TYPE       = 0
+	X__U64_TYPE         = 0
+	X__UQUAD_TYPE       = 0
+	X__time_t_defined   = 1
+	X__timespec_defined = 1
+	XITIMER_PROF        = 2
+	XITIMER_REAL        = 0
+	XITIMER_VIRTUAL     = 1
 )
