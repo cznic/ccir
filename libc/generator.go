@@ -1079,15 +1079,13 @@ func header(nm, mre, dre string) {
 		aggregatedMacros = append(aggregatedMacros, mset[f]...)
 	}
 	sort.Sort(sort.IntSlice(aggregatedMacros))
-	lastFile = ""
+	var a2 []string
 	for _, idx := range aggregatedMacros {
 		entry := fileinfo[idx]
-		if lastFile != entry.Pos.Filename {
-			a = append(a, fmt.Sprintf("\n\n// %s \n", entry.Pos.Filename))
-		}
-		lastFile = entry.Pos.Filename
-		a = append(a, entry.Msg)
+		a2 = append(a2, entry.Msg)
 	}
+	sort.Strings(a2)
+	a = append(a, a2...)
 
 	emit(nm, strings.Join(more, "\n"), []byte(strings.Join(a, "\n")))
 }

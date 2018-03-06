@@ -23,7 +23,4 @@
    <http://www.gnu.org/licenses/>.  */
 
 extern int ioctl(int __fd, unsigned long int __request, ...);
-
-// /usr/include/sys/ioctl.h 
-
 #define _SYS_IOCTL_H (1)

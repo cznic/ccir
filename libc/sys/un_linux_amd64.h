@@ -29,16 +29,7 @@ struct sockaddr_un {
 	sa_family_t sun_family;
 	char sun_path[108];
 };
-
-// /usr/include/bits/sockaddr.h 
-
 #define _BITS_SOCKADDR_H (1)
-#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
-
-// /usr/include/sys/un.h 
-
 #define _SYS_UN_H (1)
-
-// /usr/include/bits/sockaddr.h 
-
+#define __SOCKADDR_COMMON(sa_prefix) sa_family_t sa_prefix ## family
 #define __SOCKADDR_COMMON_SIZE ( sizeof ( unsigned short int ) )

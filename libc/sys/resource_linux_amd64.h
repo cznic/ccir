@@ -170,128 +170,53 @@ extern int setrlimit64(__rlimit_resource_t __resource, const struct rlimit64 *__
 extern int getrusage(__rusage_who_t __who, struct rusage *__usage);
 extern int getpriority(__priority_which_t __which, id_t __who);
 extern int setpriority(__priority_which_t __which, id_t __who, int __prio);
-
-// /usr/include/bits/resource.h 
-
-#define PRIO_MIN (-20)
-#define RLIM64_INFINITY (18446744073709551615ull)
-#define PRIO_PGRP PRIO_PGRP
-#define RLIMIT_MEMLOCK __RLIMIT_MEMLOCK
-
-// /usr/include/bits/time.h 
-
-#define _STRUCT_TIMEVAL (1)
-
-// /usr/include/bits/types.h 
-
-#define __UWORD_TYPE unsigned long int
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_AS RLIMIT_AS
-#define RLIMIT_RSS __RLIMIT_RSS
-
-// /usr/include/bits/types.h 
-
-#define __SLONG32_TYPE int
-
-// /usr/include/bits/resource.h 
-
-#define RLIM_SAVED_CUR RLIM_INFINITY
-
-// /usr/include/bits/types.h 
-
-#define __ULONGWORD_TYPE unsigned long int
-#define __U32_TYPE unsigned int
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_STACK RLIMIT_STACK
-#define RLIMIT_NPROC __RLIMIT_NPROC
-
-// /usr/include/sys/resource.h 
-
-#define setrlimit setrlimit64
-#define _SYS_RESOURCE_H (1)
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_MSGQUEUE __RLIMIT_MSGQUEUE
 #define PRIO_MAX (20)
-#define RLIMIT_NOFILE RLIMIT_NOFILE
-#define RLIMIT_CPU RLIMIT_CPU
-
-// /usr/include/sys/resource.h 
-
-#define __id_t_defined
-
-// /usr/include/bits/resource.h 
-
-#define RLIM_SAVED_MAX RLIM_INFINITY
-
-// /usr/include/bits/types.h 
-
-#define __SQUAD_TYPE long int
-
-// /usr/include/bits/resource.h 
-
+#define PRIO_MIN (-20)
+#define PRIO_PGRP PRIO_PGRP
 #define PRIO_PROCESS PRIO_PROCESS
-#define RUSAGE_SELF RUSAGE_SELF
-
-// /usr/include/bits/types.h 
-
-#define __SWORD_TYPE long int
-#define __S32_TYPE int
-#define __U64_TYPE unsigned long int
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_FSIZE RLIMIT_FSIZE
-#define RLIM_NLIMITS __RLIM_NLIMITS
-
-// /usr/include/sys/resource.h 
-
-#define getrlimit getrlimit64
-
-// /usr/include/bits/types.h 
-
-#define __UQUAD_TYPE unsigned long int
-#define __ULONG32_TYPE unsigned int
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_NICE __RLIMIT_NICE
-
-// /usr/include/bits/types.h 
-
-#define __SLONGWORD_TYPE long int
-
-// /usr/include/bits/resource.h 
-
-#define RLIMIT_DATA RLIMIT_DATA
-#define RLIMIT_CORE RLIMIT_CORE
-#define RLIMIT_RTPRIO __RLIMIT_RTPRIO
-#define RLIMIT_SIGPENDING __RLIMIT_SIGPENDING
-#define RLIMIT_RTTIME __RLIMIT_RTTIME
-#define RLIMIT_LOCKS __RLIMIT_LOCKS
-#define RLIMIT_NLIMITS __RLIMIT_NLIMITS
-
-// /usr/include/bits/types.h 
-
-#define _BITS_TYPES_H (1)
-
-// /usr/include/bits/resource.h 
-
 #define PRIO_USER PRIO_USER
-
-// /usr/include/bits/types.h 
-
-#define __S64_TYPE long int
-#define __U16_TYPE unsigned short int
-#define __S16_TYPE short int
-
-// /usr/include/bits/resource.h 
-
-#define RLIM_INFINITY (18446744073709551615ull)
+#define RLIM64_INFINITY (18446744073709551615ull)
+#define RLIMIT_AS RLIMIT_AS
+#define RLIMIT_CORE RLIMIT_CORE
+#define RLIMIT_CPU RLIMIT_CPU
+#define RLIMIT_DATA RLIMIT_DATA
+#define RLIMIT_FSIZE RLIMIT_FSIZE
+#define RLIMIT_LOCKS __RLIMIT_LOCKS
+#define RLIMIT_MEMLOCK __RLIMIT_MEMLOCK
+#define RLIMIT_MSGQUEUE __RLIMIT_MSGQUEUE
+#define RLIMIT_NICE __RLIMIT_NICE
+#define RLIMIT_NLIMITS __RLIMIT_NLIMITS
+#define RLIMIT_NOFILE RLIMIT_NOFILE
+#define RLIMIT_NPROC __RLIMIT_NPROC
 #define RLIMIT_OFILE __RLIMIT_OFILE
+#define RLIMIT_RSS __RLIMIT_RSS
+#define RLIMIT_RTPRIO __RLIMIT_RTPRIO
+#define RLIMIT_RTTIME __RLIMIT_RTTIME
+#define RLIMIT_SIGPENDING __RLIMIT_SIGPENDING
+#define RLIMIT_STACK RLIMIT_STACK
+#define RLIM_INFINITY (18446744073709551615ull)
+#define RLIM_NLIMITS __RLIM_NLIMITS
+#define RLIM_SAVED_CUR RLIM_INFINITY
+#define RLIM_SAVED_MAX RLIM_INFINITY
 #define RUSAGE_CHILDREN RUSAGE_CHILDREN
+#define RUSAGE_SELF RUSAGE_SELF
+#define _BITS_TYPES_H (1)
+#define _STRUCT_TIMEVAL (1)
+#define _SYS_RESOURCE_H (1)
+#define __S16_TYPE short int
+#define __S32_TYPE int
+#define __S64_TYPE long int
+#define __SLONG32_TYPE int
+#define __SLONGWORD_TYPE long int
+#define __SQUAD_TYPE long int
+#define __SWORD_TYPE long int
+#define __U16_TYPE unsigned short int
+#define __U32_TYPE unsigned int
+#define __U64_TYPE unsigned long int
+#define __ULONG32_TYPE unsigned int
+#define __ULONGWORD_TYPE unsigned long int
+#define __UQUAD_TYPE unsigned long int
+#define __UWORD_TYPE unsigned long int
+#define __id_t_defined
+#define getrlimit getrlimit64
+#define setrlimit setrlimit64

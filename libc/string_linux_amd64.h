@@ -78,31 +78,22 @@ extern char *strtok_r(char *__s, const char *__delim, char **__save_ptr);
 extern size_t strlen(const char *__s);
 extern char *strerror(int __errnum);
 extern void __bzero(void *__s, size_t __n);
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define __size_t__
-#define _SIZE_T
-#define _T_SIZE
-
-// /usr/include/string.h 
-
-#define _STRING_H (1)
-
-// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h 
-
-#define ___int_size_t_h
-#define _BSD_SIZE_T_DEFINED_
-#define _SIZET_
-#define _GCC_SIZE_T
-#define _SIZE_T_DECLARED
-#define __SIZE_T
-#define _SYS_SIZE_T_H
-#define _SIZE_T_DEFINED_
-#define _SIZE_T_DEFINED
-#define _SIZE_T_
-#define _T_SIZE_
-#define __size_t
-#define _BSD_SIZE_T_
-#define __SIZE_T__
 #define NULL ( ( void * ) 0 )
+#define _BSD_SIZE_T_
+#define _BSD_SIZE_T_DEFINED_
+#define _GCC_SIZE_T
+#define _SIZET_
+#define _SIZE_T
+#define _SIZE_T_
+#define _SIZE_T_DECLARED
+#define _SIZE_T_DEFINED
+#define _SIZE_T_DEFINED_
+#define _STRING_H (1)
+#define _SYS_SIZE_T_H
+#define _T_SIZE
+#define _T_SIZE_
+#define __SIZE_T
+#define __SIZE_T__
+#define ___int_size_t_h
+#define __size_t
+#define __size_t__
