@@ -1186,6 +1186,7 @@ func main() {
 		{"linux", "sys/ioctl", "TODO", "ioctl"},
 		{"linux", "pwd", "TODO", "getpwuid|__gid_t|size_t"},
 		{"linux", "sys/resource", "RUSAGE_SELF", "getrusage|__id_t|timeval"},
+		{"linux", "tcl", "EXTERN|TCL_STORAGE_CLASS", "Tcl_Interp|va_list|__off_t|__mbstate_t|size_t"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {
