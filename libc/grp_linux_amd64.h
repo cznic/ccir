@@ -3,7 +3,33 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/include/dirent.h
+//      /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1989-2013 Free Software Foundation, Inc.
+
+This file is part of GCC.
+
+GCC is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3, or (at your option)
+any later version.
+
+GCC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Under Section 7 of GPL version 3, you are granted additional
+permissions described in the GCC Runtime Library Exception, version
+3.1, as published by the Free Software Foundation.
+
+You should have received a copy of the GNU General Public License and
+a copy of the GCC Runtime Library Exception along with this program;
+see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+<http://www.gnu.org/licenses/>.  */
+
+// ----------------------------------------------------------------------------
+//      /usr/include/grp.h
 // ----------------------------------------------------------------------------
 /* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -76,25 +102,44 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef long int __intptr_t;
 typedef unsigned int __socklen_t;
-// /usr/include/dirent.h
+// /usr/lib64/gcc/x86_64-suse-linux/4.8/include/stddef.h
 
-typedef __ino64_t ino_t;
-typedef __ino64_t ino64_t;
-typedef struct __dirstream DIR;
-extern DIR *opendir(const char *__name);
-extern int closedir(DIR * __dirp);
-extern struct dirent64 *readdir64(DIR * __dirp);
-extern int readdir64_r(DIR * __dirp, struct dirent64 *__entry, struct dirent64 **__result);
-extern void rewinddir(DIR * __dirp);
-extern void seekdir(DIR * __dirp, long int __pos);
-extern long int telldir(DIR * __dirp);
+typedef long unsigned int size_t;
+// /usr/include/grp.h
+
+typedef __gid_t gid_t;
+struct group {
+	char *gr_name;
+	char *gr_passwd;
+	__gid_t gr_gid;
+	char **gr_mem;
+};
+extern void setgrent(void);
+extern void endgrent(void);
+extern struct group *getgrent(void);
+extern struct group *getgrgid(__gid_t __gid);
+extern struct group *getgrnam(const char *__name);
+extern int getgrgid_r(__gid_t __gid, struct group *__resultbuf, char *__buffer, size_t __buflen, struct group **__result);
+extern int getgrnam_r(const char *__name, struct group *__resultbuf, char *__buffer, size_t __buflen, struct group **__result);
 #define _BITS_TYPES_H (1)
-#define _DIRENT_H (1)
-#define _D_ALLOC_NAMLEN(d) ( ( ( char * ) ( d ) + ( d ) -> d_reclen ) - & ( d ) -> d_name [ 0 ] )
-#define _D_EXACT_NAMLEN(d) ( strlen ( ( d ) -> d_name ) )
+#define _BSD_SIZE_T_
+#define _BSD_SIZE_T_DEFINED_
+#define _GCC_SIZE_T
+#define _GRP_H (1)
+#define _SIZET_
+#define _SIZE_T
+#define _SIZE_T_
+#define _SIZE_T_DECLARED
+#define _SIZE_T_DEFINED
+#define _SIZE_T_DEFINED_
+#define _SYS_SIZE_T_H
+#define _T_SIZE
+#define _T_SIZE_
 #define __S16_TYPE short int
 #define __S32_TYPE int
 #define __S64_TYPE long int
+#define __SIZE_T
+#define __SIZE_T__
 #define __SLONG32_TYPE int
 #define __SLONGWORD_TYPE long int
 #define __SQUAD_TYPE long int
@@ -106,7 +151,7 @@ extern long int telldir(DIR * __dirp);
 #define __ULONGWORD_TYPE unsigned long int
 #define __UQUAD_TYPE unsigned long int
 #define __UWORD_TYPE unsigned long int
-#define __ino64_t_defined
-#define __ino_t_defined
-#define readdir readdir64
-#define readdir_r readdir64_r
+#define ___int_size_t_h
+#define __gid_t_defined
+#define __size_t
+#define __size_t__

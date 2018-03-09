@@ -3,7 +3,27 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/include/dirent.h
+//      /usr/include/time.h
+// ----------------------------------------------------------------------------
+/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+
+// ----------------------------------------------------------------------------
+//      /usr/include/utime.h
 // ----------------------------------------------------------------------------
 /* Copyright (C) 1991-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -76,22 +96,18 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef long int __intptr_t;
 typedef unsigned int __socklen_t;
-// /usr/include/dirent.h
+// /usr/include/time.h
 
-typedef __ino64_t ino_t;
-typedef __ino64_t ino64_t;
-typedef struct __dirstream DIR;
-extern DIR *opendir(const char *__name);
-extern int closedir(DIR * __dirp);
-extern struct dirent64 *readdir64(DIR * __dirp);
-extern int readdir64_r(DIR * __dirp, struct dirent64 *__entry, struct dirent64 **__result);
-extern void rewinddir(DIR * __dirp);
-extern void seekdir(DIR * __dirp, long int __pos);
-extern long int telldir(DIR * __dirp);
+typedef __time_t time_t;
+// /usr/include/utime.h
+
+struct utimbuf {
+	__time_t actime;
+	__time_t modtime;
+};
+extern int utime(const char *__file, const struct utimbuf *__file_times);
 #define _BITS_TYPES_H (1)
-#define _DIRENT_H (1)
-#define _D_ALLOC_NAMLEN(d) ( ( ( char * ) ( d ) + ( d ) -> d_reclen ) - & ( d ) -> d_name [ 0 ] )
-#define _D_EXACT_NAMLEN(d) ( strlen ( ( d ) -> d_name ) )
+#define _UTIME_H (1)
 #define __S16_TYPE short int
 #define __S32_TYPE int
 #define __S64_TYPE long int
@@ -106,7 +122,4 @@ extern long int telldir(DIR * __dirp);
 #define __ULONGWORD_TYPE unsigned long int
 #define __UQUAD_TYPE unsigned long int
 #define __UWORD_TYPE unsigned long int
-#define __ino64_t_defined
-#define __ino_t_defined
-#define readdir readdir64
-#define readdir_r readdir64_r
+#define __time_t_defined (1)

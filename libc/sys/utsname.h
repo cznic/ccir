@@ -4,13 +4,9 @@
 
 // +build ignore
 
-#ifndef _SYS_STAT_H_
-#define _SYS_STAT_H_
+#ifndef _SYS_UTSNAME_H_
+#define _SYS_UTSNAME_H_
 
-#ifdef _CCGO
-#include __header("sys/stat")
-#else
-#include __header(sys/stat)
-#endif
+#include __header(sys/utsname)
 
-#endif				/* _SYS_STAT_H_ */
+#endif				/* _SYS_UTSNAME_H_ */
