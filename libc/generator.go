@@ -1161,7 +1161,7 @@ func main() {
 		{"linux", "memory", "TODO", "TODO"},
 		{"linux", "alloca", "TODO", "alloca|size_t"},
 		{"linux", "signal", "SIGINT", "signal|sig_atomic_t|pid_t"},
-		{"linux", "dirent", "TODO", "DIR|ino_t"},
+		{"linux", "dirent", "TODO", "DIR|ino_t|dirent"},
 		{"linux", "sys/uio", "TODO", "iovec|size_t"},
 		{"linux", "sys/select", "FD_SETSIZE", "sigset_t|suseconds_t|FD_ZERO"},
 		{"linux", "arpa/inet", "TODO", "htonl|in_addr_t|sa_family_t|size_t|uint32_t"},
@@ -1192,6 +1192,7 @@ func main() {
 		{"linux", "utime", "TODO", "utim|__time_t"},
 		{"linux", "sys/utsname", "TODO", "name"},
 		{"linux", "grp", "TODO", "gr|gid_t|size_t"},
+		{"linux", "sys/statfs", "MAGIC|STAT", "statfs|__fsword_t"},
 	} {
 		re := regexp.MustCompile(v.os)
 		if re.MatchString(runtime.GOOS) {

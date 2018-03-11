@@ -3,29 +3,9 @@
 // +build ignore
 
 // ----------------------------------------------------------------------------
-//      /usr/include/dirent.h
+//      /usr/include/bits/statfs.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1991-2015 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
-
-// ----------------------------------------------------------------------------
-//      /usr/include/bits/dirent.h
-// ----------------------------------------------------------------------------
-/* Copyright (C) 1996-2015 Free Software Foundation, Inc.
+/* Copyright (C) 1997-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -96,44 +76,45 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 typedef long int __intptr_t;
 typedef unsigned int __socklen_t;
-// /usr/include/dirent.h
+// /usr/include/bits/statfs.h
 
-typedef __ino64_t ino_t;
-typedef __ino64_t ino64_t;
-// /usr/include/bits/dirent.h
-
-struct dirent {
-	__ino64_t d_ino;
-	__off64_t d_off;
-	unsigned short int d_reclen;
-	unsigned char d_type;
-	char d_name[256];
+struct statfs {
+	__fsword_t f_type;
+	__fsword_t f_bsize;
+	__fsblkcnt64_t f_blocks;
+	__fsblkcnt64_t f_bfree;
+	__fsblkcnt64_t f_bavail;
+	__fsfilcnt64_t f_files;
+	__fsfilcnt64_t f_ffree;
+	__fsid_t f_fsid;
+	__fsword_t f_namelen;
+	__fsword_t f_frsize;
+	__fsword_t f_flags;
+	__fsword_t f_spare[4];
 };
-struct dirent64 {
-	__ino64_t d_ino;
-	__off64_t d_off;
-	unsigned short int d_reclen;
-	unsigned char d_type;
-	char d_name[256];
+struct statfs64 {
+	__fsword_t f_type;
+	__fsword_t f_bsize;
+	__fsblkcnt64_t f_blocks;
+	__fsblkcnt64_t f_bfree;
+	__fsblkcnt64_t f_bavail;
+	__fsfilcnt64_t f_files;
+	__fsfilcnt64_t f_ffree;
+	__fsid_t f_fsid;
+	__fsword_t f_namelen;
+	__fsword_t f_frsize;
+	__fsword_t f_flags;
+	__fsword_t f_spare[4];
 };
-// /usr/include/dirent.h
+// /usr/include/sys/statfs.h
 
-typedef struct __dirstream DIR;
-extern DIR *opendir(const char *__name);
-extern int closedir(DIR * __dirp);
-extern struct dirent64 *readdir64(DIR * __dirp);
-extern int readdir64_r(DIR * __dirp, struct dirent64 *__entry, struct dirent64 **__result);
-extern void rewinddir(DIR * __dirp);
-extern void seekdir(DIR * __dirp, long int __pos);
-extern long int telldir(DIR * __dirp);
+extern int statfs64(const char *__file, struct statfs64 *__buf);
+extern int fstatfs64(int __fildes, struct statfs64 *__buf);
 #define _BITS_TYPES_H (1)
-#define _DIRENT_H (1)
-#define _DIRENT_HAVE_D_OFF
-#define _DIRENT_HAVE_D_RECLEN
-#define _DIRENT_HAVE_D_TYPE
-#define _DIRENT_MATCHES_DIRENT64 (1)
-#define _D_ALLOC_NAMLEN(d) ( ( ( char * ) ( d ) + ( d ) -> d_reclen ) - & ( d ) -> d_name [ 0 ] )
-#define _D_EXACT_NAMLEN(d) ( strlen ( ( d ) -> d_name ) )
+#define _STATFS_F_FLAGS
+#define _STATFS_F_FRSIZE
+#define _STATFS_F_NAMELEN
+#define _SYS_STATFS_H (1)
 #define __S16_TYPE short int
 #define __S32_TYPE int
 #define __S64_TYPE long int
@@ -148,8 +129,5 @@ extern long int telldir(DIR * __dirp);
 #define __ULONGWORD_TYPE unsigned long int
 #define __UQUAD_TYPE unsigned long int
 #define __UWORD_TYPE unsigned long int
-#define __ino64_t_defined
-#define __ino_t_defined
-#define d_fileno d_ino
-#define readdir readdir64
-#define readdir_r readdir64_r
+#define fstatfs fstatfs64
+#define statfs statfs64
