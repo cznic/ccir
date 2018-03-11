@@ -326,7 +326,7 @@ int _fpclassf(float _X);
 #define _TIME32_T_DEFINED
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\math.h 
 
-#define __mingw_choose_expr __builtin_choose_expr
+#define __mingw_choose_expr(a, b, c) __builtin_choose_expr(a, b, c)
 // BEGIN OF FILE m:\mingw\x86_64-w64-mingw32\include\crtdefs.h 
 
 #define _PTRDIFF_T_
