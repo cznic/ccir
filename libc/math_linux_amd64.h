@@ -2,6 +2,26 @@
 
 // +build ignore
 
+typedef union {
+	unsigned char __c[8];
+	double __d;
+} __huge_val_t;
+static __huge_val_t __huge_val = 0;
+// /usr/include/bits/huge_valf.h
+
+typedef union {
+	unsigned char __c[4];
+	float __f;
+} __huge_valf_t;
+static __huge_valf_t __huge_valf = 0;
+// /usr/include/bits/huge_vall.h
+
+static union {
+	unsigned char __c[12];
+	long double __ld;
+} __huge_vall = 0;
+// /usr/include/bits/mathcalls.h
+
 extern double acos(double __x);
 extern double __acos(double __x);
 extern double asin(double __x);
@@ -410,3 +430,10 @@ extern long double fmal(long double __x, long double __y, long double __z);
 extern long double __fmal(long double __x, long double __y, long double __z);
 extern long double scalbl(long double __x, long double __n);
 extern long double __scalbl(long double __x, long double __n);
+#define HUGE_VAL ( __huge_val . __d )
+#define HUGE_VALF ( __huge_valf . __f )
+#define HUGE_VALL ( __huge_vall . __ld )
+#define __HUGE_VALF_bytes { 0 , 0 , 0x80 , 0x7f }
+#define __HUGE_VALL_bytes { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0x80 , 0xff , 0x7f , 0 , 0 }
+#define __HUGE_VAL_bytes { 0 , 0 , 0 , 0 , 0 , 0 , 0xf0 , 0x7f }
+#define __huge_vall_t union { unsigned char __c [ 12 ] ; long double __ld ; }

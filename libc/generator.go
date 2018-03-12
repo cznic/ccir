@@ -1128,7 +1128,7 @@ func main() {
 		{"inttypes", "PRI", "TODO"},
 		{"limits", "INT_MAX", "TODO"},
 		{"locale", "__LC_ALL", "setlocale"},
-		{"math", "TODO", "sin|_locale_t"},
+		{"math", "HUGE", "sin|_locale_t"},
 		{"sched", "TODO", "sched_yield|__pid_t"},
 		{"setjmp", "TODO", "TODO"},
 		{"stdarg", "va_list", "TODO"},
