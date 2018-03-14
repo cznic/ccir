@@ -2,9 +2,9 @@
 
 
 // ----------------------------------------------------------------------------
-//      m:\mingw\lib\gcc\x86_64-w64-mingw32\6.3.0\include\stdbool.h
+//      m:\mingw\lib\gcc\x86_64-w64-mingw32\6.3.0\include\float.h
 // ----------------------------------------------------------------------------
-/* Copyright (C) 1998-2016 Free Software Foundation, Inc.
+/* Copyright (C) 2002-2016 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -28,16 +28,40 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 <http://www.gnu.org/licenses/>.  */
 
 
-package stdbool
+package float
 
 const (
+XDBL_DIG = 15
+XDBL_MANT_DIG = 53
+XDBL_MAX_10_EXP = 308
+XDBL_MAX_EXP = 1024
+XDBL_MIN_10_EXP = -307
+XDBL_MIN_EXP = -1021
+XDECIMAL_DIG = 21
+XFLT_DIG = 6
+XFLT_EPSILON = 1.1920929e-07
+XFLT_EVAL_METHOD = 0
+XFLT_MANT_DIG = 24
+XFLT_MAX = 3.4028235e+38
+XFLT_MAX_10_EXP = 38
+XFLT_MAX_EXP = 128
+XFLT_MIN = 1.1754944e-38
+XFLT_MIN_10_EXP = -37
+XFLT_MIN_EXP = -125
+XFLT_RADIX = 2
+XFLT_ROUNDS = 1
+XLDBL_DIG = 18
+XLDBL_EPSILON = 1.0842021724855044e-19
+XLDBL_MANT_DIG = 64
+XLDBL_MAX = 0
+XLDBL_MAX_10_EXP = 4932
+XLDBL_MAX_EXP = 16384
+XLDBL_MIN = 0
+XLDBL_MIN_10_EXP = -4931
+XLDBL_MIN_EXP = -16381
 X_MSC_VER = 1200
 X__USE_MINGW_ANSI_STDIO = 0
-X__bool_true_false_are_defined = 1
 X__forceinline = 0
 X__inline = 0
 X__int32 = 0
-Xbool = 0
-Xfalse = 0
-Xtrue = 1
 )

@@ -2,19 +2,11 @@
 
 
 
-package unistd
+package io
 
 const (
 XF_OK = 0
-XOLD_P_OVERLAY = 2
-XP_DETACH = 4
-XP_NOWAIT = 1
-XP_NOWAITO = 3
-XP_OVERLAY = 2
-XP_WAIT = 0
 XR_OK = 4
-XWAIT_CHILD = 0
-XWAIT_GRANDCHILD = 1
 XW_OK = 2
 XX_OK = 1
 X_A_ARCH = 32
@@ -25,16 +17,6 @@ X_A_SUBDIR = 16
 X_A_SYSTEM = 4
 X_CRT_PACKING = 8
 X_MSC_VER = 1200
-X_NLSCMPERROR = 2147483647
-X_OLD_P_OVERLAY = 2
-X_P_DETACH = 4
-X_P_NOWAIT = 1
-X_P_NOWAITO = 3
-X_P_OVERLAY = 2
-X_P_WAIT = 0
-X_WAIT_CHILD = 0
-X_WAIT_GRANDCHILD = 1
-X_WConst_return = 0
 X__USE_MINGW_ANSI_STDIO = 0
 X__forceinline = 0
 X__inline = 0
@@ -52,7 +34,4 @@ X_wfindfirsti64 = 0
 X_wfindnext = 0
 X_wfindnexti64 = 0
 Xlseek = 0
-Xstrcasecmp = 0
-Xstrncasecmp = 0
-Xwcswcs = 0
 )

@@ -27,95 +27,47 @@ typedef struct tagLC_ID {unsigned short wLanguage ;unsigned short wCountry ;unsi
 typedef struct tagLC_ID {unsigned short wLanguage ;unsigned short wCountry ;unsigned short wCodePage ;}*LPLC_ID ;
 
 typedef struct threadlocaleinfostruct {int refcount ;unsigned int lc_codepage ;unsigned int lc_collate_cp ;unsigned long lc_handle [6 ];LC_ID lc_id [6 ];struct {char *locale ;wchar_t *wlocale ;int *refcount ;int *wrefcount ;}lc_category [6 ];int lc_clike ;int mb_cur_max ;int *lconv_intl_refcount ;int *lconv_num_refcount ;int *lconv_mon_refcount ;struct lconv *lconv ;int *ctype1_refcount ;unsigned short *ctype1 ;const unsigned short *pctype ;const unsigned char *pclmap ;const unsigned char *pcumap ;struct __lc_time_data *lc_time_curr ;}threadlocinfo ;
-// m:\mingw\x86_64-w64-mingw32\include\errno.h
+// m:\mingw\x86_64-w64-mingw32\include\locale.h
 
-extern int *_errno (void );
-errno_t _set_errno (int _Value );
-errno_t _get_errno (int *_Value );
-#define E2BIG (7)
-#define EACCES (13)
-#define EADDRINUSE (100)
-#define EADDRNOTAVAIL (101)
-#define EAFNOSUPPORT (102)
-#define EAGAIN (11)
-#define EALREADY (103)
-#define EBADF (9)
-#define EBUSY (16)
-#define ECANCELED (105)
-#define ECHILD (10)
-#define ECONNABORTED (106)
-#define ECONNREFUSED (107)
-#define ECONNRESET (108)
-#define EDEADLK (36)
-#define EDEADLOCK EDEADLK
-#define EDESTADDRREQ (109)
-#define EDOM (33)
-#define EEXIST (17)
-#define EFAULT (14)
-#define EFBIG (27)
-#define EHOSTUNREACH (110)
-#define EILSEQ (42)
-#define EINPROGRESS (112)
-#define EINTR (4)
-#define EINVAL (22)
-#define EIO (5)
-#define EISCONN (113)
-#define EISDIR (21)
-#define ELOOP (114)
-#define EMFILE (24)
-#define EMLINK (31)
-#define EMSGSIZE (115)
-#define ENAMETOOLONG (38)
-#define ENETDOWN (116)
-#define ENETRESET (117)
-#define ENETUNREACH (118)
-#define ENFILE (23)
-#define ENOBUFS (119)
-#define ENODEV (19)
-#define ENOENT (2)
-#define ENOEXEC (8)
-#define ENOFILE ENOENT
-#define ENOLCK (39)
-#define ENOMEM (12)
-#define ENOPROTOOPT (123)
-#define ENOSPC (28)
-#define ENOSYS (40)
-#define ENOTCONN (126)
-#define ENOTDIR (20)
-#define ENOTEMPTY (41)
-#define ENOTSOCK (128)
-#define ENOTSUP (129)
-#define ENOTTY (25)
-#define ENXIO (6)
-#define EOPNOTSUPP (130)
-#define EOVERFLOW (132)
-#define EOWNERDEAD (133)
-#define EPERM (1)
-#define EPIPE (32)
-#define EPROTO (134)
-#define EPROTONOSUPPORT (135)
-#define EPROTOTYPE (136)
-#define ERANGE (34)
-#define EROFS (30)
-#define ESPIPE (29)
-#define ESRCH (3)
-#define ETIMEDOUT (138)
-#define EWOULDBLOCK (140)
-#define EXDEV (18)
-#define STRUNCATE (80)
+struct lconv {char *decimal_point ;char *thousands_sep ;char *grouping ;char *int_curr_symbol ;char *currency_symbol ;char *mon_decimal_point ;char *mon_thousands_sep ;char *mon_grouping ;char *positive_sign ;char *negative_sign ;char int_frac_digits ;char frac_digits ;char p_cs_precedes ;char p_sep_by_space ;char n_cs_precedes ;char n_sep_by_space ;char p_sign_posn ;char n_sign_posn ;};
+int _configthreadlocale (int _Flag );
+char *setlocale (int _Category ,const char *_Locale );
+struct lconv *localeconv (void );
+_locale_t _get_current_locale (void );
+_locale_t _create_locale (int _Category ,const char *_Locale );
+void _free_locale (_locale_t _Locale );
+_locale_t __get_current_locale (void );
+_locale_t __create_locale (int _Category ,const char *_Locale );
+void __free_locale (_locale_t _Locale );
+wchar_t *_wsetlocale (int _Category ,const wchar_t *_Locale );
+#define LC_ALL (0)
+#define LC_COLLATE (1)
+#define LC_CTYPE (2)
+#define LC_MAX LC_TIME
+#define LC_MIN LC_ALL
+#define LC_MONETARY (3)
+#define LC_NUMERIC (4)
+#define LC_TIME (5)
+#define NULL ( ( void * ) 0 )
+#define _CONFIG_LOCALE_SWT 
 #define _CRTNOALIAS 
 #define _CRTRESTRICT 
-#define _CRT_ERRNO_DEFINED 
 #define _CRT_PACKING (8)
 #define _CRT_SECURE_CPP_NOTHROW throw ( )
+#define _DISABLE_PER_THREAD_LOCALE (2)
+#define _DISABLE_PER_THREAD_LOCALE_GLOBAL (32)
+#define _DISABLE_PER_THREAD_LOCALE_NEW (512)
+#define _ENABLE_PER_THREAD_LOCALE (1)
+#define _ENABLE_PER_THREAD_LOCALE_GLOBAL (16)
+#define _ENABLE_PER_THREAD_LOCALE_NEW (256)
 #define _ERRCODE_DEFINED 
 #define _INC_CRTDEFS 
-#define _INC_ERRNO 
+#define _INC_LOCALE 
 #define _INTPTR_T_DEFINED 
+#define _LCONV_DEFINED 
 #define _PTRDIFF_T_ 
 #define _PTRDIFF_T_DEFINED 
 #define _RSIZE_T_DEFINED 
-#define _SECURECRT_ERRCODE_VALUES_DEFINED 
 #define _SIZE_T_DEFINED 
 #define _SSIZE_T_DEFINED 
 #define _TAGLC_ID_DEFINED 
@@ -127,6 +79,7 @@ errno_t _get_errno (int *_Value );
 #define _WCHAR_T_DEFINED 
 #define _WCTYPE_T_DEFINED 
 #define _WINT_T 
+#define _WLOCALE_DEFINED 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
@@ -151,5 +104,4 @@ errno_t _get_errno (int *_Value );
 #define __DEFINE_CPP_OVERLOAD_STANDARD_FUNC_0_4_EX(__ret_type, __ret_policy, __decl_spec, __name, __sec_name, __dst_attr, __dst_type, __dst, __arg1_type, __arg1, __arg2_type, __arg2, __arg3_type, __arg3, __arg4_type, __arg4) 
 #define __crt_typefix(ctype) 
 #define __intptr_t_defined 
-#define __uintptr_t_defined 
-#define errno ( * _errno ( ) )
+#define __uintptr_t_defined

@@ -27,123 +27,6 @@ typedef struct tagLC_ID {unsigned short wLanguage ;unsigned short wCountry ;unsi
 typedef struct tagLC_ID {unsigned short wLanguage ;unsigned short wCountry ;unsigned short wCodePage ;}*LPLC_ID ;
 
 typedef struct threadlocaleinfostruct {int refcount ;unsigned int lc_codepage ;unsigned int lc_collate_cp ;unsigned long lc_handle [6 ];LC_ID lc_id [6 ];struct {char *locale ;wchar_t *wlocale ;int *refcount ;int *wrefcount ;}lc_category [6 ];int lc_clike ;int mb_cur_max ;int *lconv_intl_refcount ;int *lconv_num_refcount ;int *lconv_mon_refcount ;struct lconv *lconv ;int *ctype1_refcount ;unsigned short *ctype1 ;const unsigned short *pctype ;const unsigned char *pclmap ;const unsigned char *pcumap ;struct __lc_time_data *lc_time_curr ;}threadlocinfo ;
-// m:\mingw\x86_64-w64-mingw32\include\string.h
-
-void *_memccpy (void *_Dst ,const void *_Src ,int _Val ,size_t _MaxCount );
-void *memchr (const void *_Buf ,int _Val ,size_t _MaxCount );
-int _memicmp (const void *_Buf1 ,const void *_Buf2 ,size_t _Size );
-int _memicmp_l (const void *_Buf1 ,const void *_Buf2 ,size_t _Size ,_locale_t _Locale );
-int memcmp (const void *_Buf1 ,const void *_Buf2 ,size_t _Size );
-void *memcpy (void *_Dst ,const void *_Src ,size_t _Size );
-errno_t memcpy_s (void *_dest ,size_t _numberOfElements ,const void *_src ,size_t _count );
-void *mempcpy (void *_Dst ,const void *_Src ,size_t _Size );
-void *memset (void *_Dst ,int _Val ,size_t _Size );
-void *memccpy (void *_Dst ,const void *_Src ,int _Val ,size_t _Size );
-int memicmp (const void *_Buf1 ,const void *_Buf2 ,size_t _Size );
-char *_strset (char *_Str ,int _Val );
-char *_strset_l (char *_Str ,int _Val ,_locale_t _Locale );
-char *strcpy (char *_Dest ,const char *_Source );
-char *strcat (char *_Dest ,const char *_Source );
-int strcmp (const char *_Str1 ,const char *_Str2 );
-size_t strlen (const char *_Str );
-size_t strnlen (const char *_Str ,size_t _MaxCount );
-void *memmove (void *_Dst ,const void *_Src ,size_t _Size );
-char *_strdup (const char *_Src );
-char *strchr (const char *_Str ,int _Val );
-int _stricmp (const char *_Str1 ,const char *_Str2 );
-int _strcmpi (const char *_Str1 ,const char *_Str2 );
-int _stricmp_l (const char *_Str1 ,const char *_Str2 ,_locale_t _Locale );
-int strcoll (const char *_Str1 ,const char *_Str2 );
-int _strcoll_l (const char *_Str1 ,const char *_Str2 ,_locale_t _Locale );
-int _stricoll (const char *_Str1 ,const char *_Str2 );
-int _stricoll_l (const char *_Str1 ,const char *_Str2 ,_locale_t _Locale );
-int _strncoll (const char *_Str1 ,const char *_Str2 ,size_t _MaxCount );
-int _strncoll_l (const char *_Str1 ,const char *_Str2 ,size_t _MaxCount ,_locale_t _Locale );
-int _strnicoll (const char *_Str1 ,const char *_Str2 ,size_t _MaxCount );
-int _strnicoll_l (const char *_Str1 ,const char *_Str2 ,size_t _MaxCount ,_locale_t _Locale );
-size_t strcspn (const char *_Str ,const char *_Control );
-char *_strerror (const char *_ErrMsg );
-char *strerror (int );
-char *_strlwr (char *_String );
-char *strlwr_l (char *_String ,_locale_t _Locale );
-char *strncat (char *_Dest ,const char *_Source ,size_t _Count );
-int strncmp (const char *_Str1 ,const char *_Str2 ,size_t _MaxCount );
-int _strnicmp (const char *_Str1 ,const char *_Str2 ,size_t _MaxCount );
-int _strnicmp_l (const char *_Str1 ,const char *_Str2 ,size_t _MaxCount ,_locale_t _Locale );
-char *strncpy (char *_Dest ,const char *_Source ,size_t _Count );
-char *_strnset (char *_Str ,int _Val ,size_t _MaxCount );
-char *_strnset_l (char *str ,int c ,size_t count ,_locale_t _Locale );
-char *strpbrk (const char *_Str ,const char *_Control );
-char *strrchr (const char *_Str ,int _Ch );
-char *_strrev (char *_Str );
-size_t strspn (const char *_Str ,const char *_Control );
-char *strstr (const char *_Str ,const char *_SubStr );
-char *strtok (char *_Str ,const char *_Delim );
-char *strtok_r (char *_Str ,const char *_Delim ,char **__last );
-char *_strupr (char *_String );
-char *_strupr_l (char *_String ,_locale_t _Locale );
-size_t strxfrm (char *_Dst ,const char *_Src ,size_t _MaxCount );
-size_t _strxfrm_l (char *_Dst ,const char *_Src ,size_t _MaxCount ,_locale_t _Locale );
-char *strdup (const char *_Src );
-int strcmpi (const char *_Str1 ,const char *_Str2 );
-int stricmp (const char *_Str1 ,const char *_Str2 );
-char *strlwr (char *_Str );
-int strnicmp (const char *_Str1 ,const char *_Str ,size_t _MaxCount );
-int strncasecmp (const char *,const char *,size_t );
-int strcasecmp (const char *,const char *);
-char *strnset (char *_Str ,int _Val ,size_t _MaxCount );
-char *strrev (char *_Str );
-char *strset (char *_Str ,int _Val );
-char *strupr (char *_Str );
-wchar_t *_wcsdup (const wchar_t *_Str );
-wchar_t *wcscat (wchar_t *_Dest ,const wchar_t *_Source );
-wchar_t *wcschr (const wchar_t *_Str ,wchar_t _Ch );
-int wcscmp (const wchar_t *_Str1 ,const wchar_t *_Str2 );
-wchar_t *wcscpy (wchar_t *_Dest ,const wchar_t *_Source );
-size_t wcscspn (const wchar_t *_Str ,const wchar_t *_Control );
-size_t wcslen (const wchar_t *_Str );
-size_t wcsnlen (const wchar_t *_Src ,size_t _MaxCount );
-wchar_t *wcsncat (wchar_t *_Dest ,const wchar_t *_Source ,size_t _Count );
-int wcsncmp (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount );
-wchar_t *wcsncpy (wchar_t *_Dest ,const wchar_t *_Source ,size_t _Count );
-wchar_t *_wcsncpy_l (wchar_t *_Dest ,const wchar_t *_Source ,size_t _Count ,_locale_t _Locale );
-wchar_t *wcspbrk (const wchar_t *_Str ,const wchar_t *_Control );
-wchar_t *wcsrchr (const wchar_t *_Str ,wchar_t _Ch );
-size_t wcsspn (const wchar_t *_Str ,const wchar_t *_Control );
-wchar_t *wcsstr (const wchar_t *_Str ,const wchar_t *_SubStr );
-wchar_t *wcstok (wchar_t *_Str ,const wchar_t *_Delim );
-wchar_t *_wcserror (int _ErrNum );
-wchar_t *__wcserror (const wchar_t *_Str );
-int _wcsicmp (const wchar_t *_Str1 ,const wchar_t *_Str2 );
-int _wcsicmp_l (const wchar_t *_Str1 ,const wchar_t *_Str2 ,_locale_t _Locale );
-int _wcsnicmp (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount );
-int _wcsnicmp_l (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount ,_locale_t _Locale );
-wchar_t *_wcsnset (wchar_t *_Str ,wchar_t _Val ,size_t _MaxCount );
-wchar_t *_wcsrev (wchar_t *_Str );
-wchar_t *_wcsset (wchar_t *_Str ,wchar_t _Val );
-wchar_t *_wcslwr (wchar_t *_String );
-wchar_t *_wcslwr_l (wchar_t *_String ,_locale_t _Locale );
-wchar_t *_wcsupr (wchar_t *_String );
-wchar_t *_wcsupr_l (wchar_t *_String ,_locale_t _Locale );
-size_t wcsxfrm (wchar_t *_Dst ,const wchar_t *_Src ,size_t _MaxCount );
-size_t _wcsxfrm_l (wchar_t *_Dst ,const wchar_t *_Src ,size_t _MaxCount ,_locale_t _Locale );
-int wcscoll (const wchar_t *_Str1 ,const wchar_t *_Str2 );
-int _wcscoll_l (const wchar_t *_Str1 ,const wchar_t *_Str2 ,_locale_t _Locale );
-int _wcsicoll (const wchar_t *_Str1 ,const wchar_t *_Str2 );
-int _wcsicoll_l (const wchar_t *_Str1 ,const wchar_t *_Str2 ,_locale_t _Locale );
-int _wcsncoll (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount );
-int _wcsncoll_l (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount ,_locale_t _Locale );
-int _wcsnicoll (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount );
-int _wcsnicoll_l (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount ,_locale_t _Locale );
-wchar_t *wcsdup (const wchar_t *_Str );
-int wcsicmp (const wchar_t *_Str1 ,const wchar_t *_Str2 );
-int wcsnicmp (const wchar_t *_Str1 ,const wchar_t *_Str2 ,size_t _MaxCount );
-wchar_t *wcsnset (wchar_t *_Str ,wchar_t _Val ,size_t _MaxCount );
-wchar_t *wcsrev (wchar_t *_Str );
-wchar_t *wcsset (wchar_t *_Str ,wchar_t _Val );
-wchar_t *wcslwr (wchar_t *_Str );
-wchar_t *wcsupr (wchar_t *_Str );
-int wcsicoll (const wchar_t *_Str1 ,const wchar_t *_Str2 );
 // m:\mingw\x86_64-w64-mingw32\include\io.h
 
 char *_getcwd (char *,int );
@@ -258,90 +141,8 @@ int sopen (const char *_Filename ,int _OpenFlag ,int _ShareFlag ,...);
 long tell (int _FileHandle );
 int umask (int _Mode );
 int write (int _Filehandle ,const void *_Buf ,unsigned int _MaxCharCount );
-// m:\mingw\x86_64-w64-mingw32\include\process.h
-
-uintptr_t _beginthread (void (*_StartAddress )(void *),unsigned _StackSize ,void *_ArgList );
-void _endthread (void );
-uintptr_t _beginthreadex (void *_Security ,unsigned _StackSize ,unsigned (*_StartAddress )(void *),void *_ArgList ,unsigned _InitFlag ,unsigned *_ThrdAddr );
-void _endthreadex (unsigned _Retval );
-void exit (int _Code );
-void _exit (int _Code );
-void _Exit (int );
-void abort (void );
-void _cexit (void );
-void _c_exit (void );
-int _getpid (void );
-intptr_t _cwait (int *_TermStat ,intptr_t _ProcHandle ,int _Action );
-intptr_t _execl (const char *_Filename ,const char *_ArgList ,...);
-intptr_t _execle (const char *_Filename ,const char *_ArgList ,...);
-intptr_t _execlp (const char *_Filename ,const char *_ArgList ,...);
-intptr_t _execlpe (const char *_Filename ,const char *_ArgList ,...);
-intptr_t _execv (const char *_Filename ,const char *const *_ArgList );
-intptr_t _execve (const char *_Filename ,const char *const *_ArgList ,const char *const *_Env );
-intptr_t _execvp (const char *_Filename ,const char *const *_ArgList );
-intptr_t _execvpe (const char *_Filename ,const char *const *_ArgList ,const char *const *_Env );
-intptr_t _spawnl (int _Mode ,const char *_Filename ,const char *_ArgList ,...);
-intptr_t _spawnle (int _Mode ,const char *_Filename ,const char *_ArgList ,...);
-intptr_t _spawnlp (int _Mode ,const char *_Filename ,const char *_ArgList ,...);
-intptr_t _spawnlpe (int _Mode ,const char *_Filename ,const char *_ArgList ,...);
-intptr_t _spawnv (int _Mode ,const char *_Filename ,const char *const *_ArgList );
-intptr_t _spawnve (int _Mode ,const char *_Filename ,const char *const *_ArgList ,const char *const *_Env );
-intptr_t _spawnvp (int _Mode ,const char *_Filename ,const char *const *_ArgList );
-intptr_t _spawnvpe (int _Mode ,const char *_Filename ,const char *const *_ArgList ,const char *const *_Env );
-int system (const char *_Command );
-intptr_t _wexecl (const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wexecle (const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wexeclp (const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wexeclpe (const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wexecv (const wchar_t *_Filename ,const wchar_t *const *_ArgList );
-intptr_t _wexecve (const wchar_t *_Filename ,const wchar_t *const *_ArgList ,const wchar_t *const *_Env );
-intptr_t _wexecvp (const wchar_t *_Filename ,const wchar_t *const *_ArgList );
-intptr_t _wexecvpe (const wchar_t *_Filename ,const wchar_t *const *_ArgList ,const wchar_t *const *_Env );
-intptr_t _wspawnl (int _Mode ,const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wspawnle (int _Mode ,const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wspawnlp (int _Mode ,const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wspawnlpe (int _Mode ,const wchar_t *_Filename ,const wchar_t *_ArgList ,...);
-intptr_t _wspawnv (int _Mode ,const wchar_t *_Filename ,const wchar_t *const *_ArgList );
-intptr_t _wspawnve (int _Mode ,const wchar_t *_Filename ,const wchar_t *const *_ArgList ,const wchar_t *const *_Env );
-intptr_t _wspawnvp (int _Mode ,const wchar_t *_Filename ,const wchar_t *const *_ArgList );
-intptr_t _wspawnvpe (int _Mode ,const wchar_t *_Filename ,const wchar_t *const *_ArgList ,const wchar_t *const *_Env );
-int _wsystem (const wchar_t *_Command );
-void __security_init_cookie (void );
-void __security_check_cookie (uintptr_t _StackCookie );
-void __report_gsfailure (uintptr_t _StackCookie );
-extern uintptr_t __security_cookie ;
-intptr_t _loaddll (char *_Filename );
-int _unloaddll (intptr_t _Handle );
-int (*_getdllprocaddr (intptr_t _Handle ,char *_ProcedureName ,intptr_t _Ordinal ))(void );
-intptr_t cwait (int *_TermStat ,intptr_t _ProcHandle ,int _Action );
-intptr_t execl (const char *_Filename ,const char *_ArgList ,...);
-intptr_t execle (const char *_Filename ,const char *_ArgList ,...);
-intptr_t execlp (const char *_Filename ,const char *_ArgList ,...);
-intptr_t execlpe (const char *_Filename ,const char *_ArgList ,...);
-intptr_t spawnl (int ,const char *_Filename ,const char *_ArgList ,...);
-intptr_t spawnle (int ,const char *_Filename ,const char *_ArgList ,...);
-intptr_t spawnlp (int ,const char *_Filename ,const char *_ArgList ,...);
-intptr_t spawnlpe (int ,const char *_Filename ,const char *_ArgList ,...);
-int getpid (void );
-intptr_t execv (const char *_Filename ,char *const _ArgList []);
-intptr_t execve (const char *_Filename ,char *const _ArgList [],char *const _Env []);
-intptr_t execvp (const char *_Filename ,char *const _ArgList []);
-intptr_t execvpe (const char *_Filename ,char *const _ArgList [],char *const _Env []);
-intptr_t spawnv (int ,const char *_Filename ,char *const _ArgList []);
-intptr_t spawnve (int ,const char *_Filename ,char *const _ArgList [],char *const _Env []);
-intptr_t spawnvp (int ,const char *_Filename ,char *const _ArgList []);
-intptr_t spawnvpe (int ,const char *_Filename ,char *const _ArgList [],char *const _Env []);
 #define F_OK (0)
-#define NULL ( ( void * ) 0 )
-#define OLD_P_OVERLAY _OLD_P_OVERLAY
-#define P_DETACH _P_DETACH
-#define P_NOWAIT _P_NOWAIT
-#define P_NOWAITO _P_NOWAITO
-#define P_OVERLAY _P_OVERLAY
-#define P_WAIT _P_WAIT
 #define R_OK (4)
-#define WAIT_CHILD _WAIT_CHILD
-#define WAIT_GRANDCHILD _WAIT_GRANDCHILD
 #define W_OK (2)
 #define X_OK (1)
 #define _A_ARCH (32)
@@ -353,39 +154,23 @@ intptr_t spawnvpe (int ,const char *_Filename ,char *const _ArgList [],char *con
 #define _CRTNOALIAS 
 #define _CRTRESTRICT 
 #define _CRT_DIRECTORY_DEFINED 
-#define _CRT_GETPID_DEFINED 
-#define _CRT_MEMORY_DEFINED 
 #define _CRT_PACKING (8)
 #define _CRT_SECURE_CPP_NOTHROW throw ( )
-#define _CRT_SYSTEM_DEFINED 
-#define _CRT_TERMINATE_DEFINED 
-#define _CRT_WSYSTEM_DEFINED 
 #define _ERRCODE_DEFINED 
 #define _FILE_OFFSET_BITS_SET_LSEEK 
 #define _FILE_OFFSET_BITS_SET_OFFT 
 #define _FINDDATA_T_DEFINED 
 #define _FSIZE_T_DEFINED 
 #define _INC_CRTDEFS 
-#define _INC_PROCESS 
-#define _INC_STRING 
 #define _INTPTR_T_DEFINED 
 #define _IO_H_ 
-#define _NLSCMPERROR (2147483647)
-#define _NLSCMP_DEFINED 
 #define _OFF64_T_DEFINED 
 #define _OFF_T_ 
 #define _OFF_T_DEFINED 
-#define _OLD_P_OVERLAY (2)
 #define _PTRDIFF_T_ 
 #define _PTRDIFF_T_DEFINED 
-#define _P_DETACH (4)
-#define _P_NOWAIT (1)
-#define _P_NOWAITO (3)
-#define _P_OVERLAY (2)
-#define _P_WAIT (0)
 #define _RSIZE_T_DEFINED 
 #define _SIZE_T_DEFINED 
-#define _SPAWNV_DEFINED 
 #define _SSIZE_T_DEFINED 
 #define _TAGLC_ID_DEFINED 
 #define _THREADLOCALEINFO 
@@ -393,17 +178,11 @@ intptr_t spawnvpe (int ,const char *_Filename ,char *const _ArgList [],char *con
 #define _TIME64_T_DEFINED 
 #define _TIME_T_DEFINED 
 #define _UINTPTR_T_DEFINED 
-#define _WAIT_CHILD (0)
-#define _WAIT_GRANDCHILD (1)
 #define _WCHAR_T_DEFINED 
 #define _WCTYPE_T_DEFINED 
-#define _WConst_return _CONST_RETURN
-#define _WEXEC_DEFINED 
 #define _WFINDDATA_T_DEFINED 
 #define _WINT_T 
 #define _WIO_DEFINED 
-#define _WSPAWN_DEFINED 
-#define _WSTRING_DEFINED 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_0(__ret, __func, __dsttype, __dst) 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1(__ret, __func, __dsttype, __dst, __type1, __arg1) 
 #define __DEFINE_CPP_OVERLOAD_SECURE_FUNC_0_1_ARGLIST(__ret, __func, __vfunc, __dsttype, __dst, __type1, __arg1) 
@@ -442,6 +221,3 @@ intptr_t spawnvpe (int ,const char *_Filename ,char *const _ArgList [],char *con
 #define _wfindnext _wfindnext64i32
 #define _wfindnexti64 _wfindnext64
 #define lseek lseek64
-#define strcasecmp _stricmp
-#define strncasecmp _strnicmp
-#define wcswcs wcsstr

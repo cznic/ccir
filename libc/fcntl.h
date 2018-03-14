@@ -11,6 +11,10 @@
 #undef stat
 #endif
 
+#ifdef _WIN32
+#undef lseek
+#endif
+
 #include __header(fcntl)
 
 #ifdef __linux__

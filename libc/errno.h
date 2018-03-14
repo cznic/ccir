@@ -3,6 +3,10 @@
 #ifndef _ERRNO_H_
 #define _ERRNO_H_
 
+#ifdef _CCGO
+#include __header("errno")
+#else
 #include __header(errno)
+#endif
 
 #endif				/* _ERRNO_H_ */
