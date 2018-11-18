@@ -1,8 +1,5 @@
-# ccir
-Package ccir translates [cc](https://github.com/cznic/cc) ASTs to internal representation. (Work In Progress)
+`github.com/cznic/ccir` has moved to [`modernc.org/ccir`](https://godoc.org/modernc.org/ccir) (hosted at https://gitlab.com/cznic/ccir).
 
-Installation
+Please update your import paths to `modernc.org/ccir`.
 
-    $ go get github.com/cznic/ccir
-
-Documentation: [godoc.org/github.com/cznic/ccir](http://godoc.org/github.com/cznic/ccir)
+This repo is now archived.
